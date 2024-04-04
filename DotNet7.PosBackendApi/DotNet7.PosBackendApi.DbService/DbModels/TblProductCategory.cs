@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DotNet7.PosBackendApi.Models;
+namespace DotNet7.PosBackendApi.DbService.DbModels;
 
-public partial class ProductCategory
+public partial class TblProductCategory
 {
     public int ProductCategoryId { get; set; }
 

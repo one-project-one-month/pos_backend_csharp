@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DotNet7.PosBackendApi.Models;
+namespace DotNet7.PosBackendApi.DbService.DbModels;
 
-public partial class Staff
+public partial class TblStaff
 {
     public int StaffId { get; set; }
 

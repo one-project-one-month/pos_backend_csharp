@@ -8,13 +8,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.15" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.17" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.17">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Setup\ProductCategory\" />
+    <Folder Include="Features\Setup\Shop\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNet7.PosBackendApi.DbService\DotNet7.PosBackendApi.DbService.csproj" />
+    <ProjectReference Include="..\DotNet7.PosBackendApi.Models\DotNet7.PosBackendApi.Models.csproj" />
   </ItemGroup>
 
 </Project>

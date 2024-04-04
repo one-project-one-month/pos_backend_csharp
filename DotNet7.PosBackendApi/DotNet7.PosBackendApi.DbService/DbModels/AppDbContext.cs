@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace DotNet7.PosBackendApi.Models;
+namespace DotNet7.PosBackendApi.DbService.DbModels;
 
 public partial class AppDbContext : DbContext
 {
@@ -15,17 +15,23 @@ public partial class AppDbContext : DbContext
     {
     }
 
-    public virtual DbSet<ProductCategory> ProductCategories { get; set; }
+    public virtual DbSet<TblProductCategory> TblProductCategories { get; set; }
 
-    public virtual DbSet<Shop> Shops { get; set; }
+    public virtual DbSet<TblShop> TblShops { get; set; }
 
-    public virtual DbSet<Staff> Staff { get; set; }
+    public virtual DbSet<TblStaff> TblStaffs { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=.;Database=Pos;User ID=sa;Password=sasa@123;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ProductCategory>(entity =>
+        modelBuilder.Entity<TblProductCategory>(entity =>
         {
-            entity.ToTable("ProductCategory");
+            entity.HasKey(e => e.ProductCategoryId).HasName("PK_ProductCategory");
+
+            entity.ToTable("Tbl_ProductCategory");
 
             entity.Property(e => e.ProductCategoryCode)
                 .HasMaxLength(50)
@@ -35,9 +41,11 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<Shop>(entity =>
+        modelBuilder.Entity<TblShop>(entity =>
         {
-            entity.ToTable("Shop");
+            entity.HasKey(e => e.ShopId).HasName("PK_Shop");
+
+            entity.ToTable("Tbl_Shop");
 
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
@@ -53,8 +61,12 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<Staff>(entity =>
+        modelBuilder.Entity<TblStaff>(entity =>
         {
+            entity.HasKey(e => e.StaffId).HasName("PK_Staff");
+
+            entity.ToTable("Tbl_Staff");
+
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .IsUnicode(false);
