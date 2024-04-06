@@ -1,4 +1,5 @@
 using DotNet7.PosBackendApi.DbService.DbModels;
+using DotNet7.PosBackendApi.Features.Setup.Staff;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
 });
+
+builder.Services.AddScoped<StaffService>();
 
 var app = builder.Build();
 
