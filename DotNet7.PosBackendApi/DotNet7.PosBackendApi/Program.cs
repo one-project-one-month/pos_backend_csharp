@@ -1,4 +1,4 @@
-using DotNet7.PosBackendApi.DbService.Models;
+using DotNet7.PosBackendApi.DbService.DbModels;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,5 +1,4 @@
 ﻿using DotNet7.PosBackendApi.DbService.DbModels;
-using DotNet7.PosBackendApi.DbService.Models;
 using DotNet7.PosBackendApi.Models.Setup.Staff;
 using Microsoft.EntityFrameworkCore;
 
