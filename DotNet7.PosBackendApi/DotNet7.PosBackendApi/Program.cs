@@ -1,4 +1,5 @@
 using DotNet7.PosBackendApi.DbService.DbModels;
+using DotNet7.PosBackendApi.Features.Setup.Shop;
 using DotNet7.PosBackendApi.Features.Setup.Staff;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 });
 
 builder.Services.AddScoped<StaffService>();
-
+builder.Services.AddScoped<ShopService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
