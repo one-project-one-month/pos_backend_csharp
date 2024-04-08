@@ -21,7 +21,17 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
         {
             try
             {
-                return Ok(await _shopService.GetShops());
+                var lst = await _shopService.GetShops();
+                var model = new
+                {
+                    Message = "Success",
+                    Result = lst.Count,
+                    Data = new
+                    {
+                        Shops = lst
+                    }
+                };
+                return Ok(model);
             }
             catch (Exception ex)
             {
