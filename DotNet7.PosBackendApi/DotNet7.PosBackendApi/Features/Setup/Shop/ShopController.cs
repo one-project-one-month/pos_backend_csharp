@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet7.PosBackendApi.Features.Setup.Shop
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/Shops")]
     [ApiController]
     public class ShopController : BaseController
     {
