@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet7.PosBackendApi.Features.Setup.Staff
 {
-    [Route("api/v1/Staffs")]
+    [Route("api/v1/staffs")]
     [ApiController]
     public class StaffController : BaseController
     {
