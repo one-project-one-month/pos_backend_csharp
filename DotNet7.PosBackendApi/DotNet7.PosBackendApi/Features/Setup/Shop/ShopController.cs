@@ -74,7 +74,7 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
         {
             try
             {
-                return Ok(await _shopService.DeletShop(id));
+                return Ok(await _shopService.DeleteShop(id));
             }
             catch (Exception ex)
             {

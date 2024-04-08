@@ -1,4 +1,5 @@
 ﻿using DotNet7.PosBackendApi.DbService.DbModels;
+using DotNet7.PosBackendApi.Models;
 using DotNet7.PosBackendApi.Models.Setup.Shop;
 using DotNet7.PosBackendApi.Models.Setup.Staff;
 using Microsoft.EntityFrameworkCore;
@@ -16,95 +17,97 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
 
         public async Task<List<ShopModel>> GetShops()
         {
-            var shopList = await _context.TblShops.ToListAsync();
-            return shopList.Select(x => new ShopModel
-            {
-                ShopId = x.ShopId,
-                ShopCode = x.ShopCode,
-                ShopName = x.ShopName,
-                MobileNo = x.MobileNo,
-                Address = x.Address
-            }).ToList();
+            var shopList = await _context
+                .TblShops
+                .AsNoTracking()
+                .ToListAsync();
+            return shopList.Select(x => x.Change()).ToList();
         }
 
         public async Task<ShopModel> GetShop(int id)
         {
-            var shopObj = await _context.TblShops.FirstOrDefaultAsync(x => x.ShopId == id);
-            if (shopObj != null)
-            {
-                return new ShopModel()
-                {
-                    ShopId = shopObj.ShopId,
-                    ShopCode = shopObj.ShopCode,
-                    ShopName = shopObj.ShopName,
-                    MobileNo = shopObj.MobileNo,
-                    Address = shopObj.Address
-                };
-            }
-            return new ShopModel();
+            var shop = await _context
+                .TblShops
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ShopId == id);
+            var responseModel = shop is not null ? shop.Change() : new ShopModel();
+            return responseModel;
         }
 
-        public async Task<string> CreateShop(ShopModel shop)
+        public async Task<string> CreateShop(ShopModel requestModel)
         {
-            string message = "Null Object";
-
-            if (shop != null)
-            {
-                TblShop shopObj = new TblShop()
-                {
-                    ShopId = shop.ShopId,
-                    ShopCode = shop.ShopCode,
-                    ShopName = shop.ShopName,
-                    MobileNo = shop.MobileNo,
-                    Address = shop.Address
-                };
-                _context.TblShops.Add(shopObj);
-
-                var result = _context.SaveChanges();
-                message = result > 0 ? "Save Successful" : "Unsuccessful";
-                return await Task.FromResult(message);
-            }
-            return await Task.FromResult(message);
+            string message = "";
+            CheckShopNullValue(requestModel);
+            await _context.TblShops.AddAsync(requestModel.Change());
+            var result = await _context.SaveChangesAsync();
+            message = result > 0 ? "Successfully Save." : "Fail To Save.";
+            return message;
 
         }
 
-        public async Task<string> UpdateShop(int id, ShopModel shop)
+        public async Task<string> UpdateShop(int id, ShopModel requestModel)
         {
-            string message = "Null Object";
-            var shopObj = await _context.TblShops.FirstOrDefaultAsync(x => x.ShopId == id);
+            string message = "Shop Not Found";
 
-            if (shopObj != null)
+            if (id == 0) throw new Exception("id is 0.");
+            var shopObj = await _context
+                .TblShops
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ShopId == id);
+            if (shopObj == null)
             {
-                shopObj.ShopId = id;
-                shopObj.ShopCode = shop.ShopCode;
-                shopObj.ShopName = shop.ShopName;
-                shopObj.MobileNo = shop.MobileNo;
-                shopObj.Address = shop.Address;
-                var result = _context.SaveChanges();
-                message = result > 0 ? "Update Successful" : "Update Unsuccessful";
-                return await Task.FromResult(message);
+                //throw new Exception("ShopModel shop is null");
+                goto result;
             }
-
-            message = "Shop Not Found";
-            return await Task.FromResult(message);
-
+            CheckShopNullValue(requestModel);
+            await _context.TblShops.AddAsync(requestModel.Change());
+            var result = await _context.SaveChangesAsync();
+            message = result > 0 ? "Successfully Update." : "Fail To Update.";
+        result:
+            return message;
         }
 
-        public async Task<string> DeletShop(int id)
+        private static void CheckShopNullValue(ShopModel shop)
         {
-            string message = "Null Object";
-            var ShopObj = await _context.TblShops.FirstOrDefaultAsync(x => x.ShopId == id);
-            if (ShopObj != null)
+            if (shop == null)
             {
-                _context.Remove(ShopObj);
-                var result = _context.SaveChanges();
-                message = result > 0 ? "Delete Shop Successful" : "Unsuccessful Delete Shop";
-                return await Task.FromResult(message);
+                throw new Exception("shop is null.");
             }
+            if (string.IsNullOrWhiteSpace(shop.ShopCode))
+            {
+                throw new Exception("shop.ShopCode shop is null.");
+            }
+            if (string.IsNullOrWhiteSpace(shop.ShopName))
+            {
+                throw new Exception("shop.ShopName shop is null.");
+            }
+            if (string.IsNullOrWhiteSpace(shop.MobileNo))
+            {
+                throw new Exception("shop.ShopName shop is null.");
+            }
+            if (string.IsNullOrWhiteSpace(shop.Address))
+            {
+                throw new Exception("shop.ShopName shop is null.");
+            }
+        }
 
-            message = "Shop Not Found";
-            return await Task.FromResult(message);
-
+        public async Task<string> DeleteShop(int id)
+        {
+            string message = "Shop Not Found";
+            if(id == 0) throw new Exception("id is 0.");
+            var shop = await _context
+                .TblShops
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ShopId == id);
+            if (shop == null)
+            {
+                goto result;
+            }
+            _context.Remove(shop);
+            var result = await _context.SaveChangesAsync();
+            message = result > 0 ? "Successfully Delete." : "Fail To Delete.";
+        result:
+            return message;
         }
     }
 }
