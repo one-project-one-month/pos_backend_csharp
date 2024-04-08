@@ -4,21 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet7.PosBackendApi.Features.Setup.Staff
 {
-   [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
-   public class StaffController : BaseController
+    public class StaffController : BaseController
     {
-       private readonly StaffService _staffService;
+        private readonly StaffService _staffService;
 
-       public StaffController(StaffService staffService)
-       {
-           _staffService = staffService;
+        public StaffController(StaffService staffService)
+        {
+            _staffService = staffService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetStaffs()
-      {
-           try{
+        {
+            try
+            {
                 return Ok(await _staffService.GetStaffs());
             }
             catch (Exception ex)
@@ -29,40 +30,39 @@ namespace DotNet7.PosBackendApi.Features.Setup.Staff
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStaff(int id)
-         {
+        {
             try
+            {
+                var staff = await _staffService.GetStaff(id);
+                if (staff == null)
                 {
-                   var staff = await _staffService.GetStaff(id);
-                    if (staff == null)
-                     {
-                        return NotFound();
-                     }
-                        return Ok(staff);
-                    }
-                    catch (Exception ex)
-                    {
-                        return InternalServerError(ex);
-                 }
-           }
+                    return NotFound();
+                }
+                return Ok(staff);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
         [HttpPost]
-
-       public async Task<IActionResult> Create([FromBody] StaffModel staffmodel)
-         {
+        public async Task<IActionResult> Create([FromBody] StaffModel staffmodel)
+        {
             try
-               {
-                 if (staffmodel == null)
-                    {
-                       return BadRequest("Staff is null");
-                    }
-                    await _staffService.AddStaff(staffmodel);
-                    return CreatedAtAction(nameof(GetStaff), new { id = staffmodel.StaffId }, staffmodel);
-                    }
-             catch (Exception ex)
-             {
+            {
+                if (staffmodel == null)
+                {
+                    return BadRequest("Staff is null");
+                }
+                await _staffService.AddStaff(staffmodel);
+                return CreatedAtAction(nameof(GetStaff), new { id = staffmodel.StaffId }, staffmodel);
+            }
+            catch (Exception ex)
+            {
                 return InternalServerError(ex);
-             }
-          }
+            }
+        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] StaffModel staff)
@@ -88,12 +88,11 @@ namespace DotNet7.PosBackendApi.Features.Setup.Staff
         }
 
         [HttpDelete("{id}")]
-
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var staff= await _staffService.GetStaff(id);
+                var staff = await _staffService.GetStaff(id);
                 if (staff == null)
                 {
                     return NotFound();
@@ -106,6 +105,5 @@ namespace DotNet7.PosBackendApi.Features.Setup.Staff
                 return InternalServerError(ex);
             }
         }
-
     }
 }

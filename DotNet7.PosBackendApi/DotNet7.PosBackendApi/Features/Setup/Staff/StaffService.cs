@@ -61,13 +61,14 @@ namespace DotNet7.PosBackendApi.Features.Setup.Staff
                 StaffId = staffmodel.StaffId,
                 StaffName = staffmodel.StaffName
             };
-          
+
             await _context.TblStaffs.AddAsync(model);
             await _context.SaveChangesAsync();
         }
+
         public async Task UpdateStaff(StaffModel staffmodel)
         {
-          
+
             TblStaff staff = await _context.TblStaffs.FindAsync(staffmodel.StaffId);
 
             staff.Address = staffmodel.Address;
@@ -82,9 +83,8 @@ namespace DotNet7.PosBackendApi.Features.Setup.Staff
             await _context.SaveChangesAsync();
         }
 
-
         public async Task DeleteStaff(int id)
-       {
+        {
             TblStaff staff = await _context.TblStaffs.FindAsync(id);
             if (staff != null)
             {
