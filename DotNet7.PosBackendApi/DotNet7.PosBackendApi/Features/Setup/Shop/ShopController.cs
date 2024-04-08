@@ -10,11 +10,12 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
     public class ShopController : BaseController
     {
         private readonly ShopService _shopService;
+
         public ShopController(ShopService shopService)
         {
             _shopService = shopService;
         }
-        // GET: ShopController
+
         [HttpGet]
         public async Task<IActionResult> GetShop()
         {
@@ -27,19 +28,20 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
                 return InternalServerError(ex);
             }
         }
-        // GET: ShopController/GetShopById/5
+
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetShopById(int id)
+        public async Task<IActionResult> GetShop(int id)
         {
             try
             {
-                return Ok(await _shopService.GetShopById(id));
+                return Ok(await _shopService.GetShop(id));
             }
             catch (Exception ex)
             {
                 return InternalServerError(ex);
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateShop(ShopModel shop)
         {
@@ -53,12 +55,13 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
                 return InternalServerError(ex);
             };
         }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateShop(int id, ShopModel shop)
         {
             try
             {
-                return Ok(await _shopService.UpdateShop(id, shop));                
+                return Ok(await _shopService.UpdateShop(id, shop));
             }
             catch (Exception ex)
             {
@@ -71,7 +74,7 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
         {
             try
             {
-                return Ok(await _shopService.DeletShop(id));                
+                return Ok(await _shopService.DeletShop(id));
             }
             catch (Exception ex)
             {

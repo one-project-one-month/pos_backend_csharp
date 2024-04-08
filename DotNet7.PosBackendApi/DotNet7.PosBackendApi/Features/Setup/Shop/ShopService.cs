@@ -8,10 +8,12 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
     public class ShopService
     {
         private readonly AppDbContext _context;
+
         public ShopService(AppDbContext context)
         {
             _context = context;
         }
+
         public async Task<List<ShopModel>> GetShops()
         {
             var shopList = await _context.TblShops.ToListAsync();
@@ -24,7 +26,8 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
                 Address = x.Address
             }).ToList();
         }
-        public async Task<ShopModel> GetShopById(int id)
+
+        public async Task<ShopModel> GetShop(int id)
         {
             var shopObj = await _context.TblShops.FirstOrDefaultAsync(x => x.ShopId == id);
             if (shopObj != null)
@@ -36,7 +39,7 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
                     ShopName = shopObj.ShopName,
                     MobileNo = shopObj.MobileNo,
                     Address = shopObj.Address
-                }; 
+                };
             }
             return new ShopModel();
         }
@@ -55,12 +58,12 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
                     MobileNo = shop.MobileNo,
                     Address = shop.Address
                 };
-                 _context.TblShops.Add(shopObj);
+                _context.TblShops.Add(shopObj);
 
-                var result =_context.SaveChanges();
-                message = result > 0 ? "Save Successful" : "Unsuccessful";                
+                var result = _context.SaveChanges();
+                message = result > 0 ? "Save Successful" : "Unsuccessful";
                 return await Task.FromResult(message);
-            }           
+            }
             return await Task.FromResult(message);
 
         }
@@ -71,12 +74,12 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
             var shopObj = await _context.TblShops.FirstOrDefaultAsync(x => x.ShopId == id);
 
             if (shopObj != null)
-            {   
-                    shopObj.ShopId = id;
-                    shopObj.ShopCode = shop.ShopCode;
-                    shopObj.ShopName = shop.ShopName;
-                    shopObj.MobileNo = shop.MobileNo;
-                    shopObj.Address = shop.Address;  
+            {
+                shopObj.ShopId = id;
+                shopObj.ShopCode = shop.ShopCode;
+                shopObj.ShopName = shop.ShopName;
+                shopObj.MobileNo = shop.MobileNo;
+                shopObj.Address = shop.Address;
                 var result = _context.SaveChanges();
                 message = result > 0 ? "Update Successful" : "Update Unsuccessful";
                 return await Task.FromResult(message);
@@ -100,7 +103,7 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
             }
 
             message = "Shop Not Found";
-            return await Task.FromResult(message);           
+            return await Task.FromResult(message);
 
         }
     }
