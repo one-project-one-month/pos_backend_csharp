@@ -17,7 +17,7 @@ namespace DotNet7.PosBackendApi.Features.Setup.Shop
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetShop()
+        public async Task<IActionResult> GetShops()
         {
             try
             {
