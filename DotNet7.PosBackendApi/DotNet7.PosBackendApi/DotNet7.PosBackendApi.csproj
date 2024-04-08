@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Setup\ProductCategory\" />
-    <Folder Include="Features\Setup\Shop\" />
   </ItemGroup>
 
   <ItemGroup>
