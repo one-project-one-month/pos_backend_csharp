@@ -1,8 +1,4 @@
-﻿using DotNet7.PosBackendApi.Models.Setup.Staff;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace DotNet7.PosBackendApi.Features.Setup.Staff
+﻿namespace DotNet7.PosBackendApi.Features.Setup.Staff
 {
     [Route("api/v1/staffs")]
     [ApiController]
