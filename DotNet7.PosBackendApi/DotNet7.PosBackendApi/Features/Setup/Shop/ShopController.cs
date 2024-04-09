@@ -21,8 +21,13 @@ public class ShopController : BaseController
         try
         {
             var shopLst =  await _bL_Shop.GetShops();
-            var responseModel = _response.ReturnGet(shopLst.Count,shopLst);
-            return Ok(responseModel);
+            var responseModel = _response.ReturnGet
+                (shopLst.MessageResponse.Message,
+                shopLst.DataLst.Count,
+                EnumPos.Shop,
+                shopLst.MessageResponse.IsSuccess,
+                shopLst.DataLst);
+            return Content(responseModel);
         }
         catch (Exception ex)
         {
@@ -36,9 +41,12 @@ public class ShopController : BaseController
         try
         {
             var shop = await _bL_Shop.GetShop(id);
-            var responseModel = _response.ReturnById(shop);
-            return Ok(responseModel);
-            //return Ok(await _shopService.GetShop(id));
+            var responseModel = _response.ReturnById
+                (shop.MessageResponse.Message,
+                EnumPos.Shop, 
+                shop.MessageResponse.IsSuccess,
+                shop.Data);
+            return Content(responseModel);
         }
         catch (Exception ex)
         {
@@ -51,13 +59,10 @@ public class ShopController : BaseController
     {
         try
         {
-            JObject jObject = new JObject();
-            jObject.Add("shop", "valueqwerqwer");
             var model = await _bL_Shop.CreateShop(shop);
-            //var responseModel = _response.ReturnCommand(model.IsSuccess,model.Message,shop);
-            var responseModel = _response.ReturnCommandV1(model.IsSuccess, model.Message,"shop" ,shop);
-            return Content(JsonConvert.SerializeObject(responseModel),"application/json");
-            //return Ok(await _shopService.CreateShop(shop));
+            var responseModel = _response.ReturnCommand
+                (model.IsSuccess, model.Message,EnumPos.Shop,shop);
+            return Content(responseModel);
         }
         catch (Exception ex)
         {
@@ -71,9 +76,9 @@ public class ShopController : BaseController
         try
         {
             var model = await _bL_Shop.UpdateShop(id, shop);
-            var responseModel = _response.ReturnCommand(model.IsSuccess, model.Message, shop);
-            return Ok(responseModel);
-            //return Ok(await _shopService.UpdateShop(id, shop));
+            var responseModel = _response.ReturnCommand
+                (model.IsSuccess, model.Message, EnumPos.Shop, shop);
+            return Content(responseModel);
         }
         catch (Exception ex)
         {
@@ -86,12 +91,10 @@ public class ShopController : BaseController
     {
         try
         {
-            JObject jObject =  new JObject();
-            jObject.Add("shop","valueqwerqwer");
             var model = await _bL_Shop.DeleteShop(id);
-            var responseModel = _response.ReturnCommand(model.IsSuccess, model.Message, jObject:jObject);
-            return Ok(responseModel);
-            // return Ok(await _shopService.DeleteShop(id));
+            var responseModel = _response.ReturnCommand
+                (model.IsSuccess, model.Message, EnumPos.Shop);
+            return Content(responseModel);
         }
         catch (Exception ex)
         {

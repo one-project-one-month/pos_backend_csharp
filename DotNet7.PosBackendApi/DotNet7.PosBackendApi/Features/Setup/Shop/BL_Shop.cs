@@ -8,16 +8,17 @@ public class BL_Shop
     {
         _dL_Shop = dL_Shop;
     }
-    public async Task<List<ShopModel>> GetShops()
+    public async Task<ShotListResponseModel> GetShops()
     {
-        var shopList = await _dL_Shop.GetShops();   
-        return shopList;
+        var responseModel = await _dL_Shop.GetShops();
+        return responseModel;
     }
 
-    public async Task<ShopModel> GetShop(int id)
+    public async Task<ShopResponseModel> GetShop(int id)
     {
-        var shop = await _dL_Shop.GetShop(id);
-        return shop;
+        if (id == 0) throw new Exception("id is 0.");
+        var responseModel = await _dL_Shop.GetShop(id);
+        return responseModel;
     }
 
     public async Task<MessageResponseModel> CreateShop(ShopModel requestModel)
