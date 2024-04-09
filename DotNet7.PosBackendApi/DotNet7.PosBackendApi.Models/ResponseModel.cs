@@ -18,7 +18,7 @@ namespace DotNet7.PosBackendApi.Models
                 new JProperty("isSuccess", isSuccess),
                 new JProperty("data", item is null ? item :
                     new JObject(
-                        new JProperty(enumPos.ToString(), JToken.FromObject(item))
+                        new JProperty(enumPos.ToString().ToLower(), JToken.FromObject(item))
                     )
                 )
             );
@@ -31,7 +31,7 @@ namespace DotNet7.PosBackendApi.Models
                 new JProperty("message", message),
                 new JProperty("isSuccess", isSuccess),
                 new JProperty("data", new JObject(
-                        new JProperty(enumPos.ToString(), JToken.FromObject(item))
+                        new JProperty(enumPos.ToString().ToLower(), JToken.FromObject(item))
                     )
                 )
             );
@@ -45,7 +45,7 @@ namespace DotNet7.PosBackendApi.Models
                 new JProperty("isSuccess", isSuccess),
                 new JProperty("result", count),
                 new JProperty("data", new JObject(
-                        new JProperty(enumPos.ToString(), JToken.FromObject(item))
+                        new JProperty(enumPos.ToString().ToLower(), JToken.FromObject(item))
                     )
                 )
             );
