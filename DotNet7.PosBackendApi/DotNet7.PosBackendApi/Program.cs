@@ -1,9 +1,3 @@
-using DotNet7.PosBackendApi.DbService.DbModels;
-using DotNet7.PosBackendApi.Features.Setup.Shop;
-using DotNet7.PosBackendApi.Features.Setup.Staff;
-using DotNet7.PosBackendApi.Models;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,11 +12,18 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
 });
 
+#region Register Services
+
 builder.Services.AddScoped<StaffService>();
 builder.Services.AddScoped<DL_Shop>();
 builder.Services.AddScoped<BL_Shop>();
+builder.Services.AddScoped<BL_Staff>();
+builder.Services.AddScoped<DL_Staff>();
 builder.Services.AddScoped<ShopService>();
 builder.Services.AddScoped<ResponseModel>();
+
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
