@@ -9,7 +9,7 @@ using System.Runtime.InteropServices.JavaScript;
 
 namespace DotNet7.PosBackendApi.Features.Setup.Shop
 {
-    [Route("api/v1/Shops")]
+    [Route("api/v1/shops")]
     [ApiController]
     public class ShopController : BaseController
     {
