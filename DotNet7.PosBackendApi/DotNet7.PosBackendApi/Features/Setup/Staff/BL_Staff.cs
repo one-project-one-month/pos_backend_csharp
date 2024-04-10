@@ -9,38 +9,38 @@ public class BL_Staff
         _staff = staff;
     }
 
-    public async Task<List<StaffModel>> GetStaffs()
+    public async Task<StaffListResponseModel> GetStaffs()
     {
-        var staffList = await _staff.GetStaffs();
-        return staffList;
+        var model = await _staff.GetStaffs();
+        return model;
     }
 
-    public async Task<StaffModel> GetStaff(int id)
+    public async Task<StaffResponseModel> GetStaff(int id)
     {
-        var staff = await _staff.GetStaff(id);
-        return staff;
+        var item = await _staff.GetStaff(id);
+        return item;
     }
 
     public async Task<MessageResponseModel> CreateStaff(StaffModel requestModel)
     {
         CheckShopNullValue(requestModel);
-        var responseModel = await _staff.CreateStaff(requestModel);
-        return responseModel;
+        var model = await _staff.CreateStaff(requestModel);
+        return model;
     }
 
     public async Task<MessageResponseModel> UpdateStaff(int id, StaffModel requestModel)
     {
         if (id == 0) throw new Exception("id is 0.");
         CheckShopNullValue(requestModel);
-        var responseModel = await _staff.UpdateStaff(id, requestModel);
-        return responseModel;
+        var model = await _staff.UpdateStaff(id, requestModel);
+        return model;
     }
 
     public async Task<MessageResponseModel> DeleteStaff(int id)
     {
         if (id == 0) throw new Exception("id is 0.");
-        var responseModel = await _staff.DeleteStaff(id);
-        return responseModel;
+        var model = await _staff.DeleteStaff(id);
+        return model;
     }
 
     private static void CheckShopNullValue(StaffModel staff)
