@@ -9,53 +9,93 @@ public class DL_Staff
         _context = context;
     }
 
-    public async Task<List<StaffModel>> GetStaffs()
+    public async Task<StaffListResponseModel> GetStaffs()
     {
-        var staffList = await _context
-            .TblStaffs
-            .AsNoTracking()
-            .ToListAsync();
-        return staffList.Select(x => x.Change()).ToList();
+        var responseModel = new StaffListResponseModel();
+        try
+        {
+            var staffList = await _context
+                .TblStaffs
+                .AsNoTracking()
+                .ToListAsync();
+
+            responseModel.DataList = staffList.Select(x => x.Change()).ToList();
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.DataList = new List<StaffModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
+        return responseModel;
     }
 
-    public async Task<StaffModel> GetStaff(int id)
+    public async Task<StaffResponseModel> GetStaff(int id)
     {
-        var staff = await _context
-            .TblStaffs
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.StaffId == id);
-        var responseModel = staff is not null ? staff.Change() : new StaffModel();
+        var responseModel = new StaffResponseModel();
+        try
+        {
+            var staff = await _context
+                .TblStaffs
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.StaffId == id);
+            responseModel.Data = staff is not null ? staff.Change() : new StaffModel();
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
         return responseModel;
     }
 
     public async Task<MessageResponseModel> CreateStaff(StaffModel requestModel)
     {
-        await _context.TblStaffs.AddAsync(requestModel.Change());
-        var result = await _context.SaveChangesAsync();
-        var responseModel = result > 0
-            ? new MessageResponseModel(true, EnumStatus.Success.ToString())
-            : new MessageResponseModel(false, EnumStatus.Fail.ToString());
+        var responseModel = new MessageResponseModel();
+        try
+        {
+            await _context.TblStaffs.AddAsync(requestModel.Change());
+            var result = await _context.SaveChangesAsync();
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.Fail.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel = new MessageResponseModel(false, ex);
+        }
+
         return responseModel;
     }
 
     public async Task<MessageResponseModel> UpdateStaff(int id, StaffModel requestModel)
     {
         var responseModel = new MessageResponseModel();
-        var shop = await _context
-            .TblStaffs
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.StaffId == id);
-        if (shop == null)
+        try
         {
-            responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-            goto result;
+            var staff = await _context
+                .TblStaffs
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.StaffId == id);
+            if (staff is null)
+            {
+                responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+                goto result;
+            }
+
+            await _context.TblStaffs.AddAsync(requestModel.Change());
+            var result = await _context.SaveChangesAsync();
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.Fail.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel = new MessageResponseModel(false, ex);
         }
 
-        await _context.TblStaffs.AddAsync(requestModel.Change());
-        var result = await _context.SaveChangesAsync();
-        responseModel = result > 0
-            ? new MessageResponseModel(false, EnumStatus.Success.ToString())
-            : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         result:
         return responseModel;
     }
@@ -63,21 +103,29 @@ public class DL_Staff
     public async Task<MessageResponseModel> DeleteStaff(int id)
     {
         var responseModel = new MessageResponseModel();
-        var staff = await _context
-            .TblStaffs
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.StaffId == id);
-        if (staff is null)
+        try
         {
-            responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-            goto result;
+            var staff = await _context
+                .TblStaffs
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.StaffId == id);
+            if (staff is null)
+            {
+                responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+                goto result;
+            }
+
+            _context.Remove(staff);
+            var result = await _context.SaveChangesAsync();
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.Fail.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel = new MessageResponseModel(false, ex);
         }
 
-        _context.Remove(staff);
-        var result = await _context.SaveChangesAsync();
-        responseModel = result > 0
-            ? new MessageResponseModel(true, EnumStatus.Success.ToString())
-            : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         result:
         return responseModel;
     }
