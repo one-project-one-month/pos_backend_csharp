@@ -1,6 +1,4 @@
-﻿using DotNet7.PosBackendApi.Models;
-
-namespace DotNet7.PosBackendApi.Features;
+﻿namespace DotNet7.PosBackendApi.Features;
 
 [Route("api/[controller]")]
 [ApiController]
