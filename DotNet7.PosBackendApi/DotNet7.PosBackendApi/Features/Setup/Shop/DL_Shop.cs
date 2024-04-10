@@ -9,9 +9,9 @@ public class DL_Shop
         _context = context;
     }
 
-    public async Task<ShotListResponseModel> GetShops()
+    public async Task<ShopListResponseModel> GetShops()
     {
-        var responseModel = new ShotListResponseModel();
+        var responseModel = new ShopListResponseModel();
         try
         {
             var shopList = await _context
@@ -76,7 +76,7 @@ public class DL_Shop
             .TblShops
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.ShopId == id);
-            if (shop == null)
+            if (shop is null)
             {
                 //throw new Exception("ShopModel shop is null");
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
