@@ -1,105 +1,107 @@
-﻿namespace DotNet7.PosBackendApi.Features.Setup.Staff
+﻿namespace DotNet7.PosBackendApi.Features.Setup.Staff;
+
+[Route("api/v1/staffs")]
+[ApiController]
+public class StaffController : BaseController
 {
-    [Route("api/v1/staffs")]
-    [ApiController]
-    public class StaffController : BaseController
+    private readonly StaffService _staffService;
+    private readonly DL_Staff _staff;
+    private readonly ResponseModel _response;
+
+
+    public StaffController(StaffService staffService, DL_Staff staff, ResponseModel response)
     {
-        private readonly StaffService _staffService;
+        _staffService = staffService;
+        _staff = staff;
+        _response = response;
+    }
 
-        public StaffController(StaffService staffService)
+    [HttpGet]
+    public async Task<IActionResult> GetStaffs()
+    {
+        try
         {
-            _staffService = staffService;
+            var model = await _staff.GetStaffs();
+            var responseModel = _response.ReturnGet
+            (model.MessageResponse.Message,
+                model.DataList.Count,
+                EnumPos.Staff,
+                model.MessageResponse.IsSuccess,
+                model.DataList);
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetStaff(int id)
+    {
+        try
+        {
+            var item = await _staff.GetStaff(id);
+            var responseModel = _response.ReturnById
+            (item.MessageResponse.Message,
+                EnumPos.Staff,
+                item.MessageResponse.IsSuccess,
+                item.Data);
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateStaff([FromBody] StaffModel requestModel)
+    {
+        try
+        {
+            var model = await _staff.CreateStaff(requestModel);
+            var responseModel = _response.ReturnCommand
+                (model.IsSuccess, model.Message, EnumPos.Staff, requestModel);
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateStaff(int id, [FromBody] StaffModel requestModel)
+    {
+        try
+        {
+            var model = await _staff.UpdateStaff(id, requestModel);
+            var responseModel = _response.ReturnCommand
+                (model.IsSuccess, model.Message, EnumPos.Staff, requestModel);
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetStaffs()
+        ;
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteStaff(int id)
+    {
+        try
         {
-            try
-            {
-                return Ok(await _staffService.GetStaffs());
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
+            var model = await _staff.DeleteStaff(id);
+            var responseModel = _response.ReturnCommand
+                (model.IsSuccess, model.Message, EnumPos.Staff);
+            return Content(responseModel);
         }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetStaff(int id)
+        catch (Exception ex)
         {
-            try
-            {
-                var staff = await _staffService.GetStaff(id);
-                if (staff == null)
-                {
-                    return NotFound();
-                }
-                return Ok(staff);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] StaffModel staffmodel)
-        {
-            try
-            {
-                if (staffmodel == null)
-                {
-                    return BadRequest("Staff is null");
-                }
-                await _staffService.AddStaff(staffmodel);
-                return CreatedAtAction(nameof(GetStaff), new { id = staffmodel.StaffId }, staffmodel);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] StaffModel staff)
-        {
-
-            var existingUser = await _staffService.GetStaff(id);
-            if (existingUser == null)
-            {
-                return NotFound();
-            }
-
-            existingUser.StaffName = staff.StaffName;
-            existingUser.StaffCode = staff.StaffCode;
-            existingUser.DateOfBirth = staff.DateOfBirth;
-            existingUser.Address = staff.Address;
-            existingUser.Gender = staff.Gender;
-            existingUser.Position = staff.Position;
-            existingUser.MobileNo = staff.MobileNo;
-
-            await _staffService.UpdateStaff(existingUser);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            try
-            {
-                var staff = await _staffService.GetStaff(id);
-                if (staff == null)
-                {
-                    return NotFound();
-                }
-                await _staffService.DeleteStaff(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
+            return InternalServerError(ex);
+        };
     }
 }
