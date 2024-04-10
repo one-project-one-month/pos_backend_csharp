@@ -1,9 +1,8 @@
-﻿namespace DotNet7.PosBackendApi.Models
+﻿namespace DotNet7.PosBackendApi.Models;
+
+public enum EnumPos
 {
-    public enum EnumPos
-    {
-        Shop,
-        Product,
-        Staff
-    }
+    Shop,
+    Product,
+    Staff
 }
