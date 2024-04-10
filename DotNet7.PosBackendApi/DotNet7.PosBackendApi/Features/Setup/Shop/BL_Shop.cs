@@ -8,7 +8,7 @@ public class BL_Shop
     {
         _dL_Shop = dL_Shop;
     }
-    public async Task<ShotListResponseModel> GetShops()
+    public async Task<ShopListResponseModel> GetShops()
     {
         var responseModel = await _dL_Shop.GetShops();
         return responseModel;
