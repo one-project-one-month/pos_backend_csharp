@@ -10,38 +10,38 @@ public class BL_Shop
     }
     public async Task<ShopListResponseModel> GetShops()
     {
-        var responseModel = await _dL_Shop.GetShops();
-        return responseModel;
+        var response = await _dL_Shop.GetShops();
+        return response;
     }
 
     public async Task<ShopResponseModel> GetShop(int id)
     {
-        if (id == 0) throw new Exception("id is 0.");
-        var responseModel = await _dL_Shop.GetShop(id);
-        return responseModel;
+        if (id <= 0) throw new Exception("id is 0.");
+        var response = await _dL_Shop.GetShop(id);
+        return response;
     }
 
     public async Task<MessageResponseModel> CreateShop(ShopModel requestModel)
     {
         CheckShopNullValue(requestModel);
-        var responseModel = await _dL_Shop.CreateShop(requestModel);
-        return responseModel;
+        var response = await _dL_Shop.CreateShop(requestModel);
+        return response;
 
     }
 
     public async Task<MessageResponseModel> UpdateShop(int id, ShopModel requestModel)
     {
-        if (id == 0) throw new Exception("id is 0.");
+        if (id <= 0) throw new Exception("id is 0.");
         CheckShopNullValue(requestModel);
-        var responseModel = await _dL_Shop.UpdateShop(id, requestModel);
-        return responseModel;
+        var response = await _dL_Shop.UpdateShop(id, requestModel);
+        return response;
     }
 
     public async Task<MessageResponseModel> DeleteShop(int id)
     {
-        if (id == 0) throw new Exception("id is 0.");
-        var responseModel = await _dL_Shop.DeleteShop(id);
-        return responseModel;
+        if (id <= 0) throw new Exception("id is 0.");
+        var response = await _dL_Shop.DeleteShop(id);
+        return response;
     }
 
     private static void CheckShopNullValue(ShopModel shop)
@@ -52,19 +52,19 @@ public class BL_Shop
         }
         if (string.IsNullOrWhiteSpace(shop.ShopCode))
         {
-            throw new Exception("shop.ShopCode shop is null.");
+            throw new Exception("shop.ShopCode is null.");
         }
         if (string.IsNullOrWhiteSpace(shop.ShopName))
         {
-            throw new Exception("shop.ShopName shop is null.");
+            throw new Exception("shop.ShopName is null.");
         }
         if (string.IsNullOrWhiteSpace(shop.MobileNo))
         {
-            throw new Exception("shop.ShopName shop is null.");
+            throw new Exception("shop.ShopName is null.");
         }
         if (string.IsNullOrWhiteSpace(shop.Address))
         {
-            throw new Exception("shop.ShopName shop is null.");
+            throw new Exception("shop.ShopName is null.");
         }
     }
 }
