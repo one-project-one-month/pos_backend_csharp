@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Setup\ProductCategory\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DotNet7.PosBackendApi.DbService\DotNet7.PosBackendApi.DbService.csproj" />
     <ProjectReference Include="..\DotNet7.PosBackendApi.Models\DotNet7.PosBackendApi.Models.csproj" />
   </ItemGroup>
