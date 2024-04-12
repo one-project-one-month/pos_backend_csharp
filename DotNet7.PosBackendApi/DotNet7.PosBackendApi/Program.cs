@@ -1,4 +1,5 @@
 using DotNet7.PosBackendApi.Features.Setup.Product;
+using DotNet7.PosBackendApi.Features.Setup.ProductCategory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,8 @@ builder.Services.AddScoped<DL_Product>();
 builder.Services.AddScoped<BL_Product>();
 builder.Services.AddScoped<ShopService>();
 builder.Services.AddScoped<ResponseModel>();
+builder.Services.AddScoped<DL_ProductCategory>();
+builder.Services.AddScoped<BL_ProductCategory>();
 
 #endregion
 
