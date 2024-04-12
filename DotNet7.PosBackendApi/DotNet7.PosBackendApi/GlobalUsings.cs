@@ -11,3 +11,4 @@ global using Newtonsoft.Json.Linq;
 global using DotNet7.PosBackendApi.Features.Setup.Shop;
 global using DotNet7.PosBackendApi.Features.Setup.Staff;
 global using DotNet7.PosBackendApi.Models.Setup.Product;
+global using DotNet7.PosBackendApi.Models.Setup.ProductCategory;
