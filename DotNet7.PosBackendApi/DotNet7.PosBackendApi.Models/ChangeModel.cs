@@ -1,4 +1,6 @@
-﻿namespace DotNet7.PosBackendApi.Models;
+﻿using DotNet7.PosBackendApi.Models.Setup.Product;
+
+namespace DotNet7.PosBackendApi.Models;
 
 public static class ChangeModel
 {
@@ -64,5 +66,32 @@ public static class ChangeModel
         return staffModel;
     }
 
+    #endregion
+
+    #region Product
+    public static ProductModel Change(this TblProduct dataModel)
+    {
+        var model = new ProductModel()
+        {
+            ProductId = dataModel.ProductId,
+            ProductCategoryCode = dataModel.ProductCategoryCode,
+            ProductCode = dataModel.ProductCode,
+            ProductName = dataModel.ProductName,
+            Price = dataModel.Price,
+        };
+        return model;
+    }
+
+    public static TblProduct Change(this ProductModel requestModel)
+    {
+        var model = new TblProduct()
+        {
+            ProductCategoryCode = requestModel.ProductCategoryCode,
+            ProductCode = requestModel.ProductCode,
+            ProductName = requestModel.ProductName,
+            Price = requestModel.Price,
+        };
+        return model;
+    }
     #endregion
 }

@@ -1,3 +1,5 @@
+using DotNet7.PosBackendApi.Features.Setup.Product;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,8 +19,10 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddScoped<StaffService>();
 builder.Services.AddScoped<DL_Shop>();
 builder.Services.AddScoped<BL_Shop>();
-builder.Services.AddScoped<BL_Staff>();
 builder.Services.AddScoped<DL_Staff>();
+builder.Services.AddScoped<BL_Staff>();
+builder.Services.AddScoped<DL_Product>();
+builder.Services.AddScoped<BL_Product>();
 builder.Services.AddScoped<ShopService>();
 builder.Services.AddScoped<ResponseModel>();
 

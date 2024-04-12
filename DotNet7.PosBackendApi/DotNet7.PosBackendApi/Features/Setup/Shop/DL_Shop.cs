@@ -39,13 +39,19 @@ public class DL_Shop
                .TblShops
                .AsNoTracking()
                .FirstOrDefaultAsync(x => x.ShopId == id);
-            responseModel.Data = shop is not null ? shop.Change() : new ShopModel();
-            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+            if (shop is null)
+            {
+                responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+                goto result;
+            }
+            responseModel.Data = shop!.Change();
+            responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
         }
         catch (Exception ex)
         {
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
+    result:
         return responseModel;
     }
 

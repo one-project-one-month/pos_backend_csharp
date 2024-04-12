@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DotNet7.PosBackendApi.DbService.DbModels;
+namespace DotNet7.PosBackendApi.DbService.Models;
 
 public partial class TblShop
 {

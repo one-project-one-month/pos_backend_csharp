@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace DotNet7.PosBackendApi.DbService.DbModels;
+namespace DotNet7.PosBackendApi.DbService.Models;
 
 public partial class AppDbContext : DbContext
 {
@@ -15,6 +15,8 @@ public partial class AppDbContext : DbContext
     {
     }
 
+    public virtual DbSet<TblProduct> TblProducts { get; set; }
+
     public virtual DbSet<TblProductCategory> TblProductCategories { get; set; }
 
     public virtual DbSet<TblShop> TblShops { get; set; }
@@ -23,6 +25,18 @@ public partial class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TblProduct>(entity =>
+        {
+            entity.HasKey(e => e.ProductId);
+
+            entity.ToTable("Tbl_Product");
+
+            entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.ProductCategoryCode).HasMaxLength(50);
+            entity.Property(e => e.ProductCode).HasMaxLength(50);
+            entity.Property(e => e.ProductName).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<TblProductCategory>(entity =>
         {
             entity.HasKey(e => e.ProductCategoryId).HasName("PK_ProductCategory");
