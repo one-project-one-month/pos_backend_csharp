@@ -4,5 +4,6 @@ public enum EnumPos
 {
     Shop,
     Product,
-    Staff
+    Staff,
+    ProductCategory
 }
