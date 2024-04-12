@@ -1,108 +1,102 @@
-﻿using Azure;
-using DotNet7.PosBackendApi.Models.Setup.Product;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿namespace DotNet7.PosBackendApi.Features.Setup.Product;
 
-namespace DotNet7.PosBackendApi.Features.Setup.Product
+[Route("api/v1/[controller]")]
+[ApiController]
+public class ProductController : BaseController
 {
-    [Route("api/v1/[controller]")]
-    [ApiController]
-    public class ProductController : BaseController
+    private readonly BL_Product _bL_Product;
+    private readonly ResponseModel _response;
+
+    public ProductController(BL_Product bL_Product, ResponseModel response)
     {
-        private readonly BL_Product _bL_Product;
-        private readonly ResponseModel _response;
+        _bL_Product = bL_Product;
+        _response = response;
+    }
 
-        public ProductController(BL_Product bL_Product, ResponseModel response)
+    [HttpGet]
+    public async Task<IActionResult> GetProduct()
+    {
+        try
         {
-            _bL_Product = bL_Product;
-            _response = response;
+            var productLst = await _bL_Product.GetProduct();
+            var responseModel = _response.ReturnGet
+                (productLst.MessageResponse.Message,
+                productLst.DataLst.Count,
+                EnumPos.Product,
+                productLst.MessageResponse.IsSuccess,
+                productLst.DataLst);
+            return Content(responseModel);
         }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetProduct()
+    [HttpGet("{productCode}")]
+    public async Task<IActionResult> GetProductByCode(string productCode)
+    {
+        try
         {
-            try
-            {
-                var productLst = await _bL_Product.GetProduct();
-                var responseModel = _response.ReturnGet
-                    (productLst.MessageResponse.Message,
-                    productLst.DataLst.Count,
-                    EnumPos.Product,
-                    productLst.MessageResponse.IsSuccess,
-                    productLst.DataLst);
-                return Content(responseModel);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
+            var product = await _bL_Product.GetProductByCode(productCode);
+            var responseModel = _response.ReturnById
+                (product.MessageResponse.Message,
+                EnumPos.Product,
+                product.MessageResponse.IsSuccess,
+                product.Data);
+            return Content(responseModel);
         }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
 
-        [HttpGet("{productCode}")]
-        public async Task<IActionResult> GetProductByCode(string productCode)
+    [HttpPost]
+    public async Task<IActionResult> Create(ProductModel requestModel)
+    {
+        try
         {
-            try
-            {
-                var product = await _bL_Product.GetProductByCode(productCode);
-                var responseModel = _response.ReturnById
-                    (product.MessageResponse.Message,
-                    EnumPos.Product,
-                    product.MessageResponse.IsSuccess,
-                    product.Data);
-                return Content(responseModel);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
+            var product = await _bL_Product.Create(requestModel);
+            var responseModel = _response.ReturnCommand
+                (product.IsSuccess, product.Message, EnumPos.Product, requestModel);
+            return Content(responseModel);
         }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        };
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(ProductModel requestModel)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, ProductModel requestModel)
+    {
+        try
         {
-            try
-            {
-                var product = await _bL_Product.Create(requestModel);
-                var responseModel = _response.ReturnCommand
-                    (product.IsSuccess, product.Message, EnumPos.Product, requestModel);
-                return Content(responseModel);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            };
+            var product = await _bL_Product.Update(id, requestModel);
+            var responseModel = _response.ReturnCommand
+                (product.IsSuccess, product.Message, EnumPos.Product, requestModel);
+            return Content(responseModel);
         }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        };
+    }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, ProductModel requestModel)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
         {
-            try
-            {
-                var product = await _bL_Product.Update(id, requestModel);
-                var responseModel = _response.ReturnCommand
-                    (product.IsSuccess, product.Message, EnumPos.Product, requestModel);
-                return Content(responseModel);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            };
+            var product = await _bL_Product.Delete(id);
+            var responseModel = _response.ReturnCommand
+                (product.IsSuccess, product.Message, EnumPos.Product);
+            return Content(responseModel);
         }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        catch (Exception ex)
         {
-            try
-            {
-                var product = await _bL_Product.Delete(id);
-                var responseModel = _response.ReturnCommand
-                    (product.IsSuccess, product.Message, EnumPos.Product);
-                return Content(responseModel);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            };
-        }
+            return InternalServerError(ex);
+        };
     }
 }

@@ -1,68 +1,65 @@
-﻿using DotNet7.PosBackendApi.Models.Setup.Product;
+﻿namespace DotNet7.PosBackendApi.Features.Setup.Product;
 
-namespace DotNet7.PosBackendApi.Features.Setup.Product
+public class BL_Product
 {
-    public class BL_Product
+    private readonly DL_Product _dL_Product;
+
+    public BL_Product(DL_Product dL_Product)
     {
-        private readonly DL_Product _dL_Product;
+        _dL_Product = dL_Product;
+    }
+    public async Task<ProductListResponseModel> GetProduct()
+    {
+        var response = await _dL_Product.GetProduct();
+        return response;
+    }
+    public async Task<ProductResponseModel> GetProductByCode(string productCode)
+    {
+        if (productCode is null) throw new Exception("productCode is null");
+        var response = await _dL_Product.GetProductByCode(productCode);
+        return response;
+    }
 
-        public BL_Product(DL_Product dL_Product)
+    public async Task<MessageResponseModel> Create(ProductModel requestModel)
+    {
+        CheckProductNullValue(requestModel);
+        var response = await _dL_Product.Create(requestModel);
+        return response;
+    }
+    public async Task<MessageResponseModel> Update(int id, ProductModel requestModel)
+    {
+        if (id <= 0) throw new Exception("productCode is null");
+        CheckProductNullValue(requestModel);
+        var response = await _dL_Product.Update(id,requestModel);
+        return response;
+    }
+    public async Task<MessageResponseModel> Delete(int id)
+    {
+        if (id <= 0) throw new Exception("productCode is null");
+        var response = await _dL_Product.Delete(id);
+        return response;
+    }
+    private static void CheckProductNullValue(ProductModel product)
+    {
+        if (product == null)
         {
-            _dL_Product = dL_Product;
+            throw new Exception("product is null.");
         }
-        public async Task<ProductListResponseModel> GetProduct()
+        if (string.IsNullOrWhiteSpace(product.ProductName))
         {
-            var response = await _dL_Product.GetProduct();
-            return response;
+            throw new Exception("product.ProductName is null.");
         }
-        public async Task<ProductResponseModel> GetProductByCode(string productCode)
+        if (string.IsNullOrWhiteSpace(product.ProductCode))
         {
-            if (productCode is null) throw new Exception("productCode is null");
-            var response = await _dL_Product.GetProductByCode(productCode);
-            return response;
+            throw new Exception("product.ProductCode is null.");
         }
-
-        public async Task<MessageResponseModel> Create(ProductModel requestModel)
+        if (string.IsNullOrWhiteSpace(product.ProductCategoryCode))
         {
-            CheckProductNullValue(requestModel);
-            var response = await _dL_Product.Create(requestModel);
-            return response;
+            throw new Exception("product.ProductCategoryCode is null.");
         }
-        public async Task<MessageResponseModel> Update(int id, ProductModel requestModel)
+        if (product.Price <=0)
         {
-            if (id <= 0) throw new Exception("productCode is null");
-            CheckProductNullValue(requestModel);
-            var response = await _dL_Product.Update(id,requestModel);
-            return response;
-        }
-        public async Task<MessageResponseModel> Delete(int id)
-        {
-            if (id <= 0) throw new Exception("productCode is null");
-            var response = await _dL_Product.Delete(id);
-            return response;
-        }
-        private static void CheckProductNullValue(ProductModel product)
-        {
-            if (product == null)
-            {
-                throw new Exception("product is null.");
-            }
-            if (string.IsNullOrWhiteSpace(product.ProductName))
-            {
-                throw new Exception("product.ProductName is null.");
-            }
-            if (string.IsNullOrWhiteSpace(product.ProductCode))
-            {
-                throw new Exception("product.ProductCode is null.");
-            }
-            if (string.IsNullOrWhiteSpace(product.ProductCategoryCode))
-            {
-                throw new Exception("product.ProductCategoryCode is null.");
-            }
-            if (product.Price <=0)
-            {
-                throw new Exception("product.Price is null.");
-            }
+            throw new Exception("product.Price is null.");
         }
     }
 }
