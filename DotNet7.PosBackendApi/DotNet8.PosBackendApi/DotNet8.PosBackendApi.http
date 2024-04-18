@@ -1,6 +1,0 @@
-@DotNet8.PosBackendApi_HostAddress = http://localhost:5192
-
-GET {{DotNet8.PosBackendApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
