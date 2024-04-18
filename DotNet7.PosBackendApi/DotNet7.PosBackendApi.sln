@@ -3,16 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34707.107
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet7.PosBackendApi", "DotNet7.PosBackendApi\DotNet7.PosBackendApi.csproj", "{B96489AC-CFC1-4C16-9AB3-1A751CEC401B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet7.PosBackendApi", "DotNet7.PosBackendApi\DotNet7.PosBackendApi.csproj", "{B96489AC-CFC1-4C16-9AB3-1A751CEC401B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{153A571F-E90B-4CF4-B0E6-5F0C6B5B9D3D}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet7.PosBackendApi.DbService", "DotNet7.PosBackendApi.DbService\DotNet7.PosBackendApi.DbService.csproj", "{EF6135D4-F284-46EB-9E30-99DF5F177528}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet7.PosBackendApi.DbService", "DotNet7.PosBackendApi.DbService\DotNet7.PosBackendApi.DbService.csproj", "{EF6135D4-F284-46EB-9E30-99DF5F177528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet7.PosBackendApi.Models", "DotNet7.PosBackendApi.Models\DotNet7.PosBackendApi.Models.csproj", "{A6FA6080-9C36-429E-8AF4-C6D501F31386}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet7.PosBackendApi.Models", "DotNet7.PosBackendApi.Models\DotNet7.PosBackendApi.Models.csproj", "{A6FA6080-9C36-429E-8AF4-C6D501F31386}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet7.POS", "DotNet7.POS", "{78B54B7D-B517-4283-9AB0-3F99E294268C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet8.POS", "DotNet8.POS", "{C1E2E04D-8121-4191-90A4-A675609545BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet8.PosBackendApi.DbService", "DotNet8.PosBackendApi.DbService\DotNet8.PosBackendApi.DbService.csproj", "{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +38,19 @@ Global
 		{A6FA6080-9C36-429E-8AF4-C6D501F31386}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6FA6080-9C36-429E-8AF4-C6D501F31386}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6FA6080-9C36-429E-8AF4-C6D501F31386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B96489AC-CFC1-4C16-9AB3-1A751CEC401B} = {78B54B7D-B517-4283-9AB0-3F99E294268C}
+		{EF6135D4-F284-46EB-9E30-99DF5F177528} = {78B54B7D-B517-4283-9AB0-3F99E294268C}
+		{A6FA6080-9C36-429E-8AF4-C6D501F31386} = {78B54B7D-B517-4283-9AB0-3F99E294268C}
+		{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1} = {C1E2E04D-8121-4191-90A4-A675609545BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C3F2505-7CD4-4387-B04A-2E8FADE5FC38}
