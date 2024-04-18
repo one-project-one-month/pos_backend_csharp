@@ -10,13 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet7.PosBackendApi.DbService", "DotNet7.PosBackendApi.DbService\DotNet7.PosBackendApi.DbService.csproj", "{EF6135D4-F284-46EB-9E30-99DF5F177528}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet7.PosBackendApi.DbService", "DotNet7.PosBackendApi.DbService\DotNet7.PosBackendApi.DbService.csproj", "{EF6135D4-F284-46EB-9E30-99DF5F177528}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet7.PosBackendApi.Models", "DotNet7.PosBackendApi.Models\DotNet7.PosBackendApi.Models.csproj", "{A6FA6080-9C36-429E-8AF4-C6D501F31386}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet7.PosBackendApi.Models", "DotNet7.PosBackendApi.Models\DotNet7.PosBackendApi.Models.csproj", "{A6FA6080-9C36-429E-8AF4-C6D501F31386}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet7.POS", "DotNet7.POS", "{78B54B7D-B517-4283-9AB0-3F99E294268C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet7", "DotNet7", "{78B54B7D-B517-4283-9AB0-3F99E294268C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet8.POS", "DotNet8.POS", "{C1E2E04D-8121-4191-90A4-A675609545BA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet8", "DotNet8", "{C1E2E04D-8121-4191-90A4-A675609545BA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet8.PosBackendApi.DbService", "DotNet8.PosBackendApi.DbService\DotNet8.PosBackendApi.DbService.csproj", "{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1}"
 EndProject

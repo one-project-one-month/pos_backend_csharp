@@ -13,7 +13,6 @@
     <ItemGroup>
       <ProjectReference Include="..\DotNet8.PosBackendApi.DbService\DotNet8.PosBackendApi.DbService.csproj" />
       <ProjectReference Include="..\DotNet8.PosBackendApi.Models\DotNet8.PosBackendApi.Models.csproj" />
-      <ProjectReference Include="..\DotNet8.PosBackendApi\DotNet8.PosBackendApi.csproj" />
     </ItemGroup>
 
 </Project>

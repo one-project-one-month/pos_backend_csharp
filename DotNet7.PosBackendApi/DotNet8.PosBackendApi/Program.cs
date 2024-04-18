@@ -12,6 +12,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//string projectDirectory = Environment.CurrentDirectory;
+//var config = builder
+//    .Configuration
+//    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+//    .Build();
+//builder.Services.Configure<TokenModel>(config.GetSection("Jwt"));
+
+string projectDirectory = Environment.CurrentDirectory;
+var builderJwtSetting = new ConfigurationBuilder();
+builderJwtSetting.SetBasePath(projectDirectory)
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+IConfiguration configJwtSetting = builderJwtSetting.Build();
+builder.Services.Configure<JwtModel>(configJwtSetting.GetSection("Jwt"));
+
 #region Register Services
 
 builder.Services.AddService(builder);
