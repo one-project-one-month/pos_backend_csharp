@@ -1,5 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models;
-using DotNet8.PosBackendApi.Models.Setup.Shop;
+﻿using DotNet8.PosBackendApi.Models.Setup.Shop;
 
 namespace DotNet8.PosBackendApi.Features.Setup.Shop;
 
