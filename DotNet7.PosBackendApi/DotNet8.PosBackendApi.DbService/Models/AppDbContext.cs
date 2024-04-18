@@ -1,4 +1,8 @@
-﻿namespace DotNet8.PosBackendApi.DbService.Models;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+
+namespace DotNet8.PosBackendApi.DbService.Models;
 
 public partial class AppDbContext : DbContext
 {
@@ -81,6 +85,9 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.MobileNo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Position)

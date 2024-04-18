@@ -20,4 +20,6 @@ public partial class TblStaff
     public string Gender { get; set; } = null!;
 
     public string Position { get; set; } = null!;
+
+    public string Password { get; set; } = null!;
 }
