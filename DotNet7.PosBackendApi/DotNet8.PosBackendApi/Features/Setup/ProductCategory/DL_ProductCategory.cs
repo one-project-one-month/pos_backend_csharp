@@ -1,9 +1,4 @@
-﻿using DotNet8.PosBackendApi.DbService.Models;
-using DotNet8.PosBackendApi.Models;
-using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
-using Microsoft.EntityFrameworkCore;
-
-namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
+﻿namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
 
 public class DL_ProductCategory
 {
@@ -59,7 +54,7 @@ public class DL_ProductCategory
             responseModel.Data = new ProductCategoryModel();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
-    result:
+        result:
         return responseModel;
     }
 
@@ -105,7 +100,7 @@ public class DL_ProductCategory
         {
             responseModel = new MessageResponseModel(false, ex);
         }
-    result:
+        result:
         return responseModel;
     }
 
@@ -133,7 +128,7 @@ public class DL_ProductCategory
         {
             responseModel = new MessageResponseModel(false, ex);
         }
-    result:
+        result:
         return responseModel;
     }
 }
