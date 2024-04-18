@@ -1,6 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Models;
 using DotNet8.PosBackendApi.Models.Setup.Staff;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8.PosBackendApi.Features.Setup.Staff;
 

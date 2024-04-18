@@ -1,6 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Models;
 using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
 [Route("api/v1/[controller]")]

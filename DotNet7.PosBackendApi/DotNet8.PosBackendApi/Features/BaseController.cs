@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-
-namespace DotNet8.PosBackendApi.Features;
+﻿namespace DotNet8.PosBackendApi.Features;
 
 [Route("api/[controller]")]
 [ApiController]
