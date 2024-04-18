@@ -1,6 +1,3 @@
-using DotNet7.PosBackendApi.Features.Setup.Product;
-using DotNet7.PosBackendApi.Features.Setup.ProductCategory;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
