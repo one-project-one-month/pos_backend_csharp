@@ -1,7 +1,5 @@
-﻿using DotNet8.PosBackendApi.Models;
-using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
+﻿namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
 
-namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
 [Route("api/v1/[controller]")]
 [ApiController]
 public class ProductCategoryController : BaseController
@@ -23,7 +21,7 @@ public class ProductCategoryController : BaseController
         {
             var lst = await _productCategory.GetProductCategory();
             var model = _response.ReturnGet
-                (lst.MessageResponse.Message,
+            (lst.MessageResponse.Message,
                 lst.DataList.Count,
                 EnumPos.ProductCategory,
                 lst.MessageResponse.IsSuccess,
@@ -43,7 +41,7 @@ public class ProductCategoryController : BaseController
         {
             var item = await _productCategory.GetProductCategoryByCode(productCategoryCode);
             var model = _response.ReturnById
-                (item.MessageResponse.Message,
+            (item.MessageResponse.Message,
                 EnumPos.ProductCategory,
                 item.MessageResponse.IsSuccess,
                 item.Data);
@@ -68,7 +66,9 @@ public class ProductCategoryController : BaseController
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 
     [HttpPut("{id}")]
@@ -84,7 +84,9 @@ public class ProductCategoryController : BaseController
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 
     [HttpDelete("{id}")]
@@ -100,6 +102,8 @@ public class ProductCategoryController : BaseController
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 }
