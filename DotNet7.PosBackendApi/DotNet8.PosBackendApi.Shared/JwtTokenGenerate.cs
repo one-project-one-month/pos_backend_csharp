@@ -6,9 +6,9 @@ namespace DotNet8.PosBackendApi.Shared;
 
 public class JwtTokenGenerate
 {
-    private readonly TokenModel _token;
+    private readonly JwtModel _token;
 
-    public JwtTokenGenerate(IOptionsMonitor<TokenModel> token)
+    public JwtTokenGenerate(IOptionsMonitor<JwtModel> token)
     {
         _token = token.CurrentValue;
     }
@@ -16,7 +16,7 @@ public class JwtTokenGenerate
     public string GenerateAccessToken(StaffModel staff)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var secret = _token.Jwt.Key;
+        var secret = _token.Key;
         var key = Encoding.ASCII.GetBytes(secret);
 
         var tokenDescriptor = new SecurityTokenDescriptor

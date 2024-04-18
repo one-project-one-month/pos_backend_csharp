@@ -60,9 +60,8 @@ public class DL_Staff
         try
         {
             requestModel.StaffCode = await GenerateUserCode();
-            //await _context.TblStaffs.AddAsync(requestModel.Change());
-            //var result = await _context.SaveChangesAsync();
-            var result = 1;
+            await _context.TblStaffs.AddAsync(requestModel.Change());
+            var result = await _context.SaveChangesAsync();
             var token = _token.GenerateAccessToken(requestModel);
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
