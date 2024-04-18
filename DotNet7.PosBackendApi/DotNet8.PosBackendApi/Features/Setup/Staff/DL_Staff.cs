@@ -75,6 +75,33 @@ public class DL_Staff
         return responseModel;
     }
 
+    // private async Task<string> GenerateUserCode()
+    // {
+    //     string userCode = string.Empty;
+    //     var user = await _context.TblStaffs
+    //         .AsNoTracking()
+    //         .OrderByDescending(x => x.StaffId)
+    //         .FirstOrDefaultAsync();
+    //     if (user is null)
+    //     {
+    //         userCode = "U00001";
+    //         goto Result;
+    //     }
+    //
+    //     var codeNo = user.UserCode.Split('U')[1].ToInt32();
+    //     userCode = codeNo switch
+    //     {
+    //         < 10 => $"U0000{codeNo + 1}",
+    //         < 100 => $"U000{codeNo + 1}",
+    //         < 1000 => $"U00{codeNo + 1}",
+    //         < 10000 => $"U0{codeNo + 1}",
+    //         _ => $"U{codeNo + 1}" 
+    //     };
+    //
+    //     Result:
+    //     return userCode;
+    // }
+
     public async Task<MessageResponseModel> UpdateStaff(int id, StaffModel requestModel)
     {
         var responseModel = new MessageResponseModel();
