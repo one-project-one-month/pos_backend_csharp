@@ -1,8 +1,3 @@
-using DotNet8.PosBackendApi.DbService.Models;
-using DotNet8.PosBackendApi.Models;
-using DotNet8.PosBackendApi.Models.Setup.Staff;
-using Microsoft.EntityFrameworkCore;
-
 namespace DotNet8.PosBackendApi.Features.Setup.Staff;
 
 public class DL_Staff
@@ -61,6 +56,7 @@ public class DL_Staff
         var responseModel = new MessageResponseModel();
         try
         {
+            requestModel.StaffCode = await GenerateUserCode();
             await _context.TblStaffs.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
@@ -74,33 +70,6 @@ public class DL_Staff
 
         return responseModel;
     }
-
-    //private async Task<string> GenerateUserCode()
-    //{
-    //    string userCode = string.Empty;
-    //    var user = await _context.TblStaffs
-    //        .AsNoTracking()
-    //        .OrderByDescending(x => x.StaffId)
-    //        .FirstOrDefaultAsync();
-    //    if (user is null)
-    //    {
-    //        userCode = "U00001";
-    //        goto Result;
-    //    }
-
-    //    var codeNo = user.UserCode.Split('U')[1].ToInt32();
-    //    userCode = codeNo switch
-    //    {
-    //        < 10 => $"U0000{codeNo + 1}",
-    //        < 100 => $"U000{codeNo + 1}",
-    //        < 1000 => $"U00{codeNo + 1}",
-    //        < 10000 => $"U0{codeNo + 1}",
-    //        _ => $"U{codeNo + 1}"
-    //    };
-
-    //Result:
-    //    return userCode;
-    //}
 
     private async Task<string> GenerateUserCode()
     {
@@ -118,7 +87,7 @@ public class DL_Staff
         maxStaffCode = maxStaffCode.Substring(1);
         int staffCode = Convert.ToInt32(maxStaffCode) + 1;
         userCode = $"U{staffCode.ToString().PadLeft(5, '0')}";
-    result:
+        result:
         return userCode;
     }
 
@@ -148,7 +117,7 @@ public class DL_Staff
             responseModel = new MessageResponseModel(false, ex);
         }
 
-    result:
+        result:
         return responseModel;
     }
 
@@ -178,7 +147,7 @@ public class DL_Staff
             responseModel = new MessageResponseModel(false, ex);
         }
 
-    result:
+        result:
         return responseModel;
     }
 }
