@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models;
-using DotNet8.PosBackendApi.Models.Setup.Staff;
-
-namespace DotNet8.PosBackendApi.Features.Setup.Staff;
+﻿namespace DotNet8.PosBackendApi.Features.Setup.Staff;
 
 [Route("api/v1/staffs")]
 [ApiController]
