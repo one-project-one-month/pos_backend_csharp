@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models;
-using DotNet8.PosBackendApi.Models.Setup.Product;
-
-namespace DotNet8.PosBackendApi.Features.Setup.Product;
+﻿namespace DotNet8.PosBackendApi.Features.Setup.Product;
 
 [Route("api/v1/[controller]")]
 [ApiController]
