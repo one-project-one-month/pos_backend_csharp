@@ -17,25 +17,26 @@ public class LoginController : ControllerBase
     public async Task<IActionResult> Login(StaffModel reqModel)
     {
         // Authenticate user
-        var item = await _staff.GetStaff(reqModel.StaffId);
+        //var item = await _staff.GetStaff(reqModel.StaffId);
 
-        if (item is null)
-            return Unauthorized();
+        //if (item is null)
+        //    return Unauthorized();
 
-        // Generate tokens
-        // var accessToken = JwtTokenGenerate.GenerateAccessToken(item, _config["Jwt:Key"]);
-        var refreshToken = JwtTokenGenerate.GenerateRefreshToken();
+        //// Generate tokens
+        //// var accessToken = JwtTokenGenerate.GenerateAccessToken(item, _config["Jwt:Key"]);
+        //var refreshToken = JwtTokenGenerate.GenerateRefreshToken();
 
-        // Save refresh token (for demo purposes, this might be stored securely in a database)
-        // _userService.SaveRefreshToken(user.Id, refreshToken);
+        //// Save refresh token (for demo purposes, this might be stored securely in a database)
+        //// _userService.SaveRefreshToken(user.Id, refreshToken);
 
-        var response = new TokenResponseModel
-        {
-            // AccessToken = accessToken,
-            RefreshToken = refreshToken
-        };
+        //var response = new TokenResponseModel
+        //{
+        //    // AccessToken = accessToken,
+        //    RefreshToken = refreshToken
+        //};
 
-        return Ok(response);
+        //return Ok(response);
+        return Ok();
     }
 
     [HttpPost("refresh")]
@@ -49,15 +50,15 @@ public class LoginController : ControllerBase
         //    return Unauthorized();
 
         // For demonstration, let's just generate a new access token
-        var newAccessToken =
-            JwtTokenGenerate.GenerateAccessTokenFromRefreshToken(tokenResponse.RefreshToken, _config["Jwt:Key"]);
+        //var newAccessToken =
+        //    JwtTokenGenerate.GenerateAccessTokenFromRefreshToken(tokenResponse.RefreshToken, _config["Jwt:Key"]);
 
-        var response = new TokenResponseModel
-        {
-            AccessToken = newAccessToken,
-            RefreshToken = tokenResponse.RefreshToken
-        };
+        //var response = new TokenResponseModel
+        //{
+        //    AccessToken = newAccessToken,
+        //    RefreshToken = tokenResponse.RefreshToken
+        //};
 
-        return Ok(response);
+        return Ok();
     }
 }

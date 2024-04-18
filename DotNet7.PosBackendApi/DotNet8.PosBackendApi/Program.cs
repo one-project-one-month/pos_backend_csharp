@@ -12,6 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var config = builder
+    .Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .Build();
+builder.Services.Configure<TokenModel>(config.GetSection("Jwt"));
+
 #region Register Services
 
 builder.Services.AddService(builder);

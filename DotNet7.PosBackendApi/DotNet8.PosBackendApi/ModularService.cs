@@ -1,10 +1,14 @@
-﻿namespace DotNet8.PosBackendApi;
+﻿using DotNet8.PosBackendApi.Features;
+using DotNet8.PosBackendApi.Shared;
+
+namespace DotNet8.PosBackendApi;
 
 public static class ModularService
 {
     public static IServiceCollection AddService(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services.AddAppDbContextService(builder);
+        services.AddJwtTokenGenerateServices();
         services.AddDataAccessServices();
         services.AddBusinessLogicServices();
         return services;
@@ -39,6 +43,12 @@ public static class ModularService
         services.AddScoped<DL_Staff>();
         services.AddScoped<DL_Product>();
         services.AddScoped<DL_ProductCategory>();
+        return services;
+    }
+
+    private static IServiceCollection AddJwtTokenGenerateServices(this IServiceCollection services)
+    {
+        services.AddScoped<JwtTokenGenerate>();
         return services;
     }
 }

@@ -5,3 +5,15 @@ public class TokenResponseModel
     public string AccessToken { get; set; }
     public string RefreshToken { get; set; }
 }
+
+public class TokenModel
+{
+    public JwtModel Jwt {  get; set; }
+}
+
+public class JwtModel
+{
+    public string Issuer { get; set; }
+    public string Audience { get; set; }
+    public string Key { get; set; }
+}

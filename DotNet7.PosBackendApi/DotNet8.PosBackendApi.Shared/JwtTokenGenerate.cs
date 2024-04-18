@@ -1,16 +1,33 @@
-﻿namespace DotNet8.PosBackendApi.Shared;
+﻿using DotNet8.PosBackendApi.Models.Setup.Token;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
-public static class JwtTokenGenerate
+namespace DotNet8.PosBackendApi.Shared;
+
+public class JwtTokenGenerate
 {
-    public static string GenerateAccessToken(StaffModel staff, string secret)
+    private readonly TokenModel _token;
+
+    public JwtTokenGenerate(IOptionsMonitor<TokenModel> token)
+    {
+        _token = token.CurrentValue;
+    }
+
+    public string GenerateAccessToken(StaffModel staff)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
+        var secret = _token.Jwt.Key;
         var key = Encoding.ASCII.GetBytes(secret);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim("id", staff.StaffId.ToString()) }),
-            Expires = DateTime.UtcNow.AddHours(3),
+            Subject = new ClaimsIdentity(new[] {
+                new Claim("id", staff.StaffId.ToString()),
+                new Claim("StaffName", staff.StaffName.ToString()),
+                new Claim("StaffCode", staff.StaffCode.ToString()),
+                new Claim("TokenExpired", DateTime.UtcNow.AddMinutes(15).ToString("o")),
+            }),
+            Expires = DateTime.UtcNow.AddMinutes(15),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
         };
@@ -19,7 +36,7 @@ public static class JwtTokenGenerate
         return tokenHandler.WriteToken(token);
     }
 
-    public static string GenerateRefreshToken()
+    public string GenerateRefreshToken()
     {
         var randomNumber = new byte[32];
         using var rng = RandomNumberGenerator.Create();
@@ -27,7 +44,7 @@ public static class JwtTokenGenerate
         return Convert.ToBase64String(randomNumber);
     }
 
-    public static string GenerateAccessTokenFromRefreshToken(string refreshToken, string secret)
+    public string GenerateAccessTokenFromRefreshToken(string refreshToken, string secret)
     {
         // Implement logic to generate a new access token from the refresh token
         // Verify the refresh token and extract necessary information (e.g., user ID)

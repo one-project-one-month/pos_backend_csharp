@@ -1,12 +1,15 @@
+using DotNet8.PosBackendApi.Shared;
+
 namespace DotNet8.PosBackendApi.Features.Setup.Staff;
 
 public class DL_Staff
 {
     private readonly AppDbContext _context;
-
-    public DL_Staff(AppDbContext context)
+    private readonly JwtTokenGenerate _token;
+    public DL_Staff(AppDbContext context, JwtTokenGenerate token)
     {
         _context = context;
+        _token = token;
     }
 
     public async Task<StaffListResponseModel> GetStaffs()
@@ -57,8 +60,10 @@ public class DL_Staff
         try
         {
             requestModel.StaffCode = await GenerateUserCode();
-            await _context.TblStaffs.AddAsync(requestModel.Change());
-            var result = await _context.SaveChangesAsync();
+            //await _context.TblStaffs.AddAsync(requestModel.Change());
+            //var result = await _context.SaveChangesAsync();
+            var result = 1;
+            var token = _token.GenerateAccessToken(requestModel);
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
