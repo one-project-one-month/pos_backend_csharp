@@ -1,8 +1,4 @@
-﻿using DotNet8.PosBackendApi.DbService.Models;
-using DotNet8.PosBackendApi.Models.Setup.Staff;
-using Microsoft.EntityFrameworkCore;
-
-namespace DotNet8.PosBackendApi.Features.Setup.Staff;
+﻿namespace DotNet8.PosBackendApi.Features.Setup.Staff;
 
 public class StaffService
 {
