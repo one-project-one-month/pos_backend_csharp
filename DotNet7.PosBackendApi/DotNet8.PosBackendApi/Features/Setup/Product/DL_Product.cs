@@ -1,9 +1,4 @@
-﻿using DotNet8.PosBackendApi.DbService.Models;
-using DotNet8.PosBackendApi.Models;
-using DotNet8.PosBackendApi.Models.Setup.Product;
-using Microsoft.EntityFrameworkCore;
-
-namespace DotNet8.PosBackendApi.Features.Setup.Product;
+﻿namespace DotNet8.PosBackendApi.Features.Setup.Product;
 
 public class DL_Product
 {
