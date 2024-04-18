@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models;
-using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
-
-namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
+﻿namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
 
 public class BL_ProductCategory
 {
