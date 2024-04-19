@@ -23,7 +23,7 @@ public class JwtTokenGenerate
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[] {
-                new Claim("id", staff.StaffId.ToString()),
+                new Claim("Id", staff.StaffId.ToString()),
                 new Claim("StaffName", staff.StaffName.ToString()),
                 new Claim("StaffCode", staff.StaffCode.ToString()),
                 new Claim("TokenExpired", DateTime.UtcNow.AddMinutes(15).ToString("o")),

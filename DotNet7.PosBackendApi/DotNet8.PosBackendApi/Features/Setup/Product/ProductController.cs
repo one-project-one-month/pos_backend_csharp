@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Shared;
+using Newtonsoft.Json.Linq;
 
 namespace DotNet8.PosBackendApi.Features.Setup.Product;
 
@@ -23,14 +24,16 @@ public class ProductController : BaseController
         try
         {
             var productLst = await _bL_Product.GetProduct();
-            productLst.AccessToken = _token.GenerateRefreshToken(RefreshToken());
-
-            var responseModel = _response.ReturnGet
-                (productLst.MessageResponse.Message,
-                productLst.DataLst.Count,
-                EnumPos.Product,
-                productLst.MessageResponse.IsSuccess,
-                productLst.DataLst);
+            var responseModel = _response.Return
+                (new ReturnModel
+                {
+                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    Count = productLst.DataLst.Count,
+                    IsSuccess = productLst.MessageResponse.IsSuccess,
+                    EnumPos = EnumPos.Product,
+                    Message = productLst.MessageResponse.Message,
+                    Item = productLst.DataLst
+                });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -45,11 +48,15 @@ public class ProductController : BaseController
         try
         {
             var product = await _bL_Product.GetProductByCode(productCode);
-            var responseModel = _response.ReturnById
-                (product.MessageResponse.Message,
-                EnumPos.Product,
-                product.MessageResponse.IsSuccess,
-                product.Data);
+            var responseModel = _response.Return
+                (new ReturnModel
+                {
+                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    IsSuccess = product.MessageResponse.IsSuccess,
+                    EnumPos = EnumPos.Product,
+                    Message = product.MessageResponse.Message,
+                    Item = product.Data
+                });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -64,8 +71,15 @@ public class ProductController : BaseController
         try
         {
             var product = await _bL_Product.Create(requestModel);
-            var responseModel = _response.ReturnCommand
-                (product.IsSuccess, product.Message, EnumPos.Product, requestModel);
+            var responseModel = _response.Return
+                (new ReturnModel
+                {
+                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    IsSuccess = product.IsSuccess,
+                    EnumPos = EnumPos.Product,
+                    Message = product.Message,
+                    Item = requestModel
+                });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -80,8 +94,15 @@ public class ProductController : BaseController
         try
         {
             var product = await _bL_Product.Update(id, requestModel);
-            var responseModel = _response.ReturnCommand
-                (product.IsSuccess, product.Message, EnumPos.Product, requestModel);
+            var responseModel = _response.Return
+                (new ReturnModel
+                {
+                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    IsSuccess = product.IsSuccess,
+                    EnumPos = EnumPos.Product,
+                    Message = product.Message,
+                    Item = requestModel
+                });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -96,8 +117,14 @@ public class ProductController : BaseController
         try
         {
             var product = await _bL_Product.Delete(id);
-            var responseModel = _response.ReturnCommand
-                (product.IsSuccess, product.Message, EnumPos.Product);
+            var responseModel = _response.Return
+                (new ReturnModel
+                {
+                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    IsSuccess = product.IsSuccess,
+                    EnumPos = EnumPos.Product,
+                    Message = product.Message,
+                });
             return Content(responseModel);
         }
         catch (Exception ex)

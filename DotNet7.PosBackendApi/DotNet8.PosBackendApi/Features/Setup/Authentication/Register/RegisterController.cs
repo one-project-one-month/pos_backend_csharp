@@ -13,9 +13,9 @@ public class RegisterController : BaseController
         try
         {
             var model = await _staff.CreateStaff(requestModel);
-            var responseModel = _response.ReturnCommand
-                (model.IsSuccess, model.Message, EnumPos.Staff, requestModel);
-            return Content(responseModel);
+            //var responseModel = _response.ReturnCommand
+            //    (model.IsSuccess, model.Message, EnumPos.Staff, requestModel);
+            return Content(model);
         }
         catch (Exception ex)
         {
