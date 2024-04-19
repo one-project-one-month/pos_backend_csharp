@@ -1,7 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Token;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 
 namespace DotNet8.PosBackendApi.Shared;
 
