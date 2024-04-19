@@ -1,4 +1,7 @@
-﻿namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
+﻿using DotNet8.PosBackendApi.Shared;
+using System.Collections.Generic;
+
+namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
 
 [Route("api/v1/[controller]")]
 [ApiController]
@@ -6,11 +9,13 @@ public class ProductCategoryController : BaseController
 {
     private readonly BL_ProductCategory _productCategory;
     private readonly ResponseModel _response;
+    private readonly JwtTokenGenerate _token;
 
-    public ProductCategoryController(BL_ProductCategory productCategory, ResponseModel response)
+    public ProductCategoryController(BL_ProductCategory productCategory, ResponseModel response, JwtTokenGenerate token)
     {
         _productCategory = productCategory;
         _response = response;
+        _token = token;
     }
 
 
@@ -20,12 +25,23 @@ public class ProductCategoryController : BaseController
         try
         {
             var lst = await _productCategory.GetProductCategory();
-            var model = _response.ReturnGet
-            (lst.MessageResponse.Message,
-                lst.DataList.Count,
-                EnumPos.ProductCategory,
-                lst.MessageResponse.IsSuccess,
-                lst.DataList);
+            //var model = _response.ReturnGet
+            //(lst.MessageResponse.Message,
+            //    lst.DataList.Count,
+            //    EnumPos.ProductCategory,
+            //    lst.MessageResponse.IsSuccess,
+            //    lst.DataList);
+
+            var model = _response.Return
+           (new ReturnModel
+           {
+               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Count = lst.DataList.Count,
+               EnumPos = EnumPos.ProductCategory,
+               IsSuccess = lst.MessageResponse.IsSuccess,
+               Message = lst.MessageResponse.Message,
+               Item = lst.DataList
+           });
             return Content(model);
         }
         catch (Exception ex)
@@ -40,11 +56,21 @@ public class ProductCategoryController : BaseController
         try
         {
             var item = await _productCategory.GetProductCategoryByCode(productCategoryCode);
-            var model = _response.ReturnById
-            (item.MessageResponse.Message,
-                EnumPos.ProductCategory,
-                item.MessageResponse.IsSuccess,
-                item.Data);
+            //var model = _response.ReturnById
+            //(item.MessageResponse.Message,
+            //    EnumPos.ProductCategory,
+            //    item.MessageResponse.IsSuccess,
+            //    item.Data);
+
+            var model = _response.Return
+           (new ReturnModel
+           {
+               Token = _token.GenerateRefreshToken(RefreshToken()),
+               EnumPos = EnumPos.ProductCategory,
+               IsSuccess = item.MessageResponse.IsSuccess,
+               Message = item.MessageResponse.Message,
+               Item = item.Data
+           });
             return Content(model);
         }
         catch (Exception ex)
@@ -59,8 +85,17 @@ public class ProductCategoryController : BaseController
         try
         {
             var item = await _productCategory.CreateProductCategory(requestModel);
-            var model = _response.ReturnCommand
-                (item.IsSuccess, item.Message, EnumPos.ProductCategory, requestModel);
+            //var model = _response.ReturnCommand
+            //    (item.IsSuccess, item.Message, EnumPos.ProductCategory, requestModel);
+            var model = _response.Return
+         (new ReturnModel
+         {
+             Token = _token.GenerateRefreshToken(RefreshToken()),
+             EnumPos = EnumPos.ProductCategory,
+             IsSuccess = item.IsSuccess,
+             Message = item.Message,
+             Item = requestModel
+         });
             return Content(model);
         }
         catch (Exception ex)
@@ -77,8 +112,17 @@ public class ProductCategoryController : BaseController
         try
         {
             var item = await _productCategory.UpdateProductCategory(id, requestModel);
-            var model = _response.ReturnCommand
-                (item.IsSuccess, item.Message, EnumPos.ProductCategory, requestModel);
+            //var model = _response.ReturnCommand
+            //    (item.IsSuccess, item.Message, EnumPos.ProductCategory, requestModel);
+            var model = _response.Return
+        (new ReturnModel
+        {
+            Token = _token.GenerateRefreshToken(RefreshToken()),
+            EnumPos = EnumPos.ProductCategory,
+            IsSuccess = item.IsSuccess,
+            Message = item.Message,
+            Item = requestModel
+        });
             return Content(model);
         }
         catch (Exception ex)
@@ -95,8 +139,16 @@ public class ProductCategoryController : BaseController
         try
         {
             var item = await _productCategory.DeleteProductCategory(id);
-            var model = _response.ReturnCommand
-                (item.IsSuccess, item.Message, EnumPos.ProductCategory);
+            //var model = _response.ReturnCommand
+            //    (item.IsSuccess, item.Message, EnumPos.ProductCategory);
+            var model = _response.Return
+        (new ReturnModel
+        {
+            Token = _token.GenerateRefreshToken(RefreshToken()),
+            EnumPos = EnumPos.ProductCategory,
+            IsSuccess = item.IsSuccess,
+            Message = item.Message,
+        });
             return Content(model);
         }
         catch (Exception ex)

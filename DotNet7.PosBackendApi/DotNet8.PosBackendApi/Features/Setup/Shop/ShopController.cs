@@ -1,4 +1,6 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Shop;
+using DotNet8.PosBackendApi.Shared;
+using System.Collections.Generic;
 
 namespace DotNet8.PosBackendApi.Features.Setup.Shop;
 
@@ -9,12 +11,14 @@ public class ShopController : BaseController
     private readonly ShopService _shopService;
     private readonly BL_Shop _bL_Shop;
     private readonly ResponseModel _response;
+    private readonly JwtTokenGenerate _token;
 
-    public ShopController(ShopService shopService, BL_Shop bL_Shop, ResponseModel response)
+    public ShopController(ShopService shopService, BL_Shop bL_Shop, ResponseModel response, JwtTokenGenerate token)
     {
         _shopService = shopService;
         _bL_Shop = bL_Shop;
         _response = response;
+        _token = token;
     }
 
     [HttpGet]
@@ -22,13 +26,23 @@ public class ShopController : BaseController
     {
         try
         {
-            var shopLst =  await _bL_Shop.GetShops();
-            var responseModel = _response.ReturnGet
-                (shopLst.MessageResponse.Message,
-                shopLst.DataLst.Count,
-                EnumPos.Shop,
-                shopLst.MessageResponse.IsSuccess,
-                shopLst.DataLst);
+            var lst =  await _bL_Shop.GetShops();
+            //var responseModel = _response.ReturnGet
+            //    (shopLst.MessageResponse.Message,
+            //    shopLst.DataLst.Count,
+            //    EnumPos.Shop,
+            //    shopLst.MessageResponse.IsSuccess,
+            //    shopLst.DataLst);
+            var responseModel = _response.Return
+           (new ReturnModel
+           {
+               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Count = lst.DataLst.Count,
+               EnumPos = EnumPos.Shop,
+               IsSuccess = lst.MessageResponse.IsSuccess,
+               Message = lst.MessageResponse.Message,
+               Item = lst.DataLst
+           });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -43,11 +57,20 @@ public class ShopController : BaseController
         try
         {
             var shop = await _bL_Shop.GetShop(id);
-            var responseModel = _response.ReturnById
-                (shop.MessageResponse.Message,
-                EnumPos.Shop, 
-                shop.MessageResponse.IsSuccess,
-                shop.Data);
+            //var responseModel = _response.ReturnById
+            //    (shop.MessageResponse.Message,
+            //    EnumPos.Shop, 
+            //    shop.MessageResponse.IsSuccess,
+            //    shop.Data);
+            var responseModel = _response.Return
+           (new ReturnModel
+           {
+               Token = _token.GenerateRefreshToken(RefreshToken()),
+               EnumPos = EnumPos.Shop,
+               IsSuccess = shop.MessageResponse.IsSuccess,
+               Message = shop.MessageResponse.Message,
+               Item = shop.Data
+           });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -62,8 +85,17 @@ public class ShopController : BaseController
         try
         {
             var model = await _bL_Shop.CreateShop(shop);
-            var responseModel = _response.ReturnCommand
-                (model.IsSuccess, model.Message,EnumPos.Shop,shop);
+            //var responseModel = _response.ReturnCommand
+            //    (model.IsSuccess, model.Message,EnumPos.Shop,shop);
+            var responseModel = _response.Return
+           (new ReturnModel
+           {
+               Token = _token.GenerateRefreshToken(RefreshToken()),
+               EnumPos = EnumPos.Shop,
+               IsSuccess = model.IsSuccess,
+               Message = model.Message,
+               Item = shop
+           });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -78,8 +110,17 @@ public class ShopController : BaseController
         try
         {
             var model = await _bL_Shop.UpdateShop(id, shop);
-            var responseModel = _response.ReturnCommand
-                (model.IsSuccess, model.Message, EnumPos.Shop, shop);
+            //var responseModel = _response.ReturnCommand
+            //    (model.IsSuccess, model.Message, EnumPos.Shop, shop);
+            var responseModel = _response.Return
+           (new ReturnModel
+           {
+               Token = _token.GenerateRefreshToken(RefreshToken()),
+               EnumPos = EnumPos.Shop,
+               IsSuccess = model.IsSuccess,
+               Message = model.Message,
+               Item = shop
+           });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -94,8 +135,16 @@ public class ShopController : BaseController
         try
         {
             var model = await _bL_Shop.DeleteShop(id);
-            var responseModel = _response.ReturnCommand
-                (model.IsSuccess, model.Message, EnumPos.Shop);
+            //var responseModel = _response.ReturnCommand
+            //    (model.IsSuccess, model.Message, EnumPos.Shop);
+            var responseModel = _response.Return
+           (new ReturnModel
+           {
+               Token = _token.GenerateRefreshToken(RefreshToken()),
+               EnumPos = EnumPos.Shop,
+               IsSuccess = model.IsSuccess,
+               Message = model.Message,
+           });
             return Content(responseModel);
         }
         catch (Exception ex)
