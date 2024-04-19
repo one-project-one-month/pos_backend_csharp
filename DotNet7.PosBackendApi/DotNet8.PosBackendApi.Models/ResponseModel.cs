@@ -2,45 +2,69 @@
 
 public class ResponseModel
 {
-    public object ReturnCommand(bool isSuccess, string message,
-        EnumPos enumPos, object? item = null)
+    public object ReturnCommand(ReturnCommandModel model)
     {
         JObject jsonObject = new JObject(
-            new JProperty("message", message),
-            new JProperty("isSuccess", isSuccess),
-            new JProperty("data", item is null ? item :
+            new JProperty("message", model.message),
+            new JProperty("isSuccess", model.isSuccess),
+            new JProperty("data", model.item is null ? model.item :
                 new JObject(
-                    new JProperty(enumPos.ToString().ToLower(), JToken.FromObject(item))
+                    new JProperty(model.enumPos.ToString().ToLower(), JToken.FromObject(model.item))
                 )
             )
         );
         return jsonObject;
     }
 
-    public object ReturnById(string message, EnumPos enumPos, bool isSuccess, object item)
+    public object ReturnById(ReturnByIdModel model)
     {
         JObject jsonObject = new JObject(
-            new JProperty("message", message),
-            new JProperty("isSuccess", isSuccess),
+            new JProperty("message", model.message),
+            new JProperty("isSuccess", model.isSuccess),
             new JProperty("data", new JObject(
-                    new JProperty(enumPos.ToString().ToLower(), JToken.FromObject(item))
+                    new JProperty(model.enumPos.ToString().ToLower(), JToken.FromObject(model.item))
                 )
             )
         );
         return jsonObject;
     }
 
-    public object ReturnGet(string message,int count, EnumPos enumPos, bool isSuccess, object item)
+    public object ReturnGet(ReturnGetModel model)
     {
         JObject jsonObject = new JObject(
-            new JProperty("message", message),
-            new JProperty("isSuccess", isSuccess),
-            new JProperty("result", count),
+            new JProperty("message", model.message),
+            new JProperty("isSuccess", model.isSuccess),
+            new JProperty("result", model.count),
             new JProperty("data", new JObject(
-                    new JProperty(enumPos.ToString().ToLower(), JToken.FromObject(item))
+                    new JProperty(model.enumPos.ToString().ToLower(), JToken.FromObject(model.item))
                 )
             )
         );
         return jsonObject;
+    }
+
+    public class ReturnGetModel
+    {
+        public string message { get; set; }
+        public int count { get; set; }
+        public EnumPos enumPos { get; set; }
+        public bool isSuccess { get; set; }
+        public object item { get; set; }
+    }
+
+    public class ReturnByIdModel
+    {
+        public string message { get; set; }
+        public EnumPos enumPos { get; set; }
+        public bool isSuccess { get; set; }
+        public object item { get; set; }
+    }
+
+    public class ReturnCommandModel
+    {
+        public bool isSuccess { get; set; }
+        public string message { get; set; }
+        public EnumPos enumPos { get; set; }
+        public object? item { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Features.Setup.Product;
+﻿using DotNet8.PosBackendApi.Shared;
+
+namespace DotNet8.PosBackendApi.Features.Setup.Product;
 
 [Route("api/v1/[controller]")]
 [ApiController]
@@ -6,11 +8,13 @@ public class ProductController : BaseController
 {
     private readonly BL_Product _bL_Product;
     private readonly ResponseModel _response;
+    private readonly JwtTokenGenerate _token;
 
-    public ProductController(BL_Product bL_Product, ResponseModel response)
+    public ProductController(BL_Product bL_Product, ResponseModel response, JwtTokenGenerate token)
     {
         _bL_Product = bL_Product;
         _response = response;
+        _token = token;
     }
 
     [HttpGet]
@@ -19,7 +23,7 @@ public class ProductController : BaseController
         try
         {
             var productLst = await _bL_Product.GetProduct();
-            productLst.AccessToken = RefreshToken();
+            productLst.AccessToken = _token.GenerateRefreshToken(RefreshToken());
 
             var responseModel = _response.ReturnGet
                 (productLst.MessageResponse.Message,
