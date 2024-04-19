@@ -1,4 +1,5 @@
-using DotNet8.PosBackendApi.Shared;
+using Effortless.Net.Encryption;
+using Microsoft.Extensions.Options;
 
 namespace DotNet8.PosBackendApi.Features.Setup.Staff;
 
@@ -6,10 +7,13 @@ public class DL_Staff
 {
     private readonly AppDbContext _context;
     private readonly JwtTokenGenerate _token;
-    public DL_Staff(AppDbContext context, JwtTokenGenerate token)
+    private readonly JwtModel _tokenModel;
+
+    public DL_Staff(IOptionsMonitor<JwtModel> tokenModel, AppDbContext context, JwtTokenGenerate token)
     {
         _context = context;
         _token = token;
+        _tokenModel = tokenModel.CurrentValue;
     }
 
     public async Task<StaffListResponseModel> GetStaffs()
@@ -60,6 +64,7 @@ public class DL_Staff
         try
         {
             requestModel.StaffCode = await GenerateUserCode();
+            requestModel.Password = requestModel.Password.ToHash(_tokenModel.Key);
             await _context.TblStaffs.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             var token = _token.GenerateAccessToken(requestModel);
