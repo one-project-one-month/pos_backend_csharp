@@ -64,7 +64,9 @@ public static class ChangeModel
             MobileNo = requestModel.MobileNo,
             Address = requestModel.Address,
             Gender = requestModel.Gender,
-            Position = requestModel.Gender
+            Position = requestModel.Gender,
+            StaffName = requestModel.StaffName,
+            Password = requestModel.Password,
         };
         return staffModel;
     }
