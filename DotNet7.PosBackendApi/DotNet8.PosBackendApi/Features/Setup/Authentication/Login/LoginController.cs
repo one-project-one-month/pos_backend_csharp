@@ -1,64 +1,78 @@
-﻿namespace DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
+﻿using Microsoft.Extensions.Options;
+
+namespace DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
 
 [Route("api/v1/auth/[controller]")]
 [ApiController]
 public class LoginController : ControllerBase
 {
-    private readonly IConfiguration _config;
-    private readonly BL_Staff _staff;
+    private readonly JwtTokenGenerate _tokenGenerator;
+    private readonly AppDbContext _context;
+    private readonly JwtModel _tokenModel;
 
-    public LoginController(IConfiguration config, BL_Staff staff)
+    public LoginController(JwtTokenGenerate tokenGenerator, AppDbContext context, IOptionsMonitor<JwtModel> tokenModel)
     {
-        _config = config;
-        _staff = staff;
+        _tokenGenerator = tokenGenerator;
+        _context = context;
+        _tokenModel = tokenModel.CurrentValue;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(StaffModel reqModel)
     {
-        // Authenticate user
-        //var item = await _staff.GetStaff(reqModel.StaffId);
+        try
+        {
+            var staff = await _context.TblStaffs.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.StaffName == reqModel.StaffName);
 
-        //if (item is null)
-        //    return Unauthorized();
+            if (staff is null || staff.Password != reqModel.Password.ToHash(_tokenModel.Key))
+            {
+                return Unauthorized();
+            }
 
-        //// Generate tokens
-        //// var accessToken = JwtTokenGenerate.GenerateAccessToken(item, _config["Jwt:Key"]);
-        //var refreshToken = JwtTokenGenerate.GenerateRefreshToken();
+            var model = new StaffModel
+            {
+                StaffId = staff.StaffId,
+                StaffName = staff.StaffName,
+                StaffCode = staff.StaffCode,
+                Position = staff.Position,
+                MobileNo = staff.MobileNo,
+            };
 
-        //// Save refresh token (for demo purposes, this might be stored securely in a database)
-        //// _userService.SaveRefreshToken(user.Id, refreshToken);
+            var accessToken = _tokenGenerator.GenerateAccessToken(model);
+            var response = new TokenResponseModel
+            {
+                AccessToken = accessToken,
+            };
 
-        //var response = new TokenResponseModel
-        //{
-        //    // AccessToken = accessToken,
-        //    RefreshToken = refreshToken
-        //};
-
-        //return Ok(response);
-        return Ok();
-    }
-
-    [HttpPost("refresh")]
-    public IActionResult Refresh(TokenResponseModel tokenResponse)
-    {
-        // For simplicity, assume the refresh token is valid and stored securely
-        // var storedRefreshToken = _userService.GetRefreshToken(userId);
-
-        // Verify refresh token (validate against the stored token)
-        // if (storedRefreshToken != tokenResponse.RefreshToken)
-        //    return Unauthorized();
-
-        // For demonstration, let's just generate a new access token
-        //var newAccessToken =
-        //    JwtTokenGenerate.GenerateAccessTokenFromRefreshToken(tokenResponse.RefreshToken, _config["Jwt:Key"]);
-
-        //var response = new TokenResponseModel
-        //{
-        //    AccessToken = newAccessToken,
-        //    RefreshToken = tokenResponse.RefreshToken
-        //};
-
-        return Ok();
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error generating tokens: {ex.Message}");
+            return StatusCode(500, "Internal server error");
+        }
     }
 }
+
+// public IActionResult Refresh(TokenResponseModel tokenResponse)
+// {
+//     // For simplicity, assume the refresh token is valid and stored securely
+//     // var storedRefreshToken = _userService.GetRefreshToken(userId);
+//
+//     // Verify refresh token (validate against the stored token)
+//     // if (storedRefreshToken != tokenResponse.RefreshToken)
+//     //    return Unauthorized();
+//
+//     // For demonstration, let's just generate a new access token
+//     //var newAccessToken =
+//     //    JwtTokenGenerate.GenerateAccessTokenFromRefreshToken(tokenResponse.RefreshToken, _config["Jwt:Key"]);
+//
+//     //var response = new TokenResponseModel
+//     //{
+//     //    AccessToken = newAccessToken,
+//     //    RefreshToken = tokenResponse.RefreshToken
+//     //};
+//
+//     return Ok();
+// }
