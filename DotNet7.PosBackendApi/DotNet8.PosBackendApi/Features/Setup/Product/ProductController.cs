@@ -1,5 +1,4 @@
-﻿using DotNet8.PosBackendApi.Shared;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace DotNet8.PosBackendApi.Features.Setup.Product;
 
