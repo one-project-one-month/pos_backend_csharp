@@ -1,6 +1,7 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Token;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 
 namespace DotNet8.PosBackendApi.Shared;
 
@@ -36,12 +37,33 @@ public class JwtTokenGenerate
         return tokenHandler.WriteToken(token);
     }
 
-    public string GenerateRefreshToken()
+    public string GenerateRefreshTokenV1()
     {
         var randomNumber = new byte[32];
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomNumber);
         return Convert.ToBase64String(randomNumber);
+    }
+
+    public string GenerateRefreshToken(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var decodedToken = handler.ReadJwtToken(token);
+
+        var item = decodedToken.Claims.FirstOrDefault(x => x.Type == "TokenExpired");
+        DateTime tokenExpired = Convert.ToDateTime(item?.Value);
+
+        var staffId = decodedToken.Claims.FirstOrDefault(x => x.Type == "Id") ?? throw new Exception("Id is required.");
+        var staffName = decodedToken.Claims.FirstOrDefault(x => x.Type == "StaffName") ?? throw new Exception("StaffName is required");
+        var staffCode = decodedToken.Claims.FirstOrDefault(x => x.Type == "StaffCode") ?? throw new Exception("StaffCode is required.");
+        var model = new StaffModel
+        {
+            StaffId = Convert.ToInt32(staffId.Value),
+            StaffName = staffName.Value,
+            StaffCode = staffCode.Value,
+        };
+        var refreshToken = DateTime.Now > tokenExpired ? GenerateAccessToken(model) : token;
+        return refreshToken;
     }
 
     public string GenerateAccessTokenFromRefreshToken(string refreshToken, string secret)

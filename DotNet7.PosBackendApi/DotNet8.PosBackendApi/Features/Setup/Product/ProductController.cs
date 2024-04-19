@@ -19,6 +19,8 @@ public class ProductController : BaseController
         try
         {
             var productLst = await _bL_Product.GetProduct();
+            productLst.AccessToken = RefreshToken();
+
             var responseModel = _response.ReturnGet
                 (productLst.MessageResponse.Message,
                 productLst.DataLst.Count,

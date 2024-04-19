@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using DotNet8.PosBackendApi.Shared;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -9,6 +10,13 @@ namespace DotNet8.PosBackendApi.Features;
 [ApiController]
 public class BaseController : ControllerBase
 {
+    private readonly JwtTokenGenerate _token;
+
+    public BaseController(JwtTokenGenerate token)
+    {
+        _token = token;
+    }
+
     protected IActionResult InternalServerError(Exception ex)
     {
         return StatusCode(500, new
@@ -20,6 +28,17 @@ public class BaseController : ControllerBase
     protected IActionResult Content(object obj)
     {
         return Content(JsonConvert.SerializeObject(obj), "application/json");
+    }
+
+    protected string RefreshToken()
+    {
+        var token = Request.Headers
+                .FirstOrDefault(x => x.Key == "Authorization")
+                .Value
+                .ToString()
+                .Substring("Bearer ".Length) ?? throw new Exception("Invalid Token.");
+        var refreshToken = _token.GenerateRefreshToken(token);
+        return refreshToken;
     }
 }
 
