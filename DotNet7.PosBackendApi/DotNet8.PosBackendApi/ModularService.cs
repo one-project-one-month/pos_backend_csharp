@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Features;
-using DotNet8.PosBackendApi.Shared;
-
-namespace DotNet8.PosBackendApi;
+﻿namespace DotNet8.PosBackendApi;
 
 public static class ModularService
 {
