@@ -1,5 +1,4 @@
-﻿using DotNet8.PosBackendApi.Shared;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DotNet8.PosBackendApi.Features.Setup.Staff;
 
@@ -89,7 +88,7 @@ public class StaffController : BaseController
             var responseModel = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = _token.GenerateAccessToken(requestModel),
                EnumPos = EnumPos.Staff,
                IsSuccess = model.IsSuccess,
                Message = model.Message,
