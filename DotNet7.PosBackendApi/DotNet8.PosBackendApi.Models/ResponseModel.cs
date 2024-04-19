@@ -34,19 +34,22 @@ public class ResponseModel
         JObject jsonObject = new JObject(
             new JProperty("message", model.message),
             new JProperty("isSuccess", model.isSuccess),
-            new JProperty("result", model.count),
             new JProperty("data", new JObject(
                     new JProperty(model.enumPos.ToString().ToLower(), JToken.FromObject(model.item))
                 )
             )
         );
+        if(model.count is not null)
+        {
+            jsonObject.Add(new JProperty("result", model.count));
+        }
         return jsonObject;
     }
 
     public class ReturnGetModel
     {
         public string message { get; set; }
-        public int count { get; set; }
+        public int? count { get; set; }
         public EnumPos enumPos { get; set; }
         public bool isSuccess { get; set; }
         public object item { get; set; }
