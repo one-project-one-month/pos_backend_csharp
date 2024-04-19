@@ -1,11 +1,4 @@
-﻿using DotNet8.PosBackendApi.Shared;
-using Newtonsoft.Json.Linq;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace DotNet8.PosBackendApi.Features;
+﻿namespace DotNet8.PosBackendApi.Features;
 
 [Route("api/[controller]")]
 [ApiController]
