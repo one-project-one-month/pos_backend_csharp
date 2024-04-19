@@ -1,5 +1,4 @@
-﻿using DotNet8.PosBackendApi.Shared;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
 
