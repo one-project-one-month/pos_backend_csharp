@@ -57,6 +57,7 @@ CREATE TABLE [dbo].[Tbl_Staff](
 	[Address] [varchar](50) NOT NULL,
 	[Gender] [varchar](50) NOT NULL,
 	[Position] [varchar](50) NOT NULL,
+	[Password] [varchar](50) NOT NULL,
  CONSTRAINT [PK_Staff] PRIMARY KEY CLUSTERED 
 (
 	[StaffId] ASC
