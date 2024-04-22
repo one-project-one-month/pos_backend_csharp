@@ -1,3 +1,4 @@
+using DotNet8.PosBackendApi.Models.Setup.Config;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,16 +35,16 @@ builder.Services.AddService(builder);
 
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "DotNet8.PosBackendApi", Version = "v1" });
-    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please enter a valid token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "Bearer"
-    });
+option.SwaggerDoc("v1", new OpenApiInfo { Title = "DotNet8.PosBackendApi", Version = "v1" });
+option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+{
+    In = ParameterLocation.Header,
+    Description = "Please enter a valid token",
+    Name = "Authorization",
+    Type = SecuritySchemeType.Http,
+    BearerFormat = "JWT",
+    Scheme = "Bearer"
+});
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -59,6 +60,10 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
+//var securityScheme = new OpenApiSecuritySchemeModel();
+//securityScheme.Reference = new OpenApiReferenceModel();
+//securityScheme.Reference.Type = DotNet8.PosBackendApi.Models.ReferenceType.SecurityScheme;
+//securityScheme.Reference.Id = "Bearer";
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -69,7 +74,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
     });
 
