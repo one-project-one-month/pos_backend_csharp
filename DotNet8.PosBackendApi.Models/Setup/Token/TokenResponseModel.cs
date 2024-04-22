@@ -3,6 +3,7 @@
 public class TokenResponseModel
 {
     public string AccessToken { get; set; }
+    public MessageResponseModel Message { get; set; }
 }
 
 public class TokenModel
