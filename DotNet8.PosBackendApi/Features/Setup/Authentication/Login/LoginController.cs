@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+﻿using DotNet8.PosBackendApi.Models.Setup.Login;
 
 namespace DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
 
@@ -6,52 +6,18 @@ namespace DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
 [ApiController]
 public class LoginController : ControllerBase
 {
-    private readonly JwtTokenGenerate _tokenGenerator;
-    private readonly AppDbContext _context;
-    private readonly JwtModel _tokenModel;
+    private readonly BL_Login _Login;
 
-    public LoginController(JwtTokenGenerate tokenGenerator, AppDbContext context, IOptionsMonitor<JwtModel> tokenModel)
+    public LoginController(BL_Login login)
     {
-        _tokenGenerator = tokenGenerator;
-        _context = context;
-        _tokenModel = tokenModel.CurrentValue;
+        _Login = login;
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(StaffModel reqModel)
+    public async Task<IActionResult> Login(LoginRequestModel reqModel)
     {
-        try
-        {
-            var staff = await _context.TblStaffs.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.StaffName == reqModel.StaffName);
-
-            if (staff is null || staff.Password != reqModel.Password.ToHash(_tokenModel.Key))
-            {
-                return Unauthorized();
-            }
-
-            var model = new StaffModel
-            {
-                StaffId = staff.StaffId,
-                StaffName = staff.StaffName,
-                StaffCode = staff.StaffCode,
-                Position = staff.Position,
-                MobileNo = staff.MobileNo,
-            };
-
-            var accessToken = _tokenGenerator.GenerateAccessToken(model);
-            var response = new TokenResponseModel
-            {
-                AccessToken = accessToken,
-            };
-
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error generating tokens: {ex.Message}");
-            return StatusCode(500, "Internal server error");
-        }
+        var model = await _Login.Login(reqModel);
+        return Ok(model);
     }
 }
 
