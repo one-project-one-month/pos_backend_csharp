@@ -18,3 +18,4 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.OpenApi.Models;
 global using Newtonsoft.Json;
+global using  System.Text;
