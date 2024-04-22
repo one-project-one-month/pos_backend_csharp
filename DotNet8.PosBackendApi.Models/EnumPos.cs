@@ -7,7 +7,3 @@ public enum EnumPos
     Staff,
     ProductCategory
 }
-public enum ReferenceType
-{
-    SecurityScheme,
-}
