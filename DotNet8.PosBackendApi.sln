@@ -8,8 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet8", "DotNet8", "{C1E2E04D-8121-4191-90A4-A675609545BA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet8.PosBackendApi.DbService", "DotNet8.PosBackendApi.DbService\DotNet8.PosBackendApi.DbService.csproj", "{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet8.PosBackendApi.Models", "DotNet8.PosBackendApi.Models\DotNet8.PosBackendApi.Models.csproj", "{9EB9BF5F-E1DD-4DB8-9D73-605F3486CC28}"
@@ -45,10 +43,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1} = {C1E2E04D-8121-4191-90A4-A675609545BA}
-		{9EB9BF5F-E1DD-4DB8-9D73-605F3486CC28} = {C1E2E04D-8121-4191-90A4-A675609545BA}
-		{A7F600CB-ABBA-4612-A40F-7AE557A607DE} = {C1E2E04D-8121-4191-90A4-A675609545BA}
-		{FA8ACA95-C2E7-401D-AA3E-90A84CDB2AF1} = {C1E2E04D-8121-4191-90A4-A675609545BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C3F2505-7CD4-4387-B04A-2E8FADE5FC38}
