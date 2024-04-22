@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi;
+﻿using DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
+
+namespace DotNet8.PosBackendApi;
 
 public static class ModularService
 {
@@ -31,6 +33,7 @@ public static class ModularService
         services.AddScoped<ShopService>();
         services.AddScoped<ResponseModel>();
         services.AddScoped<BL_ProductCategory>();
+        services.AddScoped<BL_Login>();
         return services;
     }
 
@@ -40,6 +43,7 @@ public static class ModularService
         services.AddScoped<DL_Staff>();
         services.AddScoped<DL_Product>();
         services.AddScoped<DL_ProductCategory>();
+        services.AddScoped<DL_Login>();
         return services;
     }
 
