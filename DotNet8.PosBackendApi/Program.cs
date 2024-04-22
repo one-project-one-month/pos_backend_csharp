@@ -1,24 +1,8 @@
-using DotNet8.PosBackendApi.Models.Setup.Config;
-using System.Text;
-
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// var secret = Configuration["Jwt:Secret"];
-// var key = Encoding.ASCII.GetBytes(secret);
-
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-//string projectDirectory = Environment.CurrentDirectory;
-//var config = builder
-//    .Configuration
-//    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-//    .Build();
-//builder.Services.Configure<TokenModel>(config.GetSection("Jwt"));
 
 string projectDirectory = Environment.CurrentDirectory;
 var builderJwtSetting = new ConfigurationBuilder();
@@ -35,16 +19,16 @@ builder.Services.AddService(builder);
 
 builder.Services.AddSwaggerGen(option =>
 {
-option.SwaggerDoc("v1", new OpenApiInfo { Title = "DotNet8.PosBackendApi", Version = "v1" });
-option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-{
-    In = ParameterLocation.Header,
-    Description = "Please enter a valid token",
-    Name = "Authorization",
-    Type = SecuritySchemeType.Http,
-    BearerFormat = "JWT",
-    Scheme = "Bearer"
-});
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "DotNet8.PosBackendApi", Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -56,14 +40,10 @@ option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                     Id = "Bearer"
                 }
             },
-            new string[] { }
+           new List<string> ()
         }
     });
 });
-//var securityScheme = new OpenApiSecuritySchemeModel();
-//securityScheme.Reference = new OpenApiReferenceModel();
-//securityScheme.Reference.Type = DotNet8.PosBackendApi.Models.ReferenceType.SecurityScheme;
-//securityScheme.Reference.Id = "Bearer";
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -74,7 +54,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
 
