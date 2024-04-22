@@ -9,3 +9,7 @@ public static class DevCode
         return  Hash.Create(HashType.SHA256, password, sharedKey, false);
     }
 }
+//public static string GetType (this string type)
+//{
+
+//}
