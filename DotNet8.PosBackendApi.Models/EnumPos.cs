@@ -5,5 +5,6 @@ public enum EnumPos
     Shop,
     Product,
     Staff,
-    ProductCategory
+    ProductCategory,
+    SaleInvoice
 }

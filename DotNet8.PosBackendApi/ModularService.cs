@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
+using DotNet8.PosBackendApi.Features.Setup.SaleInvoice;
 
 namespace DotNet8.PosBackendApi;
 
@@ -34,6 +35,7 @@ public static class ModularService
         services.AddScoped<ResponseModel>();
         services.AddScoped<BL_ProductCategory>();
         services.AddScoped<BL_Login>();
+        services.AddScoped<BL_SaleInvoice>();
         return services;
     }
 
@@ -44,6 +46,7 @@ public static class ModularService
         services.AddScoped<DL_Product>();
         services.AddScoped<DL_ProductCategory>();
         services.AddScoped<DL_Login>();
+        services.AddScoped<DL_SaleInvoice>();
         return services;
     }
 

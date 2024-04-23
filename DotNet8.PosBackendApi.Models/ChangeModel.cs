@@ -1,5 +1,6 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Product;
 using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
+using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
 using DotNet8.PosBackendApi.Models.Setup.Shop;
 using DotNet8.PosBackendApi.Models.Setup.Staff;
 
@@ -120,6 +121,84 @@ public static class ChangeModel
             ProductCategoryId = dataModel.ProductCategoryId,
             ProductCategoryCode = dataModel.ProductCategoryCode,
             ProductCategoryName = dataModel.ProductCategoryName,
+        };
+        return model;
+    }
+
+    #endregion
+
+    #region Sale Invoice
+
+    public static SaleInvoiceModel Change(this TblSaleInvoice dataModel)
+    {
+        var model = new SaleInvoiceModel()
+        {
+            SaleInvoiceId = dataModel.SaleInvoiceId,
+            SaleInvoiceDateTime = dataModel.SaleInvoiceDateTime,
+            VoucherNo = dataModel.VoucherNo,
+            TotalAmount = dataModel.TotalAmount,
+            Discount = dataModel.Discount,
+            StaffCode = dataModel.StaffCode,
+            Tax = dataModel.Tax,
+            PaymentType = dataModel.PaymentType,
+            CustomerAccountNo = dataModel.CustomerAccountNo,
+            PaymentAmount = dataModel.PaymentAmount,
+            ReceiveAmount = dataModel.ReceiveAmount,
+            Change = dataModel.Change,
+            CustomerCode = dataModel.CustomerCode
+        };
+        return model;
+    }
+
+    public static TblSaleInvoice Change(this SaleInvoiceModel dataModel)
+    {
+        var model = new TblSaleInvoice()
+        {
+            SaleInvoiceId = dataModel.SaleInvoiceId,
+            SaleInvoiceDateTime = dataModel.SaleInvoiceDateTime,
+            VoucherNo = dataModel.VoucherNo,
+            TotalAmount = dataModel.TotalAmount,
+            Discount = dataModel.Discount,
+            StaffCode = dataModel.StaffCode,
+            Tax = dataModel.Tax,
+            PaymentType = dataModel.PaymentType,
+            CustomerAccountNo = dataModel.CustomerAccountNo,
+            PaymentAmount = dataModel.PaymentAmount,
+            ReceiveAmount = dataModel.ReceiveAmount,
+            Change = dataModel.Change,
+            CustomerCode = dataModel.CustomerCode
+        };
+        return model;
+    }
+
+    #endregion
+
+    #region Sale Invoice Detail
+
+    public static SaleInvoiceDetailModel Change(this TblSaleInvoiceDetail dataModel)
+    {
+        var model = new SaleInvoiceDetailModel()
+        {
+            SaleInvoiceDetailId = dataModel.SaleInvoiceDetailId,
+            VoucherNo = dataModel.VoucherNo,
+            ProductCode = dataModel.ProductCode,
+            Quantity = dataModel.Quantity,
+            Price = dataModel.Price,
+            Amount = dataModel.Amount
+        };
+        return model;
+    }
+
+    public static TblSaleInvoiceDetail Change(this SaleInvoiceDetailModel dataModel)
+    {
+        var model = new TblSaleInvoiceDetail()
+        {
+            SaleInvoiceDetailId = dataModel.SaleInvoiceDetailId,
+            VoucherNo = dataModel.VoucherNo,
+            ProductCode = dataModel.ProductCode,
+            Quantity = dataModel.Quantity,
+            Price = dataModel.Price,
+            Amount = dataModel.Amount
         };
         return model;
     }
