@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DotNet8.PosBackendApi.Models.Setup.SaleInvoice
 {
-    public class SaleInvoiceListResponseModel
+    public class SaleInvoiceResponseModel
     {
-        public List<SaleInvoiceModel> DataList { get; set; } = new List<SaleInvoiceModel>();
+        public SaleInvoiceModel Data { get; set; }
         public MessageResponseModel MessageResponse { get; set; }
     }
 }

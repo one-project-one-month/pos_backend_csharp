@@ -4,7 +4,7 @@ Staff Token
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjJUMTY6MzY6NDMuNjE1MTc1NFoiLCJuYmYiOjE3MTM4MDI5MDMsImV4cCI6MTcxMzgwMzgwMywiaWF0IjoxNzEzODAyOTAzfQ.IA6JMyYx1yaM2K9ch38sS1Fr2eukLKjOOhh-u5oPTI4
 ```
 ```
-
+Scaffold-DbContext "Server=.;Database=Pos;Integrated Security=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context AppDbContext -f
 Scaffold-DbContext "Server=.;Database=Pos;User ID=sa;Password=sasa@123;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context AppDbContext
 
 dotnet tool install --global dotnet-ef 7.0.17
@@ -71,6 +71,55 @@ GO
 USE [master]
 GO
 ALTER DATABASE [Pos] SET  READ_WRITE 
+GO
+
+/****** Object:  Table [dbo].[Tbl_SaleInvoice]    Script Date: 4/23/2024 9:39:11 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Tbl_SaleInvoice](
+	[SaleInvoiceId] [int] IDENTITY(1,1) NOT NULL,
+	[SaleInvoiceDateTime] [datetime] NOT NULL,
+	[VoucherNo] [nvarchar](20) NOT NULL,
+	[TotalAmount] [decimal](18, 2) NOT NULL,
+	[Discount] [decimal](18, 2) NOT NULL,
+	[StaffCode] [nvarchar](50) NOT NULL,
+	[Tax] [decimal](18, 2) NOT NULL,
+	[PaymentType] [nvarchar](10) NULL,
+	[CustomerAccountNo] [nvarchar](20) NULL,
+	[PaymentAmount] [decimal](18, 2) NULL,
+	[ReceiveAmount] [decimal](18, 2) NULL,
+	[Change] [decimal](18, 2) NULL,
+	[CustomerCode] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Tbl_SaleInvoice] PRIMARY KEY CLUSTERED 
+(
+	[SaleInvoiceId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[Tbl_SaleInvoiceDetail]    Script Date: 4/23/2024 9:40:21 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Tbl_SaleInvoiceDetail](
+	[SaleInvoiceDetailId] [int] IDENTITY(1,1) NOT NULL,
+	[VoucherNo] [nvarchar](20) NOT NULL,
+	[ProductCode] [nvarchar](50) NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[Price] [decimal](18, 2) NOT NULL,
+	[Amount] [decimal](18, 2) NOT NULL,
+ CONSTRAINT [PK_Tbl_SaleInvoiceDetail] PRIMARY KEY CLUSTERED 
+(
+	[SaleInvoiceDetailId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
 ```
