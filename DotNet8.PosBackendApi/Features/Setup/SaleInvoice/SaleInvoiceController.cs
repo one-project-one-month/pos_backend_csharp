@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
 {
@@ -55,6 +56,29 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
                         IsSuccess = lst.MessageResponse.IsSuccess,
                         Message = lst.MessageResponse.Message,
                         Item = lst.Data
+                    });
+                return Content(model);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSaleInvoice(SaleInvoiceModel requestModel)
+        {
+            try
+            {
+                var responseModel = await _saleInvoice.CreateSaleInvoice(requestModel);
+                var model = _response.Return(
+                    new ReturnModel
+                    {
+                        Token = _token.GenerateRefreshToken(RefreshToken()),
+                        EnumPos = EnumPos.SaleInvoice,
+                        IsSuccess = responseModel.IsSuccess,
+                        Message = responseModel.Message,
+                        Item = responseModel
                     });
                 return Content(model);
             }

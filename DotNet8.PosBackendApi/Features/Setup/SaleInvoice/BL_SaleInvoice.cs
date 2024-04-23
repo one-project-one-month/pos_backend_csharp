@@ -22,5 +22,11 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             var response = await _saleInvoice.GetSaleInvoice(voucherNo);
             return response;
         }
+
+        public async Task<MessageResponseModel> CreateSaleInvoice(SaleInvoiceModel saleInvoice)
+        {
+            var response = await _saleInvoice.CreateSaleInvoice(saleInvoice);
+            return response;
+        }
     }
 }

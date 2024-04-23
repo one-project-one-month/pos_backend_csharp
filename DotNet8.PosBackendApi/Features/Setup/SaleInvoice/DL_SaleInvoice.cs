@@ -80,5 +80,31 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             result:
             return responseModel;
         }
+
+        public async Task<MessageResponseModel> CreateSaleInvoice(SaleInvoiceModel model)
+        {
+            MessageResponseModel responseModel = new MessageResponseModel();
+            try
+            {
+                // Generate Voucher Code
+                string voucherNo = $"VC_{DateTime.Now.ToString("yyyymmddhhmmss")}";
+                model.VoucherNo = voucherNo;
+                await _context.TblSaleInvoices.AddAsync(model.Change());
+                await _context.TblSaleInvoiceDetails
+                    .AddRangeAsync(model.SaleInvoiceDetails.Select(x => x.Change(voucherNo)).ToList());
+                var result = await _context.SaveChangesAsync();
+                responseModel = result > 0 ?
+                    new MessageResponseModel(true, EnumStatus.Success.ToString()) :
+                    new MessageResponseModel(false, EnumStatus.Fail.ToString());
+                goto result;
+            }
+            catch (Exception ex)
+            {
+                responseModel = new MessageResponseModel(false, ex);
+                goto result;
+            }
+            result:
+            return responseModel;
+        }
     }
 }

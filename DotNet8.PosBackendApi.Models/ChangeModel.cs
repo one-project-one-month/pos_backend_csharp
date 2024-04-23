@@ -189,12 +189,13 @@ public static class ChangeModel
         return model;
     }
 
-    public static TblSaleInvoiceDetail Change(this SaleInvoiceDetailModel dataModel)
+    public static TblSaleInvoiceDetail Change(this SaleInvoiceDetailModel dataModel,string voucherNo)
     {
         var model = new TblSaleInvoiceDetail()
         {
             SaleInvoiceDetailId = dataModel.SaleInvoiceDetailId,
-            VoucherNo = dataModel.VoucherNo,
+            //VoucherNo = dataModel.VoucherNo,
+            VoucherNo = voucherNo,
             ProductCode = dataModel.ProductCode,
             Quantity = dataModel.Quantity,
             Price = dataModel.Price,
