@@ -21,6 +21,6 @@ namespace DotNet8.PosBackendApi.Models.Setup.SaleInvoice
         public decimal? ReceiveAmount { get; set; }
         public decimal? Change { get; set; }
         public string? CustomerCode { get; set; }
-        public List<SaleInvoiceDetailModel> SaleInvoiceDetails { get; set; }
+        public List<SaleInvoiceDetailModel>? SaleInvoiceDetails { get; set; }
     }
 }

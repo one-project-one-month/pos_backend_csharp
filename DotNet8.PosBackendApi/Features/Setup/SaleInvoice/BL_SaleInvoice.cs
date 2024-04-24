@@ -28,5 +28,13 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             var response = await _saleInvoice.CreateSaleInvoice(saleInvoice);
             return response;
         }
+
+        public async Task<MessageResponseModel> UpdateSaleInvoice(int id, SaleInvoiceModel saleInvoice)
+        {
+            if (id <= 0) throw new Exception("SaleInvoiceId is null");
+            var response = await _saleInvoice.UpdateSaleInvoice(id, saleInvoice);
+            return response;
+        }
+
     }
 }

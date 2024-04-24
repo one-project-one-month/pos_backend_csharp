@@ -71,9 +71,9 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
 
                 var lstVoucherNo = lstSaleInvoice.Select(x => x.VoucherNo).ToArray();
                 var lstSaleInvoiceDetail = await _context.TblSaleInvoiceDetails.AsNoTracking().Where(x => lstVoucherNo.Contains(x.VoucherNo)).ToListAsync();
-                if(lstSaleInvoiceDetail == null)
+                if (lstSaleInvoiceDetail == null)
                 {
-                    responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString()); 
+                    responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                     goto result;
                 }
 
@@ -150,6 +150,34 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             {
                 responseModel = new MessageResponseModel(false, ex);
                 goto result;
+            }
+            result:
+            return responseModel;
+        }
+
+        public async Task<MessageResponseModel> UpdateSaleInvoice(int id, SaleInvoiceModel model)
+        {
+            MessageResponseModel responseModel = new MessageResponseModel();
+            try
+            {
+                var item = await _context
+                    .TblSaleInvoices
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.SaleInvoiceId == id);
+                if (item == null)
+                {
+                    responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+                    goto result;
+                }
+                _context.TblSaleInvoices.Update(model.Change());
+                var result = await _context.SaveChangesAsync();
+                responseModel = result > 0 ?
+                    new MessageResponseModel(true, EnumStatus.Success.ToString()) :
+                    new MessageResponseModel(false, EnumStatus.Fail.ToString());
+            }
+            catch (Exception ex)
+            {
+                responseModel = new MessageResponseModel(false, ex);
             }
             result:
             return responseModel;
