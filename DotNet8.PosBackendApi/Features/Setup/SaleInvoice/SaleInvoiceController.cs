@@ -90,5 +90,49 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             }
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id,SaleInvoiceModel requestModel)
+        {
+            try
+            {
+                var item = await _saleInvoice.UpdateSaleInvoice(id, requestModel);
+                var model = _response.Return(new ReturnModel
+                {
+                    Token = _token.GenerateRefreshToken(RefreshToken(_context,_token)),
+                    EnumPos = EnumPos.SaleInvoice,
+                    IsSuccess = item.IsSuccess,
+                    Message = item.Message,
+                    Item = item
+                });
+                return Content(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var item = await _saleInvoice.DeleteSaleInvoice(id);
+                var model = _response.Return(new ReturnModel
+                {
+                    Token = _token.GenerateRefreshToken(RefreshToken(_context,_token)),
+                    EnumPos = EnumPos.SaleInvoice,
+                    IsSuccess = item.IsSuccess,
+                    Message = item.Message,
+                    Item = item
+                });
+                return Content(model);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }
