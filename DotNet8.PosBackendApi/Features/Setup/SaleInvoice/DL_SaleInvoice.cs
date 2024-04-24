@@ -11,33 +11,81 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             _context = context;
         }
 
+        //public async Task<SaleInvoiceListResponseModel> GetSaleInvoice()
+        //{
+        //    var responseModel = new SaleInvoiceListResponseModel();
+        //    try
+        //    {
+        //        var lst = await _context
+        //            .TblSaleInvoices
+        //            .AsNoTracking()
+        //            .ToListAsync();
+        //        if (lst == null)
+        //        {
+        //            responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+        //            goto result;
+        //        }
+        //        foreach (var item in lst)
+        //        {
+        //            SaleInvoiceModel saleInvoiceModel = new SaleInvoiceModel();
+        //            saleInvoiceModel = item.Change();
+        //            var detailList = await _context
+        //                .TblSaleInvoiceDetails
+        //                .AsNoTracking()
+        //                .Where(x => x.VoucherNo == item.VoucherNo)
+        //                .ToListAsync();
+        //            saleInvoiceModel.SaleInvoiceDetails = detailList.Select(x => x.Change()).ToList();
+        //            responseModel.DataList.Add(saleInvoiceModel);
+        //        }
+        //        responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        responseModel.DataList = new List<SaleInvoiceModel>();
+        //        responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        //    }
+        //    result:
+        //    return responseModel;
+        //}
+
         public async Task<SaleInvoiceListResponseModel> GetSaleInvoice()
         {
             var responseModel = new SaleInvoiceListResponseModel();
             try
             {
-                var lst = await _context
+                #region Get all sale invoice records
+
+                var lstSaleInvoice = await _context
                     .TblSaleInvoices
                     .AsNoTracking()
                     .ToListAsync();
-                if (lst == null)
+                if (lstSaleInvoice == null)
                 {
                     responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                     goto result;
                 }
-                foreach (var item in lst)
+
+                #endregion
+
+                #region Get all sale invoice detail records
+
+                var lstVoucherNo = lstSaleInvoice.Select(x => x.VoucherNo).ToArray();
+                var lstSaleInvoiceDetail = await _context.TblSaleInvoiceDetails.AsNoTracking().Where(x => lstVoucherNo.Contains(x.VoucherNo)).ToListAsync();
+                if(lstSaleInvoiceDetail == null)
                 {
-                    SaleInvoiceModel saleInvoiceModel = new SaleInvoiceModel();
-                    saleInvoiceModel = item.Change();
-                    var detailList = await _context
-                        .TblSaleInvoiceDetails
-                        .AsNoTracking()
-                        .Where(x => x.VoucherNo == item.VoucherNo)
-                        .ToListAsync();
-                    saleInvoiceModel.SaleInvoiceDetails = detailList.Select(x => x.Change()).ToList();
-                    responseModel.DataList.Add(saleInvoiceModel);
+                    responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString()); 
+                    goto result;
                 }
+
+                #endregion
+
+                #region Prepare response model
+
+                List<SaleInvoiceModel> saleInvoiceModels = lstSaleInvoice.Change(lstSaleInvoiceDetail);
+                responseModel.DataList = saleInvoiceModels;
                 responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+
+                #endregion
             }
             catch (Exception ex)
             {
