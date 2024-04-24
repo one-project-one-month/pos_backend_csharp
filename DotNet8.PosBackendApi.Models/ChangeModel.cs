@@ -207,7 +207,7 @@ public static class ChangeModel
 
     #endregion
 
-    #region Sale Invoice
+    #region Sale Invoice & Sale Invoice Detail
 
     public static List<SaleInvoiceModel> Change(this List<TblSaleInvoice> lstInfo, List<TblSaleInvoiceDetail> lstDetail)
     {

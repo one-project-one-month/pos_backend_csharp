@@ -182,5 +182,44 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             result:
             return responseModel;
         }
+
+        public async Task<MessageResponseModel> DeleteSaleInvoice(int id)
+        {
+            MessageResponseModel responseModel = new MessageResponseModel();
+            try
+            {
+                var item = await _context
+                    .TblSaleInvoices
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.SaleInvoiceId == id);
+                if (item == null)
+                {
+                    responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+                    goto result;
+                }
+
+                var lstDetail = await _context
+                    .TblSaleInvoiceDetails
+                    .AsNoTracking()
+                    .Where(x => x.VoucherNo == item.VoucherNo)
+                    .ToListAsync();
+                if (lstDetail != null)
+                    _context.TblSaleInvoiceDetails.RemoveRange(lstDetail);
+
+                _context.TblSaleInvoices.Remove(item);
+                var result = await _context.SaveChangesAsync();
+                responseModel = result > 0 ?
+                    new MessageResponseModel(true, EnumStatus.Success.ToString()) :
+                    new MessageResponseModel(false, EnumStatus.Fail.ToString());
+                goto result;
+            }
+            catch (Exception ex)
+            {
+                responseModel = new MessageResponseModel(false, ex);
+                goto result;
+            }
+            result:
+            return responseModel;
+        }
     }
 }

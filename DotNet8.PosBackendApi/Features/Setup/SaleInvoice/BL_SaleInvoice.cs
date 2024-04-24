@@ -36,5 +36,11 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             return response;
         }
 
+        public async Task<MessageResponseModel> DeleteSaleInvoice(int id)
+        {
+            if (id <= 0) throw new Exception("SaleInvoiceId is null");
+            var response = await _saleInvoice.DeleteSaleInvoice(id);
+            return response;
+        }
     }
 }
