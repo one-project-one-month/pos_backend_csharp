@@ -12,7 +12,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
         private readonly JwtTokenGenerate _token;
         private readonly AppDbContext _context;
 
-        public SaleInvoiceController(BL_SaleInvoice saleInvoice, ResponseModel response, JwtTokenGenerate token, AppDbContext context)
+        public SaleInvoiceController(IServiceProvider serviceProvider, BL_SaleInvoice saleInvoice, ResponseModel response, JwtTokenGenerate token, AppDbContext context) : base(serviceProvider)
         {
             _saleInvoice = saleInvoice;
             _response = response;
@@ -29,7 +29,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
                 var model = _response.Return(
                     new ReturnModel
                     {
-                        Token = _token.GenerateRefreshToken(RefreshToken(_context, _token)),
+                        Token = RefreshToken(),
                         Count = lst.DataList.Count,
                         EnumPos = EnumPos.SaleInvoice,
                         IsSuccess = lst.MessageResponse.IsSuccess,
@@ -53,7 +53,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
                 var model = _response.Return(
                     new ReturnModel
                     {
-                        Token = _token.GenerateRefreshToken(RefreshToken(_context, _token)),
+                        Token = RefreshToken(),
                         EnumPos = EnumPos.SaleInvoice,
                         IsSuccess = lst.MessageResponse.IsSuccess,
                         Message = lst.MessageResponse.Message,
@@ -76,7 +76,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
                 var model = _response.Return(
                     new ReturnModel
                     {
-                        Token = _token.GenerateRefreshToken(RefreshToken(_context, _token)),
+                        Token = RefreshToken(),
                         EnumPos = EnumPos.SaleInvoice,
                         IsSuccess = responseModel.IsSuccess,
                         Message = responseModel.Message,
@@ -91,14 +91,14 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id,SaleInvoiceModel requestModel)
+        public async Task<IActionResult> Update(int id, SaleInvoiceModel requestModel)
         {
             try
             {
                 var item = await _saleInvoice.UpdateSaleInvoice(id, requestModel);
                 var model = _response.Return(new ReturnModel
                 {
-                    Token = _token.GenerateRefreshToken(RefreshToken(_context,_token)),
+                    Token = RefreshToken(),
                     EnumPos = EnumPos.SaleInvoice,
                     IsSuccess = item.IsSuccess,
                     Message = item.Message,
@@ -121,7 +121,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
                 var item = await _saleInvoice.DeleteSaleInvoice(id);
                 var model = _response.Return(new ReturnModel
                 {
-                    Token = _token.GenerateRefreshToken(RefreshToken(_context,_token)),
+                    Token = RefreshToken(),
                     EnumPos = EnumPos.SaleInvoice,
                     IsSuccess = item.IsSuccess,
                     Message = item.Message,

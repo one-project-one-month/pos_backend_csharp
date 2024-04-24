@@ -11,7 +11,7 @@ public class StaffController : BaseController
     private readonly ResponseModel _response;
     private readonly JwtTokenGenerate _token;
 
-    public StaffController(StaffService staffService, DL_Staff staff, ResponseModel response, JwtTokenGenerate token)
+    public StaffController(IServiceProvider serviceProvider, StaffService staffService, DL_Staff staff, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
     {
         _staffService = staffService;
         _staff = staff;
@@ -34,7 +34,7 @@ public class StaffController : BaseController
             var responseModel = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = RefreshToken(),
                Count = lst.DataList.Count,
                EnumPos = EnumPos.Staff,
                IsSuccess = lst.MessageResponse.IsSuccess,
@@ -63,7 +63,7 @@ public class StaffController : BaseController
             var responseModel = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = RefreshToken(),
                EnumPos = EnumPos.Staff,
                IsSuccess = item.MessageResponse.IsSuccess,
                Message = item.MessageResponse.Message,
@@ -113,7 +113,7 @@ public class StaffController : BaseController
             var responseModel = _response.Return
           (new ReturnModel
           {
-              Token = _token.GenerateRefreshToken(RefreshToken()),
+              Token = RefreshToken(),
               EnumPos = EnumPos.Staff,
               IsSuccess = model.IsSuccess,
               Message = model.Message,
@@ -140,7 +140,7 @@ public class StaffController : BaseController
             var responseModel = _response.Return
           (new ReturnModel
           {
-              Token = _token.GenerateRefreshToken(RefreshToken()),
+              Token = RefreshToken(),
               EnumPos = EnumPos.Staff,
               IsSuccess = model.IsSuccess,
               Message = model.Message,

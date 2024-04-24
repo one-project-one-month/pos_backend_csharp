@@ -10,7 +10,7 @@ public class ProductController : BaseController
     private readonly ResponseModel _response;
     private readonly JwtTokenGenerate _token;
 
-    public ProductController(BL_Product bL_Product, ResponseModel response, JwtTokenGenerate token)
+    public ProductController(IServiceProvider serviceProvider, BL_Product bL_Product, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider) 
     {
         _bL_Product = bL_Product;
         _response = response;
@@ -26,7 +26,7 @@ public class ProductController : BaseController
             var responseModel = _response.Return
                 (new ReturnModel
                 {
-                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    Token = RefreshToken(),
                     Count = productLst.DataLst.Count,
                     IsSuccess = productLst.MessageResponse.IsSuccess,
                     EnumPos = EnumPos.Product,
@@ -50,7 +50,7 @@ public class ProductController : BaseController
             var responseModel = _response.Return
                 (new ReturnModel
                 {
-                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    Token = RefreshToken(),
                     IsSuccess = product.MessageResponse.IsSuccess,
                     EnumPos = EnumPos.Product,
                     Message = product.MessageResponse.Message,
@@ -73,7 +73,7 @@ public class ProductController : BaseController
             var responseModel = _response.Return
                 (new ReturnModel
                 {
-                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    Token = RefreshToken(),
                     IsSuccess = product.IsSuccess,
                     EnumPos = EnumPos.Product,
                     Message = product.Message,
@@ -96,7 +96,7 @@ public class ProductController : BaseController
             var responseModel = _response.Return
                 (new ReturnModel
                 {
-                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    Token = RefreshToken(),
                     IsSuccess = product.IsSuccess,
                     EnumPos = EnumPos.Product,
                     Message = product.Message,
@@ -119,7 +119,7 @@ public class ProductController : BaseController
             var responseModel = _response.Return
                 (new ReturnModel
                 {
-                    Token = _token.GenerateRefreshToken(RefreshToken()),
+                    Token = RefreshToken(),
                     IsSuccess = product.IsSuccess,
                     EnumPos = EnumPos.Product,
                     Message = product.Message,

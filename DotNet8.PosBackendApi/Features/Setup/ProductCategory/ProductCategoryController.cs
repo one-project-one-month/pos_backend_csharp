@@ -10,13 +10,12 @@ public class ProductCategoryController : BaseController
     private readonly ResponseModel _response;
     private readonly JwtTokenGenerate _token;
 
-    public ProductCategoryController(BL_ProductCategory productCategory, ResponseModel response, JwtTokenGenerate token)
+    public ProductCategoryController(IServiceProvider serviceProvider, BL_ProductCategory productCategory, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
     {
         _productCategory = productCategory;
         _response = response;
         _token = token;
     }
-
 
     [HttpGet]
     public async Task<IActionResult> GetProductCategory()
@@ -34,7 +33,7 @@ public class ProductCategoryController : BaseController
             var model = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = RefreshToken(),
                Count = lst.DataList.Count,
                EnumPos = EnumPos.ProductCategory,
                IsSuccess = lst.MessageResponse.IsSuccess,
@@ -64,7 +63,7 @@ public class ProductCategoryController : BaseController
             var model = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = RefreshToken(),
                EnumPos = EnumPos.ProductCategory,
                IsSuccess = item.MessageResponse.IsSuccess,
                Message = item.MessageResponse.Message,
@@ -89,7 +88,7 @@ public class ProductCategoryController : BaseController
             var model = _response.Return
          (new ReturnModel
          {
-             Token = _token.GenerateRefreshToken(RefreshToken()),
+             Token = RefreshToken(),
              EnumPos = EnumPos.ProductCategory,
              IsSuccess = item.IsSuccess,
              Message = item.Message,
@@ -116,7 +115,7 @@ public class ProductCategoryController : BaseController
             var model = _response.Return
         (new ReturnModel
         {
-            Token = _token.GenerateRefreshToken(RefreshToken()),
+            Token = RefreshToken(),
             EnumPos = EnumPos.ProductCategory,
             IsSuccess = item.IsSuccess,
             Message = item.Message,
@@ -143,7 +142,7 @@ public class ProductCategoryController : BaseController
             var model = _response.Return
         (new ReturnModel
         {
-            Token = _token.GenerateRefreshToken(RefreshToken()),
+            Token = RefreshToken(),
             EnumPos = EnumPos.ProductCategory,
             IsSuccess = item.IsSuccess,
             Message = item.Message,

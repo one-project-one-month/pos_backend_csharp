@@ -12,7 +12,7 @@ public class ShopController : BaseController
     private readonly ResponseModel _response;
     private readonly JwtTokenGenerate _token;
 
-    public ShopController(ShopService shopService, BL_Shop bL_Shop, ResponseModel response, JwtTokenGenerate token)
+    public ShopController(IServiceProvider serviceProvider, ShopService shopService, BL_Shop bL_Shop, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
     {
         _shopService = shopService;
         _bL_Shop = bL_Shop;
@@ -35,7 +35,7 @@ public class ShopController : BaseController
             var responseModel = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = RefreshToken(),
                Count = lst.DataLst.Count,
                EnumPos = EnumPos.Shop,
                IsSuccess = lst.MessageResponse.IsSuccess,
@@ -64,7 +64,7 @@ public class ShopController : BaseController
             var responseModel = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = RefreshToken(),
                EnumPos = EnumPos.Shop,
                IsSuccess = shop.MessageResponse.IsSuccess,
                Message = shop.MessageResponse.Message,
@@ -89,7 +89,7 @@ public class ShopController : BaseController
             var responseModel = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = RefreshToken(),
                EnumPos = EnumPos.Shop,
                IsSuccess = model.IsSuccess,
                Message = model.Message,
@@ -114,7 +114,7 @@ public class ShopController : BaseController
             var responseModel = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = RefreshToken(),
                EnumPos = EnumPos.Shop,
                IsSuccess = model.IsSuccess,
                Message = model.Message,
@@ -139,7 +139,7 @@ public class ShopController : BaseController
             var responseModel = _response.Return
            (new ReturnModel
            {
-               Token = _token.GenerateRefreshToken(RefreshToken()),
+               Token = RefreshToken(),
                EnumPos = EnumPos.Shop,
                IsSuccess = model.IsSuccess,
                Message = model.Message,

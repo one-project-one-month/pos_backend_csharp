@@ -13,7 +13,7 @@ public class LoginController : ControllerBase
         _Login = login;
     }
 
-    [HttpPost("login")]
+    [HttpPost]
     public async Task<IActionResult> Login(LoginRequestModel reqModel)
     {
         var model = await _Login.Login(reqModel);
