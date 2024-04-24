@@ -9,7 +9,7 @@ namespace DotNet8.PosBackendApi.Models.Setup.SaleInvoice
     public class SaleInvoiceDetailModel
     {
         public int SaleInvoiceDetailId { get; set; }
-        public string VoucherNo { get; set; }
+        public string? VoucherNo { get; set; }
         public string ProductCode { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }

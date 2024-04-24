@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
 {
@@ -9,12 +10,14 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
         private readonly BL_SaleInvoice _saleInvoice;
         private readonly ResponseModel _response;
         private readonly JwtTokenGenerate _token;
+        private readonly AppDbContext _context;
 
-        public SaleInvoiceController(BL_SaleInvoice saleInvoice, ResponseModel response, JwtTokenGenerate token)
+        public SaleInvoiceController(BL_SaleInvoice saleInvoice, ResponseModel response, JwtTokenGenerate token, AppDbContext context)
         {
             _saleInvoice = saleInvoice;
             _response = response;
             _token = token;
+            _context = context;
         }
 
         [HttpGet]
@@ -26,7 +29,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
                 var model = _response.Return(
                     new ReturnModel
                     {
-                        Token = _token.GenerateRefreshToken(RefreshToken()),
+                        Token = _token.GenerateRefreshToken(RefreshToken(_context, _token)),
                         Count = lst.DataList.Count,
                         EnumPos = EnumPos.SaleInvoice,
                         IsSuccess = lst.MessageResponse.IsSuccess,
@@ -50,11 +53,34 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
                 var model = _response.Return(
                     new ReturnModel
                     {
-                        Token = _token.GenerateRefreshToken(RefreshToken()),
+                        Token = _token.GenerateRefreshToken(RefreshToken(_context, _token)),
                         EnumPos = EnumPos.SaleInvoice,
                         IsSuccess = lst.MessageResponse.IsSuccess,
                         Message = lst.MessageResponse.Message,
                         Item = lst.Data
+                    });
+                return Content(model);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSaleInvoice(SaleInvoiceModel requestModel)
+        {
+            try
+            {
+                var responseModel = await _saleInvoice.CreateSaleInvoice(requestModel);
+                var model = _response.Return(
+                    new ReturnModel
+                    {
+                        Token = _token.GenerateRefreshToken(RefreshToken(_context, _token)),
+                        EnumPos = EnumPos.SaleInvoice,
+                        IsSuccess = responseModel.IsSuccess,
+                        Message = responseModel.Message,
+                        Item = responseModel
                     });
                 return Content(model);
             }

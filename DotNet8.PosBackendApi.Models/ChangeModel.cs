@@ -46,6 +46,7 @@ public static class ChangeModel
         {
             StaffId = dataModel.StaffId,
             StaffCode = dataModel.StaffCode,
+            StaffName = dataModel.StaffName,
             DateOfBirth = dataModel.DateOfBirth,
             MobileNo = dataModel.MobileNo,
             Address = dataModel.Address,
@@ -189,18 +190,54 @@ public static class ChangeModel
         return model;
     }
 
-    public static TblSaleInvoiceDetail Change(this SaleInvoiceDetailModel dataModel)
+    public static TblSaleInvoiceDetail Change(this SaleInvoiceDetailModel dataModel, string voucherNo)
     {
         var model = new TblSaleInvoiceDetail()
         {
             SaleInvoiceDetailId = dataModel.SaleInvoiceDetailId,
-            VoucherNo = dataModel.VoucherNo,
+            //VoucherNo = dataModel.VoucherNo,
+            VoucherNo = voucherNo,
             ProductCode = dataModel.ProductCode,
             Quantity = dataModel.Quantity,
             Price = dataModel.Price,
             Amount = dataModel.Amount
         };
         return model;
+    }
+
+    #endregion
+
+    #region Sale Invoice
+
+    public static List<SaleInvoiceModel> Change(this List<TblSaleInvoice> lstInfo, List<TblSaleInvoiceDetail> lstDetail)
+    {
+        List<SaleInvoiceModel> responseModel = new List<SaleInvoiceModel>();
+        responseModel = lstInfo.Select(x => new SaleInvoiceModel
+        {
+            SaleInvoiceId = x.SaleInvoiceId,
+            SaleInvoiceDateTime = x.SaleInvoiceDateTime,
+            VoucherNo = x.VoucherNo,
+            TotalAmount = x.TotalAmount,
+            Discount = x.Discount,
+            StaffCode = x.StaffCode,
+            Tax = x.Tax,
+            PaymentType = x.PaymentType,
+            CustomerAccountNo = x.CustomerAccountNo,
+            PaymentAmount = x.PaymentAmount,
+            ReceiveAmount = x.ReceiveAmount,
+            Change = x.Change,
+            CustomerCode = x.CustomerCode,
+            SaleInvoiceDetails = lstDetail.Where(y => y.VoucherNo == x.VoucherNo).Select(z => new SaleInvoiceDetailModel
+            {
+                SaleInvoiceDetailId = z.SaleInvoiceDetailId,
+                VoucherNo = z.VoucherNo,
+                ProductCode = z.ProductCode,
+                Quantity = z.Quantity,
+                Price = z.Price,
+                Amount = z.Amount
+            }).ToList()
+        }).ToList();
+        return responseModel;
     }
 
     #endregion
