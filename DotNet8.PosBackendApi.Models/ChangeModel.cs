@@ -46,6 +46,7 @@ public static class ChangeModel
         {
             StaffId = dataModel.StaffId,
             StaffCode = dataModel.StaffCode,
+            StaffName = dataModel.StaffName,
             DateOfBirth = dataModel.DateOfBirth,
             MobileNo = dataModel.MobileNo,
             Address = dataModel.Address,
