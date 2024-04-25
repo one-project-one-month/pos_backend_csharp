@@ -12,5 +12,11 @@ namespace DotNet8.PosBackendApi.Features.Setup.Generate
         //{
 
         //}
+
+        // year
+        // 1
+        // random 20 - 50 (1 day) - 20 * 365
+        // 1000, 20000 , 340000 - amount
+        // 5 - 10 - detail products
     }
 }
