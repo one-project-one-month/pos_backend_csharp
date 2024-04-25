@@ -21,11 +21,11 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSaleInovice()
+        public async Task<IActionResult> GetSaleInovice(DateTime startDate, DateTime endDate)
         {
             try
             {
-                var lst = await _saleInvoice.GetSaleInvoice();
+                var lst = await _saleInvoice.GetSaleInvoice(startDate, endDate);
                 var model = _response.Return(
                     new ReturnModel
                     {
@@ -91,7 +91,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, SaleInvoiceModel requestModel)
+        public async Task<IActionResult> UpdateSaleInovice(int id, SaleInvoiceModel requestModel)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteSaleInovice(int id)
         {
             try
             {

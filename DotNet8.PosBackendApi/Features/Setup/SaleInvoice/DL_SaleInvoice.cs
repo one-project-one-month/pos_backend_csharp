@@ -48,7 +48,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
         //    return responseModel;
         //}
 
-        public async Task<SaleInvoiceListResponseModel> GetSaleInvoice()
+        public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(DateTime startDate, DateTime endDate)
         {
             var responseModel = new SaleInvoiceListResponseModel();
             try
@@ -58,6 +58,7 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
                 var lstSaleInvoice = await _context
                     .TblSaleInvoices
                     .AsNoTracking()
+                    .Where(x => x.SaleInvoiceDateTime.Date >= startDate.Date && x.SaleInvoiceDateTime.Date <= endDate.Date)
                     .ToListAsync();
                 if (lstSaleInvoice == null)
                 {

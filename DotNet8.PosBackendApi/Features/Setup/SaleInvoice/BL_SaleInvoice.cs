@@ -11,9 +11,9 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             _saleInvoice = saleInvoice;
         }
 
-        public async Task<SaleInvoiceListResponseModel> GetSaleInvoice()
+        public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(DateTime startDate, DateTime endDate)
         {
-            var response = await _saleInvoice.GetSaleInvoice();
+            var response = await _saleInvoice.GetSaleInvoice(startDate, endDate);
             return response;
         }
 
