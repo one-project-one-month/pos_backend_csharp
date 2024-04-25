@@ -5,10 +5,12 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
     public class DL_SaleInvoice
     {
         private readonly AppDbContext _context;
+        private readonly DapperService _dapperService;
 
-        public DL_SaleInvoice(AppDbContext context)
+        public DL_SaleInvoice(AppDbContext context, DapperService dapperService)
         {
             _context = context;
+            _dapperService = dapperService;
         }
 
         //public async Task<SaleInvoiceListResponseModel> GetSaleInvoice()
@@ -130,17 +132,29 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
             return responseModel;
         }
 
+        // 1, 00001
+        // 2, 00002
+        // 3, 00003
+
+        // 5
+        // 00005
+        // 00006
+
+        // Id, Code, Letter, TotalNumber, Sequence
+        // 1, SaleInvoice, VC_, 8, 4
+        // VC_00000002
         public async Task<MessageResponseModel> CreateSaleInvoice(SaleInvoiceModel model)
         {
             MessageResponseModel responseModel = new MessageResponseModel();
             try
             {
                 // Generate Voucher Code
-                string voucherNo = $"VC_{DateTime.Now.ToString("yyyymmddhhmmss")}";
+                //string voucherNo = $"VC_{DateTime.Now.ToString("yyyymmddhhmmss")}";
+                string voucherNo = _dapperService.QueryStoredProcedure<string>("Sp_GenerateSaleInvoiceNo");
                 model.VoucherNo = voucherNo;
                 await _context.TblSaleInvoices.AddAsync(model.Change());
                 await _context.TblSaleInvoiceDetails
-                    .AddRangeAsync(model.SaleInvoiceDetails.Select(x => x.Change(voucherNo)).ToList());
+                    .AddRangeAsync(model.SaleInvoiceDetails!.Select(x => x.Change(voucherNo)).ToList());
                 var result = await _context.SaveChangesAsync();
                 responseModel = result > 0 ?
                     new MessageResponseModel(true, EnumStatus.Success.ToString()) :
