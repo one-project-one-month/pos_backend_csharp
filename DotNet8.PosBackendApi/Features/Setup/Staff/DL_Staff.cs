@@ -1,5 +1,4 @@
 using Effortless.Net.Encryption;
-using Microsoft.Extensions.Options;
 
 namespace DotNet8.PosBackendApi.Features.Setup.Staff;
 
