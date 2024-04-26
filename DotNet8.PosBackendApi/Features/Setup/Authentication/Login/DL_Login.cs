@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Login;
-using Microsoft.Extensions.Options;
-
-namespace DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
+﻿namespace DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
 
 public class DL_Login
 {
