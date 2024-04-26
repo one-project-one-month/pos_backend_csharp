@@ -1,9 +1,4 @@
-﻿using Dapper;
-using Effortless.Net.Encryption;
-using Microsoft.Data.SqlClient;
-using System.Data;
-
-namespace DotNet8.PosBackendApi.Shared;
+﻿namespace DotNet8.PosBackendApi.Shared;
 
 public static class DevCode
 {
