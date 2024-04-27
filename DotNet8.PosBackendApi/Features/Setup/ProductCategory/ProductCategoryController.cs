@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
+﻿namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
 
 [Route("api/v1/product-categories")]
 [ApiController]

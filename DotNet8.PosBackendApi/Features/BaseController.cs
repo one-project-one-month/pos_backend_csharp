@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace DotNet8.PosBackendApi.Features;
+﻿namespace DotNet8.PosBackendApi.Features;
 
 [Route("api/[controller]")]
 [ApiController]
 public class BaseController : ControllerBase
 {
-    protected readonly IServiceProvider _serviceProvider;
+    private readonly IServiceProvider _serviceProvider;
 
     public BaseController(IServiceProvider serviceProvider)
     {
@@ -44,7 +42,8 @@ public class BaseController : ControllerBase
 
         #region No Token
 
-        if (!Request.Headers.Any(x => x.Key == "Authorization"))
+        // if (!Request.Headers.Any(x => x.Key == "Authorization"))
+        if (Request.Headers.All(x => x.Key != "Authorization"))
         {
             // Inject AppDbContext
             var context = _serviceProvider.GetRequiredService<AppDbContext>();

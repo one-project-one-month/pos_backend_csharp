@@ -19,3 +19,6 @@ global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.OpenApi.Models;
 global using Newtonsoft.Json;
 global using  System.Text;
+global using DotNet8.PosBackendApi.Models.Setup.Login;
+global using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
+global using Microsoft.Extensions.Options;

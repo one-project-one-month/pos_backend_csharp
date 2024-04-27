@@ -1,6 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
-
-namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
+﻿namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
 {
     public class BL_SaleInvoice
     {
