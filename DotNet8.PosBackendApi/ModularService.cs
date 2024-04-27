@@ -5,7 +5,7 @@ namespace DotNet8.PosBackendApi;
 
 public static class ModularService
 {
-    public static IServiceCollection AddService(this IServiceCollection services, WebApplicationBuilder builder)
+    public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services.AddAppDbContextService(builder);
         services.AddJwtTokenGenerateServices();

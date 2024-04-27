@@ -14,7 +14,7 @@ builder.Services.Configure<JwtModel>(configJwtSetting.GetSection("Jwt"));
 #region Register Services
 
 builder.Services.AddScoped(n => new DapperService(builder.Configuration.GetConnectionString("DbConnection")!));
-builder.Services.AddService(builder);
+builder.Services.AddServices(builder);
 
 #endregion
 
