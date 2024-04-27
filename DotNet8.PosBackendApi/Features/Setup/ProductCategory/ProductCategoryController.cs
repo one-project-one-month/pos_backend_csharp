@@ -2,7 +2,7 @@
 
 namespace DotNet8.PosBackendApi.Features.Setup.ProductCategory;
 
-[Route("api/v1/[controller]")]
+[Route("api/v1/product-categories")]
 [ApiController]
 public class ProductCategoryController : BaseController
 {

@@ -27,18 +27,19 @@ public class StaffService
 
     public async Task<StaffModel> GetStaff(int id)
     {
-        // var lst = await _context.TblStaffs.FindAsync(id);
-        var lst = await _context.TblStaffs.FirstOrDefaultAsync(x => x.StaffId == id);
+        var item = await _context.TblStaffs.FirstOrDefaultAsync(x => x.StaffId == id);
+        if (item is null) throw new Exception("Invalid Staff.");
+
         var StaffModel = new StaffModel
         {
-            Address = lst.Address,
-            DateOfBirth = lst.DateOfBirth,
-            Gender = lst.Gender,
-            MobileNo = lst.MobileNo,
-            Position = lst.Position,
-            StaffCode = lst.StaffCode,
-            StaffId = lst.StaffId,
-            StaffName = lst.StaffName
+            Address = item.Address,
+            DateOfBirth = item.DateOfBirth,
+            Gender = item.Gender,
+            MobileNo = item.MobileNo,
+            Position = item.Position,
+            StaffCode = item.StaffCode,
+            StaffId = item.StaffId,
+            StaffName = item.StaffName
         };
         return StaffModel;
     }
@@ -63,29 +64,28 @@ public class StaffService
 
     public async Task UpdateStaff(StaffModel staffmodel)
     {
+        var item = await _context.TblStaffs.FindAsync(staffmodel.StaffId);
+        if (item is null) throw new Exception("Invalid Staff.");
 
-        TblStaff staff = await _context.TblStaffs.FindAsync(staffmodel.StaffId);
+        item.Address = staffmodel.Address;
+        item.DateOfBirth = staffmodel.DateOfBirth;
+        item.Gender = staffmodel.Gender;
+        item.MobileNo = staffmodel.MobileNo;
+        item.Position = staffmodel.Position;
+        item.StaffCode = staffmodel.StaffCode;
+        item.StaffName = staffmodel.StaffName;
 
-        staff.Address = staffmodel.Address;
-        staff.DateOfBirth = staffmodel.DateOfBirth;
-        staff.Gender = staffmodel.Gender;
-        staff.MobileNo = staffmodel.MobileNo;
-        staff.Position = staffmodel.Position;
-        staff.StaffCode = staffmodel.StaffCode;
-        staff.StaffName = staffmodel.StaffName;
-
-        _context.TblStaffs.Update(staff);
+        _context.TblStaffs.Update(item);
         await _context.SaveChangesAsync();
     }
 
     public async Task DeleteStaff(int id)
     {
-        TblStaff staff = await _context.TblStaffs.FindAsync(id);
-        if (staff != null)
+        var staff = await _context.TblStaffs.FindAsync(id);
+        if (staff is not null)
         {
             _context.TblStaffs.Remove(staff);
             await _context.SaveChangesAsync();
         }
-
     }
 }

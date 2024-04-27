@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/sale-invoices")]
     [ApiController]
     public class SaleInvoiceController : BaseController
     {

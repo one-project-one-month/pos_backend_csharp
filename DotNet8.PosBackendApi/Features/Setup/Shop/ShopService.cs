@@ -38,7 +38,6 @@ public class ShopService
         var result = await _context.SaveChangesAsync();
         message = result > 0 ? "Successfully Save." : "Fail To Save.";
         return message;
-
     }
 
     public async Task<string> UpdateShop(int id, ShopModel requestModel)
