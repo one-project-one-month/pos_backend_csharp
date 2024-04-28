@@ -18,7 +18,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSaleInovice(DateTime startDate, DateTime endDate)
+        public async Task<IActionResult> GetSaleInvoice(DateTime startDate, DateTime endDate)
         {
             try
             {
@@ -42,7 +42,7 @@
         }
 
         [HttpGet("{voucherNo}")]
-        public async Task<IActionResult> GetSaleInovice(string voucherNo)
+        public async Task<IActionResult> GetSaleInvoice(string voucherNo)
         {
             try
             {
