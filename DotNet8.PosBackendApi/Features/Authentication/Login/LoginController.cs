@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
+﻿namespace DotNet8.PosBackendApi.Features.Authentication.Login;
 
 [Route("api/v1/auth/login")]
 [ApiController]

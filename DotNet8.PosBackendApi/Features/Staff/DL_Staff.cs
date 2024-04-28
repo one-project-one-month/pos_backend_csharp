@@ -1,6 +1,4 @@
-using Effortless.Net.Encryption;
-
-namespace DotNet8.PosBackendApi.Features.Setup.Staff;
+namespace DotNet8.PosBackendApi.Features.Staff;
 
 public class DL_Staff
 {

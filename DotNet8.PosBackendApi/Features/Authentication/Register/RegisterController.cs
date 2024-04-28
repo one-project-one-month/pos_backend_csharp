@@ -1,5 +1,7 @@
 ﻿
-namespace DotNet8.PosBackendApi.Features.Setup.Authentication.Register;
+using DotNet8.PosBackendApi.Features.Staff;
+
+namespace DotNet8.PosBackendApi.Features.Authentication.Register;
 
 [Route("api/v1/auth/register")]
 [ApiController]

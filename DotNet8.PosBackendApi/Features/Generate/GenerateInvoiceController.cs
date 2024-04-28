@@ -1,11 +1,8 @@
-﻿using DotNet8.PosBackendApi.Features.Setup.SaleInvoice;
-using DotNet8.PosBackendApi.Models;
-using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography.X509Certificates;
+﻿using DotNet8.PosBackendApi.Features.Product;
+using DotNet8.PosBackendApi.Features.ProductCategory;
+using DotNet8.PosBackendApi.Features.SaleInvoice;
 
-namespace DotNet8.PosBackendApi.Features.Setup.Generate
+namespace DotNet8.PosBackendApi.Features.Generate
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,5 +1,9 @@
-﻿using DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
-using DotNet8.PosBackendApi.Features.Setup.SaleInvoice;
+﻿using DotNet8.PosBackendApi.Features.Authentication.Login;
+using DotNet8.PosBackendApi.Features.Product;
+using DotNet8.PosBackendApi.Features.ProductCategory;
+using DotNet8.PosBackendApi.Features.SaleInvoice;
+using DotNet8.PosBackendApi.Features.Shop;
+using DotNet8.PosBackendApi.Features.Staff;
 
 namespace DotNet8.PosBackendApi;
 

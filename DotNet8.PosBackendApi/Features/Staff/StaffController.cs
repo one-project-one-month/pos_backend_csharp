@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DotNet8.PosBackendApi.Features.Setup.Staff;
+﻿namespace DotNet8.PosBackendApi.Features.Staff;
 
 [Route("api/v1/staffs")]
 [ApiController]

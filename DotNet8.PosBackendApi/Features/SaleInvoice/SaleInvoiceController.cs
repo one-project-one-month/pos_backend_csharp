@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
-using Microsoft.AspNetCore.Mvc;
-
-namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
+﻿namespace DotNet8.PosBackendApi.Features.SaleInvoice
 {
     [Route("api/v1/sale-invoices")]
     [ApiController]

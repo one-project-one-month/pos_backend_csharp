@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Setup.Authentication.Login;
+﻿namespace DotNet8.PosBackendApi.Features.Authentication.Login;
 
 public class BL_Login
 {

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Setup.Staff;
+﻿namespace DotNet8.PosBackendApi.Features.Staff;
 
 public class StaffService
 {

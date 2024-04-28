@@ -1,7 +1,6 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Shop;
-using System.Collections.Generic;
 
-namespace DotNet8.PosBackendApi.Features.Setup.Shop;
+namespace DotNet8.PosBackendApi.Features.Shop;
 
 [Route("api/v1/shops")]
 [ApiController]

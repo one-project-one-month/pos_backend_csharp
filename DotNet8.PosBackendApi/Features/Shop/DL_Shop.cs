@@ -1,6 +1,6 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Shop;
 
-namespace DotNet8.PosBackendApi.Features.Setup.Shop;
+namespace DotNet8.PosBackendApi.Features.Shop;
 
 public class DL_Shop
 {

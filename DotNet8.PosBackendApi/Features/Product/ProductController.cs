@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace DotNet8.PosBackendApi.Features.Setup.Product;
+﻿namespace DotNet8.PosBackendApi.Features.Product;
 
 [Route("api/v1/products")]
 [ApiController]

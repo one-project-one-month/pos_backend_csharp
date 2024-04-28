@@ -2,10 +2,6 @@
 
 global using DotNet8.PosBackendApi;
 global using DotNet8.PosBackendApi.DbService.Models;
-global using DotNet8.PosBackendApi.Features.Setup.Product;
-global using DotNet8.PosBackendApi.Features.Setup.ProductCategory;
-global using DotNet8.PosBackendApi.Features.Setup.Shop;
-global using DotNet8.PosBackendApi.Features.Setup.Staff;
 global using DotNet8.PosBackendApi.Models;
 global using DotNet8.PosBackendApi.Models.Setup.Product;
 global using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
