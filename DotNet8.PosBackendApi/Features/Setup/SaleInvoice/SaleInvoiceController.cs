@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
 {
@@ -77,9 +78,9 @@ namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
                     {
                         Token = RefreshToken(),
                         EnumPos = EnumPos.SaleInvoice,
-                        IsSuccess = responseModel.IsSuccess,
-                        Message = responseModel.Message,
-                        Item = responseModel
+                        IsSuccess = responseModel.MessageResponse.IsSuccess,
+                        Message = responseModel.MessageResponse.Message,
+                        Item = responseModel.Data
                     });
                 return Content(model);
             }

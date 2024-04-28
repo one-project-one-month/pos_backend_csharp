@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
+﻿using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
+
+namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice
 {
     public class BL_SaleInvoice
     {
@@ -21,7 +23,7 @@
             return response;
         }
 
-        public async Task<MessageResponseModel> CreateSaleInvoice(SaleInvoiceModel saleInvoice)
+        public async Task<SaleInvoiceResponseModel> CreateSaleInvoice(SaleInvoiceModel saleInvoice)
         {
             var response = await _saleInvoice.CreateSaleInvoice(saleInvoice);
             return response;

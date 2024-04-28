@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice;
+﻿using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
+
+namespace DotNet8.PosBackendApi.Features.Setup.SaleInvoice;
 
 public class DL_SaleInvoice
 {
@@ -141,27 +143,29 @@ public class DL_SaleInvoice
     // Id, Code, Letter, TotalNumber, Sequence
     // 1, SaleInvoice, VC_, 8, 4
     // VC_00000002
-    public async Task<MessageResponseModel> CreateSaleInvoice(SaleInvoiceModel model)
+    public async Task<SaleInvoiceResponseModel> CreateSaleInvoice(SaleInvoiceModel model)
     {
-        MessageResponseModel responseModel = new MessageResponseModel();
+        SaleInvoiceResponseModel responseModel = new SaleInvoiceResponseModel();
         try
         {
             // Generate Voucher Code
-            //string voucherNo = $"VC_{DateTime.Now.ToString("yyyymmddhhmmss")}";
+            //string voucherNo = $"VC_{DateTime.Now.ToString("yyyymmddhhmmssfff")}";
             string voucherNo = _dapperService.QueryStoredProcedure<string>("Sp_GenerateSaleInvoiceNo");
             model.VoucherNo = voucherNo;
             await _context.TblSaleInvoices.AddAsync(model.Change());
             await _context.TblSaleInvoiceDetails
                 .AddRangeAsync(model.SaleInvoiceDetails!.Select(x => x.Change(voucherNo)).ToList());
             var result = await _context.SaveChangesAsync();
-            responseModel = result > 0 ?
+            responseModel.Data = result > 0? model : new SaleInvoiceModel();
+            responseModel.MessageResponse = result > 0 ?
                 new MessageResponseModel(true, EnumStatus.Success.ToString()) :
                 new MessageResponseModel(false, EnumStatus.Fail.ToString());
             goto result;
         }
         catch (Exception ex)
         {
-            responseModel = new MessageResponseModel(false, ex);
+            responseModel.Data = new SaleInvoiceModel();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
             goto result;
         }
         result:
