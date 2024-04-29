@@ -5,6 +5,7 @@ VisualStudioVersion = 17.10.34707.107
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{153A571F-E90B-4CF4-B0E6-5F0C6B5B9D3D}"
 	ProjectSection(SolutionItems) = preProject
+		pos_db_script.sql = pos_db_script.sql
 		README.md = README.md
 	EndProjectSection
 EndProject
