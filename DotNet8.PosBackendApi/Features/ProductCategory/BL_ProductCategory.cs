@@ -44,7 +44,7 @@ public class BL_ProductCategory
         return response;
     }
 
-    private static void CheckProductNullValue(ProductCategoryModel productCategory)
+    private  void CheckProductNullValue(ProductCategoryModel productCategory)
     {
         if (productCategory == null)
         {

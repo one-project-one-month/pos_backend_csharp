@@ -15,7 +15,40 @@ dotnet ef dbcontext scaffold "Server=.;Database=Pos;User ID=sa;Password=sasa@123
 ```
 USE [Pos]
 GO
-/****** Object:  Table [dbo].[Tbl_ProductCategory]    Script Date: 2024-04-05 12:31:47 AM ******/
+/****** Object:  Table [dbo].[Tbl_Customer]    Script Date: 4/30/2024 1:05:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tbl_Customer](
+	[CustomerId] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerCode] [nvarchar](50) NOT NULL,
+	[CustomerName] [nvarchar](50) NOT NULL,
+	[MobileNo] [nvarchar](50) NOT NULL,
+	[DateOfBirth] [datetime] NOT NULL,
+	[Gender] [nvarchar](50) NOT NULL,
+	[StateCode] [nvarchar](50) NOT NULL,
+	[TownshipCode] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Tbl_Customer] PRIMARY KEY CLUSTERED 
+(
+	[CustomerId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tbl_Product]    Script Date: 4/30/2024 1:05:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tbl_Product](
+	[ProductId] [int] IDENTITY(1,1) NOT NULL,
+	[ProductCode] [nvarchar](50) NOT NULL,
+	[ProductCategoryCode] [nvarchar](50) NOT NULL,
+	[ProductName] [nvarchar](50) NOT NULL,
+	[Price] [decimal](18, 2) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tbl_ProductCategory]    Script Date: 4/30/2024 1:05:03 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -27,59 +60,14 @@ CREATE TABLE [dbo].[Tbl_ProductCategory](
  CONSTRAINT [PK_ProductCategory] PRIMARY KEY CLUSTERED 
 (
 	[ProductCategoryId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tbl_Shop]    Script Date: 2024-04-05 12:31:47 AM ******/
+/****** Object:  Table [dbo].[Tbl_SaleInvoice]    Script Date: 4/30/2024 1:05:03 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Tbl_Shop](
-	[ShopId] [int] IDENTITY(1,1) NOT NULL,
-	[ShopCode] [varchar](50) NOT NULL,
-	[ShopName] [varchar](50) NOT NULL,
-	[MobileNo] [varchar](50) NOT NULL,
-	[Address] [varchar](50) NOT NULL,
- CONSTRAINT [PK_Shop] PRIMARY KEY CLUSTERED 
-(
-	[ShopId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Tbl_Staff]    Script Date: 2024-04-05 12:31:47 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Tbl_Staff](
-	[StaffId] [int] IDENTITY(1,1) NOT NULL,
-	[StaffCode] [varchar](50) NOT NULL,
-	[StaffName] [varchar](50) NOT NULL,
-	[DateOfBirth] [datetime] NOT NULL,
-	[MobileNo] [varchar](50) NOT NULL,
-	[Address] [varchar](50) NOT NULL,
-	[Gender] [varchar](50) NOT NULL,
-	[Position] [varchar](50) NOT NULL,
-	[Password] [varchar](50) NOT NULL,
- CONSTRAINT [PK_Staff] PRIMARY KEY CLUSTERED 
-(
-	[StaffId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-USE [master]
-GO
-ALTER DATABASE [Pos] SET  READ_WRITE 
-GO
-
-/****** Object:  Table [dbo].[Tbl_SaleInvoice]    Script Date: 4/23/2024 9:39:11 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[Tbl_SaleInvoice](
 	[SaleInvoiceId] [int] IDENTITY(1,1) NOT NULL,
 	[SaleInvoiceDateTime] [datetime] NOT NULL,
@@ -100,14 +88,11 @@ CREATE TABLE [dbo].[Tbl_SaleInvoice](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-/****** Object:  Table [dbo].[Tbl_SaleInvoiceDetail]    Script Date: 4/23/2024 9:40:21 AM ******/
+/****** Object:  Table [dbo].[Tbl_SaleInvoiceDetail]    Script Date: 4/30/2024 1:05:03 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE TABLE [dbo].[Tbl_SaleInvoiceDetail](
 	[SaleInvoiceDetailId] [int] IDENTITY(1,1) NOT NULL,
 	[VoucherNo] [nvarchar](20) NOT NULL,
@@ -118,6 +103,44 @@ CREATE TABLE [dbo].[Tbl_SaleInvoiceDetail](
  CONSTRAINT [PK_Tbl_SaleInvoiceDetail] PRIMARY KEY CLUSTERED 
 (
 	[SaleInvoiceDetailId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tbl_Shop]    Script Date: 4/30/2024 1:05:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tbl_Shop](
+	[ShopId] [int] IDENTITY(1,1) NOT NULL,
+	[ShopCode] [varchar](50) NOT NULL,
+	[ShopName] [varchar](50) NOT NULL,
+	[MobileNo] [varchar](50) NOT NULL,
+	[Address] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Shop] PRIMARY KEY CLUSTERED 
+(
+	[ShopId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tbl_Staff]    Script Date: 4/30/2024 1:05:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tbl_Staff](
+	[StaffId] [int] IDENTITY(1,1) NOT NULL,
+	[StaffCode] [varchar](50) NOT NULL,
+	[StaffName] [varchar](50) NOT NULL,
+	[DateOfBirth] [datetime] NOT NULL,
+	[MobileNo] [varchar](50) NOT NULL,
+	[Address] [varchar](50) NOT NULL,
+	[Gender] [varchar](50) NOT NULL,
+	[Position] [varchar](50) NOT NULL,
+	[Password] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Staff] PRIMARY KEY CLUSTERED 
+(
+	[StaffId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

@@ -46,7 +46,7 @@ public class BL_Shop
         return response;
     }
 
-    private static void CheckShopNullValue(ShopModel shop)
+    private void CheckShopNullValue(ShopModel shop)
     {
         if (shop == null)
         {

@@ -15,6 +15,8 @@ public partial class AppDbContext : DbContext
     {
     }
 
+    public virtual DbSet<TblCustomer> TblCustomers { get; set; }
+
     public virtual DbSet<TblProduct> TblProducts { get; set; }
 
     public virtual DbSet<TblProductCategory> TblProductCategories { get; set; }
@@ -27,21 +29,33 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<TblStaff> TblStaffs { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.;Database=Pos;Integrated Security=True;TrustServerCertificate=True;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TblCustomer>(entity =>
+        {
+            entity.HasKey(e => e.CustomerId);
+
+            entity.ToTable("Tbl_Customer");
+
+            entity.Property(e => e.CustomerCode).HasMaxLength(50);
+            entity.Property(e => e.CustomerName).HasMaxLength(50);
+            entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
+            entity.Property(e => e.Gender).HasMaxLength(50);
+            entity.Property(e => e.MobileNo).HasMaxLength(50);
+            entity.Property(e => e.StateCode).HasMaxLength(50);
+            entity.Property(e => e.TownshipCode).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<TblProduct>(entity =>
         {
-            entity.HasKey(e => e.ProductId);
-
-            entity.ToTable("Tbl_Product");
+            entity
+                .HasNoKey()
+                .ToTable("Tbl_Product");
 
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.ProductCategoryCode).HasMaxLength(50);
             entity.Property(e => e.ProductCode).HasMaxLength(50);
+            entity.Property(e => e.ProductId).ValueGeneratedOnAdd();
             entity.Property(e => e.ProductName).HasMaxLength(50);
         });
 

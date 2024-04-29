@@ -39,7 +39,7 @@ public class BL_Product
         var response = await _dL_Product.Delete(id);
         return response;
     }
-    private static void CheckProductNullValue(ProductModel product)
+    private void CheckProductNullValue(ProductModel product)
     {
         if (product == null)
         {
