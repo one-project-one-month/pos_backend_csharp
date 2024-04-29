@@ -4,6 +4,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("https://localhost:7136", "http://localhost:5065") // or AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
+
+
 string projectDirectory = Environment.CurrentDirectory;
 var builderJwtSetting = new ConfigurationBuilder();
 builderJwtSetting.SetBasePath(projectDirectory)
@@ -71,6 +83,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
