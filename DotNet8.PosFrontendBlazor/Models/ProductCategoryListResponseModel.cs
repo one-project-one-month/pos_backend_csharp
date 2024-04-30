@@ -1,7 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models
+﻿namespace DotNet8.PosFrontendBlazor.Models;
+
+public class ProductCategoryListResponseModel : ResponseModel
 {
-    public class ProductCategoryListResponseModel : ResponseModel
-    {
-        public List<ProductCategoryModel> Item { get; set; }
-    }
+    public ProductCategoryDataModel Data { get; set; }
 }
