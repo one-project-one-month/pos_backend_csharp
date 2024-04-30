@@ -1,0 +1,30 @@
+﻿@page "/staff"
+
+@if (ResponseModel is not null)
+{
+
+}
+
+@code {
+    private StaffListResponseModel? ResponseModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ResponseModel = await HttpClientService.ExecuteAsync<StaffListResponseModel>(Endpoints.Staff, EnumHttpMethod.Get);
+
+    }
+
+    private async Task Create(StaffModel staff)
+    {
+        var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
+            Endpoints.Staff,
+            EnumHttpMethod.Post,
+            new StaffRequestModel
+                {
+                    StaffCode = staff.StaffCode,
+                    StaffName = staff.StaffName
+                }
+        );
+
+    }
+}
