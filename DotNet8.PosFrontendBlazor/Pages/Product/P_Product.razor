@@ -1,0 +1,29 @@
+﻿@page "/product"
+
+@if (ResponseModel is not null)
+{
+    
+}
+
+@code {
+    private ProductListResponseModel? ResponseModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
+    }
+    private async Task Create(ProductRequestModel requestModel)
+    {
+        var response = await HttpClientService.ExecuteAsync<ProductListResponseModel>(
+            Endpoints.Product,
+            EnumHttpMethod.Post,
+            new ProductRequestModel
+                {
+                    ProductCategoryId = requestModel.ProductId,
+                    ProductCode = requestModel.ProductCode,
+                    ProductName = requestModel.ProductName,
+                    ProductPrice = requestModel.ProductPrice
+                }
+        );
+    }
+}
