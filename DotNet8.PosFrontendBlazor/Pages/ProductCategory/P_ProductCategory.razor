@@ -2,7 +2,26 @@
 
 @if (ResponseModel is not null)
 {
-
+    int count = 0;
+    <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Product Category Code</th>
+                <th>Product Category Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ResponseModel.Data.ProductCategory)
+            {
+                <tr>
+                    <td>@(++count)</td>
+                    <td>@item.ProductCategoryCode</td>
+                    <td>@item.ProductCategoryName</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
 }
 
 
@@ -12,14 +31,14 @@
     protected override async Task OnInitializedAsync()
     {
         ResponseModel = await HttpClientService.ExecuteAsync<ProductCategoryListResponseModel>(Endpoints.ProductCategory, EnumHttpMethod.Get);
-        var response = await HttpClientService.ExecuteAsync<ProductCategoryResponseModel>(
-            Endpoints.ProductCategory,
-            EnumHttpMethod.Post,
-            new ProductCategoryRequestModel
-                {
-                    ProductCategoryCode = "001",
-                    ProductCategoryName = "Testing"
-                }
-        );
+        // var response = await HttpClientService.ExecuteAsync<ProductCategoryResponseModel>(
+        //     Endpoints.ProductCategory,
+        //     EnumHttpMethod.Post,
+        //     new ProductCategoryRequestModel
+        //         {
+        //             ProductCategoryCode = "001",
+        //             ProductCategoryName = "Testing"
+        //         }
+        // );
     }
 }

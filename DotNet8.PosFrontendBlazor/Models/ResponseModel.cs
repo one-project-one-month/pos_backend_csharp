@@ -3,8 +3,9 @@
     public class ResponseModel
     {
         public string Token { get; set; }
-        public int Count { get; set; }
+        public int Result { get; set; }
         public bool IsSuccess { get; set; }
+        public bool IsError { get { return !IsSuccess; } }
         public string Message { get; set; }
     }
 }
