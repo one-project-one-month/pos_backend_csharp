@@ -16,17 +16,15 @@ public partial class P_ProductCategoryDialog
         var response = await HttpClientService.ExecuteAsync<ProductCategoryResponseModel>(
             Endpoints.ProductCategory,
             EnumHttpMethod.Post,
-            new ProductCategoryRequestModel
-            {
-                ProductCategoryCode = "001",
-                ProductCategoryName = "Testing"
-            }
+            reqModel
         );
         if (response.IsError)
         {
+            InjectService.ShowMessage(response.Message, EnumResponseType.Error);
             return;
         }
 
-        MudDialog.Close(reqModel);
+        InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+        MudDialog.Close();
     }
 }

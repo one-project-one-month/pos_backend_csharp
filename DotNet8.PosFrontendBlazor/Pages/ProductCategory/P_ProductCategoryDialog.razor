@@ -6,8 +6,8 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField Value="@reqModel.ProductCategoryCode" Label="Code" />
-        <MudTextField Value="@reqModel.ProductCategoryName" Label="Name" />
+        <MudTextField @bind-Value="@reqModel.ProductCategoryCode" Label="Code" />
+        <MudTextField @bind-Value="@reqModel.ProductCategoryName" Label="Name" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>

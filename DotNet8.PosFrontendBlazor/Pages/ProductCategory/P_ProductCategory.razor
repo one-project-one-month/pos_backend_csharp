@@ -1,5 +1,11 @@
 ﻿@page "/product-category"
 
+<MudText Typo="Typo.h6">
+    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
+    Product Category
+</MudText>
+
+
 @if (ResponseModel is not null)
 {
     int count = 0;
@@ -30,7 +36,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ResponseModel = await HttpClientService.ExecuteAsync<ProductCategoryListResponseModel>(Endpoints.ProductCategory, EnumHttpMethod.Get);
         // var response = await HttpClientService.ExecuteAsync<ProductCategoryResponseModel>(
         //     Endpoints.ProductCategory,
         //     EnumHttpMethod.Post,
@@ -40,5 +45,22 @@
         //             ProductCategoryName = "Testing"
         //         }
         // );
+        await List();
+    }
+
+    private async Task List()
+    {
+        ResponseModel = await HttpClientService.ExecuteAsync<ProductCategoryListResponseModel>(Endpoints.ProductCategory, EnumHttpMethod.Get);
+    }
+
+    private async Task Popup()
+    {
+        var dialog = await DialogService.ShowAsync<P_ProductCategoryDialog>("New Product Category");
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            await List();
+        }
     }
 }
