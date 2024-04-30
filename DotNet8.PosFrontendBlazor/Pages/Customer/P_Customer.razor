@@ -1,0 +1,17 @@
+﻿@page "/customer"
+
+@if (ResponseModel is not null)
+{
+
+}
+
+@code {
+    private CustomerListResponseModel? ResponseModel;
+    protected override async Task OnInitializedAsync()
+    {
+        ResponseModel = await HttpClientService.ExecuteAsync<CustomerListResponseModel>(
+            Endpoints.Customer,
+            EnumHttpMethod.Get
+        );
+    }
+}
