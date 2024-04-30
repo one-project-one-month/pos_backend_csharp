@@ -1,0 +1,25 @@
+﻿@page "/product-category"
+
+@if (ResponseModel is not null)
+{
+
+}
+
+
+@code {
+    private ProductCategoryListResponseModel? ResponseModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ResponseModel = await HttpClientService.ExecuteAsync<ProductCategoryListResponseModel>(Endpoints.ProductCategory, EnumHttpMethod.Get);
+        var response = await HttpClientService.ExecuteAsync<ProductCategoryResponseModel>(
+            Endpoints.ProductCategory,
+            EnumHttpMethod.Post,
+            new ProductCategoryRequestModel
+                {
+                    ProductCategoryCode = "001",
+                    ProductCategoryName = "Testing"
+                }
+        );
+    }
+}
