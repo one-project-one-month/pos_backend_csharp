@@ -28,8 +28,8 @@ namespace DotNet8.PosBackendApi.Features.Generate
             SaleInvoiceModel requestModel = new SaleInvoiceModel();
             Random rnd = new Random();
             DateTime startDate = new DateTime(year, 01, 01);
-            //DateTime endDate = new DateTime(year, 12, 31);
-            DateTime endDate = new DateTime(year, 01, 03);
+            DateTime endDate = new DateTime(year, 12, 31);
+            //DateTime endDate = new DateTime(year, 01, 03);
             for (DateTime date = startDate.Date; endDate.CompareTo(date) >= 0; date = date.AddDays(1))
             {
                 var infoRecordCount = rnd.Next(20, 50);

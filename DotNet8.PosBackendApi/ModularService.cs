@@ -1,6 +1,7 @@
 ﻿using DotNet8.PosBackendApi.Features.Authentication.Login;
 using DotNet8.PosBackendApi.Features.Product;
 using DotNet8.PosBackendApi.Features.ProductCategory;
+using DotNet8.PosBackendApi.Features.Report;
 using DotNet8.PosBackendApi.Features.SaleInvoice;
 using DotNet8.PosBackendApi.Features.Shop;
 using DotNet8.PosBackendApi.Features.Staff;
@@ -40,6 +41,7 @@ public static class ModularService
         services.AddScoped<BL_ProductCategory>();
         services.AddScoped<BL_Login>();
         services.AddScoped<BL_SaleInvoice>();
+        services.AddScoped<BL_Report>();
         return services;
     }
 
@@ -51,6 +53,7 @@ public static class ModularService
         services.AddScoped<DL_ProductCategory>();
         services.AddScoped<DL_Login>();
         services.AddScoped<DL_SaleInvoice>();
+        services.AddScoped<DL_Report>();
         return services;
     }
 
