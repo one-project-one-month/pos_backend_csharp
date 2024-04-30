@@ -16,5 +16,11 @@ namespace DotNet8.PosBackendApi.Features.Report
             var response = await _report.MonthlyReport(month, year);
             return response;
         }
+
+        public async Task<MonthlyReportResponseModel> YearlyReport(int year)
+        {
+            var response = await _report.YearlyReport(year);
+            return response;
+        }
     }
 }

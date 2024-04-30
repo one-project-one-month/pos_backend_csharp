@@ -44,9 +44,27 @@ namespace DotNet8.PosBackendApi.Features.Report
 
         [Route("YearlyReport")]
         [HttpGet]
-        public IActionResult YearlyReport(int year)
+        public async Task<IActionResult> YearlyReport(int year)
         {
-            return Content(new ReturnModel());
+            try
+            {
+                var lst = await _report.YearlyReport(year);
+                var model = _response.Return(
+                    new ReturnModel
+                    {
+                        Token = RefreshToken(),
+                        Count = lst.Data.Count,
+                        EnumPos = EnumPos.ProductCategory,
+                        IsSuccess = lst.MessageResponse.IsSuccess,
+                        Message = lst.MessageResponse.Message,
+                        Item = lst.Data
+                    });
+                return Content(model);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
     }
 }

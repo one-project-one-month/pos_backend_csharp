@@ -37,5 +37,32 @@ namespace DotNet8.PosBackendApi.Features.Report
             }
             return responseModel;
         }
+
+        public async Task<MonthlyReportResponseModel> YearlyReport(int year)
+        {
+            MonthlyReportResponseModel responseModel = new MonthlyReportResponseModel();
+            try
+            {
+                responseModel.Data = await _context
+                    .TblSaleInvoices
+                    .AsNoTracking()
+                    .Where(x => x.SaleInvoiceDateTime.Year == year)
+                    .GroupBy(x => x.SaleInvoiceDateTime.Date)
+                    .Select(y => new ReportModel
+                    {
+                        SaleInvoiceDate = y.First().SaleInvoiceDateTime,
+                        TotalAmount = y.Sum(c => c.TotalAmount)
+                    }).OrderBy(x => x.SaleInvoiceDate).ToListAsync();
+                responseModel.MessageResponse = responseModel.Data.Count > 0 ?
+                    new MessageResponseModel(true, EnumStatus.Success.ToString()) :
+                    new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return responseModel;
+        }
     }
 }
