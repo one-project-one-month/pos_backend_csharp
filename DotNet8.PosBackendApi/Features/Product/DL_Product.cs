@@ -4,10 +4,7 @@ public class DL_Product
 {
     private readonly AppDbContext _context;
 
-    public DL_Product(AppDbContext context)
-    {
-        _context = context;
-    }
+    public DL_Product(AppDbContext context) => _context = context;
 
     public async Task<ProductListResponseModel> GetProduct()
     {
