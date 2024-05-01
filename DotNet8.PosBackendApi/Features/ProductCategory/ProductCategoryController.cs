@@ -6,14 +6,12 @@ public class ProductCategoryController : BaseController
 {
     private readonly BL_ProductCategory _productCategory;
     private readonly ResponseModel _response;
-    private readonly JwtTokenGenerate _token;
 
     public ProductCategoryController(IServiceProvider serviceProvider, BL_ProductCategory productCategory,
-        ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
+        ResponseModel response) : base(serviceProvider)
     {
         _productCategory = productCategory;
         _response = response;
-        _token = token;
     }
 
     [HttpGet]
