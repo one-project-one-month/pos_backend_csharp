@@ -8,7 +8,8 @@ public class ProductController : BaseController
     private readonly ResponseModel _response;
     private readonly JwtTokenGenerate _token;
 
-    public ProductController(IServiceProvider serviceProvider, BL_Product bL_Product, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider) 
+    public ProductController(IServiceProvider serviceProvider, BL_Product bL_Product, ResponseModel response,
+        JwtTokenGenerate token) : base(serviceProvider)
     {
         _bL_Product = bL_Product;
         _response = response;
@@ -22,15 +23,15 @@ public class ProductController : BaseController
         {
             var productLst = await _bL_Product.GetProduct();
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    Count = productLst.DataLst.Count,
-                    IsSuccess = productLst.MessageResponse.IsSuccess,
-                    EnumPos = EnumPos.Product,
-                    Message = productLst.MessageResponse.Message,
-                    Item = productLst.DataLst
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                Count = productLst.DataLst.Count,
+                IsSuccess = productLst.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Product,
+                Message = productLst.MessageResponse.Message,
+                Item = productLst.DataLst
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -46,14 +47,14 @@ public class ProductController : BaseController
         {
             var product = await _bL_Product.GetProductByCode(productCode);
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    IsSuccess = product.MessageResponse.IsSuccess,
-                    EnumPos = EnumPos.Product,
-                    Message = product.MessageResponse.Message,
-                    Item = product.Data
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = product.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Product,
+                Message = product.MessageResponse.Message,
+                Item = product.Data
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -69,20 +70,22 @@ public class ProductController : BaseController
         {
             var product = await _bL_Product.Create(requestModel);
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    IsSuccess = product.IsSuccess,
-                    EnumPos = EnumPos.Product,
-                    Message = product.Message,
-                    Item = requestModel
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = product.IsSuccess,
+                EnumPos = EnumPos.Product,
+                Message = product.Message,
+                Item = requestModel
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 
     [HttpPatch("{id}")]
@@ -92,20 +95,22 @@ public class ProductController : BaseController
         {
             var product = await _bL_Product.Update(id, requestModel);
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    IsSuccess = product.IsSuccess,
-                    EnumPos = EnumPos.Product,
-                    Message = product.Message,
-                    Item = requestModel
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = product.IsSuccess,
+                EnumPos = EnumPos.Product,
+                Message = product.Message,
+                Item = requestModel
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 
     [HttpDelete("{id}")]
@@ -115,18 +120,20 @@ public class ProductController : BaseController
         {
             var product = await _bL_Product.Delete(id);
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    IsSuccess = product.IsSuccess,
-                    EnumPos = EnumPos.Product,
-                    Message = product.Message,
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = product.IsSuccess,
+                EnumPos = EnumPos.Product,
+                Message = product.Message,
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 }
