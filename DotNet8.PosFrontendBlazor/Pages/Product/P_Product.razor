@@ -1,8 +1,34 @@
 ﻿@page "/product"
+@using DotNet8.PosFrontendBlazor.Models.Product
+
+<MudText Typo="Typo.h6">
+    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
+    Product Category
+</MudText>
+
 
 @if (ResponseModel is not null)
 {
-    
+    int count = 0;
+    <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Product Category Code</th>
+                <th>Product Category Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ResponseModel.Data.ProductModel)
+            {
+                <tr>
+                    <td>@(++count)</td>
+                    <td>@item.ProductCode</td>
+                    <td>@item.ProductName</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
 }
 
 @code {
@@ -10,20 +36,23 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
+        await List();
+    }
+
+    private async Task List()
+    {
         ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
     }
-    private async Task Create(ProductRequestModel requestModel)
+
+    private async Task Popup()
     {
-        var response = await HttpClientService.ExecuteAsync<ProductListResponseModel>(
-            Endpoints.Product,
-            EnumHttpMethod.Post,
-            new ProductRequestModel
-                {
-                    ProductCategoryId = requestModel.ProductId,
-                    ProductCode = requestModel.ProductCode,
-                    ProductName = requestModel.ProductName,
-                    ProductPrice = requestModel.ProductPrice
-                }
-        );
+        var dialog = await DialogService.ShowAsync<P_ProductDialog>("New Product");
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            await List();
+        }
     }
 }

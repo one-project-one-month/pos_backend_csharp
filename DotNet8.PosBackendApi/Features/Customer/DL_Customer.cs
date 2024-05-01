@@ -24,7 +24,7 @@ public class DL_Customer
         }
         catch (Exception ex)
         {
-            responseModel.DataLst = new List<CustomerModel>();
+            responseModel.DataLst = [];
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
@@ -56,7 +56,7 @@ public class DL_Customer
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 
@@ -96,7 +96,7 @@ public class DL_Customer
         maxStaffCode = maxStaffCode.Substring(1);
         int staffCode = Convert.ToInt32(maxStaffCode) + 1;
         customerCode = $"C{staffCode.ToString().PadLeft(5, '0')}";
-        result:
+    result:
         return customerCode;
     }
 
@@ -193,7 +193,7 @@ public class DL_Customer
             responseModel = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 }
