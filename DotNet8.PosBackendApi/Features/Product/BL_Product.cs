@@ -11,6 +11,7 @@ public class BL_Product
         var response = await _dL_Product.GetProduct();
         return response;
     }
+
     public async Task<ProductResponseModel> GetProductByCode(string productCode)
     {
         if (productCode is null) throw new Exception("productCode is null");
@@ -24,6 +25,7 @@ public class BL_Product
         var response = await _dL_Product.Create(requestModel);
         return response;
     }
+
     public async Task<MessageResponseModel> Update(int id, ProductModel requestModel)
     {
         if (id <= 0) throw new Exception("productCode is null");
@@ -31,30 +33,36 @@ public class BL_Product
         var response = await _dL_Product.Update(id, requestModel);
         return response;
     }
+
     public async Task<MessageResponseModel> Delete(int id)
     {
         if (id <= 0) throw new Exception("productCode is null");
         var response = await _dL_Product.Delete(id);
         return response;
     }
+
     private static void CheckProductNullValue(ProductModel product)
     {
         if (product == null)
         {
             throw new Exception("product is null.");
         }
+
         if (string.IsNullOrWhiteSpace(product.ProductName))
         {
             throw new Exception("product.ProductName is null.");
         }
+
         if (string.IsNullOrWhiteSpace(product.ProductCode))
         {
             throw new Exception("product.ProductCode is null.");
         }
+
         if (string.IsNullOrWhiteSpace(product.ProductCategoryCode))
         {
             throw new Exception("product.ProductCategoryCode is null.");
         }
+
         if (product.Price <= 0)
         {
             throw new Exception("product.Price is null.");
