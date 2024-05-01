@@ -85,7 +85,7 @@ public class ProductController : BaseController
         };
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> Update(int id, ProductModel requestModel)
     {
         try

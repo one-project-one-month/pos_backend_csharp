@@ -102,14 +102,12 @@ public class ProductCategoryController : BaseController
         ;
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> Update(int id, ProductCategoryModel requestModel)
     {
         try
         {
             var item = await _productCategory.UpdateProductCategory(id, requestModel);
-            //var model = _response.ReturnCommand
-            //    (item.IsSuccess, item.Message, EnumPos.ProductCategory, requestModel);
             var model = _response.Return
         (new ReturnModel
         {

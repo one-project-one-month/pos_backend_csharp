@@ -32,7 +32,7 @@ public class BL_ProductCategory
     public async Task<MessageResponseModel> UpdateProductCategory(int id, ProductCategoryModel requestModel)
     {
         if (id <= 0) throw new Exception("productCategoryCode is null");
-        CheckProductNullValue(requestModel);
+        //CheckProductNullValue(requestModel);
         var response = await _productCategory.UpdateProductCategory(id, requestModel);
         return response;
     }

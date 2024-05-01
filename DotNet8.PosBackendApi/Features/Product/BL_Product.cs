@@ -29,8 +29,8 @@ public class BL_Product
     public async Task<MessageResponseModel> Update(int id, ProductModel requestModel)
     {
         if (id <= 0) throw new Exception("productCode is null");
-        CheckProductNullValue(requestModel);
-        var response = await _dL_Product.Update(id,requestModel);
+        //CheckProductNullValue(requestModel);
+        var response = await _dL_Product.Update(id, requestModel);
         return response;
     }
     public async Task<MessageResponseModel> Delete(int id)
@@ -57,7 +57,7 @@ public class BL_Product
         {
             throw new Exception("product.ProductCategoryCode is null.");
         }
-        if (product.Price <=0)
+        if (product.Price <= 0)
         {
             throw new Exception("product.Price is null.");
         }

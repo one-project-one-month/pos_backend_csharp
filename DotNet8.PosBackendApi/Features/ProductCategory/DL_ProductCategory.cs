@@ -90,7 +90,16 @@ public class DL_ProductCategory
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
             }
-            _context.TblProductCategories.Update(requestModel.Change());
+
+            if (!requestModel.ProductCategoryCode.IsNullOrEmpty())
+            {
+                item.ProductCategoryCode = requestModel.ProductCategoryCode!;
+            }
+            if (!requestModel.ProductCategoryName.IsNullOrEmpty())
+            {
+                item.ProductCategoryName = requestModel.ProductCategoryName!;
+            }
+            _context.TblProductCategories.Update(item);
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0 ?
                 new MessageResponseModel(true, EnumStatus.Success.ToString())
