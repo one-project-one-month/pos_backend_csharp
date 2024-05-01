@@ -6,17 +6,14 @@ public class CustomerController : BaseController
 {
     private readonly BL_Customer _bL_Customer;
     private readonly ResponseModel _response;
-    private readonly JwtTokenGenerate _token;
 
     public CustomerController(
         IServiceProvider serviceProvider,
         BL_Customer bL_Customer,
-        ResponseModel response,
-        JwtTokenGenerate token) : base(serviceProvider)
+        ResponseModel response) : base(serviceProvider)
     {
         _bL_Customer = bL_Customer;
         _response = response;
-        _token = token;
     }
 
     [HttpGet]
