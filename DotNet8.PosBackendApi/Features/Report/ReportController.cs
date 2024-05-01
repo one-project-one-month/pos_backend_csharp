@@ -1,70 +1,66 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace DotNet8.PosBackendApi.Features.Report;
 
-namespace DotNet8.PosBackendApi.Features.Report
+[Route("api/v1/report")]
+[ApiController]
+public class ReportController : BaseController
 {
-    [Route("api/v1/report")]
-    [ApiController]
-    public class ReportController : BaseController
+    private readonly BL_Report _report;
+    private readonly ResponseModel _response;
+
+    public ReportController(IServiceProvider serviceProvider, BL_Report report, ResponseModel response)
+        : base(serviceProvider)
     {
-        private readonly BL_Report _report;
-        private readonly ResponseModel _response;
-        private readonly JwtTokenGenerate _token;
+        _report = report;
+        _response = response;
+    }
 
-        public ReportController(IServiceProvider serviceProvider, BL_Report report, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
+    [Route("monthly-report")]
+    [HttpGet]
+    public async Task<IActionResult> MonthlyReport(int month, int year)
+    {
+        try
         {
-            _report = report;
-            _response = response;
-            _token = token;
+            var lst = await _report.MonthlyReport(month, year);
+            var model = _response.Return(
+                new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    Count = lst.Data.Count,
+                    EnumPos = EnumPos.ProductCategory,
+                    IsSuccess = lst.MessageResponse.IsSuccess,
+                    Message = lst.MessageResponse.Message,
+                    Item = lst.Data
+                });
+            return Content(model);
         }
-
-        [Route("monthly-report")]
-        [HttpGet]
-        public async Task<IActionResult> MonthlyReport(int month, int year)
+        catch (Exception ex)
         {
-            try
-            {
-                var lst = await _report.MonthlyReport(month, year);
-                var model = _response.Return(
-                    new ReturnModel
-                    {
-                        Token = RefreshToken(),
-                        Count = lst.Data.Count,
-                        EnumPos = EnumPos.ProductCategory,
-                        IsSuccess = lst.MessageResponse.IsSuccess,
-                        Message = lst.MessageResponse.Message,
-                        Item = lst.Data
-                    });
-                return Content(model);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
+            return InternalServerError(ex);
         }
+    }
 
-        [Route("yearly-report")]
-        [HttpGet]
-        public async Task<IActionResult> YearlyReport(int year)
+    [Route("yearly-report")]
+    [HttpGet]
+    public async Task<IActionResult> YearlyReport(int year)
+    {
+        try
         {
-            try
-            {
-                var lst = await _report.YearlyReport(year);
-                var model = _response.Return(
-                    new ReturnModel
-                    {
-                        Token = RefreshToken(),
-                        Count = lst.Data.Count,
-                        EnumPos = EnumPos.ProductCategory,
-                        IsSuccess = lst.MessageResponse.IsSuccess,
-                        Message = lst.MessageResponse.Message,
-                        Item = lst.Data
-                    });
-                return Content(model);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
+            var lst = await _report.YearlyReport(year);
+            var model = _response.Return(
+                new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    Count = lst.Data.Count,
+                    EnumPos = EnumPos.ProductCategory,
+                    IsSuccess = lst.MessageResponse.IsSuccess,
+                    Message = lst.MessageResponse.Message,
+                    Item = lst.Data
+                });
+            return Content(model);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
         }
     }
 }
