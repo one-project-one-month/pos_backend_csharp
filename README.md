@@ -11,4 +11,4 @@ dotnet tool install --global dotnet-ef 7.0.17
 dotnet ef dbcontext scaffold "Server=.;Database=Pos;User ID=sa;Password=sasa@123;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -c AppDbContext
 
 ```
-[Database Script](https://github.com/sannlynnhtun-coding/pos_backend_csharp/blob/main/pos_db_script.sql)
+Database အတွက် လိုအပ်တဲ့ Table များကို ဒီ [Link](https://github.com/sannlynnhtun-coding/pos_backend_csharp/blob/main/pos_db_script.sql)ကနေ ကြည့်နိုင်ပါတယ်
