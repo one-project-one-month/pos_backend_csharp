@@ -1,6 +1,4 @@
-﻿// Global using directives
-
-global using DotNet8.PosBackendApi;
+﻿global using DotNet8.PosBackendApi;
 global using DotNet8.PosBackendApi.DbService.Models;
 global using DotNet8.PosBackendApi.Models;
 global using DotNet8.PosBackendApi.Models.Setup.Product;
@@ -14,7 +12,7 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.OpenApi.Models;
 global using Newtonsoft.Json;
-global using  System.Text;
+global using System.Text;
 global using DotNet8.PosBackendApi.Features.Authentication.Login;
 global using DotNet8.PosBackendApi.Features.Customer;
 global using DotNet8.PosBackendApi.Features.Product;
@@ -29,10 +27,5 @@ global using DotNet8.PosBackendApi.Models.Setup.Report;
 global using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
 global using DotNet8.PosBackendApi.Models.Setup.Shop;
 global using Microsoft.Extensions.Options;
-global using DotNet8.PosBackendApi.Features.Authentication.Login;
-global using DotNet8.PosBackendApi.Features.Customer;
-global using DotNet8.PosBackendApi.Features.Product;
-global using DotNet8.PosBackendApi.Features.ProductCategory;
-global using DotNet8.PosBackendApi.Features.SaleInvoice;
-global using DotNet8.PosBackendApi.Features.Shop;
-global using DotNet8.PosBackendApi.Features.Staff;
+global using DotNet8.PosBackendApi.Features.Township;
+global using DotNet8.PosBackendApi.Models.Setup.Township;
