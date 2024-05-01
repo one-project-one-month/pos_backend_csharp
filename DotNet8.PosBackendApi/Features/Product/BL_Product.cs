@@ -4,10 +4,8 @@ public class BL_Product
 {
     private readonly DL_Product _dL_Product;
 
-    public BL_Product(DL_Product dL_Product)
-    {
-        _dL_Product = dL_Product;
-    }
+    public BL_Product(DL_Product dL_Product) => _dL_Product = dL_Product;
+
     public async Task<ProductListResponseModel> GetProduct()
     {
         var response = await _dL_Product.GetProduct();
