@@ -79,14 +79,15 @@ public class DL_Shop
         var responseModel = new MessageResponseModel();
         try
         {
-            var shop = await _context.TblShops.
-                AsNoTracking().FirstOrDefaultAsync(x => x.ShopId == id);
+            var shop = await _context.TblShops.AsNoTracking().FirstOrDefaultAsync(x => x.ShopId == id);
 
             if (shop is null)
             {
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 return responseModel;
             }
+
+            #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.ShopCode))
             {
@@ -107,6 +108,8 @@ public class DL_Shop
             {
                 shop.MobileNo = requestModel.MobileNo;
             }
+
+            #endregion
 
             _context.Entry(shop).State = EntityState.Modified;
             var result = await _context.SaveChangesAsync();
