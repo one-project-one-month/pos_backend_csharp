@@ -1,9 +1,4 @@
-﻿using DotNet8.PosBackendApi.Features.Authentication.Login;
-using DotNet8.PosBackendApi.Features.Customer;
-using DotNet8.PosBackendApi.Features.Report;
-using DotNet8.PosBackendApi.Features.Shop;
-
-namespace DotNet8.PosBackendApi;
+﻿namespace DotNet8.PosBackendApi;
 
 public static class ModularService
 {
