@@ -19,25 +19,25 @@ public class BL_Customer
         return response;
     }
 
-    public async Task<MessageResponseModel> Create(CustomerModel requestModel)
+    public async Task<MessageResponseModel> CreateCustomer(CustomerModel requestModel)
     {
         CheckProductNullValue(requestModel);
-        var response = await _dL_Customer.Create(requestModel);
+        var response = await _dL_Customer.CreateCustomer(requestModel);
         return response;
     }
 
-    public async Task<MessageResponseModel> Update(int id, CustomerModel requestModel)
+    public async Task<MessageResponseModel> UpdateCustomer(int id, CustomerModel requestModel)
     {
         if (id <= 0) throw new Exception("id is null");
         // CheckProductNullValue(requestModel);
-        var response = await _dL_Customer.Update(id, requestModel);
+        var response = await _dL_Customer.UpdateCustomer(id, requestModel);
         return response;
     }
 
-    public async Task<MessageResponseModel> Delete(int id)
+    public async Task<MessageResponseModel> DeleteCustomer(int id)
     {
         if (id <= 0) throw new Exception("id is null");
-        var response = await _dL_Customer.Delete(id);
+        var response = await _dL_Customer.DeleteCustomer(id);
         return response;
     }
 
