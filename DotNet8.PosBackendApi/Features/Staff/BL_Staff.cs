@@ -43,7 +43,7 @@ public class BL_Staff
         return model;
     }
 
-    private static void CheckShopNullValue(StaffModel staff)
+    private void CheckShopNullValue(StaffModel staff)
     {
         if (staff is null)
         {
