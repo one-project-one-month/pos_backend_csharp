@@ -90,6 +90,8 @@ public class DL_Product
                 return responseModel;
             }
 
+            #region Patch Method Validation Conditions
+
             if (!string.IsNullOrEmpty(requestModel.ProductCode))
             {
                 item.ProductCode = requestModel.ProductCode;
@@ -109,6 +111,8 @@ public class DL_Product
             {
                 item.Price = requestModel.Price;
             }
+
+            #endregion
 
             _context.TblProducts.Update(item);
             var result = await _context.SaveChangesAsync();
