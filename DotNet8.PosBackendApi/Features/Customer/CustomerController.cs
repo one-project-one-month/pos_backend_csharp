@@ -67,11 +67,11 @@ public class CustomerController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CustomerModel requestModel)
+    public async Task<IActionResult> CreateCustomer(CustomerModel requestModel)
     {
         try
         {
-            var customer = await _bL_Customer.Create(requestModel);
+            var customer = await _bL_Customer.CreateCustomer(requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -92,11 +92,11 @@ public class CustomerController : BaseController
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> Update(int id, CustomerModel requestModel)
+    public async Task<IActionResult> UpdateCustomer(int id, CustomerModel requestModel)
     {
         try
         {
-            var customer = await _bL_Customer.Update(id, requestModel);
+            var customer = await _bL_Customer.UpdateCustomer(id, requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -115,11 +115,11 @@ public class CustomerController : BaseController
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> DeleteCustomer(int id)
     {
         try
         {
-            var customer = await _bL_Customer.Delete(id);
+            var customer = await _bL_Customer.DeleteCustomer(id);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -134,7 +134,5 @@ public class CustomerController : BaseController
         {
             return InternalServerError(ex);
         }
-
-        ;
     }
 }
