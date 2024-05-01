@@ -1,17 +1,68 @@
 ﻿@page "/customer"
 
+<MudText Typo="Typo.h6">
+    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
+    Customer
+</MudText>
+
 @if (ResponseModel is not null)
 {
-
+    int count = 0;
+    <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Customer Code</th>
+                <th>Customer Name</th>
+                <th>Mobile No</th>
+                <th>Date Of Birth</th>
+                <th>Gender</th>
+                <th>State Code</th>
+                <th>Township Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ResponseModel.Data.Customer)
+            {
+                <tr>
+                    <td>@(++count)</td>
+                    <td>@item.CustomerCode</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.MobileNo</td>
+                    <td>@item.DateOfBirth</td>
+                    <td>@item.Gender</td>
+                    <td>@item.StateCode</td>
+                    <td>@item.TownshipCode</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
 }
 
 @code {
     private CustomerListResponseModel? ResponseModel;
+
     protected override async Task OnInitializedAsync()
+    {
+        await List();
+    }
+
+    private async Task List()
     {
         ResponseModel = await HttpClientService.ExecuteAsync<CustomerListResponseModel>(
             Endpoints.Customer,
             EnumHttpMethod.Get
         );
+    }
+
+    private async Task Popup()
+    {
+        var dialog = await DialogService.ShowAsync<P_CustomerDialog>("New Product Category");
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            await List();
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi;
+namespace DotNet8.PosBackendApi;
 
 public static class ModularService
 {
