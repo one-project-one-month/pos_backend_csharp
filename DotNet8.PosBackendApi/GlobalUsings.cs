@@ -18,6 +18,7 @@ global using  System.Text;
 global using DotNet8.PosBackendApi.Features.Product;
 global using DotNet8.PosBackendApi.Features.ProductCategory;
 global using DotNet8.PosBackendApi.Features.SaleInvoice;
+global using DotNet8.PosBackendApi.Features.Staff;
 global using DotNet8.PosBackendApi.Models.Setup.Customer;
 global using DotNet8.PosBackendApi.Models.Setup.Login;
 global using DotNet8.PosBackendApi.Models.Setup.Report;
