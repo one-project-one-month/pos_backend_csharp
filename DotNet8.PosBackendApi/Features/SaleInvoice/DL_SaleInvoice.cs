@@ -60,7 +60,7 @@ public class DL_SaleInvoice
                 .AsNoTracking()
                 .Where(x => x.SaleInvoiceDateTime.Date >= startDate.Date && x.SaleInvoiceDateTime.Date <= endDate.Date)
                 .ToListAsync();
-            if (lstSaleInvoice == null)
+            if (lstSaleInvoice is null)
             {
                 responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
@@ -71,8 +71,9 @@ public class DL_SaleInvoice
             #region Get all sale invoice detail records
 
             var lstVoucherNo = lstSaleInvoice.Select(x => x.VoucherNo).ToArray();
-            var lstSaleInvoiceDetail = await _context.TblSaleInvoiceDetails.AsNoTracking().Where(x => lstVoucherNo.Contains(x.VoucherNo)).ToListAsync();
-            if (lstSaleInvoiceDetail == null)
+            var lstSaleInvoiceDetail = await _context.TblSaleInvoiceDetails.AsNoTracking()
+                .Where(x => lstVoucherNo.Contains(x.VoucherNo)).ToListAsync();
+            if (lstSaleInvoiceDetail is null)
             {
                 responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
@@ -93,6 +94,7 @@ public class DL_SaleInvoice
             responseModel.DataList = new List<SaleInvoiceModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
+
         result:
         return responseModel;
     }
@@ -107,11 +109,12 @@ public class DL_SaleInvoice
                 .AsNoTracking()
                 .Where(x => x.VoucherNo == voucherNo)
                 .FirstOrDefaultAsync();
-            if (item == null)
+            if (item is null)
             {
                 responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
             }
+
             responseModel.Data = item.Change();
             var detailList = await _context
                 .TblSaleInvoiceDetails
@@ -126,6 +129,7 @@ public class DL_SaleInvoice
             responseModel.Data = new SaleInvoiceModel();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
+
         result:
         return responseModel;
     }
@@ -154,49 +158,104 @@ public class DL_SaleInvoice
             await _context.TblSaleInvoiceDetails
                 .AddRangeAsync(model.SaleInvoiceDetails!.Select(x => x.Change(voucherNo)).ToList());
             var result = await _context.SaveChangesAsync();
-            responseModel.Data = result > 0? model : new SaleInvoiceModel();
-            responseModel.MessageResponse = result > 0 ?
-                new MessageResponseModel(true, EnumStatus.Success.ToString()) :
-                new MessageResponseModel(false, EnumStatus.Fail.ToString());
-            goto result;
+            responseModel.Data = result > 0 ? model : new SaleInvoiceModel();
+            responseModel.MessageResponse = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         }
         catch (Exception ex)
         {
             responseModel.Data = new SaleInvoiceModel();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
-            goto result;
         }
-        result:
+
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> UpdateSaleInvoice(int id, SaleInvoiceModel model)
+public async Task<MessageResponseModel> UpdateSaleInvoice(int id, SaleInvoiceModel requestModel)
+{
+    var responseModel = new MessageResponseModel();
+    try
     {
-        MessageResponseModel responseModel = new MessageResponseModel();
-        try
+        var item = await _context.TblSaleInvoices.
+            AsNoTracking().FirstOrDefaultAsync(x => x.SaleInvoiceId == id);
+
+        if (item == null)
         {
-            var item = await _context
-                .TblSaleInvoices
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.SaleInvoiceId == id);
-            if (item == null)
-            {
-                responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-                goto result;
-            }
-            _context.TblSaleInvoices.Update(model.Change());
-            var result = await _context.SaveChangesAsync();
-            responseModel = result > 0 ?
-                new MessageResponseModel(true, EnumStatus.Success.ToString()) :
-                new MessageResponseModel(false, EnumStatus.Fail.ToString());
+            responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+            return responseModel;
         }
-        catch (Exception ex)
+
+        // Update sale invoice properties if provided in the requestModel
+        if (!string.IsNullOrEmpty(requestModel.CustomerCode))
         {
-            responseModel = new MessageResponseModel(false, ex);
+            item.CustomerCode = requestModel.CustomerCode;
         }
-        result:
-        return responseModel;
+
+        if (!string.IsNullOrEmpty(requestModel.VoucherNo))
+        {
+            item.VoucherNo = requestModel.VoucherNo;
+        }
+
+        if (!string.IsNullOrEmpty(requestModel.PaymentType))
+        {
+            item.PaymentType = requestModel.PaymentType;
+        }
+
+        if (!string.IsNullOrEmpty(requestModel.StaffCode))
+        {
+            item.StaffCode = requestModel.StaffCode;
+        }
+
+        if (requestModel.SaleInvoiceDateTime != null)
+        {
+            item.SaleInvoiceDateTime = requestModel.SaleInvoiceDateTime;
+        }
+
+        if (requestModel.PaymentAmount > 0)
+        {
+            item.PaymentAmount = requestModel.PaymentAmount;
+        }
+
+        if (requestModel.ReceiveAmount > 0)
+        {
+            item.ReceiveAmount = requestModel.ReceiveAmount;
+        }
+
+        if (requestModel.TotalAmount > 0)
+        {
+            item.TotalAmount = requestModel.TotalAmount;
+        }
+
+        if (requestModel.Change > 0)
+        {
+            item.Change = requestModel.Change;
+        }
+
+        if (requestModel.Tax > 0)
+        {
+            item.Tax = requestModel.Tax;
+        }
+
+        if (requestModel.Discount > 0)
+        {
+            item.Discount = requestModel.Discount;
+        }
+
+        _context.TblSaleInvoices.Update(item);
+        var result = await _context.SaveChangesAsync();
+
+        responseModel = result > 0
+            ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+            : new MessageResponseModel(false, EnumStatus.Fail.ToString());
     }
+    catch (Exception ex)
+    {
+        responseModel = new MessageResponseModel(false, ex);
+    }
+
+    return responseModel;
+}
 
     public async Task<MessageResponseModel> DeleteSaleInvoice(int id)
     {
@@ -207,7 +266,7 @@ public class DL_SaleInvoice
                 .TblSaleInvoices
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.SaleInvoiceId == id);
-            if (item == null)
+            if (item is null)
             {
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
@@ -218,21 +277,22 @@ public class DL_SaleInvoice
                 .AsNoTracking()
                 .Where(x => x.VoucherNo == item.VoucherNo)
                 .ToListAsync();
-            if (lstDetail != null)
+            
+            if (lstDetail is not null)
                 _context.TblSaleInvoiceDetails.RemoveRange(lstDetail);
 
             _context.TblSaleInvoices.Remove(item);
+            _context.Entry(item).State = EntityState.Deleted;
             var result = await _context.SaveChangesAsync();
-            responseModel = result > 0 ?
-                new MessageResponseModel(true, EnumStatus.Success.ToString()) :
-                new MessageResponseModel(false, EnumStatus.Fail.ToString());
-            goto result;
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         }
         catch (Exception ex)
         {
             responseModel = new MessageResponseModel(false, ex);
-            goto result;
         }
+
         result:
         return responseModel;
     }
