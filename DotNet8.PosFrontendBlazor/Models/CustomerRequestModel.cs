@@ -1,6 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Customer
+﻿namespace DotNet8.PosFrontendBlazor.Models
 {
-    public class CustomerModel
+    public class CustomerRequestModel
     {
         public int CustomerId { get; set; }
 

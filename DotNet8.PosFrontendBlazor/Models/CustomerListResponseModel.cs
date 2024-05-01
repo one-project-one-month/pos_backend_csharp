@@ -2,6 +2,6 @@
 {
     public class CustomerListResponseModel
     {
-        public List<CustomerModel> Item { get; set; }
+        public CustomerDataModel Data { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Features.Authentication.Login;
+using DotNet8.PosBackendApi.Features.Customer;
 using DotNet8.PosBackendApi.Features.Product;
 using DotNet8.PosBackendApi.Features.ProductCategory;
 using DotNet8.PosBackendApi.Features.Report;
@@ -32,6 +33,7 @@ public static class ModularService
 
     private static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
     {
+        services.AddScoped<BL_Customer>();
         services.AddScoped<StaffService>();
         services.AddScoped<BL_Shop>();
         services.AddScoped<BL_Staff>();
@@ -47,6 +49,7 @@ public static class ModularService
 
     private static IServiceCollection AddDataAccessServices(this IServiceCollection services)
     {
+        services.AddScoped<DL_Customer>();
         services.AddScoped<DL_Shop>();
         services.AddScoped<DL_Staff>();
         services.AddScoped<DL_Product>();
