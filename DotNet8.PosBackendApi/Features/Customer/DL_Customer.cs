@@ -58,7 +58,7 @@ public class DL_Customer
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> Create(CustomerModel requestModel)
+    public async Task<MessageResponseModel> CreateCustomer(CustomerModel requestModel)
     {
         var responseModel = new MessageResponseModel();
         try
@@ -98,7 +98,7 @@ public class DL_Customer
         return customerCode;
     }
 
-    public async Task<MessageResponseModel> Update(int id, CustomerModel requestModel)
+    public async Task<MessageResponseModel> UpdateCustomer(int id, CustomerModel requestModel)
     {
         var responseModel = new MessageResponseModel();
         try
@@ -161,7 +161,7 @@ public class DL_Customer
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> Delete(int id)
+    public async Task<MessageResponseModel> DeleteCustomer(int id)
     {
         var responseModel = new MessageResponseModel();
         try
