@@ -1,15 +1,10 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Shop;
-
-namespace DotNet8.PosBackendApi.Features.Shop;
+﻿namespace DotNet8.PosBackendApi.Features.Shop;
 
 public class DL_Shop
 {
     private readonly AppDbContext _context;
 
-    public DL_Shop(AppDbContext context)
-    {
-        _context = context;
-    }
+    public DL_Shop(AppDbContext context) => _context = context;
 
     public async Task<ShopListResponseModel> GetShops()
     {
@@ -17,9 +12,9 @@ public class DL_Shop
         try
         {
             var shopList = await _context
-               .TblShops
-               .AsNoTracking()
-               .ToListAsync();
+                .TblShops
+                .AsNoTracking()
+                .ToListAsync();
 
             responseModel.DataLst = shopList.Select(x => x.Change()).ToList();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
@@ -29,6 +24,7 @@ public class DL_Shop
             responseModel.DataLst = new List<ShopModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
+
         return responseModel;
     }
 
@@ -38,14 +34,15 @@ public class DL_Shop
         try
         {
             var shop = await _context
-               .TblShops
-               .AsNoTracking()
-               .FirstOrDefaultAsync(x => x.ShopId == id);
+                .TblShops
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ShopId == id);
             if (shop is null)
             {
                 responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
             }
+
             responseModel.Data = shop!.Change();
             responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
         }
@@ -53,7 +50,8 @@ public class DL_Shop
         {
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
-    result:
+
+        result:
         return responseModel;
     }
 
@@ -65,13 +63,14 @@ public class DL_Shop
             await _context.TblShops.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
-               ? new MessageResponseModel(true, EnumStatus.Success.ToString())
-               : new MessageResponseModel(false, EnumStatus.Fail.ToString());
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         }
         catch (Exception ex)
         {
             responseModel = new MessageResponseModel(false, ex);
         }
+
         return responseModel;
     }
 
@@ -80,19 +79,38 @@ public class DL_Shop
         var responseModel = new MessageResponseModel();
         try
         {
-            var shop = await _context
-            .TblShops
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.ShopId == id);
+            var shop = await _context.TblShops.
+                AsNoTracking().FirstOrDefaultAsync(x => x.ShopId == id);
+
             if (shop is null)
             {
-                //throw new Exception("ShopModel shop is null");
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-                goto result;
+                return responseModel;
             }
 
-            await _context.TblShops.AddAsync(requestModel.Change());
+            if (!string.IsNullOrEmpty(requestModel.ShopCode))
+            {
+                shop.ShopCode = requestModel.ShopCode;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.ShopName))
+            {
+                shop.ShopName = requestModel.ShopName;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.Address))
+            {
+                shop.Address = requestModel.Address;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.MobileNo))
+            {
+                shop.MobileNo = requestModel.MobileNo;
+            }
+
+            _context.Entry(shop).State = EntityState.Modified;
             var result = await _context.SaveChangesAsync();
+
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
@@ -102,7 +120,6 @@ public class DL_Shop
             responseModel = new MessageResponseModel(false, ex);
         }
 
-    result:
         return responseModel;
     }
 
@@ -112,14 +129,15 @@ public class DL_Shop
         try
         {
             var shop = await _context
-           .TblShops
-           .AsNoTracking()
-           .FirstOrDefaultAsync(x => x.ShopId == id);
+                .TblShops
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ShopId == id);
             if (shop == null)
             {
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
             }
+
             _context.Remove(shop);
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
@@ -131,7 +149,7 @@ public class DL_Shop
             responseModel = new MessageResponseModel(false, ex);
         }
 
-    result:
+        result:
         return responseModel;
     }
 }
