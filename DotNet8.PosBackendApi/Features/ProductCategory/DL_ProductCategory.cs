@@ -91,6 +91,8 @@ public class DL_ProductCategory
                 return responseModel;
             }
 
+            #region Patch Method Validation Conditions
+
             if (!string.IsNullOrEmpty(requestModel.ProductCategoryCode))
             {
                 item.ProductCategoryCode = requestModel.ProductCategoryCode;
@@ -100,6 +102,8 @@ public class DL_ProductCategory
             {
                 item.ProductCategoryName = requestModel.ProductCategoryName;
             }
+
+            #endregion
 
             _context.TblProductCategories.Update(item);
             var result = await _context.SaveChangesAsync();
