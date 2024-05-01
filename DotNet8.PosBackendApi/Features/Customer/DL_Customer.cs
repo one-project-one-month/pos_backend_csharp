@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Features.Customer;
+﻿using DotNet8.PosBackendApi.Models.Setup.Customer;
+
+namespace DotNet8.PosBackendApi.Features.Customer;
 
 public class DL_Customer
 {

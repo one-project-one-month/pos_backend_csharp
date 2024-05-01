@@ -1,4 +1,5 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Product;
+﻿using DotNet8.PosBackendApi.Models.Setup.Customer;
+using DotNet8.PosBackendApi.Models.Setup.Product;
 using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
 using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
 using DotNet8.PosBackendApi.Models.Setup.Shop;
@@ -238,6 +239,42 @@ public static class ChangeModel
             }).ToList()
         }).ToList();
         return responseModel;
+    }
+
+    #endregion
+
+    #region Customer
+
+    public static CustomerModel Change(this TblCustomer dataModel)
+    {
+        var customerModel = new CustomerModel
+        {
+            CustomerId = dataModel.CustomerId,
+            CustomerCode = dataModel.CustomerCode,
+            CustomerName = dataModel.CustomerName,
+            DateOfBirth = dataModel.DateOfBirth,
+            Gender = dataModel.Gender,
+            MobileNo = dataModel.MobileNo,
+            StateCode = dataModel.StateCode,
+            TownshipCode = dataModel.TownshipCode
+        };
+        return customerModel;
+    }
+
+    public static TblCustomer Change(this CustomerModel requestModel)
+    {
+        var customerDataModel = new TblCustomer
+        {
+            CustomerId = requestModel.CustomerId,
+            CustomerCode = requestModel.CustomerCode,
+            CustomerName = requestModel.CustomerName,
+            DateOfBirth = requestModel.DateOfBirth,
+            Gender = requestModel.Gender,
+            MobileNo = requestModel.MobileNo,
+            StateCode = requestModel.StateCode,
+            TownshipCode = requestModel.TownshipCode
+        };
+        return customerDataModel;
     }
 
     #endregion
