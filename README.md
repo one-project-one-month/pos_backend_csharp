@@ -14,3 +14,19 @@ dotnet ef dbcontext scaffold "Server=.;Database=Pos;User ID=sa;Password=sasa@123
 
 ```
 Database အတွက် လိုအပ်တဲ့ Table များကို ဒီ [Link](https://github.com/sannlynnhtun-coding/pos_backend_csharp/blob/main/pos_db_script.sql) ကနေ ကြည့်နိုင်ပါတယ်
+
+
+```
+SET IDENTITY_INSERT Tbl_ProductCategory ON
+
+INSERT INTO [dbo].[Tbl_ProductCategory]
+           ([ProductCategoryId]
+		   ,[ProductCategoryCode]
+           ,[ProductCategoryName])
+     VALUES
+           (1
+		   ,'C001'
+           ,'Foods')
+
+SET IDENTITY_INSERT Tbl_ProductCategory OFF
+```
