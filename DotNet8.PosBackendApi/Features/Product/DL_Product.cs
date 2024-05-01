@@ -81,15 +81,33 @@ public class DL_Product
         var responseModel = new MessageResponseModel();
         try
         {
-            var product = await _context
+            var item = await _context
                 .TblProducts
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.ProductId == id);
-            if (product == null)
+            if (item == null)
             {
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
             }
+
+            if (requestModel.ProductCode.IsNullOrEmpty())
+            {
+                item.ProductCode = requestModel.ProductCode!;
+            }
+            if (requestModel.ProductName.IsNullOrEmpty())
+            {
+                item.ProductName = requestModel.ProductName!;
+            }
+            if (requestModel.ProductCategoryCode.IsNullOrEmpty())
+            {
+                item.ProductCategoryCode = requestModel.ProductCategoryCode!;
+            }
+            if (requestModel.Price > 0)
+            {
+                item.Price = requestModel.Price;
+            }
+
             _context.TblProducts.Update(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0 ?
