@@ -4,10 +4,7 @@ public class BL_ProductCategory
 {
     private readonly DL_ProductCategory _productCategory;
 
-    public BL_ProductCategory(DL_ProductCategory productCategory)
-    {
-        _productCategory = productCategory;
-    }
+    public BL_ProductCategory(DL_ProductCategory productCategory) => _productCategory = productCategory;
 
     public async Task<ProductCategoryListResponseModel> GetProductCategory()
     {
@@ -32,7 +29,7 @@ public class BL_ProductCategory
     public async Task<MessageResponseModel> UpdateProductCategory(int id, ProductCategoryModel requestModel)
     {
         if (id <= 0) throw new Exception("productCategoryCode is null");
-        CheckProductNullValue(requestModel);
+        //CheckProductNullValue(requestModel);
         var response = await _productCategory.UpdateProductCategory(id, requestModel);
         return response;
     }
@@ -50,10 +47,12 @@ public class BL_ProductCategory
         {
             throw new Exception("productCategory is null.");
         }
+
         if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryName))
         {
             throw new Exception("ProductCategoryName is null.");
         }
+
         if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryCode))
         {
             throw new Exception("ProductCategoryCode is null.");

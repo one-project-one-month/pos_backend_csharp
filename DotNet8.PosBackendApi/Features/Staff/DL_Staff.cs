@@ -104,18 +104,61 @@ public class DL_Staff
         var responseModel = new MessageResponseModel();
         try
         {
-            var staff = await _context
-                .TblStaffs
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.StaffId == id);
+            var staff = await _context.TblStaffs.FirstOrDefaultAsync(x => x.StaffId == id);
+
             if (staff is null)
             {
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-                goto result;
+                return responseModel;
             }
 
-            await _context.TblStaffs.AddAsync(requestModel.Change());
+            #region Patch Method Validation Conditions
+
+            if (!string.IsNullOrEmpty(requestModel.StaffCode))
+            {
+                staff.StaffCode = requestModel.StaffCode;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.StaffName))
+            {
+                staff.StaffName = requestModel.StaffName;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.Position))
+            {
+                staff.Position = requestModel.Position;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.Password))
+            {
+                staff.Password = requestModel.Password;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.Address))
+            {
+                staff.Address = requestModel.Address;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.MobileNo))
+            {
+                staff.MobileNo = requestModel.MobileNo;
+            }
+
+            if (requestModel.DateOfBirth != null)
+            {
+                staff.DateOfBirth = requestModel.DateOfBirth;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.Gender))
+            {
+                staff.Gender = requestModel.Gender;
+            }
+
+            #endregion
+
+            _context.Entry(staff).State = EntityState.Modified;
             var result = await _context.SaveChangesAsync();
+
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
@@ -125,7 +168,6 @@ public class DL_Staff
             responseModel = new MessageResponseModel(false, ex);
         }
 
-        result:
         return responseModel;
     }
 
@@ -144,7 +186,8 @@ public class DL_Staff
                 goto result;
             }
 
-            _context.Remove(staff);
+            _context.TblStaffs.Remove(staff);
+            _context.Entry(staff).State = EntityState.Deleted;
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())

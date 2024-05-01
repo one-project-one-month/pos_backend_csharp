@@ -11,4 +11,6 @@ builder.Services.AddMudServices();
 
 builder.Services.AddRadzenComponents();
 
+builder.Services.AddScoped<InjectService>();
+
 await builder.Build().RunAsync();

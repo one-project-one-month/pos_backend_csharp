@@ -6,15 +6,12 @@
     {
         private readonly BL_SaleInvoice _saleInvoice;
         private readonly ResponseModel _response;
-        private readonly JwtTokenGenerate _token;
-        private readonly AppDbContext _context;
 
-        public SaleInvoiceController(IServiceProvider serviceProvider, BL_SaleInvoice saleInvoice, ResponseModel response, JwtTokenGenerate token, AppDbContext context) : base(serviceProvider)
+        public SaleInvoiceController(IServiceProvider serviceProvider, BL_SaleInvoice saleInvoice,
+            ResponseModel response) : base(serviceProvider)
         {
             _saleInvoice = saleInvoice;
             _response = response;
-            _token = token;
-            _context = context;
         }
 
         [HttpGet]
@@ -88,7 +85,7 @@
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSaleInovice(int id, SaleInvoiceModel requestModel)
+        public async Task<IActionResult> UpdateSaleInvoice(int id, SaleInvoiceModel requestModel)
         {
             try
             {
@@ -105,13 +102,12 @@
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSaleInovice(int id)
+        public async Task<IActionResult> DeleteSaleInvoice(int id)
         {
             try
             {

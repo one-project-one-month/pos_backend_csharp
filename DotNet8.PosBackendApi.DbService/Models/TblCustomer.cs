@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DotNet8.PosBackendApi.DbService.Models;
 
-public partial class TblCustomer
+public class TblCustomer
 {
     public int CustomerId { get; set; }
 

@@ -1,22 +1,17 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Shop;
-
-namespace DotNet8.PosBackendApi.Features.Shop;
+﻿namespace DotNet8.PosBackendApi.Features.Shop;
 
 [Route("api/v1/shops")]
 [ApiController]
 public class ShopController : BaseController
 {
-    private readonly ShopService _shopService;
     private readonly BL_Shop _bL_Shop;
     private readonly ResponseModel _response;
-    private readonly JwtTokenGenerate _token;
 
-    public ShopController(IServiceProvider serviceProvider, ShopService shopService, BL_Shop bL_Shop, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
+    public ShopController(IServiceProvider serviceProvider, BL_Shop bL_Shop,
+        ResponseModel response) : base(serviceProvider)
     {
-        _shopService = shopService;
         _bL_Shop = bL_Shop;
         _response = response;
-        _token = token;
     }
 
     [HttpGet]
@@ -24,7 +19,7 @@ public class ShopController : BaseController
     {
         try
         {
-            var lst =  await _bL_Shop.GetShops();
+            var lst = await _bL_Shop.GetShops();
             //var responseModel = _response.ReturnGet
             //    (shopLst.MessageResponse.Message,
             //    shopLst.DataLst.Count,
@@ -32,15 +27,15 @@ public class ShopController : BaseController
             //    shopLst.MessageResponse.IsSuccess,
             //    shopLst.DataLst);
             var responseModel = _response.Return
-           (new ReturnModel
-           {
-               Token = RefreshToken(),
-               Count = lst.DataLst.Count,
-               EnumPos = EnumPos.Shop,
-               IsSuccess = lst.MessageResponse.IsSuccess,
-               Message = lst.MessageResponse.Message,
-               Item = lst.DataLst
-           });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                Count = lst.DataLst.Count,
+                EnumPos = EnumPos.Shop,
+                IsSuccess = lst.MessageResponse.IsSuccess,
+                Message = lst.MessageResponse.Message,
+                Item = lst.DataLst
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -61,14 +56,14 @@ public class ShopController : BaseController
             //    shop.MessageResponse.IsSuccess,
             //    shop.Data);
             var responseModel = _response.Return
-           (new ReturnModel
-           {
-               Token = RefreshToken(),
-               EnumPos = EnumPos.Shop,
-               IsSuccess = shop.MessageResponse.IsSuccess,
-               Message = shop.MessageResponse.Message,
-               Item = shop.Data
-           });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.Shop,
+                IsSuccess = shop.MessageResponse.IsSuccess,
+                Message = shop.MessageResponse.Message,
+                Item = shop.Data
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -86,23 +81,25 @@ public class ShopController : BaseController
             //var responseModel = _response.ReturnCommand
             //    (model.IsSuccess, model.Message,EnumPos.Shop,shop);
             var responseModel = _response.Return
-           (new ReturnModel
-           {
-               Token = RefreshToken(),
-               EnumPos = EnumPos.Shop,
-               IsSuccess = model.IsSuccess,
-               Message = model.Message,
-               Item = shop
-           });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.Shop,
+                IsSuccess = model.IsSuccess,
+                Message = model.Message,
+                Item = shop
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> UpdateShop(int id, ShopModel shop)
     {
         try
@@ -111,20 +108,22 @@ public class ShopController : BaseController
             //var responseModel = _response.ReturnCommand
             //    (model.IsSuccess, model.Message, EnumPos.Shop, shop);
             var responseModel = _response.Return
-           (new ReturnModel
-           {
-               Token = RefreshToken(),
-               EnumPos = EnumPos.Shop,
-               IsSuccess = model.IsSuccess,
-               Message = model.Message,
-               Item = shop
-           });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.Shop,
+                IsSuccess = model.IsSuccess,
+                Message = model.Message,
+                Item = shop
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 
     [HttpDelete("{id}")]
@@ -136,18 +135,20 @@ public class ShopController : BaseController
             //var responseModel = _response.ReturnCommand
             //    (model.IsSuccess, model.Message, EnumPos.Shop);
             var responseModel = _response.Return
-           (new ReturnModel
-           {
-               Token = RefreshToken(),
-               EnumPos = EnumPos.Shop,
-               IsSuccess = model.IsSuccess,
-               Message = model.Message,
-           });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.Shop,
+                IsSuccess = model.IsSuccess,
+                Message = model.Message,
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 }

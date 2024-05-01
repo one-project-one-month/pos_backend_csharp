@@ -6,10 +6,7 @@ public class DL_Customer
 {
     private readonly AppDbContext _context;
 
-    public DL_Customer(AppDbContext context)
-    {
-        _context = context;
-    }
+    public DL_Customer(AppDbContext context) => _context = context;
 
     public async Task<CustomerListResponseModel> GetCustomer()
     {
@@ -30,6 +27,7 @@ public class DL_Customer
             responseModel.DataLst = new List<CustomerModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
+
         return responseModel;
     }
 
@@ -48,6 +46,7 @@ public class DL_Customer
                     (false, EnumStatus.NotFound.ToString());
                 goto result;
             }
+
             responseModel.Data = customer.Change();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
@@ -56,11 +55,12 @@ public class DL_Customer
             responseModel.Data = new CustomerModel();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
-    result:
+
+        result:
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> Create(CustomerModel requestModel)
+    public async Task<MessageResponseModel> CreateCustomer(CustomerModel requestModel)
     {
         var responseModel = new MessageResponseModel();
         try
@@ -68,14 +68,15 @@ public class DL_Customer
             requestModel.CustomerCode = await GenerateUserCode();
             await _context.TblCustomers.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
-            responseModel = result > 0 ?
-                new MessageResponseModel(true, EnumStatus.Success.ToString())
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         }
         catch (Exception ex)
         {
             responseModel = new MessageResponseModel(false, ex);
         }
+
         return responseModel;
     }
 
@@ -95,40 +96,78 @@ public class DL_Customer
         maxStaffCode = maxStaffCode.Substring(1);
         int staffCode = Convert.ToInt32(maxStaffCode) + 1;
         customerCode = $"C{staffCode.ToString().PadLeft(5, '0')}";
-    result:
+        result:
         return customerCode;
     }
 
-    public async Task<MessageResponseModel> Update(int id, CustomerModel requestModel)
+    public async Task<MessageResponseModel> UpdateCustomer(int id, CustomerModel requestModel)
     {
         var responseModel = new MessageResponseModel();
         try
         {
-            var customer = await _context
-                .TblCustomers
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.CustomerId == id);
+            var customer = await _context.TblCustomers.AsNoTracking().FirstOrDefaultAsync(x => x.CustomerId == id);
+
             if (customer is null)
             {
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-                goto result;
+                return responseModel;
             }
-            requestModel.CustomerId = id;
-            _context.TblCustomers.Update(requestModel.Change());
+
+            #region Patch Method Validation Conditions
+
+            if (!string.IsNullOrEmpty(requestModel.CustomerCode))
+            {
+                customer.CustomerCode = requestModel.CustomerCode;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.CustomerName))
+            {
+                customer.CustomerName = requestModel.CustomerName;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.Gender))
+            {
+                customer.Gender = requestModel.Gender;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.MobileNo))
+            {
+                customer.MobileNo = requestModel.MobileNo;
+            }
+
+            if (requestModel.DateOfBirth != null)
+            {
+                customer.DateOfBirth = requestModel.DateOfBirth;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.StateCode))
+            {
+                customer.StateCode = requestModel.StateCode;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.TownshipCode))
+            {
+                customer.TownshipCode = requestModel.TownshipCode;
+            }
+
+            #endregion
+
+            _context.TblCustomers.Update(customer);
             var result = await _context.SaveChangesAsync();
-            responseModel = result > 0 ?
-                new MessageResponseModel(true, EnumStatus.Success.ToString())
+
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         }
         catch (Exception ex)
         {
             responseModel = new MessageResponseModel(false, ex);
         }
-    result:
+
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> Delete(int id)
+    public async Task<MessageResponseModel> DeleteCustomer(int id)
     {
         var responseModel = new MessageResponseModel();
         try
@@ -142,17 +181,19 @@ public class DL_Customer
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
             }
+
             _context.TblCustomers.Remove(customer);
             var result = await _context.SaveChangesAsync();
-            responseModel = result > 0 ?
-                new MessageResponseModel(true, EnumStatus.Success.ToString())
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         }
         catch (Exception ex)
         {
             responseModel = new MessageResponseModel(false, ex);
         }
-    result:
+
+        result:
         return responseModel;
     }
 }

@@ -6,10 +6,7 @@ public class LoginController : ControllerBase
 {
     private readonly BL_Login _Login;
 
-    public LoginController(BL_Login login)
-    {
-        _Login = login;
-    }
+    public LoginController(BL_Login login) => _Login = login;
 
     [HttpPost]
     public async Task<IActionResult> Login(LoginRequestModel reqModel)

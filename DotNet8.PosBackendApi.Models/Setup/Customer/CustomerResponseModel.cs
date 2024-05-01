@@ -1,7 +1,10 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Customer;
+﻿using DotNet8.PosBackendApi.Models.Setup.Token;
 
-public class CustomerResponseModel : TokenResponseModel
+namespace DotNet8.PosBackendApi.Models.Setup.Customer
 {
-    public CustomerModel Data { get; set; }
-    public MessageResponseModel MessageResponse { get; set; }
+    public class CustomerResponseModel : TokenResponseModel
+    {
+        public CustomerModel Data { get; set; }
+        public MessageResponseModel MessageResponse { get; set; }
+    }
 }

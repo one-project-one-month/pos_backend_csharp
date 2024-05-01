@@ -1,7 +1,4 @@
-﻿
-using DotNet8.PosBackendApi.Features.Staff;
-
-namespace DotNet8.PosBackendApi.Features.Authentication.Register;
+﻿namespace DotNet8.PosBackendApi.Features.Authentication.Register;
 
 [Route("api/v1/auth/register")]
 [ApiController]
@@ -9,13 +6,12 @@ public class RegisterController : BaseController
 {
     private readonly DL_Staff _staff;
     private readonly ResponseModel _response;
-    private readonly JwtTokenGenerate _token;
 
-    public RegisterController(IServiceProvider serviceProvider, DL_Staff staff, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
+    public RegisterController(IServiceProvider serviceProvider, DL_Staff staff, ResponseModel response)
+        : base(serviceProvider)
     {
         _staff = staff;
         _response = response;
-        _token = token;
     }
 
     [HttpPost]

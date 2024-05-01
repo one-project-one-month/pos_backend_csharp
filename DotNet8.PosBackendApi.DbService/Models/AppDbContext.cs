@@ -16,7 +16,6 @@ public partial class AppDbContext : DbContext
     }
 
     public virtual DbSet<TblCustomer> TblCustomers { get; set; }
-
     public virtual DbSet<TblProduct> TblProducts { get; set; }
 
     public virtual DbSet<TblProductCategory> TblProductCategories { get; set; }
@@ -28,7 +27,7 @@ public partial class AppDbContext : DbContext
     public virtual DbSet<TblShop> TblShops { get; set; }
 
     public virtual DbSet<TblStaff> TblStaffs { get; set; }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TblCustomer>(entity =>

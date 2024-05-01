@@ -31,7 +31,7 @@ public class HttpClientService
                 response = await _httpClient.PostAsync(endpoint, content);
                 break;
             case EnumHttpMethod.Patch:
-                response = await _httpClient.PostAsync(endpoint, content);
+                response = await _httpClient.PatchAsync(endpoint, content);
                 break;
             case EnumHttpMethod.Delete:
                 response = await _httpClient.DeleteAsync(endpoint);
@@ -40,7 +40,10 @@ public class HttpClientService
             default:
                 throw new Exception("Invalid EnumHttpMethod.");
         }
-
+        //if (response.IsSuccessStatusCode)
+        //{
+           
+        //}
         var responseJson = await response.Content.ReadAsStringAsync();
         var model = JsonConvert.DeserializeObject<T>(responseJson);
         return model!;
