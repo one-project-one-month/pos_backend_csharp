@@ -111,6 +111,8 @@ public class DL_Customer
                 return responseModel;
             }
 
+            #region Patch Method Validation Conditions
+
             if (!string.IsNullOrEmpty(requestModel.CustomerCode))
             {
                 customer.CustomerCode = requestModel.CustomerCode;
@@ -145,6 +147,8 @@ public class DL_Customer
             {
                 customer.TownshipCode = requestModel.TownshipCode;
             }
+
+            #endregion
 
             _context.TblCustomers.Update(customer);
             var result = await _context.SaveChangesAsync();
