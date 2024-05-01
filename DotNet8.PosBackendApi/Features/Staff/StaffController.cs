@@ -100,7 +100,7 @@ public class StaffController : BaseController
         }
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> UpdateStaff(int id, [FromBody] StaffModel requestModel)
     {
         try
