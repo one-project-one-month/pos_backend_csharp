@@ -2,7 +2,7 @@
 
 namespace DotNet8.PosBackendApi.Features.Report
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/report")]
     [ApiController]
     public class ReportController : BaseController
     {
@@ -17,7 +17,7 @@ namespace DotNet8.PosBackendApi.Features.Report
             _token = token;
         }
 
-        [Route("MonthlyReport")]
+        [Route("monthly-report")]
         [HttpGet]
         public async Task<IActionResult> MonthlyReport(int month, int year)
         {
@@ -42,7 +42,7 @@ namespace DotNet8.PosBackendApi.Features.Report
             }
         }
 
-        [Route("YearlyReport")]
+        [Route("yearly-report")]
         [HttpGet]
         public async Task<IActionResult> YearlyReport(int year)
         {

@@ -6,14 +6,14 @@ namespace DotNet8.PosBackendApi.Features.Generate
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GenerateInvoiceController : BaseController
+    public class GenerateController : BaseController
     {
         private readonly ResponseModel _response;
         private readonly BL_SaleInvoice _saleInvoice;
         private readonly BL_ProductCategory _productCategory;
         private readonly BL_Product _product;
 
-        public GenerateInvoiceController(IServiceProvider serviceProvider, ResponseModel response, BL_SaleInvoice saleInvoice, BL_ProductCategory productCategory, BL_Product product) : base(serviceProvider)
+        public GenerateController(IServiceProvider serviceProvider, ResponseModel response, BL_SaleInvoice saleInvoice, BL_ProductCategory productCategory, BL_Product product) : base(serviceProvider)
         {
             _response = response;
             _saleInvoice = saleInvoice;
@@ -21,7 +21,7 @@ namespace DotNet8.PosBackendApi.Features.Generate
             _product = product;
         }
 
-        [HttpPost("{year}")]
+        [HttpPost("sale-invoice/{year}")]
         public async Task<IActionResult> Execute(int year)
         {
             SaleInvoiceResponseModel responseModel = new SaleInvoiceResponseModel();
@@ -70,7 +70,7 @@ namespace DotNet8.PosBackendApi.Features.Generate
             return Content(model);
         }
 
-        [Route("ImportProductCategory")]
+        [Route("product-categories")]
         [HttpPost]
         public async Task<IActionResult> ImportProductCategory()
         {
@@ -123,7 +123,7 @@ namespace DotNet8.PosBackendApi.Features.Generate
             });
         }
 
-        [Route("ImportProduct")]
+        [Route("products")]
         [HttpPost]
         public async Task<IActionResult> ImportProduct()
         {
