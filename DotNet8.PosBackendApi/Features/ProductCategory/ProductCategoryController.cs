@@ -102,7 +102,7 @@ public class ProductCategoryController : BaseController
         ;
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> Update(int id, ProductCategoryModel requestModel)
     {
         try
