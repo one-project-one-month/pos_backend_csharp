@@ -134,6 +134,8 @@ public class DL_SaleInvoice
         return responseModel;
     }
 
+    #region info
+
     // 1, 00001
     // 2, 00002
     // 3, 00003
@@ -145,6 +147,9 @@ public class DL_SaleInvoice
     // Id, Code, Letter, TotalNumber, Sequence
     // 1, SaleInvoice, VC_, 8, 4
     // VC_00000002
+
+    #endregion
+
     public async Task<SaleInvoiceResponseModel> CreateSaleInvoice(SaleInvoiceModel model)
     {
         SaleInvoiceResponseModel responseModel = new SaleInvoiceResponseModel();
@@ -172,90 +177,92 @@ public class DL_SaleInvoice
         return responseModel;
     }
 
-public async Task<MessageResponseModel> UpdateSaleInvoice(int id, SaleInvoiceModel requestModel)
-{
-    var responseModel = new MessageResponseModel();
-    try
+    public async Task<MessageResponseModel> UpdateSaleInvoice(int id, SaleInvoiceModel requestModel)
     {
-        var item = await _context.TblSaleInvoices.
-            AsNoTracking().FirstOrDefaultAsync(x => x.SaleInvoiceId == id);
-
-        if (item == null)
+        var responseModel = new MessageResponseModel();
+        try
         {
-            responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-            return responseModel;
+            var item = await _context.TblSaleInvoices.AsNoTracking().FirstOrDefaultAsync(x => x.SaleInvoiceId == id);
+
+            if (item is null)
+            {
+                responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+                return responseModel;
+            }
+
+            #region Patch Method Validation Codition
+
+            if (!string.IsNullOrEmpty(requestModel.CustomerCode))
+            {
+                item.CustomerCode = requestModel.CustomerCode;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.VoucherNo))
+            {
+                item.VoucherNo = requestModel.VoucherNo;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.PaymentType))
+            {
+                item.PaymentType = requestModel.PaymentType;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.StaffCode))
+            {
+                item.StaffCode = requestModel.StaffCode;
+            }
+
+            if (requestModel.SaleInvoiceDateTime != null)
+            {
+                item.SaleInvoiceDateTime = requestModel.SaleInvoiceDateTime;
+            }
+
+            if (requestModel.PaymentAmount > 0)
+            {
+                item.PaymentAmount = requestModel.PaymentAmount;
+            }
+
+            if (requestModel.ReceiveAmount > 0)
+            {
+                item.ReceiveAmount = requestModel.ReceiveAmount;
+            }
+
+            if (requestModel.TotalAmount > 0)
+            {
+                item.TotalAmount = requestModel.TotalAmount;
+            }
+
+            if (requestModel.Change > 0)
+            {
+                item.Change = requestModel.Change;
+            }
+
+            if (requestModel.Tax > 0)
+            {
+                item.Tax = requestModel.Tax;
+            }
+
+            if (requestModel.Discount > 0)
+            {
+                item.Discount = requestModel.Discount;
+            }
+
+            #endregion
+
+            _context.TblSaleInvoices.Update(item);
+            var result = await _context.SaveChangesAsync();
+
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.Fail.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel = new MessageResponseModel(false, ex);
         }
 
-        // Update sale invoice properties if provided in the requestModel
-        if (!string.IsNullOrEmpty(requestModel.CustomerCode))
-        {
-            item.CustomerCode = requestModel.CustomerCode;
-        }
-
-        if (!string.IsNullOrEmpty(requestModel.VoucherNo))
-        {
-            item.VoucherNo = requestModel.VoucherNo;
-        }
-
-        if (!string.IsNullOrEmpty(requestModel.PaymentType))
-        {
-            item.PaymentType = requestModel.PaymentType;
-        }
-
-        if (!string.IsNullOrEmpty(requestModel.StaffCode))
-        {
-            item.StaffCode = requestModel.StaffCode;
-        }
-
-        if (requestModel.SaleInvoiceDateTime != null)
-        {
-            item.SaleInvoiceDateTime = requestModel.SaleInvoiceDateTime;
-        }
-
-        if (requestModel.PaymentAmount > 0)
-        {
-            item.PaymentAmount = requestModel.PaymentAmount;
-        }
-
-        if (requestModel.ReceiveAmount > 0)
-        {
-            item.ReceiveAmount = requestModel.ReceiveAmount;
-        }
-
-        if (requestModel.TotalAmount > 0)
-        {
-            item.TotalAmount = requestModel.TotalAmount;
-        }
-
-        if (requestModel.Change > 0)
-        {
-            item.Change = requestModel.Change;
-        }
-
-        if (requestModel.Tax > 0)
-        {
-            item.Tax = requestModel.Tax;
-        }
-
-        if (requestModel.Discount > 0)
-        {
-            item.Discount = requestModel.Discount;
-        }
-
-        _context.TblSaleInvoices.Update(item);
-        var result = await _context.SaveChangesAsync();
-
-        responseModel = result > 0
-            ? new MessageResponseModel(true, EnumStatus.Success.ToString())
-            : new MessageResponseModel(false, EnumStatus.Fail.ToString());
+        return responseModel;
     }
-    catch (Exception ex)
-    {
-        responseModel = new MessageResponseModel(false, ex);
-    }
-
-    return responseModel;
-}
 
     public async Task<MessageResponseModel> DeleteSaleInvoice(int id)
     {
@@ -277,7 +284,7 @@ public async Task<MessageResponseModel> UpdateSaleInvoice(int id, SaleInvoiceMod
                 .AsNoTracking()
                 .Where(x => x.VoucherNo == item.VoucherNo)
                 .ToListAsync();
-            
+
             if (lstDetail is not null)
                 _context.TblSaleInvoiceDetails.RemoveRange(lstDetail);
 
