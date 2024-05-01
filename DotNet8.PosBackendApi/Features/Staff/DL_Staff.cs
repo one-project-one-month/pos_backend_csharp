@@ -110,6 +110,8 @@ public class DL_Staff
                 return responseModel;
             }
 
+            #region Patch Method Validation Conditions
+
             if (!string.IsNullOrEmpty(requestModel.StaffCode))
             {
                 staff.StaffCode = requestModel.StaffCode;
@@ -149,6 +151,8 @@ public class DL_Staff
             {
                 staff.Gender = requestModel.Gender;
             }
+
+            #endregion
 
             _context.Entry(staff).State = EntityState.Modified;
             var result = await _context.SaveChangesAsync();
