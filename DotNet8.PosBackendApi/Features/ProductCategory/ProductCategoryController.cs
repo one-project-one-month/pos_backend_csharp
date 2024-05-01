@@ -8,7 +8,8 @@ public class ProductCategoryController : BaseController
     private readonly ResponseModel _response;
     private readonly JwtTokenGenerate _token;
 
-    public ProductCategoryController(IServiceProvider serviceProvider, BL_ProductCategory productCategory, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
+    public ProductCategoryController(IServiceProvider serviceProvider, BL_ProductCategory productCategory,
+        ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
     {
         _productCategory = productCategory;
         _response = response;
@@ -29,15 +30,15 @@ public class ProductCategoryController : BaseController
             //    lst.DataList);
 
             var model = _response.Return
-           (new ReturnModel
-           {
-               Token = RefreshToken(),
-               Count = lst.DataList.Count,
-               EnumPos = EnumPos.ProductCategory,
-               IsSuccess = lst.MessageResponse.IsSuccess,
-               Message = lst.MessageResponse.Message,
-               Item = lst.DataList
-           });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                Count = lst.DataList.Count,
+                EnumPos = EnumPos.ProductCategory,
+                IsSuccess = lst.MessageResponse.IsSuccess,
+                Message = lst.MessageResponse.Message,
+                Item = lst.DataList
+            });
             return Content(model);
         }
         catch (Exception ex)
@@ -59,14 +60,14 @@ public class ProductCategoryController : BaseController
             //    item.Data);
 
             var model = _response.Return
-           (new ReturnModel
-           {
-               Token = RefreshToken(),
-               EnumPos = EnumPos.ProductCategory,
-               IsSuccess = item.MessageResponse.IsSuccess,
-               Message = item.MessageResponse.Message,
-               Item = item.Data
-           });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.ProductCategory,
+                IsSuccess = item.MessageResponse.IsSuccess,
+                Message = item.MessageResponse.Message,
+                Item = item.Data
+            });
             return Content(model);
         }
         catch (Exception ex)
@@ -84,14 +85,14 @@ public class ProductCategoryController : BaseController
             //var model = _response.ReturnCommand
             //    (item.IsSuccess, item.Message, EnumPos.ProductCategory, requestModel);
             var model = _response.Return
-         (new ReturnModel
-         {
-             Token = RefreshToken(),
-             EnumPos = EnumPos.ProductCategory,
-             IsSuccess = item.IsSuccess,
-             Message = item.Message,
-             Item = requestModel
-         });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.ProductCategory,
+                IsSuccess = item.IsSuccess,
+                Message = item.Message,
+                Item = requestModel
+            });
             return Content(model);
         }
         catch (Exception ex)
@@ -109,14 +110,14 @@ public class ProductCategoryController : BaseController
         {
             var item = await _productCategory.UpdateProductCategory(id, requestModel);
             var model = _response.Return
-        (new ReturnModel
-        {
-            Token = RefreshToken(),
-            EnumPos = EnumPos.ProductCategory,
-            IsSuccess = item.IsSuccess,
-            Message = item.Message,
-            Item = requestModel
-        });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.ProductCategory,
+                IsSuccess = item.IsSuccess,
+                Message = item.Message,
+                Item = requestModel
+            });
             return Content(model);
         }
         catch (Exception ex)
@@ -136,13 +137,13 @@ public class ProductCategoryController : BaseController
             //var model = _response.ReturnCommand
             //    (item.IsSuccess, item.Message, EnumPos.ProductCategory);
             var model = _response.Return
-        (new ReturnModel
-        {
-            Token = RefreshToken(),
-            EnumPos = EnumPos.ProductCategory,
-            IsSuccess = item.IsSuccess,
-            Message = item.Message,
-        });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.ProductCategory,
+                IsSuccess = item.IsSuccess,
+                Message = item.Message,
+            });
             return Content(model);
         }
         catch (Exception ex)
