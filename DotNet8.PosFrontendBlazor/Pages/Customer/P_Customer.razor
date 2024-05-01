@@ -1,9 +1,9 @@
 ﻿@page "/customer"
 
-<MudText Typo="Typo.h6">
+@* <MudText Typo="Typo.h6">
     <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
     Customer
-</MudText>
+</MudText> *@
 
 @if (ResponseModel is not null)
 {
@@ -55,14 +55,14 @@
         );
     }
 
-    private async Task Popup()
-    {
-        var dialog = await DialogService.ShowAsync<P_CustomerDialog>("New Product Category");
-        var result = await dialog.Result;
+    // private async Task Popup()
+    // {
+    //     var dialog = await DialogService.ShowAsync<P_CustomerDialog>("New Product Category");
+    //     var result = await dialog.Result;
 
-        if (!result.Canceled)
-        {
-            await List();
-        }
-    }
+    //     if (!result.Canceled)
+    //     {
+    //         await List();
+    //     }
+    // }
 }

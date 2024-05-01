@@ -1,9 +1,9 @@
 ﻿@page "/product"
-@using DotNet8.PosFrontendBlazor.Models.Product
+
 
 <MudText Typo="Typo.h6">
     <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
-    Product Category
+    Product
 </MudText>
 
 
@@ -14,17 +14,19 @@
         <thead>
             <tr>
                 <th>No.</th>
+                <th>Product Code</th>
+                <th>Product Name</th>
                 <th>Product Category Code</th>
-                <th>Product Category Name</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in ResponseModel.Data.ProductModel)
+            @foreach (var item in ResponseModel.Data.Product)
             {
                 <tr>
                     <td>@(++count)</td>
                     <td>@item.ProductCode</td>
                     <td>@item.ProductName</td>
+                    <td>@item.ProductCategoryCode</td>
                 </tr>
             }
         </tbody>

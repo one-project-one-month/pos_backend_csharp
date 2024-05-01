@@ -2,6 +2,6 @@
 {
     public class ProductDataModel
     {
-        public List<ProductModel> ProductModel { get; set; }
+        public List<ProductModel> Product { get; set; }
     }
 }
