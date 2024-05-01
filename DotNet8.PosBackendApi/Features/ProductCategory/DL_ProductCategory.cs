@@ -25,6 +25,7 @@ public class DL_ProductCategory
             responseModel.DataList = new List<ProductCategoryModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
+
         return responseModel;
     }
 
@@ -43,6 +44,7 @@ public class DL_ProductCategory
                     (false, EnumStatus.NotFound.ToString());
                 goto result;
             }
+
             responseModel.Data = item.Change();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
@@ -51,6 +53,7 @@ public class DL_ProductCategory
             responseModel.Data = new ProductCategoryModel();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
+
         result:
         return responseModel;
     }
@@ -62,14 +65,15 @@ public class DL_ProductCategory
         {
             await _context.TblProductCategories.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
-            responseModel = result > 0 ?
-                new MessageResponseModel(true, EnumStatus.Success.ToString())
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         }
         catch (Exception ex)
         {
             responseModel = new MessageResponseModel(false, ex);
         }
+
         return responseModel;
     }
 
@@ -78,7 +82,8 @@ public class DL_ProductCategory
         var responseModel = new MessageResponseModel();
         try
         {
-            var item = await _context.TblProductCategories.FirstOrDefaultAsync(x => x.ProductCategoryId == id);
+            var item = await _context.TblProductCategories.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ProductCategoryId == id);
 
             if (item is null)
             {
@@ -125,16 +130,18 @@ public class DL_ProductCategory
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
             }
+
             _context.TblProductCategories.Remove(item);
             var result = await _context.SaveChangesAsync();
-            responseModel = result > 0 ?
-                new MessageResponseModel(true, EnumStatus.Success.ToString())
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         }
         catch (Exception ex)
         {
             responseModel = new MessageResponseModel(false, ex);
         }
+
         result:
         return responseModel;
     }
