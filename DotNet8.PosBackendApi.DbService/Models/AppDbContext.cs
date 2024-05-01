@@ -15,6 +15,7 @@ public partial class AppDbContext : DbContext
     {
     }
 
+    public virtual DbSet<TblCustomer> TblCustomers { get; set; }
     public virtual DbSet<TblProduct> TblProducts { get; set; }
 
     public virtual DbSet<TblProductCategory> TblProductCategories { get; set; }
@@ -29,6 +30,21 @@ public partial class AppDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TblCustomer>(entity =>
+        {
+            entity.HasKey(e => e.CustomerId);
+
+            entity.ToTable("Tbl_Customer");
+
+            entity.Property(e => e.CustomerCode).HasMaxLength(50);
+            entity.Property(e => e.CustomerName).HasMaxLength(50);
+            entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
+            entity.Property(e => e.Gender).HasMaxLength(50);
+            entity.Property(e => e.MobileNo).HasMaxLength(50);
+            entity.Property(e => e.StateCode).HasMaxLength(50);
+            entity.Property(e => e.TownshipCode).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<TblProduct>(entity =>
         {
             entity.HasKey(e => e.ProductId);
