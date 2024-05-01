@@ -4,10 +4,7 @@ public class DL_ProductCategory
 {
     private readonly AppDbContext _context;
 
-    public DL_ProductCategory(AppDbContext context)
-    {
-        _context = context;
-    }
+    public DL_ProductCategory(AppDbContext context) => _context = context;
 
     public async Task<ProductCategoryListResponseModel> GetProductCategory()
     {
@@ -81,35 +78,36 @@ public class DL_ProductCategory
         var responseModel = new MessageResponseModel();
         try
         {
-            var item = await _context
-                .TblProductCategories
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ProductCategoryId == id);
+            var item = await _context.TblProductCategories.FirstOrDefaultAsync(x => x.ProductCategoryId == id);
+
             if (item is null)
             {
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-                goto result;
+                return responseModel;
             }
 
-            if (!requestModel.ProductCategoryCode.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(requestModel.ProductCategoryCode))
             {
-                item.ProductCategoryCode = requestModel.ProductCategoryCode!;
+                item.ProductCategoryCode = requestModel.ProductCategoryCode;
             }
-            if (!requestModel.ProductCategoryName.IsNullOrEmpty())
+
+            if (!string.IsNullOrEmpty(requestModel.ProductCategoryName))
             {
-                item.ProductCategoryName = requestModel.ProductCategoryName!;
+                item.ProductCategoryName = requestModel.ProductCategoryName;
             }
+
             _context.TblProductCategories.Update(item);
             var result = await _context.SaveChangesAsync();
-            responseModel = result > 0 ?
-                new MessageResponseModel(true, EnumStatus.Success.ToString())
+
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
         }
         catch (Exception ex)
         {
             responseModel = new MessageResponseModel(false, ex);
         }
-        result:
+
         return responseModel;
     }
 
