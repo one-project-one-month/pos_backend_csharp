@@ -1,6 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Customer;
-
-namespace DotNet8.PosBackendApi.Features.Customer;
+﻿namespace DotNet8.PosBackendApi.Features.Customer;
 
 [Route("api/v1/[controller]")]
 [ApiController]
@@ -28,15 +26,15 @@ public class CustomerController : BaseController
         {
             var customerLst = await _bL_Customer.GetCustomer();
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    Count = customerLst.DataLst.Count,
-                    IsSuccess = customerLst.MessageResponse.IsSuccess,
-                    EnumPos = EnumPos.Customer,
-                    Message = customerLst.MessageResponse.Message,
-                    Item = customerLst.DataLst
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                Count = customerLst.DataLst.Count,
+                IsSuccess = customerLst.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Customer,
+                Message = customerLst.MessageResponse.Message,
+                Item = customerLst.DataLst
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -52,14 +50,14 @@ public class CustomerController : BaseController
         {
             var customer = await _bL_Customer.GetCustomerByCode(customerCode);
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    IsSuccess = customer.MessageResponse.IsSuccess,
-                    EnumPos = EnumPos.Customer,
-                    Message = customer.MessageResponse.Message,
-                    Item = customer.Data
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = customer.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Customer,
+                Message = customer.MessageResponse.Message,
+                Item = customer.Data
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
@@ -75,20 +73,22 @@ public class CustomerController : BaseController
         {
             var customer = await _bL_Customer.Create(requestModel);
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    IsSuccess = customer.IsSuccess,
-                    EnumPos = EnumPos.Customer,
-                    Message = customer.Message,
-                    Item = requestModel
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = customer.IsSuccess,
+                EnumPos = EnumPos.Customer,
+                Message = customer.Message,
+                Item = requestModel
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 
     [HttpPatch("{id}")]
@@ -98,20 +98,20 @@ public class CustomerController : BaseController
         {
             var customer = await _bL_Customer.Update(id, requestModel);
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    IsSuccess = customer.IsSuccess,
-                    EnumPos = EnumPos.Customer,
-                    Message = customer.Message,
-                    Item = requestModel
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = customer.IsSuccess,
+                EnumPos = EnumPos.Customer,
+                Message = customer.Message,
+                Item = requestModel
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
     }
 
     [HttpDelete("{id}")]
@@ -121,18 +121,20 @@ public class CustomerController : BaseController
         {
             var customer = await _bL_Customer.Delete(id);
             var responseModel = _response.Return
-                (new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    IsSuccess = customer.IsSuccess,
-                    EnumPos = EnumPos.Customer,
-                    Message = customer.Message,
-                });
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = customer.IsSuccess,
+                EnumPos = EnumPos.Customer,
+                Message = customer.Message,
+            });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 }
