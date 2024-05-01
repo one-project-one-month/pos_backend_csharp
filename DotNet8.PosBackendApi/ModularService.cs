@@ -2,7 +2,6 @@
 using DotNet8.PosBackendApi.Features.Customer;
 using DotNet8.PosBackendApi.Features.Report;
 using DotNet8.PosBackendApi.Features.Shop;
-using DotNet8.PosBackendApi.Features.Staff;
 
 namespace DotNet8.PosBackendApi;
 
