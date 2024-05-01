@@ -103,7 +103,7 @@ public class DL_Customer
         var responseModel = new MessageResponseModel();
         try
         {
-            var customer = await _context.TblCustomers.FirstOrDefaultAsync(x => x.CustomerId == id);
+            var customer = await _context.TblCustomers.AsNoTracking().FirstOrDefaultAsync(x => x.CustomerId == id);
 
             if (customer is null)
             {
