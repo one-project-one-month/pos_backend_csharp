@@ -5,12 +5,15 @@
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
         private CustomerRequestModel requestModel = new();
+        DateTime? DateOfBirth;
+
+        bool isDisabled = true;
 
         private void Cancel() => MudDialog.Cancel();
 
         private async Task SaveAsync()
         {
-            requestModel.DateOfBirth = DateTime.Now;
+            requestModel.DateOfBirth = DateOfBirth;
             requestModel.CustomerCode = string.Empty;
 
             var response = await HttpClientService.ExecuteAsync<CustomerResponseModel>(
