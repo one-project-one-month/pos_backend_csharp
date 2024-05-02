@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Township;
+using DotNet8.PosBackendApi.Shared;
 
 namespace DotNet8.PosBackendApi.Features.Township
 {
@@ -68,7 +69,11 @@ namespace DotNet8.PosBackendApi.Features.Township
             var responseModel = new MessageResponseModel();
             try
             {
-                requestModel.TownshipCode = await GenerateTownshipCode();
+                var townshipCode = await _context.TblPlaceTownships
+               .AsNoTracking()
+               .MaxAsync(x => x.TownshipCode);
+                requestModel.TownshipCode = townshipCode.GenerateCode(EnumCodePrefix.MMR.ToString(),2);
+                //requestModel.TownshipCode = await GenerateTownshipCode();
                 await _context.TblPlaceTownships.AddAsync(requestModel.Change());
                 var result = await _context.SaveChangesAsync();
                 responseModel = result > 0

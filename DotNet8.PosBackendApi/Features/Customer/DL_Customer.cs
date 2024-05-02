@@ -65,7 +65,11 @@ public class DL_Customer
         var responseModel = new MessageResponseModel();
         try
         {
-            requestModel.CustomerCode = await GenerateUserCode();
+            var customerCode = await _context.TblCustomers
+            .AsNoTracking()
+            .MaxAsync(x => x.CustomerCode);
+            requestModel.CustomerCode = customerCode.GenerateCode(EnumCodePrefix.C.ToString());
+            //requestModel.CustomerCode = await GenerateUserCode();
             await _context.TblCustomers.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0

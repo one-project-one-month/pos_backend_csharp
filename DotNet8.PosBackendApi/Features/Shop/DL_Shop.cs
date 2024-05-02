@@ -60,6 +60,11 @@ public class DL_Shop
         var responseModel = new MessageResponseModel();
         try
         {
+            var shopCode = await _context.TblShops
+            .AsNoTracking()
+            .MaxAsync(x => x.ShopCode);
+            requestModel.ShopCode = shopCode.GenerateCode(EnumCodePrefix.SP.ToString());
+
             await _context.TblShops.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
