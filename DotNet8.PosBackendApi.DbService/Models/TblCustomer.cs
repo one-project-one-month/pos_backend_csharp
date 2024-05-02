@@ -1,6 +1,9 @@
-﻿namespace DotNet8.PosBackendApi.DbService.Models;
+﻿using System;
+using System.Collections.Generic;
 
-public class TblCustomer
+namespace DotNet8.PosBackendApi.DbService.Models;
+
+public partial class TblCustomer
 {
     public int CustomerId { get; set; }
 

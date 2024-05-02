@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Options;
+
 namespace DotNet8.PosBackendApi.Features.Staff;
 
 public class DL_Staff

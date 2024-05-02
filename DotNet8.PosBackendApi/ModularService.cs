@@ -1,3 +1,4 @@
+
 namespace DotNet8.PosBackendApi;
 
 public static class ModularService
@@ -35,6 +36,7 @@ public static class ModularService
         services.AddScoped<BL_SaleInvoice>();
         services.AddScoped<BL_Report>();
         services.AddScoped<BL_Customer>();
+        services.AddScoped<BL_Township>();
         return services;
     }
 
@@ -48,6 +50,7 @@ public static class ModularService
         services.AddScoped<DL_SaleInvoice>();
         services.AddScoped<DL_Report>();
         services.AddScoped<DL_Customer>();
+        services.AddScoped<DL_Township>();
         return services;
     }
 

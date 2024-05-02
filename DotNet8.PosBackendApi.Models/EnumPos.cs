@@ -7,5 +7,6 @@ public enum EnumPos
     Staff,
     ProductCategory,
     SaleInvoice,
-    Customer
+    Customer,
+    Township
 }
