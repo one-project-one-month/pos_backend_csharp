@@ -1,0 +1,2080 @@
+{
+	"info": {
+		"_postman_id": "3f8b08ed-d246-42db-8ddc-7c63a27e901a",
+		"name": "POS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10177357"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productCode\" : \"P_00001\",\r\n    \"productName\" : \"Apple\",\r\n    \"price\": 100,\r\n    \"productCategoryCode\" : \"PC_00001\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/products",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productCode\" : \"P_00001\",\r\n    \"productName\" : \"Apple\",\r\n    \"price\": 100,\r\n    \"productCategoryCode\" : \"PC_00001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/products",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "468"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:33:43 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NDg6NDQuNTM3ODUzOVoiLCJuYmYiOjE3MTQ1NDg4MjQsImV4cCI6MTcxNDU0OTcyNCwiaWF0IjoxNzE0NTQ4ODI0fQ.uUyxVaM_HT58LobcSFO3Hb3FeciLD9r5nsp3UKM-ZS0\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"product\": {\n            \"ProductId\": 0,\n            \"ProductCode\": \"P_00001\",\n            \"ProductCategoryCode\": \"PC_00001\",\n            \"ProductName\": \"Apple\",\n            \"Price\": 100\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/products",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/products",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "482"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:33:51 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NDg6NTIuODA2NzA5MloiLCJuYmYiOjE3MTQ1NDg4MzIsImV4cCI6MTcxNDU0OTczMiwiaWF0IjoxNzE0NTQ4ODMyfQ.wIiKLHSQqXEEWLfuQaLfscH1W_JKUoOkAiHdmdE7lRE\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"product\": [\n            {\n                \"ProductId\": 1,\n                \"ProductCode\": \"P_00001\",\n                \"ProductCategoryCode\": \"PC_00001\",\n                \"ProductName\": \"Apple\",\n                \"Price\": 100\n            }\n        ]\n    },\n    \"result\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/products/P_00001",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"P_00001"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/products/P_00001",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"P_00001"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "469"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:34:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NDk6MTAuNDQ3OTkyNVoiLCJuYmYiOjE3MTQ1NDg4NTAsImV4cCI6MTcxNDU0OTc1MCwiaWF0IjoxNzE0NTQ4ODUwfQ.WrPXnRo1Thz2Hu-xe0wSPcBNckGe9MJhjnp8HH5OGbY\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"product\": {\n            \"ProductId\": 1,\n            \"ProductCode\": \"P_00001\",\n            \"ProductCategoryCode\": \"PC_00001\",\n            \"ProductName\": \"Apple\",\n            \"Price\": 100\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productCode\" : \"P_00001\",\r\n    \"productName\" : \"Apple\",\r\n    \"price\": 200,\r\n    \"productCategoryCode\" : \"PC_00001\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/products/1",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productCode\" : \"P_00001\",\r\n    \"productName\" : \"Apple\",\r\n    \"price\": 200,\r\n    \"productCategoryCode\" : \"PC_00001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/products/1",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "468"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:35:43 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NTA6NDMuOTYwMTM5NFoiLCJuYmYiOjE3MTQ1NDg5NDMsImV4cCI6MTcxNDU0OTg0MywiaWF0IjoxNzE0NTQ4OTQzfQ.je549SbfZAVu5Tp8Yp0WRGK6r1wZg4tc76B8tGeGfas\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"product\": {\n            \"ProductId\": 0,\n            \"ProductCode\": \"P_00001\",\n            \"ProductCategoryCode\": \"PC_00001\",\n            \"ProductName\": \"Apple\",\n            \"Price\": 200\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/products/1",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/products/1",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "352"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:36:07 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NTE6MDguNTkyMTI0N1oiLCJuYmYiOjE3MTQ1NDg5NjgsImV4cCI6MTcxNDU0OTg2OCwiaWF0IjoxNzE0NTQ4OTY4fQ.ftrtRfoDE0m2qeoGpdxwmK-orm3tiUQtMq7FrT7QOLQ\",\n    \"isSuccess\": true,\n    \"data\": null\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Product Category",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productCategoryCode\": \"PC_00001\",\r\n    \"productCategoryName\": \"Food\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/product-categories",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product-categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productCategoryCode\": \"PC_00001\",\r\n    \"productCategoryName\": \"Food\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/product-categories",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "453"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:27:36 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NDI6MzcuMTExMDgzOVoiLCJuYmYiOjE3MTQ1NDg0NTcsImV4cCI6MTcxNDU0OTM1NywiaWF0IjoxNzE0NTQ4NDU3fQ.oX1kGzHV8zDKgpXLgsq8oYyzvAl7YcHB_il8wQ3EmQI\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"productcategory\": {\n            \"ProductCategoryId\": 0,\n            \"ProductCategoryCode\": \"PC_00001\",\n            \"ProductCategoryName\": \"Food\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/product-categories",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product-categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/product-categories",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "466"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:28:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NDM6MTIuODc2NjY1M1oiLCJuYmYiOjE3MTQ1NDg0OTIsImV4cCI6MTcxNDU0OTM5MiwiaWF0IjoxNzE0NTQ4NDkyfQ.MxxY3L51SUQavrdbZoNtrI6STNs_810q8p0TAwxTRdw\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"productcategory\": [\n            {\n                \"ProductCategoryId\": 1,\n                \"ProductCategoryCode\": \"PC_00001\",\n                \"ProductCategoryName\": \"Food\"\n            }\n        ]\n    },\n    \"result\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/product-categories/PC_00001",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product-categories",
+								"PC_00001"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/product-categories/PC_00001",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories",
+										"PC_00001"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "454"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:28:53 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NDM6NTQuMjAzODY3NVoiLCJuYmYiOjE3MTQ1NDg1MzQsImV4cCI6MTcxNDU0OTQzNCwiaWF0IjoxNzE0NTQ4NTM0fQ.8PPqVKYjfipJHbGdqoxhCKnvdPkvV1ogCh-eMyVVgmQ\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"productcategory\": {\n            \"ProductCategoryId\": 1,\n            \"ProductCategoryCode\": \"PC_00001\",\n            \"ProductCategoryName\": \"Foods\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productCategoryCode\": \"PC_00001\",\r\n    \"productCategoryName\": \"Foods\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/product-categories/1",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product-categories",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productCategoryCode\": \"PC_00001\",\r\n    \"productCategoryName\": \"Foods\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/product-categories/1",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "454"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:28:34 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NDM6MzQuNzg4Mjc3NFoiLCJuYmYiOjE3MTQ1NDg1MTQsImV4cCI6MTcxNDU0OTQxNCwiaWF0IjoxNzE0NTQ4NTE0fQ.ul-4NNMPj6oPuDL86T3GyXNe-qkDOrNl4_SpvCAyd9k\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"productcategory\": {\n            \"ProductCategoryId\": 0,\n            \"ProductCategoryCode\": \"PC_00001\",\n            \"ProductCategoryName\": \"Foods\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/product-categories/1",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product-categories",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/product-categories/1",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "352"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:01:46 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6MTY6NDYuNjQ1NzAzOVoiLCJuYmYiOjE3MTQ1NDY5MDYsImV4cCI6MTcxNDU0NzgwNiwiaWF0IjoxNzE0NTQ2OTA2fQ.iqusmGRo7uCmhIWI6UKrFwR8zxV9DjYmTKN1p4zXovU\",\n    \"isSuccess\": true,\n    \"data\": null\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "SaleInvoice",
+			"item": [
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjJUMTY6MzY6NDMuNjE1MTc1NFoiLCJuYmYiOjE3MTM4MDI5MDMsImV4cCI6MTcxMzgwMzgwMywiaWF0IjoxNzEzODAyOTAzfQ.IA6JMyYx1yaM2K9ch38sS1Fr2eukLKjOOhh-u5oPTI4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/sale-invoices?startDate=2023-01-01&endDate=2024-04-26",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2023-01-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-04-26"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7164/api/v1/SaleInvoice",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7164",
+									"path": [
+										"api",
+										"v1",
+										"SaleInvoice"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "892"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Apr 2024 03:05:41 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjRUMDM6MjA6MzguODcxNjUwOFoiLCJuYmYiOjE3MTM5Mjc5MzgsImV4cCI6MTcxMzkyODgzOCwiaWF0IjoxNzEzOTI3OTM4fQ.5LGcid9uMottZ8iPg559CxeJvXVrKm5I4YyGL1xWu7g\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"saleinvoice\": [\n            {\n                \"SaleInvoiceId\": 3,\n                \"SaleInvoiceDateTime\": \"2024-04-23T00:00:00\",\n                \"VoucherNo\": \"VC00001\",\n                \"TotalAmount\": 10000,\n                \"Discount\": 0,\n                \"StaffCode\": \"S001\",\n                \"Tax\": 0,\n                \"PaymentType\": null,\n                \"CustomerAccountNo\": null,\n                \"PaymentAmount\": null,\n                \"ReceiveAmount\": null,\n                \"Change\": null,\n                \"CustomerCode\": null,\n                \"SaleInvoiceDetails\": [\n                    {\n                        \"SaleInvoiceDetailId\": 1,\n                        \"VoucherNo\": \"VC00001\",\n                        \"ProductCode\": \"P001\",\n                        \"Quantity\": 2,\n                        \"Price\": 2500,\n                        \"Amount\": 5000\n                    },\n                    {\n                        \"SaleInvoiceDetailId\": 2,\n                        \"VoucherNo\": \"VC00001\",\n                        \"ProductCode\": \"P002\",\n                        \"Quantity\": 1,\n                        \"Price\": 5000,\n                        \"Amount\": 5000\n                    }\n                ]\n            }\n        ]\n    },\n    \"result\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Get",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjJUMTY6MzY6NDMuNjE1MTc1NFoiLCJuYmYiOjE3MTM4MDI5MDMsImV4cCI6MTcxMzgwMzgwMywiaWF0IjoxNzEzODAyOTAzfQ.IA6JMyYx1yaM2K9ch38sS1Fr2eukLKjOOhh-u5oPTI4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/sale-invoices/VC00001",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices",
+								"VC00001"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7164/api/v1/SaleInvoice/VC00001",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7164",
+									"path": [
+										"api",
+										"v1",
+										"SaleInvoice",
+										"VC00001"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "879"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Apr 2024 03:10:19 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjRUMDM6MjU6MTkuNzEyNTA4OFoiLCJuYmYiOjE3MTM5MjgyMTksImV4cCI6MTcxMzkyOTExOSwiaWF0IjoxNzEzOTI4MjE5fQ.AjCLxWWHcmhez9w1bexpFodT1suMOng6Ewnm6c_RcyY\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"saleinvoice\": {\n            \"SaleInvoiceId\": 3,\n            \"SaleInvoiceDateTime\": \"2024-04-23T00:00:00\",\n            \"VoucherNo\": \"VC00001\",\n            \"TotalAmount\": 10000,\n            \"Discount\": 0,\n            \"StaffCode\": \"S001\",\n            \"Tax\": 0,\n            \"PaymentType\": null,\n            \"CustomerAccountNo\": null,\n            \"PaymentAmount\": null,\n            \"ReceiveAmount\": null,\n            \"Change\": null,\n            \"CustomerCode\": null,\n            \"SaleInvoiceDetails\": [\n                {\n                    \"SaleInvoiceDetailId\": 1,\n                    \"VoucherNo\": \"VC00001\",\n                    \"ProductCode\": \"P001\",\n                    \"Quantity\": 2,\n                    \"Price\": 2500,\n                    \"Amount\": 5000\n                },\n                {\n                    \"SaleInvoiceDetailId\": 2,\n                    \"VoucherNo\": \"VC00001\",\n                    \"ProductCode\": \"P002\",\n                    \"Quantity\": 1,\n                    \"Price\": 5000,\n                    \"Amount\": 5000\n                }\n            ]\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjJUMTY6MzY6NDMuNjE1MTc1NFoiLCJuYmYiOjE3MTM4MDI5MDMsImV4cCI6MTcxMzgwMzgwMywiaWF0IjoxNzEzODAyOTAzfQ.IA6JMyYx1yaM2K9ch38sS1Fr2eukLKjOOhh-u5oPTI4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"saleInvoiceDateTime\": \"2024-04-23T16:01:41.609Z\",\r\n    \"totalAmount\": 30000,\r\n    \"discount\": 0,\r\n    \"staffCode\": \"S002\",\r\n    \"tax\": 0,\r\n    \"saleInvoiceDetails\": [\r\n        {\r\n            \"productCode\": \"P003\",\r\n            \"quantity\": 1,\r\n            \"price\": 10000,\r\n            \"amount\": 10000\r\n        },\r\n        {\r\n            \"productCode\": \"P004\",\r\n            \"quantity\": 2,\r\n            \"price\": 5000,\r\n            \"amount\": 10000\r\n        },\r\n        {\r\n            \"productCode\": \"P005\",\r\n            \"quantity\": 4,\r\n            \"price\": 2500,\r\n            \"amount\": 10000\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/sale-invoices",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"saleInvoiceDateTime\": \"2024-04-23T16:01:41.609Z\",\r\n    \"totalAmount\": 30000,\r\n    \"discount\": 0,\r\n    \"staffCode\": \"S002\",\r\n    \"tax\": 0,\r\n    \"saleInvoiceDetails\": [\r\n        {\r\n            \"productCode\": \"P003\",\r\n            \"quantity\": 1,\r\n            \"price\": 10000,\r\n            \"amount\": 10000\r\n        },\r\n        {\r\n            \"productCode\": \"P004\",\r\n            \"quantity\": 2,\r\n            \"price\": 5000,\r\n            \"amount\": 10000\r\n        },\r\n        {\r\n            \"productCode\": \"P005\",\r\n            \"quantity\": 4,\r\n            \"price\": 2500,\r\n            \"amount\": 10000\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7164/api/v1/SaleInvoice",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7164",
+									"path": [
+										"api",
+										"v1",
+										"SaleInvoice"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "406"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Apr 2024 03:15:40 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjRUMDM6MzA6NDAuMzg5NjQ3N1oiLCJuYmYiOjE3MTM5Mjg1NDAsImV4cCI6MTcxMzkyOTQ0MCwiaWF0IjoxNzEzOTI4NTQwfQ.m2n-eQAmH3XeZRr6Y9UOe0JhIA4iJr1o_m68l0gPP_I\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"saleinvoice\": {\n            \"IsSuccess\": true,\n            \"IsError\": false,\n            \"Message\": \"Success\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjJUMTY6MzY6NDMuNjE1MTc1NFoiLCJuYmYiOjE3MTM4MDI5MDMsImV4cCI6MTcxMzgwMzgwMywiaWF0IjoxNzEzODAyOTAzfQ.IA6JMyYx1yaM2K9ch38sS1Fr2eukLKjOOhh-u5oPTI4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SaleInvoiceId\" : 4,\r\n    \"saleInvoiceDateTime\": \"2024-04-24T06:43:47.178Z\",\r\n    \"voucherNo\": \"VC_20244524094526\",\r\n    \"totalAmount\": 30000.00,\r\n    \"discount\": 0,\r\n    \"staffCode\": \"S002\",\r\n    \"tax\": 0,\r\n    \"paymentType\": \"Kpay\",\r\n    \"customerAccountNo\": \"09421365987\",\r\n    \"paymentAmount\": 30000,\r\n    \"receiveAmount\": 30000,\r\n    \"change\": 0,\r\n    \"customerCode\": \"C001\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/sale-invoices/4",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices",
+								"4"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"SaleInvoiceId\" : 4,\r\n    \"saleInvoiceDateTime\": \"2024-04-24T06:43:47.178Z\",\r\n    \"voucherNo\": \"VC_20244524094526\",\r\n    \"totalAmount\": 30000.00,\r\n    \"discount\": 0,\r\n    \"staffCode\": \"S002\",\r\n    \"tax\": 0,\r\n    \"paymentType\": \"Kpay\",\r\n    \"customerAccountNo\": \"09421365987\",\r\n    \"paymentAmount\": 30000,\r\n    \"receiveAmount\": 30000,\r\n    \"change\": 0,\r\n    \"customerCode\": \"C001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7164/api/v1/SaleInvoice/4",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7164",
+									"path": [
+										"api",
+										"v1",
+										"SaleInvoice",
+										"4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "406"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Apr 2024 06:51:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjRUMDc6MDY6MTUuNDUyNzU2MFoiLCJuYmYiOjE3MTM5NDE0NzUsImV4cCI6MTcxMzk0MjM3NSwiaWF0IjoxNzEzOTQxNDc1fQ.TxtgvIQ2v2pBTnwJ7NDmQ5b-lcllEdjD05CXIYOaH5U\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"saleinvoice\": {\n            \"IsSuccess\": true,\n            \"IsError\": false,\n            \"Message\": \"Success\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjJUMTY6MzY6NDMuNjE1MTc1NFoiLCJuYmYiOjE3MTM4MDI5MDMsImV4cCI6MTcxMzgwMzgwMywiaWF0IjoxNzEzODAyOTAzfQ.IA6JMyYx1yaM2K9ch38sS1Fr2eukLKjOOhh-u5oPTI4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/sale-invoices/6",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices",
+								"6"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7164/api/v1/SaleInvoice/6",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7164",
+									"path": [
+										"api",
+										"v1",
+										"SaleInvoice",
+										"6"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "406"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Apr 2024 08:26:49 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDQtMjRUMDg6NDE6NDcuNzAzOTQwNVoiLCJuYmYiOjE3MTM5NDcyMDcsImV4cCI6MTcxMzk0ODEwNywiaWF0IjoxNzEzOTQ3MjA3fQ.lk2PcM4X5P9GiHBvIa9EZsahxKTqJJ9PztVgCjKaApo\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"saleinvoice\": {\n            \"IsSuccess\": true,\n            \"IsError\": false,\n            \"Message\": \"Success\"\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Report",
+			"item": [
+				{
+					"name": "MonthlyReport",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/report/monthly-report?month=1&year=2023",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"report",
+								"monthly-report"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "1"
+								},
+								{
+									"key": "year",
+									"value": "2023"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}api/v1/report/monthly-report?month=1&year=2023",
+									"host": [
+										"{{DomainUrl}}api"
+									],
+									"path": [
+										"v1",
+										"report",
+										"monthly-report"
+									],
+									"query": [
+										{
+											"key": "month",
+											"value": "1"
+										},
+										{
+											"key": "year",
+											"value": "2023"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "569"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:33:08 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NDg6MDkuNjU5NDA2M1oiLCJuYmYiOjE3MTQ1NDg3ODksImV4cCI6MTcxNDU0OTY4OSwiaWF0IjoxNzE0NTQ4Nzg5fQ.0ZbC_P_an5B-pslOGi8FzvUQJUS4L_rNsmpDxZu7fr8\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"productcategory\": [\n            {\n                \"SaleInvoiceDate\": \"2023-01-01T00:00:00\",\n                \"TotalAmount\": 5148100\n            },\n            {\n                \"SaleInvoiceDate\": \"2023-01-02T00:00:00\",\n                \"TotalAmount\": 4885200\n            },\n            {\n                \"SaleInvoiceDate\": \"2023-01-03T00:00:00\",\n                \"TotalAmount\": 7978100\n            }\n        ]\n    },\n    \"result\": 3\n}"
+						}
+					]
+				},
+				{
+					"name": "YearlyReport",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/report/yearly-report?year=2023",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"report",
+								"yearly-report"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2023"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}api/v1/report/yearly-report?year=2023",
+									"host": [
+										"{{DomainUrl}}api"
+									],
+									"path": [
+										"v1",
+										"report",
+										"yearly-report"
+									],
+									"query": [
+										{
+											"key": "year",
+											"value": "2023"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "569"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 07:34:44 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTdSBTdSIsIlN0YWZmQ29kZSI6IlUwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDc6NDk6NDQuNTg0OTg5MloiLCJuYmYiOjE3MTQ1NDg4ODQsImV4cCI6MTcxNDU0OTc4NCwiaWF0IjoxNzE0NTQ4ODg0fQ.VoqVtTrfa4DZ-qpYiMmGU6M1bFCksudM3b3_D2Xamww\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"productcategory\": [\n            {\n                \"SaleInvoiceDate\": \"2023-01-01T00:00:00\",\n                \"TotalAmount\": 5148100\n            },\n            {\n                \"SaleInvoiceDate\": \"2023-01-02T00:00:00\",\n                \"TotalAmount\": 4885200\n            },\n            {\n                \"SaleInvoiceDate\": \"2023-01-03T00:00:00\",\n                \"TotalAmount\": 7978100\n            }\n        ]\n    },\n    \"result\": 3\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Staff",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/staffs",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"staffs"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/staffs",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"staffs"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "564"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 08:11:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMDg6MjY6MTEuMjM4MTgyNFoiLCJuYmYiOjE3MTQ1NTEwNzEsImV4cCI6MTcxNDU1MTk3MSwiaWF0IjoxNzE0NTUxMDcxfQ.uFhdJnmkJeO8cIayxyZUAq0RgO5gpZev3a48cjDJlgc\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"staff\": [\n            {\n                \"StaffId\": 1,\n                \"StaffCode\": \"S00001\",\n                \"StaffName\": \"Sann Lynn Htun\",\n                \"DateOfBirth\": \"2000-01-01T00:00:00\",\n                \"MobileNo\": \"09793507842\",\n                \"Address\": \"Yangon\",\n                \"Gender\": \"Male\",\n                \"Position\": \"Male\",\n                \"Password\": null\n            }\n        ]\n    },\n    \"result\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"staffCode\": \"S0002\",\r\n  \"staffName\": \"Aye Aye\",\r\n  \"dateOfBirth\": \"2002-05-01T08:15:17.697Z\",\r\n  \"mobileNo\": \"09972640124\",\r\n  \"address\": \"Natmauk\",\r\n  \"gender\": \"female\",\r\n  \"position\": \"sale\",\r\n  \"password\": \"345678\"\r\n}\r\n  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/staffs",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"staffs"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"staffCode\": \"S0002\",\r\n  \"staffName\": \"Aye Aye\",\r\n  \"dateOfBirth\": \"2002-05-01T08:15:17.697Z\",\r\n  \"mobileNo\": \"09972640124\",\r\n  \"address\": \"Natmauk\",\r\n  \"gender\": \"female\",\r\n  \"position\": \"sale\",\r\n  \"password\": \"345678\"\r\n}\r\n  ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/staffs",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"staffs"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "584"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 08:18:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAiLCJTdGFmZk5hbWUiOiJBeWUgQXllIiwiU3RhZmZDb2RlIjoiVTAwMDAyIiwiVG9rZW5FeHBpcmVkIjoiMjAyNC0wNS0wMVQwODozMzozMC42OTkwMDcyWiIsIm5iZiI6MTcxNDU1MTUxMCwiZXhwIjoxNzE0NTUyNDEwLCJpYXQiOjE3MTQ1NTE1MTB9.973xKnBAJ6k4nr4MgAaZaf05ioBp1oxwf4RTTfBamEY\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"staff\": {\n            \"StaffId\": 0,\n            \"StaffCode\": \"U00002\",\n            \"StaffName\": \"Aye Aye\",\n            \"DateOfBirth\": \"2002-05-01T08:15:17.697Z\",\n            \"MobileNo\": \"09972640124\",\n            \"Address\": \"Natmauk\",\n            \"Gender\": \"female\",\n            \"Position\": \"sale\",\n            \"Password\": \"x+gIxrIkmuCaMwxCCsmLq0evcdj8FdIixCVX9xyiAv0=\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/staffs/1",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"staffs",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/staffs/1",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"staffs",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "551"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 10:37:16 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMTA6NTI6MTYuNjkwNDU4N1oiLCJuYmYiOjE3MTQ1NTk4MzYsImV4cCI6MTcxNDU2MDczNiwiaWF0IjoxNzE0NTU5ODM2fQ.bIh8A_ggu5s-ly4o7wchCSKcvNub4WUUn9wvsNTJJOw\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"staff\": {\n            \"StaffId\": 1,\n            \"StaffCode\": \"S00001\",\n            \"StaffName\": \"Sann Lynn Htun\",\n            \"DateOfBirth\": \"2000-01-01T00:00:00\",\n            \"MobileNo\": \"09793507842\",\n            \"Address\": \"Yangon\",\n            \"Gender\": \"Male\",\n            \"Position\": \"Male\",\n            \"Password\": null\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"staffCode\": \"S00003\",\r\n  \"staffName\": \"Aung Aung\",\r\n  \"dateOfBirth\": \"2000-05-01T10:43:31.028Z\",\r\n  \"mobileNo\": \"09895467823\",\r\n  \"address\": \"Yangon\",\r\n  \"gender\": \"Male\",\r\n  \"position\": \"Customer Service\",\r\n  \"password\": \"201328\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/staffs/2",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"staffs",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"staffCode\": \"S00003\",\r\n  \"staffName\": \"Aung Aung\",\r\n  \"dateOfBirth\": \"2000-05-01T10:43:31.028Z\",\r\n  \"mobileNo\": \"09895467823\",\r\n  \"address\": \"Yangon\",\r\n  \"gender\": \"Male\",\r\n  \"position\": \"Customer Service\",\r\n  \"password\": \"201328\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/staffs/2",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"staffs",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "567"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 10:53:59 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMTE6MDg6NTkuNzk1ODc1NFoiLCJuYmYiOjE3MTQ1NjA4MzksImV4cCI6MTcxNDU2MTczOSwiaWF0IjoxNzE0NTYwODM5fQ.EK6dnIMRiPztcalK5ebGTdhQP3f9IffRP_HPZFNsZck\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"staff\": {\n            \"StaffId\": 0,\n            \"StaffCode\": \"S00003\",\n            \"StaffName\": \"Aung Aung\",\n            \"DateOfBirth\": \"2000-05-01T10:43:31.028Z\",\n            \"MobileNo\": \"09895467823\",\n            \"Address\": \"Yangon\",\n            \"Gender\": \"Male\",\n            \"Position\": \"Customer Service\",\n            \"Password\": \"201328\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/staffs/2",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"staffs",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/staffs/2",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"staffs",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "352"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 11:20:00 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMTE6MzU6MDEuMDMyODgyOFoiLCJuYmYiOjE3MTQ1NjI0MDEsImV4cCI6MTcxNDU2MzMwMSwiaWF0IjoxNzE0NTYyNDAxfQ.alD1G0pX-6_40CGo2tLB5mKvabeifhZVmdUHpQ9NWFs\",\n    \"isSuccess\": true,\n    \"data\": null\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Shop",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/shops",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shops"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/shops",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shops"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "558"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 11:22:13 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMTE6Mzc6MTMuODQ5ODY5NFoiLCJuYmYiOjE3MTQ1NjI1MzMsImV4cCI6MTcxNDU2MzQzMywiaWF0IjoxNzE0NTYyNTMzfQ.7G12xs79CYILrzra_FLIoPB0kP0OtZDWPrLizuPhrpc\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"shop\": [\n            {\n                \"ShopId\": 1,\n                \"ShopCode\": \"Sh001\",\n                \"ShopName\": \"G&G\",\n                \"MobileNo\": \"09972640124\",\n                \"Address\": \"Yangon\"\n            },\n            {\n                \"ShopId\": 3,\n                \"ShopCode\": \"Sh003\",\n                \"ShopName\": \"Life\",\n                \"MobileNo\": \"09236765374\",\n                \"Address\": \"Mandalay\"\n            }\n        ]\n    },\n    \"result\": 2\n}"
+						}
+					]
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/shops/1",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shops",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/shops/1",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shops",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "354"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 11:03:09 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"NotFound\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMTE6MTg6MDkuOTg4Mzk5N1oiLCJuYmYiOjE3MTQ1NjEzODksImV4cCI6MTcxNDU2MjI4OSwiaWF0IjoxNzE0NTYxMzg5fQ.hWW-Dak5YV3nWU0xfPLRoJQ2k6Vl8ReZu4pBLNXKE0E\",\n    \"isSuccess\": false,\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shopCode\": \"Sh002\",\r\n  \"shopName\": \"abc\",\r\n  \"mobileNo\": \"09972640124\",\r\n  \"address\": \"Yangon\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/shops/",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shops",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"shopCode\": \"Sh002\",\r\n  \"shopName\": \"abc\",\r\n  \"mobileNo\": \"09972640124\",\r\n  \"address\": \"Yangon\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/shops/",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shops",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "449"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 11:05:59 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMTE6MjA6NTkuODE3NTMzOVoiLCJuYmYiOjE3MTQ1NjE1NTksImV4cCI6MTcxNDU2MjQ1OSwiaWF0IjoxNzE0NTYxNTU5fQ.jUfVrTr6QMIvksKKzYxuxbBxELBhYwigZQEltdnK9ro\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"shop\": {\n            \"ShopId\": 0,\n            \"ShopCode\": \"Sh002\",\n            \"ShopName\": \"abc\",\n            \"MobileNo\": \"09972640124\",\n            \"Address\": \"Yangon\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shopCode\": \"Sh003\",\r\n  \"shopName\": \"Life\",\r\n  \"mobileNo\": \"09236765374\",\r\n  \"address\": \"Mandalay\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/shops/1",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shops",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"shopCode\": \"Sh003\",\r\n  \"shopName\": \"Life\",\r\n  \"mobileNo\": \"09236765374\",\r\n  \"address\": \"Mandalay\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/shops/1",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shops",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "452"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 11:10:37 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMTE6MjU6MzcuODIxOTE2M1oiLCJuYmYiOjE3MTQ1NjE4MzcsImV4cCI6MTcxNDU2MjczNywiaWF0IjoxNzE0NTYxODM3fQ.4lV4k5HXHpaiUjSARUGHU4LHJWyRUJ6BBQ3M335MpB0\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"shop\": {\n            \"ShopId\": 0,\n            \"ShopCode\": \"Sh003\",\n            \"ShopName\": \"Life\",\n            \"MobileNo\": \"09236765374\",\n            \"Address\": \"Mandalay\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DomainUrl}}/api/v1/shops/2",
+							"host": [
+								"{{DomainUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shops",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{DomainUrl}}/api/v1/shops/2",
+									"host": [
+										"{{DomainUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shops",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "352"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 11:21:17 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJTdGFmZk5hbWUiOiJTYW5uIEx5bm4gSHR1biIsIlN0YWZmQ29kZSI6IlMwMDAwMSIsIlRva2VuRXhwaXJlZCI6IjIwMjQtMDUtMDFUMTE6MzY6MTguNjY4Mzg0OFoiLCJuYmYiOjE3MTQ1NjI0NzgsImV4cCI6MTcxNDU2MzM3OCwiaWF0IjoxNzE0NTYyNDc4fQ.cKNikIngZbEr5pIqYgRg_UE5I7iNE_rvItAyQdiIEK4\",\n    \"isSuccess\": true,\n    \"data\": null\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "DomainUrl",
+			"value": "https://localhost:7164",
+			"type": "string"
+		}
+	]
+}

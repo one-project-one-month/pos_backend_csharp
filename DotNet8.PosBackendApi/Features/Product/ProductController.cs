@@ -1,6 +1,6 @@
 ﻿namespace DotNet8.PosBackendApi.Features.Product;
 
-[Route("api/v1/products")]
+[Route("aip/v1/products")]
 [ApiController]
 public class ProductController : BaseController
 {

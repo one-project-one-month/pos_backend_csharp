@@ -21,7 +21,7 @@ public class BL_Customer
 
     public async Task<MessageResponseModel> CreateCustomer(CustomerModel requestModel)
     {
-        CheckProductNullValue(requestModel);
+        CheckCustomerNullValue(requestModel);
         var response = await _dL_Customer.CreateCustomer(requestModel);
         return response;
     }
@@ -41,7 +41,7 @@ public class BL_Customer
         return response;
     }
 
-    private void CheckProductNullValue(CustomerModel customer)
+    private void CheckCustomerNullValue(CustomerModel customer)
     {
         if (customer is null)
         {
