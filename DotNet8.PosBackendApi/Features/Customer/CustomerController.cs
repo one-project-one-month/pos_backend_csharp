@@ -6,6 +6,7 @@ public class CustomerController : BaseController
 {
     private readonly BL_Customer _bL_Customer;
     private readonly ResponseModel _response;
+        private readonly JwtTokenGenerate _token;
 
     public CustomerController(
         IServiceProvider serviceProvider,
@@ -14,6 +15,7 @@ public class CustomerController : BaseController
     {
         _bL_Customer = bL_Customer;
         _response = response;
+            _token = token;
     }
 
     [HttpGet]
@@ -130,6 +132,6 @@ public class CustomerController : BaseController
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
     }
 }

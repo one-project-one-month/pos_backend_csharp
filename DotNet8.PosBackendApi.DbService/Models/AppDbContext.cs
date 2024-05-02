@@ -62,13 +62,14 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<TblProduct>(entity =>
         {
-            entity.HasKey(e => e.ProductId);
-
-            entity.ToTable("Tbl_Product");
+            entity
+                .HasNoKey()
+                .ToTable("Tbl_Product");
 
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.ProductCategoryCode).HasMaxLength(50);
             entity.Property(e => e.ProductCode).HasMaxLength(50);
+            entity.Property(e => e.ProductId).ValueGeneratedOnAdd();
             entity.Property(e => e.ProductName).HasMaxLength(50);
         });
 

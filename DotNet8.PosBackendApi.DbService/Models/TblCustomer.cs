@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace DotNet8.PosBackendApi.DbService.Models;
 
 public partial class TblCustomer
