@@ -63,6 +63,10 @@ public class DL_ProductCategory
         var responseModel = new MessageResponseModel();
         try
         {
+            var productCategoryCode = await _context.TblProductCategories
+            .AsNoTracking()
+            .MaxAsync(x => x.ProductCategoryCode);
+            requestModel.ProductCategoryCode = productCategoryCode.GenerateCode(EnumCodePrefix.PC.ToString());
             await _context.TblProductCategories.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
