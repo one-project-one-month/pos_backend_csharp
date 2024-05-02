@@ -4,7 +4,7 @@
     {
         public int CustomerId { get; set; }
 
-        public string CustomerCode { get; set; } = null!;
+        public string CustomerCode { get; set; } = string.Empty;
 
         public string CustomerName { get; set; } = null!;
 
