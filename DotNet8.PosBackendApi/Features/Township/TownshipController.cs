@@ -1,38 +1,36 @@
-﻿namespace DotNet8.PosBackendApi.Features.Customer;
+﻿namespace DotNet8.PosBackendApi.Features.Township;
 
-[Route("api/v1/customers")]
+[Route("api/v1/[controller]")]
 [ApiController]
-public class CustomerController : BaseController
+public class TownshipController : BaseController
 {
-    private readonly BL_Customer _bL_Customer;
+    private readonly BL_Township _bL_Township;
     private readonly ResponseModel _response;
-        private readonly JwtTokenGenerate _token;
 
-    public CustomerController(
+    public TownshipController(
         IServiceProvider serviceProvider,
-        BL_Customer bL_Customer,
+        BL_Township bL_Township, 
         ResponseModel response) : base(serviceProvider)
     {
-        _bL_Customer = bL_Customer;
+        _bL_Township = bL_Township;
         _response = response;
-            _token = token;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCustomer()
+    public async Task<IActionResult> GetTownship()
     {
         try
         {
-            var customerLst = await _bL_Customer.GetCustomer();
+            var townshipLst = await _bL_Township.GetTownship();
             var responseModel = _response.Return
             (new ReturnModel
             {
                 Token = RefreshToken(),
-                Count = customerLst.DataLst.Count,
-                IsSuccess = customerLst.MessageResponse.IsSuccess,
-                EnumPos = EnumPos.Customer,
-                Message = customerLst.MessageResponse.Message,
-                Item = customerLst.DataLst
+                Count = townshipLst.DataLst.Count,
+                IsSuccess = townshipLst.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Township,
+                Message = townshipLst.MessageResponse.Message,
+                Item = townshipLst.DataLst
             });
             return Content(responseModel);
         }
@@ -42,20 +40,20 @@ public class CustomerController : BaseController
         }
     }
 
-    [HttpGet("{customerCode}")]
-    public async Task<IActionResult> GetCustomerByCode(string customerCode)
+    [HttpGet("{TownshipCode}")]
+    public async Task<IActionResult> GetTownshipByCode(string TownshipCode)
     {
         try
         {
-            var customer = await _bL_Customer.GetCustomerByCode(customerCode);
+            var township = await _bL_Township.GetTownshipByCode(TownshipCode);
             var responseModel = _response.Return
             (new ReturnModel
             {
                 Token = RefreshToken(),
-                IsSuccess = customer.MessageResponse.IsSuccess,
-                EnumPos = EnumPos.Customer,
-                Message = customer.MessageResponse.Message,
-                Item = customer.Data
+                IsSuccess = township.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Township,
+                Message = township.MessageResponse.Message,
+                Item = township.Data
             });
             return Content(responseModel);
         }
@@ -66,18 +64,18 @@ public class CustomerController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCustomer(CustomerModel requestModel)
+    public async Task<IActionResult> CreateTownship(TownshipModel requestModel)
     {
         try
         {
-            var customer = await _bL_Customer.CreateCustomer(requestModel);
+            var township = await _bL_Township.CreateTownship(requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
                 Token = RefreshToken(),
-                IsSuccess = customer.IsSuccess,
-                EnumPos = EnumPos.Customer,
-                Message = customer.Message,
+                IsSuccess = township.IsSuccess,
+                EnumPos = EnumPos.Township,
+                Message = township.Message,
                 Item = requestModel
             });
             return Content(responseModel);
@@ -91,18 +89,18 @@ public class CustomerController : BaseController
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> UpdateCustomer(int id, CustomerModel requestModel)
+    public async Task<IActionResult> UpdateTownship(int id, TownshipModel requestModel)
     {
         try
         {
-            var customer = await _bL_Customer.UpdateCustomer(id, requestModel);
+            var township = await _bL_Township.UpdateTownship(id, requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
                 Token = RefreshToken(),
-                IsSuccess = customer.IsSuccess,
-                EnumPos = EnumPos.Customer,
-                Message = customer.Message,
+                IsSuccess = township.IsSuccess,
+                EnumPos = EnumPos.Township,
+                Message = township.Message,
                 Item = requestModel
             });
             return Content(responseModel);
@@ -114,24 +112,24 @@ public class CustomerController : BaseController
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCustomer(int id)
+    public async Task<IActionResult> DeleteTownship(int id)
     {
         try
         {
-            var customer = await _bL_Customer.DeleteCustomer(id);
+            var township = await _bL_Township.DeleteTownship(id);
             var responseModel = _response.Return
             (new ReturnModel
             {
                 Token = RefreshToken(),
-                IsSuccess = customer.IsSuccess,
-                EnumPos = EnumPos.Customer,
-                Message = customer.Message,
+                IsSuccess = township.IsSuccess,
+                EnumPos = EnumPos.Township,
+                Message = township.Message,
             });
             return Content(responseModel);
         }
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        }
+        };
     }
 }

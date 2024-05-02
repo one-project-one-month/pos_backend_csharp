@@ -84,8 +84,6 @@ public class ProductController : BaseController
         {
             return InternalServerError(ex);
         }
-
-        ;
     }
 
     [HttpPatch("{id}")]
@@ -109,8 +107,6 @@ public class ProductController : BaseController
         {
             return InternalServerError(ex);
         }
-
-        ;
     }
 
     [HttpDelete("{id}")]
@@ -133,7 +129,5 @@ public class ProductController : BaseController
         {
             return InternalServerError(ex);
         }
-
-        ;
     }
 }

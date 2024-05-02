@@ -16,6 +16,7 @@ public partial class AppDbContext : DbContext
     }
 
     public virtual DbSet<TblCustomer> TblCustomers { get; set; }
+
     public virtual DbSet<TblProduct> TblProducts { get; set; }
 
     public virtual DbSet<TblProductCategory> TblProductCategories { get; set; }
@@ -24,10 +25,12 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<TblSaleInvoiceDetail> TblSaleInvoiceDetails { get; set; }
 
+    public virtual DbSet<TblSequence> TblSequences { get; set; }
+
     public virtual DbSet<TblShop> TblShops { get; set; }
 
     public virtual DbSet<TblStaff> TblStaffs { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TblCustomer>(entity =>
@@ -36,13 +39,25 @@ public partial class AppDbContext : DbContext
 
             entity.ToTable("Tbl_Customer");
 
-            entity.Property(e => e.CustomerCode).HasMaxLength(50);
-            entity.Property(e => e.CustomerName).HasMaxLength(50);
+            entity.Property(e => e.CustomerCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CustomerName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
-            entity.Property(e => e.Gender).HasMaxLength(50);
-            entity.Property(e => e.MobileNo).HasMaxLength(50);
-            entity.Property(e => e.StateCode).HasMaxLength(50);
-            entity.Property(e => e.TownshipCode).HasMaxLength(50);
+            entity.Property(e => e.Gender)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.MobileNo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.StateCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TownshipCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<TblProduct>(entity =>
@@ -102,6 +117,14 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.ProductCode).HasMaxLength(50);
             entity.Property(e => e.VoucherNo).HasMaxLength(20);
+        });
+
+        modelBuilder.Entity<TblSequence>(entity =>
+        {
+            entity.ToTable("Tbl_Sequence");
+
+            entity.Property(e => e.Code).HasMaxLength(50);
+            entity.Property(e => e.Field).HasMaxLength(50);
         });
 
         modelBuilder.Entity<TblShop>(entity =>

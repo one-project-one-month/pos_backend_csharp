@@ -1,7 +1,5 @@
 ﻿namespace DotNet8.PosBackendApi.Features.Customer;
 
-namespace DotNet8.PosBackendApi.Features.Customer
-{
 public class BL_Customer
 {
     private readonly DL_Customer _dL_Customer;
@@ -23,7 +21,7 @@ public class BL_Customer
 
     public async Task<MessageResponseModel> CreateCustomer(CustomerModel requestModel)
     {
-        CheckProductNullValue(requestModel);
+        CheckCustomerNullValue(requestModel);
         var response = await _dL_Customer.CreateCustomer(requestModel);
         return response;
     }
@@ -43,7 +41,7 @@ public class BL_Customer
         return response;
     }
 
-    private void CheckProductNullValue(CustomerModel customer)
+    private void CheckCustomerNullValue(CustomerModel customer)
     {
         if (customer is null)
         {
@@ -96,4 +94,4 @@ public class BL_Customer
         return age;
     }
 }
-}
+
