@@ -9,6 +9,7 @@
         <MudTextField @bind-Value="@requestModel.CustomerName" Label="Customer Name" />
         <MudTextField @bind-Value="@requestModel.MobileNo" Label="Mobile No" />
         <MudTextField @bind-Value="@requestModel.Gender" Label="Gender" />
+        <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Date Of Birth" @bind-Date="requestModel.DateOfBirth" DateFormat="dd/MM/yyyy" />
         <MudTextField @bind-Value="@requestModel.StateCode" Label="State Code" />
         <MudTextField @bind-Value="@requestModel.TownshipCode" Label="Township Code" />
     </DialogContent>
@@ -17,7 +18,3 @@
         <MudButton Color="Color.Primary" OnClick="SaveAsync">Save</MudButton>
     </DialogActions>
 </MudDialog>
-@* <MudDatePicker PickerVariant="PickerVariant.Dialog"
-               Label="Date Of Birth"
-               @bind-Value="requestModel.DateOfBirth"
-               DateFormat="yyyy-MM-dd" /> *@
