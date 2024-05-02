@@ -12,5 +12,3 @@ public class ProductModel
 
     public decimal Price { get; set; }
 }
-
-

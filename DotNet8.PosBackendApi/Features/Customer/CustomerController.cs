@@ -1,6 +1,6 @@
 ﻿namespace DotNet8.PosBackendApi.Features.Customer;
 
-[Route("api/v1/[controller]")]
+[Route("api/v1/customers")]
 [ApiController]
 public class CustomerController : BaseController
 {

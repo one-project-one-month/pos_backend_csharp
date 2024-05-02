@@ -65,7 +65,7 @@ public class BL_Product
 
         if (product.Price <= 0)
         {
-            throw new Exception("product.Price is null.");
+            throw new Exception("product.Price must be greater than zero.");
         }
     }
 }
