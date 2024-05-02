@@ -2,7 +2,28 @@
 
 @if (ResponseModel is not null)
 {
-
+    
+        int count = 0;
+        <MudSimpleTable Style="overflow-x: auto;">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Product Category Code</th>
+                    <th>Product Category Name</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in ResponseModel.Data.Staff)
+                {
+                    <tr>
+                        <td>@(++count)</td>
+                        <td>@item.StaffName</td>
+                        <td>@item.StaffCode</td>
+                    </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
+    
 }
 
 @code {
