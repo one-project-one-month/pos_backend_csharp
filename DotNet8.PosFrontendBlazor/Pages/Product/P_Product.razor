@@ -49,7 +49,8 @@
 
     private async Task Popup()
     {
-        var dialog = await DialogService.ShowAsync<P_ProductDialog>("New Product");
+        MudBlazor.DialogOptions maxWidth = new MudBlazor.DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<P_ProductDialog>("New Product", maxWidth);
         var result = await dialog.Result;
 
         if (!result.Canceled)
