@@ -11,6 +11,7 @@
         private async Task SaveAsync()
         {
             requestModel.DateOfBirth = DateTime.Now;
+            requestModel.CustomerCode = string.Empty;
 
             var response = await HttpClientService.ExecuteAsync<CustomerResponseModel>(
                 Endpoints.Customer,
