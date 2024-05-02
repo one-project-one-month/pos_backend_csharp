@@ -2,6 +2,6 @@
 {
     public class ProductResponseModel : ResponseModel
     {
-        public ProductModel Item { get; set; }
+        public ProductModel Product { get; set; }
     }
 }
