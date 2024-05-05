@@ -62,7 +62,11 @@ public class DL_Staff
         var responseModel = new MessageResponseModel();
         try
         {
-            requestModel.StaffCode = await GenerateUserCode();
+            var staffCode = await _context.TblStaffs
+            .AsNoTracking()
+            .MaxAsync(x => x.StaffCode);
+            requestModel.StaffCode = staffCode.GenerateCode(EnumCodePrefix.S.ToString());
+            //requestModel.StaffCode = await GenerateUserCode();
             requestModel.Password = requestModel.Password.ToHash(_tokenModel.Key);
             await _context.TblStaffs.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();

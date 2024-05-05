@@ -10,3 +10,13 @@ public enum EnumPos
     Customer,
     Township
 }
+
+public enum EnumCodePrefix
+{
+    S,
+    P,
+    C,
+    PC,
+    SP,
+    MMR,
+}

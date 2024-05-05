@@ -63,6 +63,10 @@ public class DL_Product
         var responseModel = new MessageResponseModel();
         try
         {
+            var productCode = await _context.TblProducts
+            .AsNoTracking()
+            .MaxAsync(x => x.ProductCode);
+            requestModel.ProductCode = productCode.GenerateCode(EnumCodePrefix.P.ToString());
             await _context.TblProducts.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0

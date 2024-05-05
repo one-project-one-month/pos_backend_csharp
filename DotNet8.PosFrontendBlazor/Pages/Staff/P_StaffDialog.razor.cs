@@ -1,12 +1,10 @@
-﻿using DotNet8.PosFrontendBlazor.Models.Product;
-
-namespace DotNet8.PosFrontendBlazor.Pages.Product
+﻿namespace DotNet8.PosFrontendBlazor.Pages.Staff
 {
-    public partial class P_ProductDialog
+    public partial class P_StaffDialog
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-        private ProductRequestModel reqModel = new();
+        private StaffRequestModel reqModel = new();
 
         private void Cancel()
         {
@@ -15,8 +13,8 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
 
         private async Task SaveAsync()
         {
-            var response = await HttpClientService.ExecuteAsync<ProductResponseModel>(
-                Endpoints.Product,
+            var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
+                Endpoints.Staff,
                 EnumHttpMethod.Post,
                 reqModel
             );

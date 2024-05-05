@@ -1,6 +1,5 @@
 ﻿@page "/product"
 
-
 <MudText Typo="Typo.h6">
     <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
     Product
@@ -17,6 +16,7 @@
                 <th>Product Code</th>
                 <th>Product Name</th>
                 <th>Product Category Code</th>
+                <th>Price</th>
             </tr>
         </thead>
         <tbody>
@@ -27,11 +27,13 @@
                     <td>@item.ProductCode</td>
                     <td>@item.ProductName</td>
                     <td>@item.ProductCategoryCode</td>
+                    <td>@item.Price</td>
                 </tr>
             }
         </tbody>
     </MudSimpleTable>
 }
+
 
 @code {
     private ProductListResponseModel? ResponseModel;
@@ -49,7 +51,8 @@
 
     private async Task Popup()
     {
-        var dialog = await DialogService.ShowAsync<P_ProductDialog>("New Product");
+        MudBlazor.DialogOptions maxWidth = new MudBlazor.DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<P_ProductDialog>("New Product", maxWidth);
         var result = await dialog.Result;
 
         if (!result.Canceled)

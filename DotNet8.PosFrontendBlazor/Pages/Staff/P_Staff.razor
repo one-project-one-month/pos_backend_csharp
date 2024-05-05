@@ -1,29 +1,45 @@
 ﻿@page "/staff"
 
+<MudText Typo="Typo.h6">
+    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
+    Staff
+</MudText>
+
+
 @if (ResponseModel is not null)
 {
-    
-        int count = 0;
-        <MudSimpleTable Style="overflow-x: auto;">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Product Category Code</th>
-                    <th>Product Category Name</th>
-                </tr>
-            </thead>
-            <tbody>
+
+    int count = 0;
+    <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Staff Code</th>
+                <th>Staff Name</th>
+                <th>Date Of Birth</th>
+                <th>Mobile No</th>
+                <th>Address</th>
+                <th>Gender</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
             @foreach (var item in ResponseModel.Data.Staff)
-                {
-                    <tr>
-                        <td>@(++count)</td>
-                        <td>@item.StaffName</td>
-                        <td>@item.StaffCode</td>
-                    </tr>
-                }
-            </tbody>
-        </MudSimpleTable>
-    
+            {
+                <tr>
+                    <td>@(++count)</td>
+                    <td>@item.StaffCode</td>
+                    <td>@item.StaffName</td>
+                    <td>@item.DateOfBirth</td>
+                    <td>@item.MobileNo</td>
+                    <td>@item.Address</td>
+                    <td>@item.Gender</td>
+                    <td>@item.Position</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+
 }
 
 @code {
@@ -31,8 +47,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ResponseModel = await HttpClientService.ExecuteAsync<StaffListResponseModel>(Endpoints.Staff, EnumHttpMethod.Get);
+        await List();
 
+    }
+
+    private async Task List()
+    {
+        ResponseModel = await HttpClientService.ExecuteAsync<StaffListResponseModel>(Endpoints.Staff, EnumHttpMethod.Get);
     }
 
     private async Task Create(StaffModel staff)
@@ -47,5 +68,17 @@
                 }
         );
 
+    }
+
+    private async Task Popup()
+    {
+        MudBlazor.DialogOptions maxWidth = new MudBlazor.DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<P_StaffDialog>("New Staff", maxWidth);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            await List();
+        }
     }
 }
