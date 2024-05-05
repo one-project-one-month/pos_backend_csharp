@@ -30,7 +30,7 @@
                     <td>@(++count)</td>
                     <td>@item.StaffCode</td>
                     <td>@item.StaffName</td>
-                    <td>@item.DateOfBirth</td>
+                    <td>@item.DateOfBirth.ToString("dd-MMM-yyyy")</td>
                     <td>@item.MobileNo</td>
                     <td>@item.Address</td>
                     <td>@item.Gender</td>
@@ -72,10 +72,16 @@
 
     private async Task Popup()
     {
-        MudBlazor.DialogOptions maxWidth = new MudBlazor.DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
-        var dialog = await DialogService.ShowAsync<P_StaffDialog>("New Staff", maxWidth);
-        var result = await dialog.Result;
+        // MudBlazor.DialogOptions maxWidth = new MudBlazor.DialogOptions() {
+        //     MaxWidth = MaxWidth.Small,
+        //     FullWidth = true,
+        //     DisableBackdropClick = true,
+        //     CloseOnEscapeKey = false
+        // };
+        // var dialog = await DialogService.ShowAsync<P_StaffDialog>("New Staff", maxWidth);
+        // var result = await dialog.Result;
 
+        var result = await InjectService.ShowModalBoxAsync<P_StaffDialog>("New Staff");
         if (!result.Canceled)
         {
             await List();

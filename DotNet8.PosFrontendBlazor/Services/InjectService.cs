@@ -1,12 +1,16 @@
-﻿namespace DotNet8.PosFrontendBlazor.Services;
+﻿using DotNet8.PosFrontendBlazor.Pages.Staff;
+
+namespace DotNet8.PosFrontendBlazor.Services;
 
 public class InjectService
 {
     private readonly ISnackbar _snackbar;
+    private readonly IDialogService _dialogService;
 
-    public InjectService(ISnackbar snackbar)
+    public InjectService(ISnackbar snackbar, IDialogService dialogService)
     {
         _snackbar = snackbar;
+        _dialogService = dialogService;
     }
 
     public void ShowMessage(string message, EnumResponseType responseType)
@@ -28,6 +32,20 @@ public class InjectService
             default:
                 break;
         }
+    }
+
+    public async Task<DialogResult> ShowModalBoxAsync<T>(string title) where T : IComponent
+    {
+        MudBlazor.DialogOptions options = new MudBlazor.DialogOptions()
+        {
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true,
+            DisableBackdropClick = true,
+            CloseOnEscapeKey = false
+        };
+        var dialog = await _dialogService.ShowAsync<T>("New Staff", options);
+        var result = await dialog.Result;
+        return result;
     }
 }
 

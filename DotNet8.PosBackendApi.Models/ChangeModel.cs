@@ -53,7 +53,7 @@ public static class ChangeModel
             MobileNo = dataModel.MobileNo,
             Address = dataModel.Address,
             Gender = dataModel.Gender,
-            Position = dataModel.Gender
+            Position = dataModel.Position
         };
         return staffModel;
     }
