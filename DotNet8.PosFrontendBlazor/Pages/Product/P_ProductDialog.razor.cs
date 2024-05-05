@@ -16,7 +16,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
         private async Task SaveAsync()
         {
             var response = await HttpClientService.ExecuteAsync<ProductResponseModel>(
-                Endpoints.ProductCategory,
+                Endpoints.Product,
                 EnumHttpMethod.Post,
                 reqModel
             );
