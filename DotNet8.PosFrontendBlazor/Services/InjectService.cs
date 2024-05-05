@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosFrontendBlazor.Pages.Staff;
+using Microsoft.JSInterop;
 
 namespace DotNet8.PosFrontendBlazor.Services;
 
@@ -6,11 +7,13 @@ public class InjectService
 {
     private readonly ISnackbar _snackbar;
     private readonly IDialogService _dialogService;
+    private readonly IJSRuntime _jsRuntime;
 
-    public InjectService(ISnackbar snackbar, IDialogService dialogService)
+    public InjectService(ISnackbar snackbar, IDialogService dialogService, IJSRuntime jsRuntime)
     {
         _snackbar = snackbar;
         _dialogService = dialogService;
+        _jsRuntime = jsRuntime;
     }
 
     public void ShowMessage(string message, EnumResponseType responseType)
@@ -46,6 +49,16 @@ public class InjectService
         var dialog = await _dialogService.ShowAsync<T>("New Staff", options);
         var result = await dialog.Result;
         return result;
+    }
+
+    public async Task EnableLoading()
+    {
+        await _jsRuntime.InvokeVoidAsync("enableLoading", true);
+    }
+
+    public async Task DisableLoading()
+    {
+        await _jsRuntime.InvokeVoidAsync("enableLoading", false);
     }
 }
 

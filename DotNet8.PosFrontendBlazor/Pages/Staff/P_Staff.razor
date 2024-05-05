@@ -39,15 +39,20 @@
             }
         </tbody>
     </MudSimpleTable>
-
 }
 
 @code {
     private StaffListResponseModel? ResponseModel;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await List();
+        if (firstRender)
+        {
+            await InjectService.EnableLoading();
+            await List();
+            StateHasChanged();
+            await InjectService.DisableLoading();
+        }
     }
 
     private async Task List()

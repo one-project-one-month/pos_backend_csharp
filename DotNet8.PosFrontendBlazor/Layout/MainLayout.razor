@@ -39,10 +39,10 @@
             </MudDrawerHeader>
             <MudNavMenu Dense="true" Rounded="true" Margin="Margin.Dense" Color="Color.Success" Class="pa-2">
                 <MudNavLink Match="NavLinkMatch.All" Href="/" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
-                <MudNavLink Match="NavLinkMatch.Prefix" Href="/product" Icon="@Icons.Material.Filled.ProductionQuantityLimits">Products</MudNavLink>
-                <MudNavLink Match="NavLinkMatch.Prefix" Href="/product-category" Icon="@Icons.Material.Filled.Category">Product Category</MudNavLink>
-                <MudNavLink Match="NavLinkMatch.Prefix" Href="/customer" Icon="@Icons.Material.Filled.Person">Customers</MudNavLink>
-                <MudNavLink Match="NavLinkMatch.Prefix" Href="/staff" Icon="@Icons.Material.Filled.Person4">Staffs</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All" Href="/product" Icon="@Icons.Material.Filled.ProductionQuantityLimits">Products</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All" Href="/product-category" Icon="@Icons.Material.Filled.Category">Product Category</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All" Href="/customer" Icon="@Icons.Material.Filled.Person">Customers</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All" Href="/staff" Icon="@Icons.Material.Filled.Person4">Staffs</MudNavLink>
             </MudNavMenu>
         </MudDrawer>
         <div class="d-flex mud-height-full">
@@ -55,6 +55,12 @@
 @code
 {
     bool open = true;
+
+    private async Task MenuClick(string url)
+    {
+        await InjectService.EnableLoading();
+        Nav.NavigateTo(url);
+    }
 }
 
 

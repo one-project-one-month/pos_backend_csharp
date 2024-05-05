@@ -20,11 +20,14 @@
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
-    
+
+    <link href="css/loader.css" rel="stylesheet" />
+
     <link href="custom.css" rel="stylesheet" />
 </head>
 
 <body>
+    <div class="loading" id="loading">Loading&#8230;</div>
     <div id="app">
         <!-- <svg class="loading-progress">
             <circle r="40%" cx="50%" cy="50%" />
@@ -45,6 +48,16 @@
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
+
+    <script>
+        window.enableLoading = function (isEnable) {
+            if (isEnable) {
+                document.getElementById('loading').style.display = "";
+            } else {
+                document.getElementById('loading').style.display = "none";
+            }
+        }
+    </script>
 </body>
 
 </html>
