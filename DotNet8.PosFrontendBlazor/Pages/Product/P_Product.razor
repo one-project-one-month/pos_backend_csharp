@@ -38,10 +38,15 @@
 @code {
     private ProductListResponseModel? ResponseModel;
 
-    protected override async Task OnInitializedAsync()
+    protected override async void OnAfterRender(bool firstRender)
     {
-        // ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
-        await List();
+        if (firstRender)
+        {
+            await InjectService.EnableLoading();
+            await List();
+            StateHasChanged();
+            await InjectService.DisableLoading();
+        }
     }
 
     private async Task List()
@@ -51,10 +56,11 @@
 
     private async Task Popup()
     {
-        MudBlazor.DialogOptions maxWidth = new MudBlazor.DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
-        var dialog = await DialogService.ShowAsync<P_ProductDialog>("New Product", maxWidth);
-        var result = await dialog.Result;
+        //MudBlazor.DialogOptions maxWidth = new MudBlazor.DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
+        //var dialog = await DialogService.ShowAsync<P_ProductDialog>("New Product", maxWidth);
+        //var result = await dialog.Result;
 
+        var result = await InjectService.ShowModalBoxAsync<P_ProductDialog>("New Product");
         if (!result.Canceled)
         {
             await List();
