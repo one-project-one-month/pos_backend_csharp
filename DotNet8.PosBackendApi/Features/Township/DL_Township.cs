@@ -72,8 +72,7 @@ namespace DotNet8.PosBackendApi.Features.Township
                 var townshipCode = await _context.TblPlaceTownships
                .AsNoTracking()
                .MaxAsync(x => x.TownshipCode);
-                requestModel.TownshipCode = townshipCode.GenerateCode(EnumCodePrefix.MMR.ToString(),2);
-                //requestModel.TownshipCode = await GenerateTownshipCode();
+                requestModel.TownshipCode = townshipCode.GenerateTownshipCode(EnumCodePrefix.MMR.ToString(),2);
                 await _context.TblPlaceTownships.AddAsync(requestModel.Change());
                 var result = await _context.SaveChangesAsync();
                 responseModel = result > 0

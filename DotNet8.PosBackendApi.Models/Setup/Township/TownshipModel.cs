@@ -4,7 +4,7 @@ public class TownshipModel
 {
     public int TownshipId { get; set; }
 
-    public string TownshipCode { get; set; } 
+    public string? TownshipCode { get; set; } 
 
     public string TownshipName { get; set; } 
 

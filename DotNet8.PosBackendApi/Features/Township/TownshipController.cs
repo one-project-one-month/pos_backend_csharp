@@ -1,6 +1,6 @@
 ﻿namespace DotNet8.PosBackendApi.Features.Township;
 
-[Route("api/v1/[controller]")]
+[Route("api/v1/townships")]
 [ApiController]
 public class TownshipController : BaseController
 {
