@@ -1,0 +1,61 @@
+﻿@page "/township"
+
+<MudText Typo="Typo.h6">
+    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
+    Township
+</MudText>
+
+@if (ResponseModel is not null)
+{
+    int count = 0;
+    <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>State Code</th>
+                <th>Township Code</th>
+                <th>Township Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ResponseModel.Data.Township)
+            {
+                <tr>
+                    <td>@(++count)</td>
+                    <td>@item.StateCode</td>
+                    <td>@item.TownshipCode</td>
+                    <td>@item.TownshipName</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+}
+
+@code {
+    private TownshipListResponseModel? ResponseModel;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InjectService.EnableLoading();
+            await List();
+            StateHasChanged();
+            await InjectService.DisableLoading();
+        }
+    }
+
+    private async Task List()
+    {
+        ResponseModel = await HttpClientService.ExecuteAsync<TownshipListResponseModel>(Endpoints.Township, EnumHttpMethod.Get);
+    }
+
+    private async Task Popup()
+    {
+        var result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>("New Township");
+        if(!result.Canceled)
+        {
+            await List();
+        }
+    }
+}

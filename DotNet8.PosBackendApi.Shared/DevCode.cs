@@ -25,6 +25,24 @@ public static class DevCode
     result:
         return generateCode;
     }
+
+    public static string GenerateTownshipCode(this string code, string prefix, int length = 5)
+    {
+        string generateCode = string.Empty;
+        if (string.IsNullOrWhiteSpace(code))
+        {
+            string defaultCode = "1";
+            generateCode = $"{prefix}{defaultCode.PadLeft(length, '0')}";
+            goto result;
+        }
+
+        //code = code.Substring(1);
+        code = code.Replace(prefix, "");
+        int convertToInt = Convert.ToInt32(code) + 1;
+        generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
+        result:
+        return generateCode;
+    }
 }
 
 public class DapperService
