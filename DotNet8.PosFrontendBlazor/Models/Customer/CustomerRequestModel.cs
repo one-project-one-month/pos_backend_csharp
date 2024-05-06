@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models
+﻿namespace DotNet8.PosFrontendBlazor.Models.Customer
 {
     public class CustomerRequestModel
     {
@@ -10,7 +10,7 @@
 
         public string MobileNo { get; set; } = null!;
 
-        public DateTime? DateOfBirth { get; set; } 
+        public DateTime? DateOfBirth { get; set; }
 
         public string Gender { get; set; } = null!;
 

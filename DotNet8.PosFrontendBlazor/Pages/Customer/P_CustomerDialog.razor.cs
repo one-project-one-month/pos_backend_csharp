@@ -1,10 +1,13 @@
-﻿namespace DotNet8.PosFrontendBlazor.Pages.Customer;
+﻿using DotNet8.PosFrontendBlazor.Models.Customer;
+
+namespace DotNet8.PosFrontendBlazor.Pages.Customer;
 
 public partial class P_CustomerDialog
 {
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
     private CustomerRequestModel requestModel = new();
+
 
     private void Cancel() => MudDialog?.Cancel();
 
@@ -48,9 +51,26 @@ public partial class P_CustomerDialog
             return;
         }
 
+        if (requestModel.Gender == "0")
+        {
+            ShowWarningMessage("Invalid Gender.");
+            return;
+        }
+
         if (requestModel.DateOfBirth is null)
         {
             ShowWarningMessage("Date Of Birth is required.");
+            return;
+        }
+
+
+        DateTime now = DateTime.Today;
+        TimeSpan ageDifference = now - Convert.ToDateTime(requestModel.DateOfBirth);
+        int age = Convert.ToInt32(ageDifference.TotalDays / 365);
+
+        if (age <= 18 || age >= 40)
+        {
+            ShowWarningMessage("Age must be between 18 and 45.");
             return;
         }
 
