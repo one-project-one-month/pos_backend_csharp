@@ -39,14 +39,14 @@ public class InjectService
 
     public async Task<DialogResult> ShowModalBoxAsync<T>(string title) where T : IComponent
     {
-        MudBlazor.DialogOptions options = new MudBlazor.DialogOptions()
+        MudBlazor.DialogOptions options = new()
         {
             MaxWidth = MaxWidth.Small,
             FullWidth = true,
             DisableBackdropClick = true,
             CloseOnEscapeKey = false
         };
-        var dialog = await _dialogService.ShowAsync<T>("New Staff", options);
+        var dialog = await _dialogService.ShowAsync<T>(title, options);
         var result = await dialog.Result;
         return result;
     }

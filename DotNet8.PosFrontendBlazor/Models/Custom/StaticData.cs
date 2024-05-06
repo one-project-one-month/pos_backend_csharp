@@ -6,9 +6,9 @@
         {
             return new List<KeyValueModel>()
             {
-                new KeyValueModel("0", "--Select One--"),
-                new KeyValueModel("Male", "Male"),
-                new KeyValueModel("Female", "Female"),
+                new("0", "--Select One--"),
+                new("Male", "Male"),
+                new("Female", "Female"),
             };
         }
     }
