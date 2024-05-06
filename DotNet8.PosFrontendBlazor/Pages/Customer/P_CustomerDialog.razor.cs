@@ -45,6 +45,12 @@ public partial class P_CustomerDialog
             return;
         }
 
+        if (requestModel.MobileNo.Trim().Length > 11 || requestModel.MobileNo.Trim().Length < 11)
+        {
+            ShowWarningMessage("Invalid Mobile Number.");
+            return;
+        }
+
         if (string.IsNullOrEmpty(requestModel.Gender))
         {
             ShowWarningMessage("Gender is required.");
