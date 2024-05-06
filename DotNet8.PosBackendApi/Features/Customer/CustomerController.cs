@@ -84,8 +84,6 @@ public class CustomerController : BaseController
         {
             return InternalServerError(ex);
         }
-
-        ;
     }
 
     [HttpPatch("{id}")]

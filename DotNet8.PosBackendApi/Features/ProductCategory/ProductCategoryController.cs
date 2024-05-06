@@ -122,8 +122,6 @@ public class ProductCategoryController : BaseController
         {
             return InternalServerError(ex);
         }
-
-        ;
     }
 
     [HttpDelete("{id}")]
@@ -148,7 +146,5 @@ public class ProductCategoryController : BaseController
         {
             return InternalServerError(ex);
         }
-
-        ;
     }
 }

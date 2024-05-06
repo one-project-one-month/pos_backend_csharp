@@ -9,8 +9,6 @@ public class DL_Report
     public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year)
     {
         MonthlyReportResponseModel responseModel = new MonthlyReportResponseModel();
-        try
-        {
             responseModel.Data = await _context
                 .TblSaleInvoices
                 .AsNoTracking()
@@ -24,12 +22,6 @@ public class DL_Report
             responseModel.MessageResponse = responseModel.Data.Count > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
-
         return responseModel;
     }
 
