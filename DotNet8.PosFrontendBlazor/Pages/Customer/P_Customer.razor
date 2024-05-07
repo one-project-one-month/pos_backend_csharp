@@ -36,7 +36,7 @@
                     <td>@item.StateCode</td>
                     <td>@item.TownshipCode</td>
                     <td>
-                        <MudButton OnClick="() => EditPopup(item.CustomerId, item.CustomerCode, item.CustomerName, item.MobileNo, item.DateOfBirth, item.Gender)" Variant=" MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
+                        <MudButton OnClick="() => EditPopup(item.CustomerId, item.CustomerCode, item.CustomerName, item.MobileNo, item.DateOfBirth, item.Gender, item.StateCode, item.TownshipCode)" Variant=" MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
                         <MudButton Variant="MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
                     </td>
                 </tr>
@@ -50,10 +50,13 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await InjectService.EnableLoading();
-        await List();
-        StateHasChanged();
-        await InjectService.DisableLoading();
+        if (firstRender)
+        {
+            await InjectService.EnableLoading();
+            await List();
+            StateHasChanged();
+            await InjectService.DisableLoading();
+        }
     }
 
     private async Task List()
@@ -72,7 +75,7 @@
             await List();
     }
 
-    private async Task EditPopup(int CustomerId, string CustomerCode, string CustomerName, string MobileNo, DateTime? DateOfBirth, string Gender)
+    private async Task EditPopup(int CustomerId, string CustomerCode, string CustomerName, string MobileNo, DateTime? DateOfBirth, string Gender, string StateCode, string TownshipCode)
     {
         var parameters = new DialogParameters<P_CustomerDialog>()
         {
@@ -81,7 +84,9 @@
             {"CustomerName", CustomerName},
             {"MobileNo", MobileNo},
             {"DateOfBirth", DateOfBirth},
-            {"Gender", Gender}
+            {"Gender", Gender},
+            {"StateCode", StateCode},
+            {"TownshipCode", TownshipCode}
         };
         DialogResult result = await InjectService.ShowModalBoxAsync<P_CustomerDialog>("Edit Customer", parameters);
 

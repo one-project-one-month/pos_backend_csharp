@@ -62,20 +62,6 @@ public class InjectService
         return result;
     }
 
-    public async Task<DialogResult> ShowModalBoxAsync<T>(string title, DialogParameters parameters) where T : IComponent
-    {
-        MudBlazor.DialogOptions options = new()
-        {
-            MaxWidth = MaxWidth.Small,
-            FullWidth = true,
-            DisableBackdropClick = true,
-            CloseOnEscapeKey = false
-        };
-        var dialog = await _dialogService.ShowAsync<T>(title, parameters, options);
-        var result = await dialog.Result;
-        return result;
-    }
-
     public async Task EnableLoading()
     {
         await _jsRuntime.InvokeVoidAsync("enableLoading", true);
