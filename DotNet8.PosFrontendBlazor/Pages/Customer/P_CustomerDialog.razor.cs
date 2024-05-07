@@ -8,31 +8,24 @@ public partial class P_CustomerDialog
 
     private CustomerRequestModel requestModel = new();
 
+    [Parameter] public int CustomerId { get; set; }
+
+    [Parameter] public string CustomerCode { get; set; } = null!;
+
+    [Parameter] public string CustomerName { get; set; } = null!;
+
+    [Parameter] public string MobileNo { get; set; } = null!;
+
+    [Parameter] public DateTime? DateOfBirth { get; set; }
+
+    [Parameter] public string Gender { get; set; } = null!;
+
 
     private void Cancel() => MudDialog?.Cancel();
 
     private async Task SaveAsync()
     {
-        Validate();
-
-        var response = await HttpClientService.ExecuteAsync<CustomerResponseModel>(
-            Endpoints.Customer,
-            EnumHttpMethod.Post,
-            requestModel
-        );
-
-        if (response.IsError)
-        {
-            InjectService.ShowMessage(response.Message, EnumResponseType.Error);
-            return;
-        }
-
-        InjectService.ShowMessage(response.Message, EnumResponseType.Success);
-        MudDialog?.Close();
-    }
-
-    private void Validate()
-    {
+        #region Validation
         if (string.IsNullOrEmpty(requestModel.CustomerName))
         {
             ShowWarningMessage("Customer Name is required.");
@@ -91,6 +84,22 @@ public partial class P_CustomerDialog
             ShowWarningMessage("Township Code is required.");
             return;
         }
+        #endregion
+
+        var response = await HttpClientService.ExecuteAsync<CustomerResponseModel>(
+            Endpoints.Customer,
+            EnumHttpMethod.Post,
+            requestModel
+        );
+
+        if (response.IsError)
+        {
+            InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+            return;
+        }
+
+        InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+        MudDialog?.Close();
     }
 
     private void ShowWarningMessage(string message)

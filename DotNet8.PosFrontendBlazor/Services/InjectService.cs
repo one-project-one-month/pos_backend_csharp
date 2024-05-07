@@ -37,7 +37,7 @@ public class InjectService
         }
     }
 
-    public async Task<DialogResult> ShowModalBoxAsync<T>(string title) where T : IComponent
+    public async Task<DialogResult> ShowModalBoxAsync<T>(string title, DialogParameters? parameters = null) where T : IComponent
     {
         MudBlazor.DialogOptions options = new()
         {
@@ -46,7 +46,18 @@ public class InjectService
             DisableBackdropClick = true,
             CloseOnEscapeKey = false
         };
-        var dialog = await _dialogService.ShowAsync<T>(title, options);
+
+        IDialogReference dialog = null!;
+
+        if (parameters is null)
+        {
+            dialog = await _dialogService.ShowAsync<T>(title, options);
+        }
+        else
+        {
+            dialog = await _dialogService.ShowAsync<T>(title, parameters, options);
+        }
+
         var result = await dialog.Result;
         return result;
     }

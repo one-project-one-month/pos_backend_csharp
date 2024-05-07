@@ -20,6 +20,7 @@
                 <th>Gender</th>
                 <th>State Code</th>
                 <th>Township Code</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -30,10 +31,14 @@
                     <td>@item.CustomerCode</td>
                     <td>@item.CustomerName</td>
                     <td>@item.MobileNo</td>
-                    <td>@item.DateOfBirth.ToString("dd-MMM-yyyy")</td>
+                    <td>@item.DateOfBirth?.ToString("dd-MMM-yyyy")</td>
                     <td>@item.Gender</td>
                     <td>@item.StateCode</td>
                     <td>@item.TownshipCode</td>
+                    <td>
+                        <MudButton OnClick="() => EditPopup(item.CustomerId, item.CustomerCode, item.CustomerName, item.MobileNo, item.DateOfBirth, item.Gender)" Variant=" MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -62,6 +67,23 @@
     private async Task Popup()
     {
         DialogResult result = await InjectService.ShowModalBoxAsync<P_CustomerDialog>("New Customer");
+
+        if (!result.Canceled)
+            await List();
+    }
+
+    private async Task EditPopup(int CustomerId, string CustomerCode, string CustomerName, string MobileNo, DateTime? DateOfBirth, string Gender)
+    {
+        var parameters = new DialogParameters<P_CustomerDialog>()
+        {
+            {"CustomerId", CustomerId},
+            {"CustomerCode", CustomerCode},
+            {"CustomerName", CustomerName},
+            {"MobileNo", MobileNo},
+            {"DateOfBirth", DateOfBirth},
+            {"Gender", Gender}
+        };
+        DialogResult result = await InjectService.ShowModalBoxAsync<P_CustomerDialog>("Edit Customer", parameters);
 
         if (!result.Canceled)
             await List();
