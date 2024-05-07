@@ -8,7 +8,8 @@ public enum EnumPos
     ProductCategory,
     SaleInvoice,
     Customer,
-    Township
+    Township,
+    State
 }
 
 public enum EnumCodePrefix
