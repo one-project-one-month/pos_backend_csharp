@@ -4,6 +4,8 @@
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
+        [Parameter] public string title { get; set; }
+
         private TownshipModel reqModel = new();
 
         private void Cancel()
