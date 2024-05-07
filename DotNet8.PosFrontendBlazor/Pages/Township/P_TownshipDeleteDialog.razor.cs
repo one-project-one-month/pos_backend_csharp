@@ -6,15 +6,27 @@
         [Parameter] public string contentText { get; set; }
         [Parameter] public string buttonText { get; set; }
         [Parameter] public Color color { get; set; }
+        [Parameter] public int townshipId { get; set; }
 
         private void Cancel()
         {
             MudDialog.Cancel();
         }
 
-        private void DeleteTownship()
+        private async void DeleteTownship()
         {
-            MudDialog.Close(DialogResult.Ok(true));
+            var response = await HttpClientService.ExecuteAsync<TownshipResponseModel>(
+                Endpoints.Township + "/" + townshipId,
+                EnumHttpMethod.Delete,
+                null);
+            if (response.IsError)
+            {
+                InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+                return;
+            }
+
+            InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+            MudDialog.Close();
         }
     }
 }
