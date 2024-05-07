@@ -22,7 +22,7 @@
             }
         </MudSelect>
         <MudTextField @bind-Value="@reqModel.Position" Label="Position" />
-        <MudTextField @bind-Value="@reqModel.Password" Label="Password" />
+        <MudTextField InputType=InputType.Password @bind-Value="@reqModel.Password" Label="Password" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
