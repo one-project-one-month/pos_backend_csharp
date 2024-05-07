@@ -45,10 +45,12 @@ else
                 }
             </MudSelect>
             <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Date Of Birth" @bind-Date="DateOfBirth" DateFormat="dd/MM/yyyy" />
+            <MudTextField @bind-Value="StateCode" Label="State Code" />
+            <MudTextField @bind-Value="TownshipCode" Label="Township Code" />
         </DialogContent>
         <DialogActions>
             <MudButton OnClick="Cancel">Cancel</MudButton>
-            <MudButton Color="Color.Primary" OnClick="SaveAsync">Update</MudButton>
+            <MudButton Color="Color.Primary" OnClick="UpdateAsync">Update</MudButton>
         </DialogActions>
     </MudDialog>
 }
