@@ -57,10 +57,7 @@
 
     private async Task Popup(string title)
     {
-        var parameters = new DialogParameters<P_TownshipDialog>();
-        parameters.Add("title", title);
-
-        var result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>(title, parameters);
+        var result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>(title);
         if (!result.Canceled)
         {
             await List();
