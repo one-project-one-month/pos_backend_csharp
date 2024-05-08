@@ -19,7 +19,8 @@ public static class DevCode
             goto result;
         }
 
-        code = code.Substring(1);
+        //ode = code.Substring(1);
+        code = code.Replace(prefix, "");
         int convertToInt = Convert.ToInt32(code) + 1;
         generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
     result:
