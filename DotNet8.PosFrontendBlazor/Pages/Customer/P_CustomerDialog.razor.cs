@@ -8,22 +8,7 @@ public partial class P_CustomerDialog
 
     private CustomerRequestModel requestModel = new();
 
-    [Parameter] public int CustomerId { get; set; }
-
-    [Parameter] public string CustomerCode { get; set; } = null!;
-
-    [Parameter] public string CustomerName { get; set; } = null!;
-
-    [Parameter] public string MobileNo { get; set; } = null!;
-
-    [Parameter] public DateTime? DateOfBirth { get; set; }
-
-    [Parameter] public string Gender { get; set; } = null!;
-
-    [Parameter] public string StateCode { get; set; } = null!;
-
-    [Parameter] public string TownshipCode { get; set; } = null!;
-
+    [Parameter] public CustomerParamsModel model { get; set; }
 
     private void Cancel() => MudDialog?.Cancel();
 
@@ -110,37 +95,37 @@ public partial class P_CustomerDialog
     {
         #region Validation
 
-        if (string.IsNullOrEmpty(CustomerName))
+        if (string.IsNullOrEmpty(model.CustomerName))
         {
             ShowWarningMessage("Customer Name cannot be empty.");
             return;
         }
 
-        if (string.IsNullOrEmpty(MobileNo))
+        if (string.IsNullOrEmpty(model.MobileNo))
         {
             ShowWarningMessage("Mobile Number cannot be empty.");
             return;
         }
 
-        if (MobileNo.Trim().Length > 11 || MobileNo.Trim().Length < 11)
+        if (model.MobileNo.Trim().Length > 11 || model.MobileNo.Trim().Length < 11)
         {
             ShowWarningMessage("Invalid Mobile Number.");
             return;
         }
 
-        if (string.IsNullOrEmpty(Gender))
+        if (string.IsNullOrEmpty(model.Gender))
         {
             ShowWarningMessage("Gender is required.");
             return;
         }
 
-        if (Gender == "0")
+        if (model.Gender == "0")
         {
             ShowWarningMessage("Invalid Gender.");
             return;
         }
 
-        if (DateOfBirth is null)
+        if (model.DateOfBirth is null)
         {
             ShowWarningMessage("Date Of Birth is required.");
             return;
@@ -148,7 +133,7 @@ public partial class P_CustomerDialog
 
 
         DateTime now = DateTime.Today;
-        TimeSpan ageDifference = now - Convert.ToDateTime(DateOfBirth);
+        TimeSpan ageDifference = now - Convert.ToDateTime(model.DateOfBirth);
         int age = Convert.ToInt32(ageDifference.TotalDays / 365);
 
         if (age <= 18 || age >= 40)
@@ -160,16 +145,16 @@ public partial class P_CustomerDialog
 
         CustomerRequestModel requestModel = new()
         {
-            CustomerName = CustomerName,
-            MobileNo = MobileNo,
-            DateOfBirth = DateOfBirth,
-            Gender = Gender,
-            StateCode = StateCode,
-            TownshipCode = TownshipCode
+            CustomerName = model.CustomerName,
+            MobileNo = model.MobileNo,
+            DateOfBirth = model.DateOfBirth,
+            Gender = model.Gender,
+            StateCode = model.StateCode,
+            TownshipCode = model.TownshipCode
         };
 
         var response = await HttpClientService.ExecuteAsync<CustomerResponseModel>(
-            $"{Endpoints.Customer}/{CustomerId}",
+            $"{Endpoints.Customer}/{model.CustomerId}",
             EnumHttpMethod.Patch,
             requestModel);
 

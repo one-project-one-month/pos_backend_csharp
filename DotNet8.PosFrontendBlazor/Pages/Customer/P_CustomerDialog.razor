@@ -1,4 +1,4 @@
-﻿@if (CustomerId == 0)
+﻿@if (model is null)
 {
     <MudDialog Style="width: 550px">
         <TitleContent>
@@ -36,17 +36,17 @@ else
             </MudText>
         </TitleContent>
         <DialogContent>
-            <MudTextField @bind-Value="@CustomerName" Label="Customer Name" />
-            <MudTextField @bind-Value="@MobileNo" Label="Mobile No" MaxLength="11" InputType="InputType.Telephone" />
-            <MudSelect @bind-Value="@Gender" Label="Please choose Gender" Variant="MudBlazor.Variant.Text">
+            <MudTextField @bind-Value="@model.CustomerName" Label="Customer Name" />
+            <MudTextField @bind-Value="@model.MobileNo" Label="Mobile No" MaxLength="11" InputType="InputType.Telephone" />
+            <MudSelect @bind-Value="@model.Gender" Label="Please choose Gender" Variant="MudBlazor.Variant.Text">
                 @foreach (var item in StaticData.Gender())
                 {
                     <MudSelectItem Value="@(item.Key)">@item.Value</MudSelectItem>
                 }
             </MudSelect>
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Date Of Birth" @bind-Date="DateOfBirth" DateFormat="dd/MM/yyyy" />
-            <MudTextField @bind-Value="StateCode" Label="State Code" />
-            <MudTextField @bind-Value="TownshipCode" Label="Township Code" />
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Date Of Birth" @bind-Date="model.DateOfBirth" DateFormat="dd/MM/yyyy" />
+            <MudTextField @bind-Value="model.StateCode" Label="State Code" />
+            <MudTextField @bind-Value="model.TownshipCode" Label="Township Code" />
         </DialogContent>
         <DialogActions>
             <MudButton OnClick="Cancel">Cancel</MudButton>
