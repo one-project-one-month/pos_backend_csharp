@@ -53,10 +53,10 @@ public class BL_Product
             throw new Exception("product.ProductName is null.");
         }
 
-        if (string.IsNullOrWhiteSpace(product.ProductCode))
+        /*if (string.IsNullOrWhiteSpace(product.ProductCode))
         {
             throw new Exception("product.ProductCode is null.");
-        }
+        }*/
 
         if (string.IsNullOrWhiteSpace(product.ProductCategoryCode))
         {
