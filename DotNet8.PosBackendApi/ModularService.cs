@@ -1,4 +1,7 @@
 
+using DotNet8.PosBackendApi.Features.Staff;
+using DotNet8.PosBackendApi.Features.State;
+
 namespace DotNet8.PosBackendApi;
 
 public static class ModularService
@@ -37,6 +40,7 @@ public static class ModularService
         services.AddScoped<BL_Report>();
         services.AddScoped<BL_Customer>();
         services.AddScoped<BL_Township>();
+        services.AddScoped<BL_State>();
         return services;
     }
 
@@ -51,6 +55,7 @@ public static class ModularService
         services.AddScoped<DL_Report>();
         services.AddScoped<DL_Customer>();
         services.AddScoped<DL_Township>();
+        services.AddScoped<DL_State>();
         return services;
     }
 

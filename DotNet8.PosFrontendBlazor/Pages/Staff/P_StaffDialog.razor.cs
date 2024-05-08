@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Pages.Staff
+﻿using Microsoft.JSInterop;
+
+namespace DotNet8.PosFrontendBlazor.Pages.Staff
 {
     public partial class P_StaffDialog
     {
@@ -13,19 +15,34 @@
 
         private async Task SaveAsync()
         {
-            var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
+            DateTime StaffDOB = reqModel.DateOfBirth;
+            DateTime DateTimeNow = DateTime.Now;
+            TimeSpan ageSpan = DateTimeNow - StaffDOB;
+            int StaffAge = (int)(ageSpan.Days / 365.25);
+            if (StaffAge < 18)
+            {
+                //await JSRuntime.InvokeVoidAsync("alert", "Staff Age must be greater than 18 years.");
+                InjectService.ShowMessage("Staff Age must be greater than 18 years.", EnumResponseType.Success);
+            }
+            else
+            {
+                var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
                 Endpoints.Staff,
                 EnumHttpMethod.Post,
                 reqModel
             );
-            if (response.IsError)
-            {
-                InjectService.ShowMessage(response.Message, EnumResponseType.Error);
-                return;
-            }
+                if (response.IsError)
+                {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine(EnumResponseType.Error);
+                    InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+                    return;
+                }
 
-            InjectService.ShowMessage(response.Message, EnumResponseType.Success);
-            MudDialog.Close();
+                InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+                MudDialog.Close();
+            }
+            
         }
     }
 }
