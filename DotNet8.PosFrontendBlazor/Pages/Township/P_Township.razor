@@ -27,7 +27,7 @@
                     <td>@item.TownshipCode</td>
                     <td>@item.TownshipName</td>
                     <td>
-                        <MudButton Variant="MudBlazor.Variant.Outlined" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(()=>Popup("Edit Township"))">Edit</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Outlined" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(()=>Popup("Edit Township",item.TownshipCode))">Edit</MudButton>
                         <MudButton Variant="MudBlazor.Variant.Outlined" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(()=>Delete(item.TownshipId,item.TownshipName))">Delete</MudButton>
                     </td>
                 </tr>
@@ -55,9 +55,19 @@
         ResponseModel = await HttpClientService.ExecuteAsync<TownshipListResponseModel>(Endpoints.Township, EnumHttpMethod.Get);
     }
 
-    private async Task Popup(string title)
+    private async Task Popup(string title, string townshipCode = null)
     {
-        var result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>(title);
+        DialogResult result;
+        if (townshipCode is not null)
+        {
+            result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>(title);
+        }
+        else
+        {
+            var parameters = new DialogParameters<P_TownshipDialog>();
+            parameters.Add(x => x.townshipCode, townshipCode);
+            result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>(title, parameters);
+        }
         if (!result.Canceled)
         {
             await List();

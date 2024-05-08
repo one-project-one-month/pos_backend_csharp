@@ -2,6 +2,6 @@
 {
     public class TownshipDataModel
     {
-        public List<TownshipModel> Township { get; set; }
+        public List<TownshipModel> Township { get; set; } = new List<TownshipModel>();
     }
 }
