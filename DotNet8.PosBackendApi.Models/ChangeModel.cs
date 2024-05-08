@@ -4,6 +4,7 @@ using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
 using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
 using DotNet8.PosBackendApi.Models.Setup.Shop;
 using DotNet8.PosBackendApi.Models.Setup.Staff;
+using DotNet8.PosBackendApi.Models.Setup.State;
 using DotNet8.PosBackendApi.Models.Setup.Township;
 
 namespace DotNet8.PosBackendApi.Models;
@@ -303,5 +304,29 @@ public static class ChangeModel
         };
         return townshipDataModel;
     }
+    #endregion
+
+    #region State
+    public static StateModel Change(this TblPlaceState dataModel)
+    {
+        var state = new StateModel
+        {
+            StateId = dataModel.StateId,
+            StateCode = dataModel.StateCode,
+            StateName = dataModel.StateName
+        };
+        return state;
+    }
+
+    public static TblPlaceState Change(this StateModel requestModel)
+    {
+        var StateDataModel = new TblPlaceState
+        {
+            StateCode = requestModel.StateCode,
+            StateName = requestModel.StateName
+        };
+        return StateDataModel;
+    }
+
     #endregion
 }

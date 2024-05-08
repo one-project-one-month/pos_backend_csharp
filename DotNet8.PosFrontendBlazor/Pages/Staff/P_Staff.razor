@@ -1,5 +1,7 @@
 ﻿@page "/staff"
 
+@inject IJSRuntime JSRuntime
+
 <MudText Typo="Typo.h6">
     <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
     Staff
@@ -62,7 +64,9 @@
 
     private async Task Create(StaffModel staff)
     {
-        var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
+        
+       
+            var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
             Endpoints.Staff,
             EnumHttpMethod.Post,
             new StaffRequestModel
@@ -71,6 +75,8 @@
                     StaffName = staff.StaffName
                 }
         );
+        
+        
     }
 
     private async Task Popup()

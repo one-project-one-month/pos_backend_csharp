@@ -27,8 +27,8 @@
                     <td>@item.TownshipCode</td>
                     <td>@item.TownshipName</td>
                     <td>
-                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(()=>Popup("Edit Township"))">Edit</MudButton>
-                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="Delete">Delete</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Outlined" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(()=>Popup("Edit Township"))">Edit</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Outlined" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(()=>Delete(item.TownshipId,item.TownshipName))">Delete</MudButton>
                     </td>
                 </tr>
             }
@@ -64,15 +64,18 @@
         }
     }
 
-    private async Task Delete()
+    private async Task Delete(int townshipId, string townshipName)
     {
         var parameters = new DialogParameters<P_TownshipDeleteDialog>();
-        parameters.Add(x => x.contentText, "Are you sure you want to delete?");
+        parameters.Add(x => x.contentText, $"Are you sure you want to delete {townshipName} township?");
         parameters.Add(x => x.buttonText, "Delete");
         parameters.Add(x => x.color, Color.Error);
+        parameters.Add(x => x.townshipId, townshipId);
 
         var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
         var result = await InjectService.ShowModalBoxAsync<P_TownshipDeleteDialog>("Delete", parameters);
+        if (!result.Canceled)
+            await List();
     }
 }
