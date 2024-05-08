@@ -12,6 +12,11 @@ public class BL_ProductCategory
         return response;
     }
 
+    public async Task<ProductCategoryListResponseModel> GetProductCategory(int pageNo, int pageSize)
+    {
+        return await _productCategory.GetProductCategory(pageNo, pageSize);
+    }
+
     public async Task<ProductCategoryResponseModel> GetProductCategoryByCode(string productCategoryCode)
     {
         if (productCategoryCode is null) throw new Exception("productCategoryCode is null");
@@ -41,7 +46,7 @@ public class BL_ProductCategory
         return response;
     }
 
-    private  void CheckProductNullValue(ProductCategoryModel productCategory)
+    private void CheckProductNullValue(ProductCategoryModel productCategory)
     {
         if (productCategory == null)
         {

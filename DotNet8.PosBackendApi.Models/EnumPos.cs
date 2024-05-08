@@ -17,7 +17,7 @@ public enum EnumCodePrefix
     S,
     P,
     C,
-    PC,
+    PC_,
     SP,
     MMR,
 }
