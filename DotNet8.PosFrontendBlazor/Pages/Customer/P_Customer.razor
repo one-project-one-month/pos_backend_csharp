@@ -37,7 +37,7 @@
                     <td>@item.TownshipCode</td>
                     <td>
                         <MudButton OnClick="() => EditPopup(item.CustomerId, item.CustomerCode, item.CustomerName, item.MobileNo, item.DateOfBirth, item.Gender, item.StateCode, item.TownshipCode)" Variant=" MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
-                        <MudButton Variant="MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
+                        <MudButton OnClick="() => DeletePopUp(item.CustomerId)" Variant="MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
                     </td>
                 </tr>
             }
@@ -89,6 +89,18 @@
             {"TownshipCode", TownshipCode}
         };
         DialogResult result = await InjectService.ShowModalBoxAsync<P_CustomerDialog>("Edit Customer", parameters);
+
+        if (!result.Canceled)
+            await List();
+    }
+
+    private async Task DeletePopUp(int id)
+    {
+        var parameters = new DialogParameters<P_DeleteCustomerDialog>()
+        {
+            {"id", id}
+        };
+        DialogResult result = await InjectService.ShowModalBoxAsync<P_DeleteCustomerDialog>("Delete Customer", parameters);
 
         if (!result.Canceled)
             await List();
