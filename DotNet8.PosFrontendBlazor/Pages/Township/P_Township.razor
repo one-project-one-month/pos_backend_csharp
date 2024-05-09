@@ -1,4 +1,5 @@
 ﻿@page "/township"
+@using Newtonsoft.Json
 
 <MudText Typo="Typo.h6">
     <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="@(()=>Popup("New Township"))"></MudIconButton>
@@ -64,8 +65,20 @@
         }
         else
         {
+            #region Get Township By Code
+
+            var tspModel = await HttpClientService.ExecuteAsync<TownshipResponseModel>(Endpoints.Township + "/" + townshipCode, EnumHttpMethod.Get);
+
+            #endregion
+
+            #region Add Parameters
+
             var parameters = new DialogParameters<P_TownshipDialog>();
             parameters.Add(x => x.townshipCode, townshipCode);
+            parameters.Add(x => x.model, tspModel == null ? new TownshipModel() : tspModel.Data.Township);
+
+            #endregion
+
             result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>(title, parameters);
         }
         if (!result.Canceled)
