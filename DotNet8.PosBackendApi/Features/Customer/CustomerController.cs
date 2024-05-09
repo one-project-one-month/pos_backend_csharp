@@ -40,6 +40,32 @@ public class CustomerController : BaseController
         }
     }
 
+    [HttpGet("{pageNo}/{pageSize}")]
+    public async Task<IActionResult> GetCustomer(int pageNo, int pageSize)
+    {
+        try
+        {
+            var customerLst = await _bL_Customer.GetCustomer(pageNo, pageSize);
+            var responseModel = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                Count = customerLst.DataLst.Count,
+                IsSuccess = customerLst.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Customer,
+                Message = customerLst.MessageResponse.Message,
+                Item = customerLst.DataLst,
+                PageSetting = customerLst.PageSetting
+            });
+
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
     [HttpGet("{customerCode}")]
     public async Task<IActionResult> GetCustomerByCode(string customerCode)
     {
