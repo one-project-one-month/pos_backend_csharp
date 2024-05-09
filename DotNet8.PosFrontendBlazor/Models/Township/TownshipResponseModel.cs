@@ -2,6 +2,6 @@
 {
     public class TownshipResponseModel : ResponseModel
     {
-        public TownshipModel Item { get; set; }
+        public TownshipItemModel Data { get; set; }
     }
 }

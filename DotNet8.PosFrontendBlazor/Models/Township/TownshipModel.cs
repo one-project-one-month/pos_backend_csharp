@@ -10,4 +10,9 @@
 
         public string? StateCode { get; set; }
     }
+
+    public class TownshipItemModel
+    {
+        public TownshipModel Township { get; set; }
+    }
 }
