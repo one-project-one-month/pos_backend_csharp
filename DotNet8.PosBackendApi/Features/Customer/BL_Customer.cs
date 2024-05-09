@@ -1,4 +1,7 @@
-﻿namespace DotNet8.PosBackendApi.Features.Customer;
+﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
+using Microsoft.EntityFrameworkCore;
+
+namespace DotNet8.PosBackendApi.Features.Customer;
 
 public class BL_Customer
 {
@@ -10,6 +13,17 @@ public class BL_Customer
     {
         var response = await _dL_Customer.GetCustomer();
         return response;
+    }
+
+    public async Task<CustomerListResponseModel> GetCustomer(int pageNo, int pageSize)
+    {
+        if (pageNo == 0)
+            throw new Exception("Page No cannot be empty.");
+
+        if (pageSize == 0)
+            throw new Exception("Page Size cannot be empty.");
+
+        return await _dL_Customer.GetCustomer(pageNo, pageSize);
     }
 
     public async Task<CustomerResponseModel> GetCustomerByCode(string customerCode)
