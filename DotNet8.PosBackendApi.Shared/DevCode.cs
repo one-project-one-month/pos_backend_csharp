@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace DotNet8.PosBackendApi.Shared;
+﻿namespace DotNet8.PosBackendApi.Shared;
 
 public static class DevCode
 {
@@ -19,10 +17,29 @@ public static class DevCode
             goto result;
         }
 
-        code = code.Substring(1);
+        //ode = code.Substring(1);
+        code = code.Replace(prefix, "");
         int convertToInt = Convert.ToInt32(code) + 1;
         generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
     result:
+        return generateCode;
+    }
+
+    public static string GenerateProductCategoryCode(this string code, string prefix, int length = 5)
+    {
+        string generateCode = string.Empty;
+        if (string.IsNullOrWhiteSpace(code))
+        {
+            string defaultCode = "1";
+            generateCode = $"{prefix}{defaultCode.PadLeft(length, '0')}";
+            goto result;
+        }
+
+        //code = code.Substring(1);
+        code = code.Replace(prefix, "");
+        int convertToInt = Convert.ToInt32(code) + 1;
+        generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
+        result:
         return generateCode;
     }
 
@@ -61,42 +78,11 @@ public static class DevCode
     result:
         return generateCode;
     }
-}
 
-public class DapperService
-{
-    private readonly SqlConnectionStringBuilder _sqlConnectionStringBuilder;
-
-    public DapperService(string connectionString)
+    public static IQueryable<TSource> Pagination<TSource>(this IQueryable<TSource> source, int pageNo, int pageSize)
     {
-        _sqlConnectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
-    }
-
-    public List<T> Query<T>(string query, object? parameters = null)
-    {
-        using IDbConnection db = new SqlConnection(_sqlConnectionStringBuilder.ConnectionString);
-        List<T> lst = db.Query<T>(query).ToList();
-        return lst;
-    }
-
-    public T QueryStoredProcedure<T>(string query, object? parameters = null)
-    {
-        using IDbConnection db = new SqlConnection(_sqlConnectionStringBuilder.ConnectionString);
-        var item = db.Query<T>(query, parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
-        return item!;
-    }
-
-    public T QueryFirstOrDefault<T>(string query, object? parameters = null)
-    {
-        using IDbConnection db = new SqlConnection(_sqlConnectionStringBuilder.ConnectionString);
-        T item = db.QueryFirstOrDefault<T>(query)!;
-        return item;
-    }
-
-    public int Execute(string query, object? parameters = null)
-    {
-        using IDbConnection db = new SqlConnection(_sqlConnectionStringBuilder.ConnectionString);
-        int result = db.Execute(query, parameters);
-        return result;
+        return source
+            .Skip((pageNo - 1) * pageSize)
+            .Take(pageSize);
     }
 }

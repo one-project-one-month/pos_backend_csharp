@@ -45,6 +45,31 @@ public class ProductCategoryController : BaseController
         }
     }
 
+    [HttpGet("{pageNo}/{pageSize}")]
+    public async Task<IActionResult> GetProductCategory(int pageNo, int pageSize)
+    {
+        try
+        {
+            var item = await _productCategory.GetProductCategory(pageNo, pageSize);
+            
+            var model = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.ProductCategory,
+                IsSuccess = item.MessageResponse.IsSuccess,
+                Message = item.MessageResponse.Message,
+                Item = item.Data.ProductCategory,
+                PageSetting = item.Data.PageSetting
+            });
+            return Content(model);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
     [HttpGet("{productCategoryCode}")]
     public async Task<IActionResult> GetProductCategoryByCode(string productCategoryCode)
     {
