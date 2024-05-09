@@ -3,9 +3,9 @@
     <MudDialog>
         <DialogContent>
             <MudSelect T="string" Label="State Code" AnchorOrigin="Origin.BottomCenter" @bind-Value="@reqModel.StateCode">
-                @foreach (var item in lstStateCode.Data.Township)
+                @foreach (var item in lstStateCode.Data.State)
                 {
-                    <MudSelectItem Value="@item.TownshipCode">@item.TownshipName</MudSelectItem>
+                    <MudSelectItem Value="@item.StateCode">@item.StateName</MudSelectItem>
                 }
             </MudSelect>
             <MudTextField @bind-Value="@reqModel.TownshipName" Label="Township Name" />
@@ -21,16 +21,16 @@ else
     <MudDialog>
         <DialogContent>
             <MudSelect T="string" Label="State Code" AnchorOrigin="Origin.BottomCenter" @bind-Value="@model.StateCode">
-                @foreach (var item in lstStateCode.Data.Township)
+                @foreach (var item in lstStateCode.Data.State)
                 {
-                    <MudSelectItem Value="@item.TownshipCode">@item.TownshipName</MudSelectItem>
+                    <MudSelectItem Value="@item.StateCode">@item.StateName</MudSelectItem>
                 }
             </MudSelect>
             <MudTextField @bind-Value="@model.TownshipName" Label="Township Name" />
         </DialogContent>
         <DialogActions>
             <MudButton OnClick="Cancel">Cancel</MudButton>
-            <MudButton Color="Color.Secondary" OnClick="SaveAsync">Edit</MudButton>
+            <MudButton Color="Color.Secondary" OnClick="EditAsync">Edit</MudButton>
         </DialogActions>
     </MudDialog>
 }
