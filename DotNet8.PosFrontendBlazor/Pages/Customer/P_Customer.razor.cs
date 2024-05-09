@@ -23,7 +23,7 @@ public partial class P_Customer
     private async Task List()
     {
         ResponseModel = await HttpClientService.ExecuteAsync<CustomerListResponseModel>(
-            $"{Endpoints.Customer}/{_pageNo}/{2}",
+            $"{Endpoints.Customer}/{_pageNo}/{_pageSize}",
             EnumHttpMethod.Get
         );
     }
