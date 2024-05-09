@@ -1,4 +1,5 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
+﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
+using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
 
 namespace DotNet8.PosBackendApi.Models;
 
