@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Customer;
+using DotNet8.PosBackendApi.Models.Setup.PageSetting;
 
 namespace DotNet8.PosBackendApi.Features.Customer;
 
@@ -21,6 +22,39 @@ public class DL_Customer
                 .Select(x => x.Change())
                 .ToList();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.DataLst = [];
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
+        return responseModel;
+    }
+
+    public async Task<CustomerListResponseModel> GetCustomer(int pageNo, int pageSize)
+    {
+        var responseModel = new CustomerListResponseModel();
+        try
+        {
+            var query = _context
+                .TblCustomers
+                .AsNoTracking();
+
+            var customers = await query
+                .Pagination(pageNo, pageSize)
+                .ToListAsync();
+
+            var totalCount = await query.CountAsync();
+            var pageCount = totalCount / pageSize;
+            if (totalCount % pageSize > 0)
+                pageCount++;
+
+            responseModel.DataLst = customers
+                .Select(x => x.Change())
+                .ToList();
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+            responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         }
         catch (Exception ex)
         {
