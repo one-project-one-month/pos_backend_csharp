@@ -13,6 +13,6 @@
 
     public class TownshipItemModel
     {
-        public TownshipModel Township { get; set; }
+        public TownshipModel Township { get; set; } = new TownshipModel();
     }
 }

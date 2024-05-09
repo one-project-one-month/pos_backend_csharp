@@ -2,6 +2,6 @@
 {
     public class StateListResponseModel
     {
-       public StateDataModel Data { get; set; }
+       public StateDataModel Data { get; set; } = new StateDataModel();
     }
 }

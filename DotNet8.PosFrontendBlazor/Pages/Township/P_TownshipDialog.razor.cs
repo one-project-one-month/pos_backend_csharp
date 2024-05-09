@@ -1,22 +1,23 @@
-﻿namespace DotNet8.PosFrontendBlazor.Pages.Township
+﻿using DotNet8.PosFrontendBlazor.Models.State;
+using Newtonsoft.Json;
+using System.Reflection;
+
+namespace DotNet8.PosFrontendBlazor.Pages.Township
 {
     public partial class P_TownshipDialog
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-        [Parameter] public string townshipCode { get; set; }
         [Parameter] public TownshipModel model { get; set; }
 
-        private TownshipModel reqModel = new();
+        private TownshipModel reqModel = new TownshipModel();
 
-        private TownshipListResponseModel lstStateCode = new TownshipListResponseModel();
+        private StateListResponseModel lstStateCode = new StateListResponseModel();
 
         protected override async void OnInitialized()
         {
-            lstStateCode = await HttpClientService.ExecuteAsync<TownshipListResponseModel>(
-                Endpoints.Township,
-                EnumHttpMethod.Get,
-                null
-                );
+            lstStateCode = await HttpClientService.ExecuteAsync<StateListResponseModel>(
+                Endpoints.State,
+                EnumHttpMethod.Get);
         }
 
         private void Cancel()
@@ -31,6 +32,23 @@
                 EnumHttpMethod.Post,
                 reqModel
                 );
+            if (response.IsError)
+            {
+                InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+                return;
+            }
+
+            InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+            MudDialog.Close();
+        }
+
+        private async Task EditAsync()
+        {
+            var response = await HttpClientService.ExecuteAsync<TownshipResponseModel>(
+                    $"{Endpoints.Township}/{model.TownshipId}",
+                    EnumHttpMethod.Patch,
+                    model
+                    );
             if (response.IsError)
             {
                 InjectService.ShowMessage(response.Message, EnumResponseType.Error);
