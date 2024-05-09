@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Customer
+﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
+
+namespace DotNet8.PosBackendApi.Models.Setup.Customer
 {
     public class CustomerListResponseModel
     {
