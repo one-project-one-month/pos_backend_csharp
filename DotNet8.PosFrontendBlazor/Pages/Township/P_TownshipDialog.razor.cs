@@ -17,23 +17,22 @@
                 null
                 );
 
-            //InjectService.ShowMessage("Township Code =" + townshipCode, EnumResponseType.Success);
-            //if (townshipCode is not null)
-            //{
-            var tspResponseModel = await HttpClientService.ExecuteAsync<TownshipResponseModel>(
-                Endpoints.Township + "/" + "MMR013027",
+            InjectService.ShowMessage("Township Code =" + townshipCode, EnumResponseType.Success);
+            if (townshipCode is not null)
+            {
+                var tspResponseModel = await HttpClientService.ExecuteAsync<TownshipResponseModel>(
+                Endpoints.Township + "/" + townshipCode,
                 EnumHttpMethod.Get,
                 null
                 );
-            if (tspResponseModel is not null && tspResponseModel.Item is not null)
-            {
-                reqModel.TownshipId = tspResponseModel.Item.TownshipId;
-                reqModel.StateCode = tspResponseModel.Item.StateCode;
-                reqModel.TownshipCode = tspResponseModel.Item.TownshipCode;
-                reqModel.TownshipName = tspResponseModel.Item.TownshipName;
-                StateHasChanged();
+                if (tspResponseModel is not null && tspResponseModel.Item is not null)
+                {
+                    reqModel.TownshipId = tspResponseModel.Item.TownshipId;
+                    reqModel.StateCode = tspResponseModel.Item.StateCode;
+                    reqModel.TownshipCode = tspResponseModel.Item.TownshipCode;
+                    reqModel.TownshipName = tspResponseModel.Item.TownshipName;
+                }
             }
-            //}
         }
 
         private void Cancel()

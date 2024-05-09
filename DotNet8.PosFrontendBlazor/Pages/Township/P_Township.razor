@@ -58,7 +58,7 @@
     private async Task Popup(string title, string townshipCode = null)
     {
         DialogResult result;
-        if (townshipCode is not null)
+        if (townshipCode is null)
         {
             result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>(title);
         }
