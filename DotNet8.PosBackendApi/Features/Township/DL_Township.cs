@@ -23,6 +23,7 @@ namespace DotNet8.PosBackendApi.Features.Township
                     .ToListAsync();
                 responseModel.DataLst = townships
                     .Select(x => x.Change())
+                    .OrderByDescending(x => x.TownshipId)
                     .ToList();
                 responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
             }
@@ -60,7 +61,7 @@ namespace DotNet8.PosBackendApi.Features.Township
                 responseModel.MessageResponse = new MessageResponseModel(false, ex);
             }
 
-        result:
+            result:
             return responseModel;
         }
 
@@ -72,7 +73,7 @@ namespace DotNet8.PosBackendApi.Features.Township
                 var townshipCode = await _context.TblPlaceTownships
                .AsNoTracking()
                .MaxAsync(x => x.TownshipCode);
-                requestModel.TownshipCode = townshipCode.GenerateTownshipCode(EnumCodePrefix.MMR.ToString(),2);
+                requestModel.TownshipCode = townshipCode.GenerateTownshipCode(EnumCodePrefix.MMR.ToString(), 2);
                 await _context.TblPlaceTownships.AddAsync(requestModel.Change());
                 var result = await _context.SaveChangesAsync();
                 responseModel = result > 0
@@ -103,7 +104,7 @@ namespace DotNet8.PosBackendApi.Features.Township
             maxStaffCode = maxStaffCode.Substring(3);
             int staffCode = Convert.ToInt32(maxStaffCode) + 1;
             customerCode = $"MMR{staffCode.ToString().PadLeft(2, '0')}";
-        result:
+            result:
             return customerCode;
         }
 
@@ -178,7 +179,7 @@ namespace DotNet8.PosBackendApi.Features.Township
                 responseModel = new MessageResponseModel(false, ex);
             }
 
-        result:
+            result:
             return responseModel;
         }
     }

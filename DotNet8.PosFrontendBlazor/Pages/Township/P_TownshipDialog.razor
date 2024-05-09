@@ -1,6 +1,11 @@
 ﻿<MudDialog>
     <DialogContent>
-        <MudTextField @bind-Value="@reqModel.StateCode" Label="State Code" />
+        <MudSelect T="string" Label="State Code" AnchorOrigin="Origin.BottomCenter" @bind-Value="@reqModel.StateCode">
+            @foreach (var item in lstStateCode.Data.Township)
+            {
+                <MudSelectItem Value="@item.TownshipCode">@item.TownshipName</MudSelectItem>
+            }
+        </MudSelect>
         <MudTextField @bind-Value="@reqModel.TownshipName" Label="Township Name" />
     </DialogContent>
     <DialogActions>
