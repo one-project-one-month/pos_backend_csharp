@@ -9,7 +9,7 @@ public class TownshipController : BaseController
 
     public TownshipController(
         IServiceProvider serviceProvider,
-        BL_Township bL_Township, 
+        BL_Township bL_Township,
         ResponseModel response) : base(serviceProvider)
     {
         _bL_Township = bL_Township;
@@ -26,11 +26,35 @@ public class TownshipController : BaseController
             (new ReturnModel
             {
                 Token = RefreshToken(),
-                Count = townshipLst.DataLst.Count,
+                Count = townshipLst.DataList.Count,
                 IsSuccess = townshipLst.MessageResponse.IsSuccess,
                 EnumPos = EnumPos.Township,
                 Message = townshipLst.MessageResponse.Message,
-                Item = townshipLst.DataLst
+                Item = townshipLst.DataList
+            });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+    [HttpGet("{pageNo}/{pageSize}")]
+    public async Task<IActionResult> GetTownship(int pageNo, int pageSize)
+    {
+        try
+        {
+            var townshipLst = await _bL_Township.GetTownship(pageNo, pageSize);
+            var responseModel = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.Township,
+                IsSuccess = townshipLst.MessageResponse.IsSuccess,                
+                Message = townshipLst.MessageResponse.Message,
+                Item = townshipLst.Data.Township,
+                PageSetting = townshipLst.Data.PageSetting
             });
             return Content(responseModel);
         }
