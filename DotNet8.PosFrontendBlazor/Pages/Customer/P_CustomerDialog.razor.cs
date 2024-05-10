@@ -9,11 +9,15 @@ public partial class P_CustomerDialog
 
     private CustomerRequestModel requestModel = new();
 
-    private StateListResponseModel StateListResponseModel = new();
+    [Parameter] public StateListResponseModel stateListResponseModel { get; set; } = new();
 
-    private TownshipListResponseModel TownshipListResponseModel = new();
+    [Parameter] public TownshipListResponseModel townshipListResponseModel { get; set; } = new();
 
     [Parameter] public CustomerParamsModel model { get; set; }
+
+    [Parameter] public string StateName { get; set; }
+
+    [Parameter] public string TownshipName { get; set; }
 
     private void Cancel() => MudDialog?.Cancel();
 
@@ -21,7 +25,7 @@ public partial class P_CustomerDialog
     {
         if (model is null)
         {
-            StateListResponseModel = await HttpClientService.ExecuteAsync<StateListResponseModel>(
+            stateListResponseModel = await HttpClientService.ExecuteAsync<StateListResponseModel>(
                 Endpoints.State,
                 EnumHttpMethod.Get);
         }
@@ -190,7 +194,7 @@ public partial class P_CustomerDialog
 
     private async Task FetchTownship(string stateCode)
     {
-        TownshipListResponseModel = await HttpClientService.ExecuteAsync<TownshipListResponseModel>(
+        townshipListResponseModel = await HttpClientService.ExecuteAsync<TownshipListResponseModel>(
              $"{Endpoints.Township}/GetTownshipByStateCode/{stateCode}",
              EnumHttpMethod.Get);
     }
