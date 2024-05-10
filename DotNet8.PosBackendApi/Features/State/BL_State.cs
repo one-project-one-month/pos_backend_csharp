@@ -10,11 +10,13 @@ namespace DotNet8.PosBackendApi.Features.State
         {
             _dL_State = dL_State;
         }
+
         public async Task<StateListResponseModel> GetState()
         {
             var response=await _dL_State.GetState();
             return response;
         }
+
         public async Task<StateResponseModel> GetStateByCode(string StateCode)
         {
             if (StateCode is null) throw new Exception("StateCode is null");
@@ -42,6 +44,7 @@ namespace DotNet8.PosBackendApi.Features.State
             var response = await _dL_State.DeleteState(id);
             return response;
         }
+
         private void CheckStateNullValue(StateModel State)
         {
             if (State is null)
