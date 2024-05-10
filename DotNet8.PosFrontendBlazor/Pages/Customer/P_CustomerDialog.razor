@@ -17,13 +17,24 @@
                 }
             </MudSelect>
             <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Date Of Birth" @bind-Date="requestModel.DateOfBirth" DateFormat="dd/MM/yyyy" />
-            <MudSelect @bind-Value="@requestModel.StateCode" Label="Please choose State" Variant="MudBlazor.Variant.Text">
-                @foreach (var item in StateListResponseModel.Data.State)
-                {
-                    <MudSelectItem Value="@(item.StateCode)">@item.StateName</MudSelectItem>
-                }
-            </MudSelect>
-            <MudTextField @bind-Value="@requestModel.TownshipCode" Label="Township Code" />
+            @if (StateListResponseModel is not null)
+            {
+                <MudSelect TextChanged="FetchTownship" @bind-Value="@requestModel.StateCode" Label="Please choose State" Variant="MudBlazor.Variant.Text">
+                    @foreach (var item in StateListResponseModel.Data.State)
+                    {
+                        <MudSelectItem Value="@(item.StateCode)">@item.StateName</MudSelectItem>
+                    }
+                </MudSelect>
+            }
+            @if (TownshipListResponseModel is not null)
+            {
+                <MudSelect @bind-Value="@requestModel.TownshipCode" Label="Please choose Township" Variant="MudBlazor.Variant.Text">
+                    @foreach (var item in TownshipListResponseModel.Data.Township)
+                    {
+                        <MudSelectItem Value="@(item.TownshipCode)">@item.TownshipName</MudSelectItem>
+                    }
+                </MudSelect>
+            }
         </DialogContent>
         <DialogActions>
             <MudButton OnClick="Cancel">Cancel</MudButton>
