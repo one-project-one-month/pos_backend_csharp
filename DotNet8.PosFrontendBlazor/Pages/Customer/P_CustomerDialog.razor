@@ -17,7 +17,12 @@
                 }
             </MudSelect>
             <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Date Of Birth" @bind-Date="requestModel.DateOfBirth" DateFormat="dd/MM/yyyy" />
-            <MudTextField @bind-Value="@requestModel.StateCode" Label="State Code" />
+            <MudSelect @bind-Value="@requestModel.StateCode" Label="Please choose State" Variant="MudBlazor.Variant.Text">
+                @foreach (var item in StateListResponseModel.Data.State)
+                {
+                    <MudSelectItem Value="@(item.StateCode)">@item.StateName</MudSelectItem>
+                }
+            </MudSelect>
             <MudTextField @bind-Value="@requestModel.TownshipCode" Label="Township Code" />
         </DialogContent>
         <DialogActions>
