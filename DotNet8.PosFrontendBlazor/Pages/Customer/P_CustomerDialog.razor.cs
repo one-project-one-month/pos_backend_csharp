@@ -1,5 +1,6 @@
 ﻿using DotNet8.PosFrontendBlazor.Models.Customer;
 using DotNet8.PosFrontendBlazor.Models.State;
+using Radzen.Blazor;
 
 namespace DotNet8.PosFrontendBlazor.Pages.Customer;
 
@@ -14,10 +15,6 @@ public partial class P_CustomerDialog
     [Parameter] public TownshipListResponseModel townshipListResponseModel { get; set; } = new();
 
     [Parameter] public CustomerParamsModel model { get; set; }
-
-    [Parameter] public string StateName { get; set; }
-
-    [Parameter] public string TownshipName { get; set; }
 
     private void Cancel() => MudDialog?.Cancel();
 
@@ -160,6 +157,25 @@ public partial class P_CustomerDialog
             ShowWarningMessage("Age must be between 18 and 45.");
             return;
         }
+
+        bool isTownshipValid = false;
+
+        foreach (var item in townshipListResponseModel.Data.Township)
+        {
+            if (model.TownshipCode.Equals(item.TownshipCode))
+            {
+                isTownshipValid = true;
+                break;
+            }
+        }
+
+        if (!isTownshipValid)
+        {
+            ShowWarningMessage("Invalid Township!");
+            model.TownshipCode = string.Empty;
+            return;
+        }
+
         #endregion
 
         CustomerRequestModel requestModel = new()

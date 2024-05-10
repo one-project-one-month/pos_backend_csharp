@@ -66,11 +66,14 @@ else
                 <MudSelect TextChanged="FetchTownship" @bind-Value="@model.StateCode" Label="Please choose State" Variant="MudBlazor.Variant.Text">
                     @foreach (var item in stateListResponseModel.Data.State)
                     {
-                        @if (item.StateName == StateName)
+                        @if (item.StateCode == model.StateCode)
                         {
-                            <MudSelectItem Value="@(item.StateCode)">@StateName</MudSelectItem>
+                            <MudSelectItem Value="@(item.StateCode)">@item.StateName</MudSelectItem>
                         }
-                        <MudSelectItem Value="@(item.StateCode)">@item.StateName</MudSelectItem>
+                        else
+                        {
+                            <MudSelectItem Value="@(item.StateCode)">@item.StateName</MudSelectItem>
+                        }
                     }
                 </MudSelect>
             }
@@ -79,11 +82,14 @@ else
                 <MudSelect @bind-Value="@model.TownshipCode" Label="Please choose Township" Variant="MudBlazor.Variant.Text">
                     @foreach (var item in townshipListResponseModel.Data.Township)
                     {
-                        @if (item.TownshipName == TownshipName)
+                        @if (item.TownshipCode == model.TownshipCode)
                         {
                             <MudSelectItem Value="@(item.TownshipCode)">@item.TownshipName</MudSelectItem>
                         }
-                        <MudSelectItem Value="@(item.TownshipCode)">@item.TownshipName</MudSelectItem>
+                        else
+                        {
+                            <MudSelectItem Value="@(item.TownshipCode)">@item.TownshipName</MudSelectItem>
+                        }
                     }
                 </MudSelect>
             }
