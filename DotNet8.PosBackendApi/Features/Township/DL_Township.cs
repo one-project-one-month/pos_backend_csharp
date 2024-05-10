@@ -97,7 +97,7 @@ namespace DotNet8.PosBackendApi.Features.Township
                 responseModel.MessageResponse = new MessageResponseModel(false, ex);
             }
 
-            result:
+        result:
             return responseModel;
         }
 
@@ -140,7 +140,7 @@ namespace DotNet8.PosBackendApi.Features.Township
             maxStaffCode = maxStaffCode.Substring(3);
             int staffCode = Convert.ToInt32(maxStaffCode) + 1;
             customerCode = $"MMR{staffCode.ToString().PadLeft(2, '0')}";
-            result:
+        result:
             return customerCode;
         }
 
@@ -215,7 +215,7 @@ namespace DotNet8.PosBackendApi.Features.Township
                 responseModel = new MessageResponseModel(false, ex);
             }
 
-            result:
+        result:
             return responseModel;
         }
     }

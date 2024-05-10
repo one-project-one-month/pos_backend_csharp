@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosFrontendBlazor.Models.Customer;
+using DotNet8.PosFrontendBlazor.Models.State;
 
 namespace DotNet8.PosFrontendBlazor.Pages.Customer;
 
@@ -8,27 +9,21 @@ public partial class P_CustomerDialog
 
     private CustomerRequestModel requestModel = new();
 
+    private StateListResponseModel StateListResponseModel = new();
+
     [Parameter] public CustomerParamsModel model { get; set; }
 
     private void Cancel() => MudDialog?.Cancel();
 
-    //protected override Task OnInitializedAsync()
-    //{
-    //    Check();
-    //    throw new Exception("");
-    //}
-
-    //private void Check()
-    //{
-    //    if (model is { })
-    //    {
-    //        InjectService.ShowMessage("can call api", EnumResponseType.Success);
-    //    }
-    //    else
-    //    {
-    //        throw new Exception("cannot call api");
-    //    }
-    //}
+    protected async override Task OnInitializedAsync()
+    {
+        if (model is null)
+        {
+            StateListResponseModel = await HttpClientService.ExecuteAsync<StateListResponseModel>(
+                Endpoints.State,
+                EnumHttpMethod.Get);
+        }
+    }
 
     private async Task SaveAsync()
     {
