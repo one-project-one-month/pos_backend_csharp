@@ -17,6 +17,12 @@ public class BL_Township
         return response;
     }
 
+    public async Task<TownshipListResponseModel> GetTownship(int pageNo, int pageSize)
+    {
+        var response = await _dL_Township.GetTownship(pageNo, pageSize);
+        return response;
+    }
+
     public async Task<TownshipResponseModel> GetTownshipByCode(string TownshipCode)
     {
         if (TownshipCode is null) throw new Exception("TownshipCode is null");

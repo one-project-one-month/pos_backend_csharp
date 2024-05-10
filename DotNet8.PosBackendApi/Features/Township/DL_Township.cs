@@ -1,5 +1,7 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Township;
+﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
+using DotNet8.PosBackendApi.Models.Setup.Township;
 using DotNet8.PosBackendApi.Shared;
+using System.Collections.Immutable;
 
 namespace DotNet8.PosBackendApi.Features.Township
 {
@@ -21,7 +23,7 @@ namespace DotNet8.PosBackendApi.Features.Township
                     .TblPlaceTownships
                     .AsNoTracking()
                     .ToListAsync();
-                responseModel.DataLst = townships
+                responseModel.DataList = townships
                     .Select(x => x.Change())
                     .OrderByDescending(x => x.TownshipId)
                     .ToList();
@@ -29,7 +31,41 @@ namespace DotNet8.PosBackendApi.Features.Township
             }
             catch (Exception ex)
             {
-                responseModel.DataLst = new List<TownshipModel>();
+                responseModel.DataList = new List<TownshipModel>();
+                responseModel.MessageResponse = new MessageResponseModel(false, ex);
+            }
+
+            return responseModel;
+        }
+
+        public async Task<TownshipListResponseModel> GetTownship(int pageNo, int pageSize)
+        {
+            var responseModel = new TownshipListResponseModel();
+            try
+            {
+                var query = _context
+                    .TblPlaceTownships
+                    .AsNoTracking();
+                var totalCount = await query.CountAsync();
+                var pageCount = totalCount / pageSize;
+                if (totalCount % pageSize > 0)
+                    pageCount++;
+
+                var lst = await query
+                    .Pagination(pageNo, pageSize)
+                    .ToListAsync();
+
+                responseModel.Data = new TownshipDataModel
+                {
+                    Township = lst.Select(x => x.Change()).ToList(),
+                    PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount)
+                };
+
+                responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+            }
+            catch (Exception ex)
+            {
+                responseModel.DataList = new List<TownshipModel>();
                 responseModel.MessageResponse = new MessageResponseModel(false, ex);
             }
 
