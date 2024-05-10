@@ -40,8 +40,10 @@ public partial class P_Customer
     {
         CustomerParamsModel model = new(CustomerId, CustomerName, MobileNo, DateOfBirth, Gender, StateCode, TownshipCode);
 
-        var parameters = new DialogParameters<P_CustomerDialog>();
-        parameters.Add(x => x.model, model);
+        var parameters = new DialogParameters<P_CustomerDialog>
+        {
+            { x => x.model, model }
+        };
 
         DialogResult result = await InjectService.ShowModalBoxAsync<P_CustomerDialog>("Edit Customer", parameters);
 
