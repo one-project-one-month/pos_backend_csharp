@@ -17,19 +17,19 @@
                 }
             </MudSelect>
             <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Date Of Birth" @bind-Date="requestModel.DateOfBirth" DateFormat="dd/MM/yyyy" />
-            @if (StateListResponseModel is not null)
+            @if (stateListResponseModel is not null)
             {
                 <MudSelect TextChanged="FetchTownship" @bind-Value="@requestModel.StateCode" Label="Please choose State" Variant="MudBlazor.Variant.Text">
-                    @foreach (var item in StateListResponseModel.Data.State)
+                    @foreach (var item in stateListResponseModel.Data.State)
                     {
                         <MudSelectItem Value="@(item.StateCode)">@item.StateName</MudSelectItem>
                     }
                 </MudSelect>
             }
-            @if (TownshipListResponseModel is not null)
+            @if (townshipListResponseModel is not null)
             {
                 <MudSelect @bind-Value="@requestModel.TownshipCode" Label="Please choose Township" Variant="MudBlazor.Variant.Text">
-                    @foreach (var item in TownshipListResponseModel.Data.Township)
+                    @foreach (var item in townshipListResponseModel.Data.Township)
                     {
                         <MudSelectItem Value="@(item.TownshipCode)">@item.TownshipName</MudSelectItem>
                     }
@@ -61,20 +61,28 @@ else
                 }
             </MudSelect>
             <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Date Of Birth" @bind-Date="model.DateOfBirth" DateFormat="dd/MM/yyyy" />
-            @if (StateListResponseModel is not null)
+            @if (stateListResponseModel is not null)
             {
                 <MudSelect TextChanged="FetchTownship" @bind-Value="@model.StateCode" Label="Please choose State" Variant="MudBlazor.Variant.Text">
-                    @foreach (var item in StateListResponseModel.Data.State)
+                    @foreach (var item in stateListResponseModel.Data.State)
                     {
+                        @if (item.StateName == StateName)
+                        {
+                            <MudSelectItem Value="@(item.StateCode)">@StateName</MudSelectItem>
+                        }
                         <MudSelectItem Value="@(item.StateCode)">@item.StateName</MudSelectItem>
                     }
                 </MudSelect>
             }
-            @if (TownshipListResponseModel is not null)
+            @if (townshipListResponseModel is not null)
             {
                 <MudSelect @bind-Value="@model.TownshipCode" Label="Please choose Township" Variant="MudBlazor.Variant.Text">
-                    @foreach (var item in TownshipListResponseModel.Data.Township)
+                    @foreach (var item in townshipListResponseModel.Data.Township)
                     {
+                        @if (item.TownshipName == TownshipName)
+                        {
+                            <MudSelectItem Value="@(item.TownshipCode)">@item.TownshipName</MudSelectItem>
+                        }
                         <MudSelectItem Value="@(item.TownshipCode)">@item.TownshipName</MudSelectItem>
                     }
                 </MudSelect>
