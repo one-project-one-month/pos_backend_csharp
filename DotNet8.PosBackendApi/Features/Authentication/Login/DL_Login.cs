@@ -45,6 +45,5 @@ public class DL_Login
         };
     result:
         return responseModel;
-
     }
 }
