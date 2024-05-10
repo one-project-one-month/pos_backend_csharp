@@ -12,6 +12,24 @@ public partial class P_CustomerDialog
 
     private void Cancel() => MudDialog?.Cancel();
 
+    //protected override Task OnInitializedAsync()
+    //{
+    //    Check();
+    //    throw new Exception("");
+    //}
+
+    //private void Check()
+    //{
+    //    if (model is { })
+    //    {
+    //        InjectService.ShowMessage("can call api", EnumResponseType.Success);
+    //    }
+    //    else
+    //    {
+    //        throw new Exception("cannot call api");
+    //    }
+    //}
+
     private async Task SaveAsync()
     {
         #region Validation
