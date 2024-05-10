@@ -97,7 +97,32 @@ namespace DotNet8.PosBackendApi.Features.Township
                 responseModel.MessageResponse = new MessageResponseModel(false, ex);
             }
 
-        result:
+            result:
+            return responseModel;
+        }
+
+        public async Task<TownshipListResponseModel> GetTownshipByStateCode(string stateCode)
+        {
+            var responseModel = new TownshipListResponseModel();
+            try
+            {
+                var townships = await _context
+                    .TblPlaceTownships
+                    .AsNoTracking()
+                    .Where(x => x.StateCode == stateCode)
+                    .ToListAsync();
+                responseModel.DataList = townships
+                    .Select(x => x.Change())
+                    .OrderByDescending(x => x.TownshipId)
+                    .ToList();
+                responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+            }
+            catch (Exception ex)
+            {
+                responseModel.DataList = new List<TownshipModel>();
+                responseModel.MessageResponse = new MessageResponseModel(false, ex);
+            }
+
             return responseModel;
         }
 
@@ -140,7 +165,7 @@ namespace DotNet8.PosBackendApi.Features.Township
             maxStaffCode = maxStaffCode.Substring(3);
             int staffCode = Convert.ToInt32(maxStaffCode) + 1;
             customerCode = $"MMR{staffCode.ToString().PadLeft(2, '0')}";
-        result:
+            result:
             return customerCode;
         }
 
@@ -215,7 +240,7 @@ namespace DotNet8.PosBackendApi.Features.Township
                 responseModel = new MessageResponseModel(false, ex);
             }
 
-        result:
+            result:
             return responseModel;
         }
     }

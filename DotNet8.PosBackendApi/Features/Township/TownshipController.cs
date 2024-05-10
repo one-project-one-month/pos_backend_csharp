@@ -87,6 +87,29 @@ public class TownshipController : BaseController
         }
     }
 
+    [HttpGet("GetTownshipByStateCode/{StateCode}")]
+    public async Task<IActionResult> GetTownshipByStateCode(string StateCode)
+    {
+        try
+        {
+            var lstTownship = await _bL_Township.GetTownshipByStateCode(StateCode);
+            var responseModel = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = lstTownship.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Township,
+                Message = lstTownship.MessageResponse.Message,
+                Item = lstTownship.DataList
+            });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateTownship(TownshipModel requestModel)
     {
