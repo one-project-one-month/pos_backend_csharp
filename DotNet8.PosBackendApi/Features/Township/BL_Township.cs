@@ -30,6 +30,13 @@ public class BL_Township
         return response;
     }
 
+    public async Task<TownshipListResponseModel> GetTownshipByStateCode(string stateCode)
+    {
+        if (stateCode is null) throw new Exception("StateCode is null");
+        var response = await _dL_Township.GetTownshipByStateCode(stateCode);
+        return response;
+    }
+
     public async Task<MessageResponseModel> CreateTownship(TownshipModel requestModel)
     {
         CheckTownshipNullValue(requestModel);
