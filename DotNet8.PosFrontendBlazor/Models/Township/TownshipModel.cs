@@ -3,12 +3,10 @@
     public class TownshipModel
     {
         public int TownshipId { get; set; }
-
         public string? TownshipCode { get; set; }
-
         public string? TownshipName { get; set; }
-
         public string? StateCode { get; set; }
+        public string? StateName { get; set;}
     }
 
     public class TownshipItemModel

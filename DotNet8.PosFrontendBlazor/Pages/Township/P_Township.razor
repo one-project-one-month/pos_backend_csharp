@@ -82,6 +82,10 @@
             #region Get Township By Code
 
             var tspModel = await HttpClientService.ExecuteAsync<TownshipResponseModel>(Endpoints.Township + "/" + townshipCode, EnumHttpMethod.Get);
+            if(tspModel != null && tspModel.Data != null)
+            {
+                // var stateModel = await HttpClientService.Execu
+            }
 
             #endregion
 

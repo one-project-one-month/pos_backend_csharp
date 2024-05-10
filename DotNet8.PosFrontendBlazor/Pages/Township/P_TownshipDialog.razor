@@ -20,7 +20,7 @@ else
 {
     <MudDialog>
         <DialogContent>
-            <MudSelect T="string" Label="State Code" AnchorOrigin="Origin.BottomCenter" @bind-Value="@model.StateCode">
+            <MudSelect T="string" Label="State Code" AnchorOrigin="Origin.BottomCenter" @bind-Value="@model.StateCode" @bind-Text="@model.StateCode">
                 @foreach (var item in lstStateCode.Data.State)
                 {
                     <MudSelectItem Value="@item.StateCode">@item.StateName</MudSelectItem>
