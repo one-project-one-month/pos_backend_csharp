@@ -48,7 +48,7 @@ public partial class P_Customer
             EnumHttpMethod.Get);
 
         CustomerParamsModel model = new(CustomerId, CustomerName, MobileNo, DateOfBirth, Gender, StateCode, TownshipCode);
-
+       
         var parameters = new DialogParameters<P_CustomerDialog>
         {
             { x => x.model, model },

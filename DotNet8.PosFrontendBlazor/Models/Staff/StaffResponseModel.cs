@@ -2,6 +2,11 @@
 {
     public class StaffResponseModel : ResponseModel
     {
-        public StaffModel Item { get; set; }
+        public DataModel Data { get; set; } = new DataModel();
+    }
+
+    public class DataModel
+    {
+        public StaffModel Staff { get; set; }
     }
 }

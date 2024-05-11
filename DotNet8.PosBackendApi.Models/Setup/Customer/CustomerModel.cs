@@ -4,17 +4,17 @@ public class CustomerModel
 {
     public int CustomerId { get; set; }
 
-    public string CustomerCode { get; set; } = null!;
+    public string CustomerCode { get; set; }
 
-    public string CustomerName { get; set; } = null!;
+    public string CustomerName { get; set; }
 
-    public string MobileNo { get; set; } = null!;
+    public string MobileNo { get; set; }
 
     public DateTime DateOfBirth { get; set; }
 
-    public string Gender { get; set; } = null!;
+    public string Gender { get; set; }
 
-    public string StateCode { get; set; } = null!;
+    public string StateCode { get; set; }
 
-    public string TownshipCode { get; set; } = null!;
+    public string TownshipCode { get; set; }
 }

@@ -7,7 +7,12 @@ public static class DevCode
         return Hash.Create(HashType.SHA256, password, sharedKey, false);
     }
 
-    public static string GenerateCode(this string code, string prefix, int length = 5)
+    public static DateTime ToDateTime(this DateTime? dateTime)
+    {
+        return Convert.ToDateTime(dateTime);    
+    }
+
+    public static string GenerateCode(this string code,string prefix,int length = 5)
     {
         string generateCode = string.Empty;
         if (string.IsNullOrWhiteSpace(code))
