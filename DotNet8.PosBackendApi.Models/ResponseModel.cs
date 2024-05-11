@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
-using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
-
-namespace DotNet8.PosBackendApi.Models;
+﻿namespace DotNet8.PosBackendApi.Models;
 
 public class ResponseModel
 {
