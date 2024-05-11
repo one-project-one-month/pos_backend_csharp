@@ -5,7 +5,6 @@ global using Microsoft.AspNetCore.Components.Web;
 global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 global using MudBlazor.Services;
 global using Radzen;
-global using DotNet8.PosFrontendBlazor.Models;
 global using DotNet8.PosFrontendBlazor.Models.Township;
 global using DotNet8.PosFrontendBlazor.Services;
 global using Microsoft.AspNetCore.Components;

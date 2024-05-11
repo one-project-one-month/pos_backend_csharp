@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
-using Microsoft.EntityFrameworkCore;
-
-namespace DotNet8.PosBackendApi.Features.Customer;
+﻿namespace DotNet8.PosBackendApi.Features.Customer;
 
 public class BL_Customer
 {

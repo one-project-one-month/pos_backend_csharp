@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Pages.ProductCategory;
+﻿using DotNet8.PosFrontendBlazor.Models.ProductCategory;
+
+namespace DotNet8.PosFrontendBlazor.Pages.ProductCategory;
 
 public partial class P_ProductCategoryDialog
 {

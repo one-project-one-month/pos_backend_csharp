@@ -4,7 +4,7 @@ public static class DevCode
 {
     public static string ToHash(this string password, string sharedKey)
     {
-        return  Hash.Create(HashType.SHA256, password, sharedKey, false);
+        return Hash.Create(HashType.SHA256, password, sharedKey, false);
     }
 
     public static DateTime ToDateTime(this DateTime? dateTime)
@@ -26,7 +26,7 @@ public static class DevCode
         code = code.Replace(prefix, "");
         int convertToInt = Convert.ToInt32(code) + 1;
         generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
-    result:
+        result:
         return generateCode;
     }
 
@@ -80,7 +80,7 @@ public static class DevCode
         code = code.Replace(prefix, "");
         int convertToInt = Convert.ToInt32(code) + 1;
         generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
-    result:
+        result:
         return generateCode;
     }
 

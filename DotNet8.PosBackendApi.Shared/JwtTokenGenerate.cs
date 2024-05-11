@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Token;
-using Microsoft.Extensions.Options;
-
-namespace DotNet8.PosBackendApi.Shared;
+﻿namespace DotNet8.PosBackendApi.Shared;
 
 public class JwtTokenGenerate
 {
@@ -20,7 +17,8 @@ public class JwtTokenGenerate
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] {
+            Subject = new ClaimsIdentity(new[]
+            {
                 new Claim("Id", staff.StaffId.ToString()),
                 new Claim("StaffName", staff.StaffName.ToString()),
                 new Claim("StaffCode", staff.StaffCode.ToString()),
@@ -52,8 +50,10 @@ public class JwtTokenGenerate
         DateTime tokenExpired = Convert.ToDateTime(item?.Value);
 
         var staffId = decodedToken.Claims.FirstOrDefault(x => x.Type == "Id") ?? throw new Exception("Id is required.");
-        var staffName = decodedToken.Claims.FirstOrDefault(x => x.Type == "StaffName") ?? throw new Exception("StaffName is required");
-        var staffCode = decodedToken.Claims.FirstOrDefault(x => x.Type == "StaffCode") ?? throw new Exception("StaffCode is required.");
+        var staffName = decodedToken.Claims.FirstOrDefault(x => x.Type == "StaffName") ??
+                        throw new Exception("StaffName is required");
+        var staffCode = decodedToken.Claims.FirstOrDefault(x => x.Type == "StaffCode") ??
+                        throw new Exception("StaffCode is required.");
         var model = new StaffModel
         {
             StaffId = Convert.ToInt32(staffId.Value),

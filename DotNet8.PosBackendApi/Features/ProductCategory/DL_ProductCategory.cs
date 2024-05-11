@@ -1,6 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
-
-namespace DotNet8.PosBackendApi.Features.ProductCategory;
+﻿namespace DotNet8.PosBackendApi.Features.ProductCategory;
 
 public class DL_ProductCategory
 {

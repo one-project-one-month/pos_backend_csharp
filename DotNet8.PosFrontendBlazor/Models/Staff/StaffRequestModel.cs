@@ -1,6 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models
+﻿namespace DotNet8.PosFrontendBlazor.Models.Staff
 {
-    public class StaffRequestModel 
+    public class StaffRequestModel
     {
         public int StaffId { get; set; }
         public string? StaffCode { get; set; } 
