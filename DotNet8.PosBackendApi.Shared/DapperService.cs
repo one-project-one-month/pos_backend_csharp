@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace DotNet8.PosBackendApi.Shared;
+﻿namespace DotNet8.PosBackendApi.Shared;
 
 public class DapperService
 {
