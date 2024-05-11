@@ -37,6 +37,9 @@
                     <td>@item.Address</td>
                     <td>@item.Gender</td>
                     <td>@item.Position</td>
+                    <td>
+                        <MudButton OnClick="() => Edit(item)" Variant=" MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
+                    </td>
                 </tr>
             }
         </tbody>

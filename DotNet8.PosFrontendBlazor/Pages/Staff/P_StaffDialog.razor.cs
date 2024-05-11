@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using Newtonsoft.Json;
 
 namespace DotNet8.PosFrontendBlazor.Pages.Staff
 {
@@ -15,7 +16,8 @@ namespace DotNet8.PosFrontendBlazor.Pages.Staff
 
         private async Task SaveAsync()
         {
-            DateTime StaffDOB = reqModel.DateOfBirth;
+            reqModel.StaffCode = "";
+            DateTime StaffDOB = reqModel.DateOfBirth.ToDateTime();
             DateTime DateTimeNow = DateTime.Now;
             TimeSpan ageSpan = DateTimeNow - StaffDOB;
             int StaffAge = (int)(ageSpan.Days / 365.25);
@@ -42,7 +44,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Staff
                 InjectService.ShowMessage(response.Message, EnumResponseType.Success);
                 MudDialog.Close();
             }
-            
+
         }
     }
 }

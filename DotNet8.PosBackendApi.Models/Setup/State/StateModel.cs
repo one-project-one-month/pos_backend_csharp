@@ -10,8 +10,8 @@ namespace DotNet8.PosBackendApi.Models.Setup.State
     {
         public int StateId { get; set; }
 
-        public string StateCode { get; set; } = null!;
+        public string StateCode { get; set; } 
 
-        public string StateName { get; set; } = null!;
+        public string StateName { get; set; }
     }
 }

@@ -10,3 +10,4 @@ global using DotNet8.PosFrontendBlazor.Models.Township;
 global using DotNet8.PosFrontendBlazor.Services;
 global using Microsoft.AspNetCore.Components;
 global using MudBlazor;
+global using DotNet8.PosBackendApi.Shared;

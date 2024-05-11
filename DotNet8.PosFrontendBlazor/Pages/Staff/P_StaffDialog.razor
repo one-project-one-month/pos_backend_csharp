@@ -6,9 +6,10 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField @bind-Value="@reqModel.StaffCode" Label="StaffCode" />
+        @* <MudTextField @bind-Value="@reqModel.StaffCode" Label="StaffCode" /> *@
         <MudTextField @bind-Value="@reqModel.StaffName" Label="StaffName" />
-        <MudTextField @bind-Value="@reqModel.DateOfBirth" Label="DateOfBirth" />
+        <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Date Of Birth" @bind-Date="reqModel.DateOfBirth" DateFormat="dd/MM/yyyy" />
+        @* <MudTextField @bind-Value="@reqModel.DateOfBirth" Label="DateOfBirth" /> *@
         <MudTextField @bind-Value="@reqModel.MobileNo" Label="MobileNo" />
         <MudTextField @bind-Value="@reqModel.Address" Label="Address" />
         <MudSelect @bind-Value="@reqModel.Gender" Label="Please choose Gender" Variant="MudBlazor.Variant.Text">

@@ -22,3 +22,20 @@ public class CustomerParamsModel(int customerID,
 
     public string TownshipCode { get; set; } = townshipCode;
 }
+
+public class CustomerParamsModelV1
+{
+    public int CustomerId { get; set; }
+
+    public string CustomerName { get; set; } 
+
+    public string MobileNo { get; set; }
+
+    public DateTime? DateOfBirth { get; set; } 
+
+    public string Gender { get; set; } 
+
+    public string StateCode { get; set; }
+
+    public string TownshipCode { get; set; } 
+}
