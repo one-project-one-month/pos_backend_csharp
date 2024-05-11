@@ -1,7 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Customer;
-using DotNet8.PosBackendApi.Models.Setup.PageSetting;
-
-namespace DotNet8.PosBackendApi.Features.Customer;
+﻿namespace DotNet8.PosBackendApi.Features.Customer;
 
 public class DL_Customer
 {
@@ -25,7 +22,8 @@ public class DL_Customer
         }
         catch (Exception ex)
         {
-            responseModel.DataLst = [];
+            responseModel.DataLst =  []
+            ;
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
@@ -58,7 +56,8 @@ public class DL_Customer
         }
         catch (Exception ex)
         {
-            responseModel.DataLst = [];
+            responseModel.DataLst =  []
+            ;
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
@@ -90,7 +89,7 @@ public class DL_Customer
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
-    result:
+        result:
         return responseModel;
     }
 
@@ -100,8 +99,8 @@ public class DL_Customer
         try
         {
             var customerCode = await _context.TblCustomers
-            .AsNoTracking()
-            .MaxAsync(x => x.CustomerCode);
+                .AsNoTracking()
+                .MaxAsync(x => x.CustomerCode);
             requestModel.CustomerCode = customerCode.GenerateCode(EnumCodePrefix.C.ToString());
             //requestModel.CustomerCode = await GenerateUserCode();
             await _context.TblCustomers.AddAsync(requestModel.Change());
@@ -134,7 +133,7 @@ public class DL_Customer
         maxStaffCode = maxStaffCode.Substring(1);
         int staffCode = Convert.ToInt32(maxStaffCode) + 1;
         customerCode = $"C{staffCode.ToString().PadLeft(5, '0')}";
-    result:
+        result:
         return customerCode;
     }
 
@@ -231,7 +230,7 @@ public class DL_Customer
             responseModel = new MessageResponseModel(false, ex);
         }
 
-    result:
+        result:
         return responseModel;
     }
 }
