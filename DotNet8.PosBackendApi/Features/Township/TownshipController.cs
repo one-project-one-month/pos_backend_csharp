@@ -51,7 +51,7 @@ public class TownshipController : BaseController
             {
                 Token = RefreshToken(),
                 EnumPos = EnumPos.Township,
-                IsSuccess = townshipLst.MessageResponse.IsSuccess,                
+                IsSuccess = townshipLst.MessageResponse.IsSuccess,
                 Message = townshipLst.MessageResponse.Message,
                 Item = townshipLst.Data.Township,
                 PageSetting = townshipLst.Data.PageSetting
@@ -177,6 +177,8 @@ public class TownshipController : BaseController
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        };
+        }
+
+        ;
     }
 }
