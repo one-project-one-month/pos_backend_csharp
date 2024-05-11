@@ -38,7 +38,7 @@
                     <td>@item.Gender</td>
                     <td>@item.Position</td>
                     <td>
-                        <MudButton OnClick="() => Edit(item)" Variant=" MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
+                        <MudButton OnClick="() => Edit(item.StaffId)" Variant=" MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
                     </td>
                 </tr>
             }
@@ -67,19 +67,17 @@
 
     private async Task Create(StaffModel staff)
     {
-        
-       
-            var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
-            Endpoints.Staff,
-            EnumHttpMethod.Post,
-            new StaffRequestModel
-                {
-                    StaffCode = staff.StaffCode,
-                    StaffName = staff.StaffName
-                }
+
+
+        var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
+        Endpoints.Staff,
+        EnumHttpMethod.Post,
+        new StaffRequestModel
+            {
+                StaffCode = staff.StaffCode,
+                StaffName = staff.StaffName
+            }
         );
-        
-        
     }
 
     private async Task Popup()
@@ -94,6 +92,20 @@
         // var result = await dialog.Result;
 
         var result = await InjectService.ShowModalBoxAsync<P_StaffDialog>("New Staff");
+        if (!result.Canceled)
+        {
+            await List();
+        }
+    }
+
+    private async Task Edit(int staffId)
+    {
+        Console.WriteLine(staffId);
+        var parameters = new DialogParameters<P_StaffDialog>
+        {
+            { x => x._staffId, staffId },
+        };
+        var result = await InjectService.ShowModalBoxAsync<P_StaffDialog>("New Staff", parameters);
         if (!result.Canceled)
         {
             await List();
