@@ -1,15 +1,10 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Township;
-
-namespace DotNet8.PosBackendApi.Features.Township;
+﻿namespace DotNet8.PosBackendApi.Features.Township;
 
 public class BL_Township
 {
     private readonly DL_Township _dL_Township;
 
-    public BL_Township(DL_Township dL_Township)
-    {
-        _dL_Township = dL_Township;
-    }
+    public BL_Township(DL_Township dL_Township) => _dL_Township = dL_Township;
 
     public async Task<TownshipListResponseModel> GetTownship()
     {
