@@ -1,6 +1,12 @@
 ﻿namespace DotNet8.PosFrontendBlazor.Models.Customer;
 
-public class CustomerParamsModel(int customerID, string customerName, string mobileNo, DateTime? dateOfBirth, string gender, string statusCode, string townshipCode)
+public class CustomerParamsModel(int customerID, 
+    string customerName, 
+    string mobileNo, 
+    DateTime? dateOfBirth,
+    string gender, 
+    string statusCode, 
+    string townshipCode)
 {
     public int CustomerId { get; set; } = customerID;
 
