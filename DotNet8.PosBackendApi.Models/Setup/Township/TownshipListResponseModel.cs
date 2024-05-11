@@ -1,6 +1,4 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
-
-namespace DotNet8.PosBackendApi.Models.Setup.Township;
+﻿namespace DotNet8.PosBackendApi.Models.Setup.Township;
 
 public class TownshipListResponseModel
 {
