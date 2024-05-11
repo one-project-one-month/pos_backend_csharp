@@ -6,5 +6,5 @@ public class PageSettingModel(int pageNo, int pageSize, int pageCount, int total
     public int PageCount { get; set; } = pageCount;
     public int PageNo { get; set; } = pageNo;
     public int PageSize { get; set; } = pageSize;
-    public bool IsEndOfPage { get { return PageNo == PageCount; } }
+    public bool IsEndOfPage => PageNo == PageCount;
 }
