@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using DotNet8.PosFrontendBlazor.Models.Staff;
+using Microsoft.JSInterop;
 
 namespace DotNet8.PosFrontendBlazor.Pages.Staff
 {
