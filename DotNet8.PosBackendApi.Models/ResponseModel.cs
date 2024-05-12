@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Models;
+﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
+
+namespace DotNet8.PosBackendApi.Models;
 
 public class ResponseModel
 {
