@@ -1,6 +1,6 @@
 ﻿namespace DotNet8.PosFrontendBlazor.Models.State
 {
-    public class StateResponeModel
+    public class StateResponeModel:ResponseModel
     {
        public StateItemModel Data { get; set; }
     }

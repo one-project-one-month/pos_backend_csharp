@@ -1,0 +1,64 @@
+﻿@using DotNet8.PosFrontendBlazor.Models.State
+@using Newtonsoft.Json
+@page "/state"
+<MudText Typo="Typo.h6">
+    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
+    State
+</MudText>
+
+
+@if (ResponseModel is not null)
+{
+    int count = 0;
+    <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>State Code</th>
+                <th>State Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ResponseModel.Data.State)
+            {
+                <tr>
+                    <td>@(++count)</td>
+                    <td>@item.StateCode</td>
+                    <td>@item.StateName</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+}
+@code {
+    private StateListResponseModel? ResponseModel;
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InjectService.EnableLoading();
+            await List();
+            StateHasChanged();
+            await InjectService.DisableLoading();
+        }
+    }
+
+
+    private async Task List()
+    {
+        ResponseModel = await HttpClientService.ExecuteAsync<StateListResponseModel>(Endpoints.State, EnumHttpMethod.Get);
+    }
+
+     private async Task Popup()
+     {
+         var result = await InjectService.ShowModalBoxAsync<P_StateDialog>("New State");
+         if (!result.Canceled)
+         {
+             await List();
+         }
+     }
+
+
+}
