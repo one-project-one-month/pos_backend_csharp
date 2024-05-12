@@ -35,6 +35,9 @@ public class BL_Tax
         if (requestModel.Percentage <= 0)
             throw new Exception("Percentage cannot be empty.");
 
+        if (requestModel.Percentage >= 100)
+            throw new Exception("Invalid Percentage");
+
         MessageResponseModel responseModel = await _dL_Tax.CreateTax(requestModel);
 
         return responseModel;
@@ -53,6 +56,9 @@ public class BL_Tax
 
         if (requestModel.Percentage <= 0)
             throw new Exception("Percentage cannot be empty.");
+
+        if (requestModel.Percentage >= 100)
+            throw new Exception("Invalid Percentage");
 
         MessageResponseModel responseModel = await _dL_Tax.UpdateTax(id, requestModel);
         return responseModel;
