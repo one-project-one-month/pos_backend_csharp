@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Tax;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace DotNet8.PosBackendApi.Features.Tax;
 
@@ -108,7 +109,7 @@ public class DL_Tax
                 item.Percentage = requestModel.Percentage;
             }
 
-            _context.Attach(item);
+            _context.Entry(item).State = EntityState.Modified;
             int result = await _context.SaveChangesAsync();
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
@@ -120,6 +121,37 @@ public class DL_Tax
         catch (Exception ex)
         {
             responseModel = new MessageResponseModel(false, ex);
+        }
+        return responseModel;
+    }
+
+    public async Task<MessageResponseModel> DeleteTax(int id)
+    {
+        MessageResponseModel responseModel = new();
+        try
+        {
+            var item = await _context.Tbl_Taxes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.TaxId == id);
+            if (item is null)
+            {
+                responseModel = new MessageResponseModel(false, nameof(EnumStatus.NotFound));
+                return responseModel;
+            }
+
+            _context.Tbl_Taxes.Remove(item);
+            _context.Entry(item).State = EntityState.Modified;
+            int result = await _context.SaveChangesAsync();
+
+            responseModel = result > 0
+                ? new MessageResponseModel(true, nameof(EnumStatus.Success))
+                : new MessageResponseModel(false, nameof(EnumStatus.Fail));
+
+            return responseModel;
+        }
+        catch (Exception ex)
+        {
+            responseModel = new MessageResponseModel(false, ex.Message);
         }
         return responseModel;
     }

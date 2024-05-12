@@ -336,6 +336,8 @@ public static class ChangeModel
 
     #endregion
 
+    #region Tax
+
     public static TaxModel Change(this Tbl_Tax dataModel)
     {
         var tax = new TaxModel
@@ -358,4 +360,6 @@ public static class ChangeModel
         };
         return tax;
     }
+
+    #endregion
 }
