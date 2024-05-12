@@ -2,6 +2,6 @@
 {
     public class StateDataModel
     {
-       public List<StateModel> State { get; set; }
+        public List<StateModel> State { get; set; } = new List<StateModel>();
     }
 }

@@ -42,8 +42,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\State\" />
-  </ItemGroup>
-
 </Project>

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8.PosBackendApi.Features.State
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/states")]
     [ApiController]
     public class StateController : BaseController
     {

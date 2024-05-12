@@ -7,5 +7,6 @@
         public static string Product { get; } = "api/v1/products";
         public static string Staff { get; } = "api/v1/staffs";
         public static string Township { get; } = "api/v1/townships";
+        public static string State { get; } = "api/v1/states";
     }
 }
