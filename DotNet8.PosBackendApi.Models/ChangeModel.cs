@@ -347,4 +347,15 @@ public static class ChangeModel
         };
         return tax;
     }
+
+    public static Tbl_Tax Change(this TaxModel dataModel)
+    {
+        var tax = new Tbl_Tax
+        {
+            FromAmount = dataModel.FromAmount,
+            ToAmount = dataModel.ToAmount,
+            Percentage = dataModel.Percentage
+        };
+        return tax;
+    }
 }

@@ -57,4 +57,27 @@ public class DL_Tax
     result:
         return responseModel;
     }
+
+    public async Task<MessageResponseModel> CreateTax(TaxModel requestModel)
+    {
+        var responseModel = new MessageResponseModel();
+        try
+        {
+            await _context.Tbl_Taxes.AddAsync(requestModel.Change());
+            int result = await _context.SaveChangesAsync();
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.Fail.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel = new MessageResponseModel(false, ex);
+        }
+        return responseModel;
+    }
+
+    public async Task<MessageResponseModel> UpdateTax(int id, TaxModel requestModel)
+    {
+
+    }
 }
