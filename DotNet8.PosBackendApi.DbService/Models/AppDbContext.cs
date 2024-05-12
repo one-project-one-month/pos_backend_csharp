@@ -33,8 +33,19 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<TblStaff> TblStaffs { get; set; }
 
+    public virtual DbSet<Tbl_Tax> Tbl_Taxes { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Tbl_Tax>(entity =>
+        {
+            entity.HasKey(e => e.TaxId);
+            entity.ToTable("Tbl_Tax");
+            entity.Property(e => e.FromAmount).IsRequired();
+            entity.Property(e => e.ToAmount).IsRequired();
+            entity.Property(e => e.Percentage).HasColumnType("decimal(18, 2)");
+        });
+
         modelBuilder.Entity<TblCustomer>(entity =>
         {
             entity.HasKey(e => e.CustomerId);

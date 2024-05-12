@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-
-namespace DotNet8.PosBackendApi.Features.Customer;
+﻿namespace DotNet8.PosBackendApi.Features.Customer;
 
 [Route("api/v1/customers")]
 [ApiController]

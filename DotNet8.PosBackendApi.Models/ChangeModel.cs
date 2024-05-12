@@ -1,4 +1,14 @@
-﻿namespace DotNet8.PosBackendApi.Models;
+﻿using DotNet8.PosBackendApi.Models.Setup.Customer;
+using DotNet8.PosBackendApi.Models.Setup.Product;
+using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
+using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
+using DotNet8.PosBackendApi.Models.Setup.Shop;
+using DotNet8.PosBackendApi.Models.Setup.Staff;
+using DotNet8.PosBackendApi.Models.Setup.State;
+using DotNet8.PosBackendApi.Models.Setup.Tax;
+using DotNet8.PosBackendApi.Models.Setup.Township;
+
+namespace DotNet8.PosBackendApi.Models;
 
 public static class ChangeModel
 {
@@ -325,4 +335,16 @@ public static class ChangeModel
     }
 
     #endregion
+
+    public static TaxModel Change(this Tbl_Tax dataModel)
+    {
+        var tax = new TaxModel
+        {
+            TaxId = dataModel.TaxId,
+            FromAmount = dataModel.FromAmount,
+            ToAmount = dataModel.ToAmount,
+            Percentage = dataModel.Percentage,
+        };
+        return tax;
+    }
 }
