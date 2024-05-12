@@ -9,7 +9,8 @@ public enum EnumPos
     SaleInvoice,
     Customer,
     Township,
-    State
+    State,
+    Tax
 }
 
 public enum EnumCodePrefix

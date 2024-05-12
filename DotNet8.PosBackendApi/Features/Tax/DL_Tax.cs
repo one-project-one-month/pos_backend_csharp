@@ -30,4 +30,31 @@ public class DL_Tax
         }
         return taxListResponseModel;
     }
+
+    public async Task<TaxResponseModel> GetTaxById(int id)
+    {
+        TaxResponseModel responseModel = new();
+        try
+        {
+            var item = await _context.Tbl_Taxes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.TaxId == id);
+            if (item is null)
+            {
+                responseModel.MessageResponse = new MessageResponseModel
+                    (false, EnumStatus.NotFound.ToString());
+                goto result;
+            }
+
+            responseModel.Data = item.Change();
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.Data = null;
+            responseModel.MessageResponse = new MessageResponseModel(false, ex.Message);
+        }
+    result:
+        return responseModel;
+    }
 }

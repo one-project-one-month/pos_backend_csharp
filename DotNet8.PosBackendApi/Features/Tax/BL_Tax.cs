@@ -15,4 +15,12 @@ public class BL_Tax
     {
         return await _dL_Tax.GetTaxList();
     }
+
+    public async Task<TaxResponseModel> GetTaxById(int id)
+    {
+        if (id == 0)
+            throw new Exception("Id cannot be empty.");
+
+        return await _dL_Tax.GetTaxById(id);
+    }
 }
