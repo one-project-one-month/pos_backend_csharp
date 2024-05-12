@@ -18,6 +18,7 @@ public class DL_Tax
         {
             var lst = await _context.Tbl_Taxes
                 .AsNoTracking()
+                .OrderByDescending(x => x.TaxId)
                 .ToListAsync();
 
             taxListResponseModel.DataLst = lst.Select(x => x.Change()).ToList();
@@ -78,6 +79,48 @@ public class DL_Tax
 
     public async Task<MessageResponseModel> UpdateTax(int id, TaxModel requestModel)
     {
+        var responseModel = new MessageResponseModel();
+        try
+        {
+            var item = await _context.Tbl_Taxes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.TaxId == id);
+            if (item is null)
+            {
+                responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+                return responseModel;
+            }
 
+            #region Patch
+
+            if (requestModel.FromAmount != 0)
+            {
+                item.FromAmount = requestModel.FromAmount;
+            }
+
+            if (requestModel.ToAmount != 0)
+            {
+                item.ToAmount = requestModel.ToAmount;
+            }
+
+            if (requestModel.Percentage != 0)
+            {
+                item.Percentage = requestModel.Percentage;
+            }
+
+            _context.Attach(item);
+            int result = await _context.SaveChangesAsync();
+            responseModel = result > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.Fail.ToString());
+
+            #endregion
+
+        }
+        catch (Exception ex)
+        {
+            responseModel = new MessageResponseModel(false, ex);
+        }
+        return responseModel;
     }
 }

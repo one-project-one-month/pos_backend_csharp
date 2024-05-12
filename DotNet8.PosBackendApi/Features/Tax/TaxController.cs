@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DotNet8.PosBackendApi.Models.Setup.Tax;
+using System.Collections.Generic;
 
 namespace DotNet8.PosBackendApi.Features.Tax;
 
@@ -52,6 +53,29 @@ public class TaxController : BaseController
                     EnumPos = EnumPos.Tax,
                     Message = item.MessageResponse.Message,
                     Item = item
+                });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateTax([FromBody] TaxModel requestModel)
+    {
+        try
+        {
+            var tax = await _bL_Tax.CreateTax(requestModel);
+            var responseModel = _response.Return
+                (new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    IsSuccess = tax.IsSuccess,
+                    EnumPos = EnumPos.Tax,
+                    Message = tax.Message,
+                    Item = requestModel
                 });
             return Content(responseModel);
         }

@@ -23,4 +23,20 @@ public class BL_Tax
 
         return await _dL_Tax.GetTaxById(id);
     }
+
+    public async Task<MessageResponseModel> CreateTax(TaxModel requestModel)
+    {
+        if (requestModel.FromAmount <= 0)
+            throw new Exception("From Amount cannot be empty.");
+
+        if (requestModel.ToAmount <= 0)
+            throw new Exception("To Amount cannot be empty.");
+
+        if (requestModel.Percentage <= 0)
+            throw new Exception("Percentage cannot be empty.");
+
+        MessageResponseModel responseModel = await _dL_Tax.CreateTax(requestModel);
+
+        return responseModel;
+    }
 }
