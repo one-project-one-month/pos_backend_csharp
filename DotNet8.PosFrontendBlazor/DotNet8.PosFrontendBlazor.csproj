@@ -42,4 +42,12 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\State\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNet8.PosBackendApi.Shared\DotNet8.PosBackendApi.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -5,6 +5,7 @@ using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
 using DotNet8.PosBackendApi.Models.Setup.Shop;
 using DotNet8.PosBackendApi.Models.Setup.Staff;
 using DotNet8.PosBackendApi.Models.Setup.State;
+using DotNet8.PosBackendApi.Models.Setup.Tax;
 using DotNet8.PosBackendApi.Models.Setup.Township;
 
 namespace DotNet8.PosBackendApi.Models;
@@ -79,6 +80,7 @@ public static class ChangeModel
     #endregion
 
     #region Product
+
     public static ProductModel Change(this TblProduct dataModel)
     {
         var model = new ProductModel()
@@ -103,6 +105,7 @@ public static class ChangeModel
         };
         return model;
     }
+
     #endregion
 
     #region ProductCategory
@@ -294,6 +297,7 @@ public static class ChangeModel
         };
         return township;
     }
+
     public static TblPlaceTownship Change(this TownshipModel requestModel)
     {
         var townshipDataModel = new TblPlaceTownship
@@ -304,9 +308,11 @@ public static class ChangeModel
         };
         return townshipDataModel;
     }
+
     #endregion
 
     #region State
+
     public static StateModel Change(this TblPlaceState dataModel)
     {
         var state = new StateModel
@@ -326,6 +332,33 @@ public static class ChangeModel
             StateName = requestModel.StateName
         };
         return StateDataModel;
+    }
+
+    #endregion
+
+    #region Tax
+
+    public static TaxModel Change(this Tbl_Tax dataModel)
+    {
+        var tax = new TaxModel
+        {
+            TaxId = dataModel.TaxId,
+            FromAmount = dataModel.FromAmount,
+            ToAmount = dataModel.ToAmount,
+            Percentage = dataModel.Percentage,
+        };
+        return tax;
+    }
+
+    public static Tbl_Tax Change(this TaxModel dataModel)
+    {
+        var tax = new Tbl_Tax
+        {
+            FromAmount = dataModel.FromAmount,
+            ToAmount = dataModel.ToAmount,
+            Percentage = dataModel.Percentage
+        };
+        return tax;
     }
 
     #endregion

@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Models;
+﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
+
+namespace DotNet8.PosBackendApi.Models;
 
 public class ResponseModel
 {
@@ -40,9 +42,13 @@ public class ResponseModel
                 )
             )
         );
-        if(model.Count is not null)
+        if (model.Count is not null)
         {
             jsonObject.Add(new JProperty("result", model.Count));
+        }
+        if (model.PageSetting is not null)
+        {
+            jsonObject.Add(new JProperty("pageSetting", JToken.FromObject(model.PageSetting)));
         }
         return jsonObject;
     }
@@ -56,4 +62,5 @@ public class ReturnModel
     public EnumPos EnumPos { get; set; }
     public bool IsSuccess { get; set; }
     public object? Item { get; set; }
+    public PageSettingModel PageSetting { get; set; }
 }

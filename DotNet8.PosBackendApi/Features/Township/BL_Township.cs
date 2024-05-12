@@ -1,15 +1,10 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Township;
-
-namespace DotNet8.PosBackendApi.Features.Township;
+﻿namespace DotNet8.PosBackendApi.Features.Township;
 
 public class BL_Township
 {
     private readonly DL_Township _dL_Township;
 
-    public BL_Township(DL_Township dL_Township)
-    {
-        _dL_Township = dL_Township;
-    }
+    public BL_Township(DL_Township dL_Township) => _dL_Township = dL_Township;
 
     public async Task<TownshipListResponseModel> GetTownship()
     {
@@ -17,10 +12,23 @@ public class BL_Township
         return response;
     }
 
+    public async Task<TownshipListResponseModel> GetTownship(int pageNo, int pageSize)
+    {
+        var response = await _dL_Township.GetTownship(pageNo, pageSize);
+        return response;
+    }
+
     public async Task<TownshipResponseModel> GetTownshipByCode(string TownshipCode)
     {
         if (TownshipCode is null) throw new Exception("TownshipCode is null");
         var response = await _dL_Township.GetTownshipByCode(TownshipCode);
+        return response;
+    }
+
+    public async Task<TownshipListResponseModel> GetTownshipByStateCode(string stateCode)
+    {
+        if (stateCode is null) throw new Exception("StateCode is null");
+        var response = await _dL_Township.GetTownshipByStateCode(stateCode);
         return response;
     }
 

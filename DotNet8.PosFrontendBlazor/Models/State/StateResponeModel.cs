@@ -2,6 +2,11 @@
 {
     public class StateResponeModel:ResponseModel
     {
-       public StateModel Item { get; set; }
+       public StateItemModel Data { get; set; }
+    }
+
+    public class StateItemModel
+    {
+        public StateModel State { get; set; }
     }
 }

@@ -4,10 +4,7 @@ public class BL_Login
 {
     private readonly DL_Login _DL_login;
 
-    public BL_Login(DL_Login login)
-    {
-        _DL_login = login;
-    }
+    public BL_Login(DL_Login login) => _DL_login = login;
 
     public async Task<TokenResponseModel> Login(LoginRequestModel reqModel)
     {

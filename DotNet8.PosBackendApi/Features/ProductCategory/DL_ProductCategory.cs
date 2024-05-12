@@ -29,6 +29,39 @@ public class DL_ProductCategory
         return responseModel;
     }
 
+    public async Task<ProductCategoryListResponseModel> GetProductCategory(int pageNo, int pageSize)
+    {
+        var responseModel = new ProductCategoryListResponseModel();
+        try
+        {
+            var query = _context
+                .TblProductCategories
+                .AsNoTracking();
+            var totalCount = await query.CountAsync();
+            var pageCount = totalCount / pageSize;
+            if (totalCount % pageSize > 0)
+                pageCount++;
+
+            var lst = await query
+                .Pagination(pageNo, pageSize)
+                .ToListAsync();
+
+            responseModel.Data = new ProductCategoryDataModel
+            {
+                ProductCategory = lst.Select(x => x.Change()).ToList(),
+                PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount)
+            };
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.DataList = new List<ProductCategoryModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
+        return responseModel;
+    }
+
     public async Task<ProductCategoryResponseModel> GetProductCategoryByCode(string productCategoryCode)
     {
         var responseModel = new ProductCategoryResponseModel();
@@ -66,7 +99,7 @@ public class DL_ProductCategory
             var productCategoryCode = await _context.TblProductCategories
             .AsNoTracking()
             .MaxAsync(x => x.ProductCategoryCode);
-            requestModel.ProductCategoryCode = productCategoryCode.GenerateCode(EnumCodePrefix.PC.ToString());
+            requestModel.ProductCategoryCode = productCategoryCode.GenerateProductCategoryCode(EnumCodePrefix.PC_.ToString());
             await _context.TblProductCategories.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0

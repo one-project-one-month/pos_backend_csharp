@@ -1,7 +1,10 @@
 ﻿namespace DotNet8.PosBackendApi.Models;
+
 public class MessageResponseModel
 {
-    public MessageResponseModel() { }
+    public MessageResponseModel()
+    {
+    }
 
     public MessageResponseModel(bool isSuccess, string message)
     {

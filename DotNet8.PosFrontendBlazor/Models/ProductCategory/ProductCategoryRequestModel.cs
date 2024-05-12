@@ -1,6 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models
+﻿namespace DotNet8.PosFrontendBlazor.Models.ProductCategory
 {
-    public class ProductCategoryModel
+    public class ProductCategoryRequestModel
     {
         public int ProductCategoryId { get; set; }
         public string ProductCategoryCode { get; set; } = null!;
