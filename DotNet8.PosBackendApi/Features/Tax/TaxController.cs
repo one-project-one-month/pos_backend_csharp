@@ -84,4 +84,50 @@ public class TaxController : BaseController
             throw new Exception(ex.Message);
         }
     }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateTax([FromBody] TaxModel requestModel, int id)
+    {
+        try
+        {
+            var tax = await _bL_Tax.UpdateTax(id, requestModel);
+            var responseModel = _response.Return
+                (new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    IsSuccess = tax.IsSuccess,
+                    EnumPos = EnumPos.Tax,
+                    Message = tax.Message,
+                    Item = requestModel
+                });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTax(int id)
+    {
+        try
+        {
+            var tax = await _bL_Tax.DeleteTax(id);
+            var responseModel = _response.Return
+                (new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    IsSuccess = tax.IsSuccess,
+                    EnumPos = EnumPos.Tax,
+                    Message = tax.Message,
+                    Item = tax
+                });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
 }

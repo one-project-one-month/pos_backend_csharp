@@ -39,4 +39,31 @@ public class BL_Tax
 
         return responseModel;
     }
+
+    public async Task<MessageResponseModel> UpdateTax(int id, TaxModel requestModel)
+    {
+        if (id <= 0)
+            throw new Exception("Id cannot be empty.");
+
+        if (requestModel.FromAmount <= 0)
+            throw new Exception("From Amount cannot be empty.");
+
+        if (requestModel.ToAmount <= 0)
+            throw new Exception("To Amount cannot be empty.");
+
+        if (requestModel.Percentage <= 0)
+            throw new Exception("Percentage cannot be empty.");
+
+        MessageResponseModel responseModel = await _dL_Tax.UpdateTax(id, requestModel);
+        return responseModel;
+    }
+
+    public async Task<MessageResponseModel> DeleteTax(int id)
+    {
+        if (id <= 0)
+            throw new Exception("Id cannot be empty.");
+
+        MessageResponseModel responseModel = await _dL_Tax.DeleteTax(id);
+        return responseModel;
+    }
 }
