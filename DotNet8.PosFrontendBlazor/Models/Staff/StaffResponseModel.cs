@@ -1,8 +1,12 @@
-﻿
-namespace DotNet8.PosFrontendBlazor.Models
+﻿namespace DotNet8.PosFrontendBlazor.Models.Staff
 {
     public class StaffResponseModel : ResponseModel
     {
-        public StaffModel Item { get; set; }
+        public DataModel Data { get; set; } = new DataModel();
+    }
+
+    public class DataModel
+    {
+        public StaffModel Staff { get; set; }
     }
 }

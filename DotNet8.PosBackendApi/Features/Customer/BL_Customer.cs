@@ -12,6 +12,17 @@ public class BL_Customer
         return response;
     }
 
+    public async Task<CustomerListResponseModel> GetCustomer(int pageNo, int pageSize)
+    {
+        if (pageNo == 0)
+            throw new Exception("Page No cannot be empty.");
+
+        if (pageSize == 0)
+            throw new Exception("Page Size cannot be empty.");
+
+        return await _dL_Customer.GetCustomer(pageNo, pageSize);
+    }
+
     public async Task<CustomerResponseModel> GetCustomerByCode(string customerCode)
     {
         if (customerCode is null) throw new Exception("customerCode is null");

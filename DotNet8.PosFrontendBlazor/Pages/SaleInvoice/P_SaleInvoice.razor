@@ -1,0 +1,40 @@
+﻿@page "/sale-invoice"
+@using Newtonsoft.Json
+
+@if (ResponseModel is not null)
+{
+    <MudGrid Spacing="2">
+        @foreach (var item in ResponseModel.Data.Product)
+        {
+            <MudItem xs="4">
+                <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                    <MudText>
+                        <MudImage Src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnciW5w-jCOnI1XnAhc1RuNq5BgYubMy5Zhw&s" Alt="Mony the dog" Elevation="25" Class="rounded-lg"/>
+                        <MudText Typo="Typo.body2">@item.Price</MudText>
+                    </MudText>
+                </MudPaper>
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+@code {
+    private ProductListResponseModel? ResponseModel;
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InjectService.EnableLoading();
+            await List();
+            StateHasChanged();
+            await InjectService.DisableLoading();
+        }
+    }
+
+    private async Task List()
+    {
+        ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
+    }
+
+}

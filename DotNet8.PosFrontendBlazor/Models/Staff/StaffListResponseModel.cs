@@ -1,5 +1,4 @@
-﻿
-namespace DotNet8.PosFrontendBlazor.Models
+﻿namespace DotNet8.PosFrontendBlazor.Models.Staff
 {
     public class StaffListResponseModel : ResponseModel
     {

@@ -1,4 +1,6 @@
-﻿
+using DotNet8.PosFrontendBlazor.Models.Staff;
+using Microsoft.JSInterop;
+using Newtonsoft.Json;
 
 namespace DotNet8.PosFrontendBlazor.Pages.Staff
 {
@@ -6,23 +8,36 @@ namespace DotNet8.PosFrontendBlazor.Pages.Staff
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-        private StaffRequestModel reqModel = new();
+        public StaffRequestModel _reqModel { get; set; } = new();
 
-        [Parameter] public DateTime? DateOfBirth { get; set; }
-        [Parameter] public int StaffId { get; set; }
+        [Parameter] public int _staffId { get; set; }
 
-        [Parameter] public string StaffCode { get; set; } = null!;
-
-        [Parameter] public string StaffName { get; set; } = null!;
-
-        [Parameter] public string MobileNo { get; set; } = null!;
-
-        [Parameter] public string Gender { get; set; } = null!;
-
-        [Parameter] public string StateCode { get; set; } = null!;
-
-        [Parameter] public string TownshipCode { get; set; } = null!;
-
+        protected override async Task OnParametersSetAsync()
+        {
+            await GetStaff();
+        }
+        private async Task GetStaff()
+        {
+            Console.WriteLine(_staffId);
+            if (_staffId > 0)
+            {
+                var staff = await HttpClientService.ExecuteAsync<StaffResponseModel>(
+                    $"{Endpoints.Staff}/ {_staffId}",
+                    EnumHttpMethod.Get
+                    );
+                _reqModel = new StaffRequestModel
+                {
+                    StaffName = staff.Data.Staff.StaffName,
+                    StaffCode = staff.Data.Staff.StaffCode,
+                    Address = staff.Data.Staff.Address,
+                    DateOfBirth = staff.Data.Staff.DateOfBirth,
+                    Gender = staff.Data.Staff.Gender,
+                    MobileNo = staff.Data.Staff.MobileNo,
+                    Password = staff.Data.Staff.Password,
+                    Position = staff.Data.Staff.Position,
+                };
+            }
+        }
         private void Cancel()
         {
             MudDialog.Cancel();
@@ -30,45 +45,33 @@ namespace DotNet8.PosFrontendBlazor.Pages.Staff
 
         private async Task SaveAsync()
         {
-            DateTime StaffDOB = Convert.ToDateTime(reqModel.DateOfBirth);
+            _reqModel.StaffCode = "";
+            DateTime StaffDOB = _reqModel.DateOfBirth.ToDateTime();
             DateTime DateTimeNow = DateTime.Now;
             TimeSpan ageSpan = DateTimeNow - StaffDOB;
             int StaffAge = (int)(ageSpan.Days / 365.25);
-            int NoOfPhNo = reqModel.MobileNo.Length;
-            
             if (StaffAge < 18)
             {
                 //await JSRuntime.InvokeVoidAsync("alert", "Staff Age must be greater than 18 years.");
-                InjectService.ShowMessage("Staff Age must be greater than 18 years.", EnumResponseType.Error);
+                InjectService.ShowMessage("Staff Age must be greater than 18 years.", EnumResponseType.Success);
+                return;
             }
-            else if (NoOfPhNo > 11 || NoOfPhNo < 11)
-            {
-                InjectService.ShowMessage("PhoneNo must have 11 digit.", EnumResponseType.Error);
-            }
-            else if (NoOfPhNo > 11 || NoOfPhNo < 11)
-            {
-                InjectService.ShowMessage("PhoneNo must have 11 digit.", EnumResponseType.Error);
-            }
-            else
-            {
-                
-                var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
-                Endpoints.Staff,
-                EnumHttpMethod.Post,
-                reqModel
-                );
-                if (response.IsError)
-                {
-                    //Console.WriteLine(response.Message);
-                    //Console.WriteLine(EnumResponseType.Error);
-                    InjectService.ShowMessage(response.Message, EnumResponseType.Error);
-                    return;
-                }
 
-                InjectService.ShowMessage(response.Message, EnumResponseType.Success);
-                MudDialog.Close();
+            var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
+            Endpoints.Staff,
+            EnumHttpMethod.Post,
+            _reqModel
+            );
+            if (response.IsError)
+            {
+                Console.WriteLine(response.Message);
+                Console.WriteLine(EnumResponseType.Error);
+                InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+                return;
             }
-            
+
+            InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+            MudDialog.Close();
         }
     }
 }

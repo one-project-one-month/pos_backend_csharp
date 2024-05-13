@@ -35,11 +35,6 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
         }
         private bool validate()
         {
-            if (string.IsNullOrEmpty(reqModel.ProductCode))
-            {
-                ShowWarningMessage("Product Code is required.");
-                return false;
-            }
             if (string.IsNullOrEmpty(reqModel.ProductName))
             {
                 ShowWarningMessage("Product Name is required.");

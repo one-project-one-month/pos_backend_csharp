@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models
+﻿namespace DotNet8.PosFrontendBlazor.Models.Staff
 {
     public class StaffModel
     {
@@ -11,6 +11,5 @@
         public string Gender { get; set; } = null!;
         public string Position { get; set; } = null!;
         public string Password { get; set; } = null!;
-
     }
 }
