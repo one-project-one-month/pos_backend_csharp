@@ -3,23 +3,69 @@
 
 @if (ResponseModel is not null)
 {
-    <MudGrid Spacing="2">
-        @foreach (var item in ResponseModel.Data.Product)
-        {
-            <MudItem xs="4">
-                <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                    <MudText>
-                        <MudImage Src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnciW5w-jCOnI1XnAhc1RuNq5BgYubMy5Zhw&s" Alt="Mony the dog" Elevation="25" Class="rounded-lg"/>
-                        <MudText Typo="Typo.body2">@item.Price</MudText>
-                    </MudText>
-                </MudPaper>
-            </MudItem>
-        }
+    <MudGrid>
+        <MudItem xs="9">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full mud-height-full py-8">
+                <MudGrid>
+                    @foreach (var item in ResponseModel.Data.Product)
+                    {
+                        <MudItem xs="4">
+                            <MudPaper>
+                                <div class="d-flex justify-center" Elevation="25">
+                                    <MudLink OnClick="@(()=>AddItem(item))" Underline="Underline.None">
+                                        <MudImage ObjectPosition="ObjectPosition.Center" Src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnciW5w-jCOnI1XnAhc1RuNq5BgYubMy5Zhw&s" Alt="@item.ProductName" Elevation="25" Class="rounded-lg" Width="100" />
+                                    </MudLink>
+                                </div>
+                                <MudText Align="Align.Center" Typo="Typo.body2">@item.Price</MudText>
+                                <MudText Align="Align.Center" Typo="Typo.body2">@item.ProductName</MudText>
+                            </MudPaper>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="3">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                <MudGrid>
+                    @if (lstProduct is not null && lstProduct.Count > 0)
+                    {
+                        @foreach (var product in lstProduct)
+                        {
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0">
+                                    <div class="d-flex align-center  ml-8 ">
+                                        <MudImage ObjectPosition="ObjectPosition.Center" Src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnciW5w-jCOnI1XnAhc1RuNq5BgYubMy5Zhw&s" Elevation="25" Class="rounded-lg" Width="50" />
+                                        <MudText Align="Align.Center" Class="pa-2">@product.ProductName</MudText>
+                                        <MudText Align="Align.Right">@product.Price  </MudText>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex align-center ml-8 ">
+                                            <MudText Align="Align.Left">
+                                                <MudIconButton Icon="@Icons.Material.Filled.AddCircle"></MudIconButton>
+                                            </MudText>
+                                            <MudText Align="Align.Center">@product.Quantity</MudText>
+                                            <MudText Align="Align.Right">
+                                                <MudIconButton Icon="@Icons.Material.Filled.RemoveCircle"></MudIconButton>
+                                            </MudText>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-center ">
+                                    </div>
+                                </MudPaper>
+                            </MudItem>
+                        }
+                    }
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
     </MudGrid>
+
 }
 
 @code {
     private ProductListResponseModel? ResponseModel;
+    private List<ProductModel>? lstProduct = new List<ProductModel>();
+    private bool IsAddItem { get; set; }
 
     protected override async void OnAfterRender(bool firstRender)
     {
@@ -35,6 +81,20 @@
     private async Task List()
     {
         ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
+    }
+    private async Task AddItem(ProductModel requestModel)
+    {
+        Console.WriteLine(requestModel.ProductName);
+        if (!lstProduct!.Contains(requestModel))
+        {
+            requestModel.Quantity = 1;
+            lstProduct!.Add(requestModel);
+        }
+        else
+        {
+            lstProduct.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity += 1;
+        }
+        Console.WriteLine(JsonConvert.SerializeObject(lstProduct));
     }
 
 }
