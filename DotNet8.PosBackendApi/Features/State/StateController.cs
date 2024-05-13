@@ -7,14 +7,14 @@ public class StateController : BaseController
     private readonly BL_State _bL_State;
     private readonly ResponseModel _response;
 
-    public StateController(
-        IServiceProvider serviceProvider,
-        BL_State bL_State,
-        ResponseModel response) : base(serviceProvider)
-    {
-        _bL_State = bL_State;
-        _response = response;
-    }
+        public StateController(
+            IServiceProvider serviceProvider,
+            BL_State bL_State,
+            ResponseModel response) : base(serviceProvider)
+        {
+            _bL_State = bL_State;
+            _response = response;
+        }
 
     [HttpGet]
     public async Task<IActionResult> GetState()
