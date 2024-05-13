@@ -2,11 +2,9 @@
 @using Newtonsoft.Json
 @page "/state"
 <MudText Typo="Typo.h6">
-    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
+    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="@(()=>Popup("New State"))"></MudIconButton>
     State
 </MudText>
-
-
 @if (ResponseModel is not null)
 {
     int count = 0;
@@ -16,6 +14,7 @@
                 <th>No.</th>
                 <th>State Code</th>
                 <th>State Name</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -25,11 +24,16 @@
                     <td>@(++count)</td>
                     <td>@item.StateCode</td>
                     <td>@item.StateName</td>
+                    <td>
+                        <MudButton OnClick="@(()=>Popup("Edit State",item.StateCode))" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
+                        <MudButton OnClick="@(()=>Delete(item.StateId,item.StateName))" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
+                    </td>
                 </tr>
             }
         </tbody>
     </MudSimpleTable>
 }
+
 @code {
     private StateListResponseModel? ResponseModel;
 
@@ -51,14 +55,40 @@
         ResponseModel = await HttpClientService.ExecuteAsync<StateListResponseModel>(Endpoints.State, EnumHttpMethod.Get);
     }
 
-     private async Task Popup()
-     {
-         var result = await InjectService.ShowModalBoxAsync<P_StateDialog>("New State");
-         if (!result.Canceled)
-         {
-             await List();
-         }
-     }
+    private async Task Popup(string title, string stateCode = null)
+    {
+        DialogResult result;
+        if (stateCode is null)
+        {
+            result = await InjectService.ShowModalBoxAsync<P_StateDialog>(title);
+        }
+        else
+        {
+            var StaModel = await HttpClientService.ExecuteAsync<StateResponeModel>(Endpoints.State + "/" + stateCode, EnumHttpMethod.Get);
+            var parameters = new DialogParameters<P_StateDialog>();
+            parameters.Add(x => x.model, StaModel == null ? new StateModel() : StaModel.Data.State);
+            result = await InjectService.ShowModalBoxAsync<P_StateDialog>(title, parameters);
+        }
 
+        if (!result.Canceled)
+        {
+            await List();
+            StateHasChanged();
+        }
+    }
+
+    private async Task Delete(int stateId,string stateName)
+    {
+        var parameters = new DialogParameters<P_StateDeleteDialog>();
+        parameters.Add(x => x.contentText, $"Are you sure want to delete {stateName} state?");
+        parameters.Add(x => x.buttonText, "Delete");
+        parameters.Add(x => x.color, Color.Error);
+        parameters.Add(x => x.stateId, stateId);
+
+        var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        var result = await InjectService.ShowModalBoxAsync<P_StateDeleteDialog>("Delete", parameters);
+        if (!result.Cancelled)
+            await List();
+    }
 
 }
