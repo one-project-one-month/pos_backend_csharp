@@ -1,5 +1,6 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Tax;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Collections.Generic;
 
 namespace DotNet8.PosBackendApi.Features.Tax;
 
@@ -24,6 +25,47 @@ public class DL_Tax
 
             taxListResponseModel.DataLst = lst.Select(x => x.Change()).ToList();
             taxListResponseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            taxListResponseModel.DataLst = [];
+            taxListResponseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+        return taxListResponseModel;
+    }
+
+    public async Task<TaxListResponseModel> GetTaxList(int pageNo, int pageSize)
+    {
+        TaxListResponseModel taxListResponseModel = new();
+        try
+        {
+            var query = _context
+                .Tbl_Taxes
+                .AsNoTracking();
+
+            var tax = await query
+                .Pagination(pageNo, pageSize)
+                .ToListAsync();
+
+            var totalCount = await query.CountAsync();
+            var pageCount = totalCount / pageSize;
+
+            if (totalCount % pageSize > 0)
+            {
+                pageCount++;
+            }
+
+            taxListResponseModel.DataLst = tax.Select(x => x.Change()).ToList();
+            taxListResponseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+            taxListResponseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
+
+            //var lst = await _context.Tbl_Taxes
+            //    .AsNoTracking()
+            //    .OrderByDescending(x => x.TaxId)
+            //    .ToListAsync();
+
+            //taxListResponseModel.DataLst = lst.Select(x => x.Change()).ToList();
+            //taxListResponseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
         catch (Exception ex)
         {
