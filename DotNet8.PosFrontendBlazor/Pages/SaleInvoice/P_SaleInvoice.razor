@@ -1,4 +1,5 @@
 ﻿@page "/sale-invoice"
+@using DotNet8.PosFrontendBlazor.Models.SaleInvoice
 @using Newtonsoft.Json
 
 @if (ResponseModel is not null)
@@ -27,34 +28,49 @@
         <MudItem xs="3">
             <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
                 <MudGrid>
-                    @if (lstProduct is not null && lstProduct.Count > 0)
+                    @if (lstSaleInvoice is not null && lstSaleInvoice.Count > 0)
                     {
-                        @foreach (var product in lstProduct)
+                        @foreach (var product in lstSaleInvoice)
                         {
-                            <MudItem xs="12">
-                                <MudPaper Elevation="0">
-                                    <div class="d-flex align-center  ml-8 ">
-                                        <MudImage ObjectPosition="ObjectPosition.Center" Src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnciW5w-jCOnI1XnAhc1RuNq5BgYubMy5Zhw&s" Elevation="25" Class="rounded-lg" Width="50" />
-                                        <MudText Align="Align.Center" Class="pa-2">@product.ProductName</MudText>
-                                        <MudText Align="Align.Right">@product.Price  </MudText>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex align-center ml-8 ">
-                                            <MudText Align="Align.Left">
-                                                <MudIconButton Icon="@Icons.Material.Filled.AddCircle"></MudIconButton>
-                                            </MudText>
-                                            <MudText Align="Align.Center">@product.Quantity</MudText>
-                                            <MudText Align="Align.Right">
-                                                <MudIconButton Icon="@Icons.Material.Filled.RemoveCircle"></MudIconButton>
-                                            </MudText>
+                            if (product.Quantity > 0)
+                            {
+                                <MudItem xs="12">
+                                    <MudPaper Elevation="0">
+                                        <div class="d-flex align-center  ml-8 ">
+                                            <MudImage ObjectPosition="ObjectPosition.Center" Src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnciW5w-jCOnI1XnAhc1RuNq5BgYubMy5Zhw&s" Elevation="25" Class="rounded-lg" Width="50" />
+                                            <MudText Align="Align.Center" Class="pa-2">@product.ProductName</MudText>
+                                            <MudText Align="Align.Right">@product.Amount  </MudText>
                                         </div>
-                                    </div>
-                                    <div class="d-flex align-center ">
-                                    </div>
-                                </MudPaper>
-                            </MudItem>
+                                        <div>
+                                            <div class="d-flex align-center ml-16 ">
+                                                <MudText Align="Align.Left">
+                                                    <MudIconButton Icon="@Icons.Material.Filled.AddCircle" OnClick="@(()=>IncreaseCount(product))"> </MudIconButton>
+                                                </MudText>
+                                                <MudText Align="Align.Center" Typo="Typo.body2">@product.Quantity</MudText>
+                                                <MudText Align="Align.Right" Typo="Typo.body2">
+                                                    <MudIconButton Icon="@Icons.Material.Filled.RemoveCircle" OnClick="@(()=>DecreaseCount(product))"></MudIconButton>
+                                                </MudText>
+                                            </div>
+                                        </div>
+
+                                    </MudPaper>
+                                </MudItem>
+                            }
                         }
+                        <MudItem xs="12">
+                            <MudPaper Elevation="0" Class="mt-4 text-white ml-2  mr-2" Style="@($"background:#006064;color:#FFFFFF;height:80%;")">
+                                <MudGrid>
+                                    <MudItem xs="6">
+                                        <MudText Typo="Typo.body2" Align="Align.Left" Class="ml-4 mt-2">@lstSaleInvoice.Sum(x => x.Amount)</MudText>
+                                    </MudItem>
+                                    <MudItem xs="6" Class="d-flex align-items-center justify-end mb-4">
+                                        <MudButton Align="Align.Right" Style="color: white;">Pay ></MudButton>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudPaper>
+                        </MudItem>
                     }
+
                 </MudGrid>
             </MudPaper>
         </MudItem>
@@ -64,8 +80,7 @@
 
 @code {
     private ProductListResponseModel? ResponseModel;
-    private List<ProductModel>? lstProduct = new List<ProductModel>();
-    private bool IsAddItem { get; set; }
+    private List<SaleInvoiceDetailModel>? lstSaleInvoice = new List<SaleInvoiceDetailModel>();
 
     protected override async void OnAfterRender(bool firstRender)
     {
@@ -82,19 +97,43 @@
     {
         ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
     }
-    private async Task AddItem(ProductModel requestModel)
+    private void AddItem(ProductModel requestModel)
     {
-        Console.WriteLine(requestModel.ProductName);
-        if (!lstProduct!.Contains(requestModel))
+        SaleInvoiceDetailModel saleInvoiceDetail = new SaleInvoiceDetailModel
+            {
+                ProductCode = requestModel.ProductCode,
+                ProductName = requestModel.ProductName,
+                Price = requestModel.Price,
+            };
+
+        if (!lstSaleInvoice.Where(x=>x.ProductCode==requestModel.ProductCode).Any())
         {
-            requestModel.Quantity = 1;
-            lstProduct!.Add(requestModel);
+            saleInvoiceDetail.Quantity = 1;
+            saleInvoiceDetail.Amount = requestModel.Price;
+            lstSaleInvoice!.Add(saleInvoiceDetail);
         }
         else
         {
-            lstProduct.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity += 1;
+            lstSaleInvoice.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity += 1;
+            lstSaleInvoice.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Amount += requestModel.Price;
         }
-        Console.WriteLine(JsonConvert.SerializeObject(lstProduct));
+        Console.WriteLine(lstSaleInvoice.Select(x => x.Price * x.Quantity).Sum());
     }
 
+    private void IncreaseCount(SaleInvoiceDetailModel requestModel)
+    {
+        requestModel.Quantity += 1;
+        lstSaleInvoice!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity = requestModel.Quantity; ;
+        lstSaleInvoice!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Amount = (requestModel.Price * requestModel.Quantity);
+    }
+
+    private void DecreaseCount(SaleInvoiceDetailModel requestModel)
+    {
+        if (requestModel.Quantity > 0)
+        {
+            requestModel.Quantity += -1;
+            lstSaleInvoice!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity = requestModel.Quantity;
+            lstSaleInvoice!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Amount = (requestModel.Price * requestModel.Quantity);
+        }
+    }
 }
