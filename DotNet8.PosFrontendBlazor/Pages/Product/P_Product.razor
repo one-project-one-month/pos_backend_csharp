@@ -24,70 +24,20 @@
             @foreach (var item in ResponseModel.Data.Product)
             {
                 <tr>
-                    <td>@(++count)</td>
+                    <td>@(++count + ((ResponseModel.PageSetting.PageNo - 1) * ResponseModel.PageSetting.PageSize))</td>
                     <td>@item.ProductCode</td>
                     <td>@item.ProductName</td>
                     <td>@item.ProductCategoryCode</td>
                     <td>@item.Price</td>
                     <td>
-                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(()=>Popup("Edit Township"))">Edit</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(()=>EditPopUp(item.ProductId, item.ProductCode, item.ProductName, item.ProductCategoryCode, item.Price))">Edit</MudButton>
                         <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(()=>Delete(item.ProductId))">Delete</MudButton>
                     </td>
                 </tr>
             }
         </tbody>
     </MudSimpleTable>
+
+    <MudPagination SelectedChanged="PageChanged" Variant="MudBlazor.Variant.Filled" Count="@ResponseModel.PageSetting.PageCount" Style="margin-top:3%" />
 }
 
-
-@code {
-    private ProductListResponseModel? ResponseModel;
-
-    protected override async void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await InjectService.EnableLoading();
-            await List();
-            StateHasChanged();
-            await InjectService.DisableLoading();
-        }
-    }
-
-    private async Task List()
-    {
-        ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
-    }
-
-    private async Task Popup(string title)
-    {
-        //MudBlazor.DialogOptions maxWidth = new MudBlazor.DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
-        //var dialog = await DialogService.ShowAsync<P_ProductDialog>("New Product", maxWidth);
-        //var result = await dialog.Result;
-
-        var result = await InjectService.ShowModalBoxAsync<P_ProductDialog>(title);
-        if (!result.Canceled)
-        {
-            await List();
-        }
-    }
-
-    private async Task Delete(int id)
-    {
-        var parameters = new DialogParameters<P_ProductDeleteDialog>();
-        parameters.Add(x => x.contentText, "Are you sure you want to delete?");
-        parameters.Add(x => x.productId, id);
-
-        var options = new MudBlazor.DialogOptions() { 
-            CloseButton = true, 
-            MaxWidth = MaxWidth.ExtraSmall 
-        };
-
-        var result = await InjectService.ShowModalBoxAsync<P_ProductDeleteDialog>("Delete", parameters);
-        if (!result.Canceled)
-        {
-            await List();
-        }
-    }
-
-}
