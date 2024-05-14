@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosFrontendBlazor.Models.Tax;
+using MudBlazor;
 
 namespace DotNet8.PosFrontendBlazor.Pages.Tax
 {
@@ -35,14 +36,36 @@ namespace DotNet8.PosFrontendBlazor.Pages.Tax
                 await List();
         }
 
-        public async Task EditPopUp()
+        public async Task EditPopUp(int id, int? fromAmount, int? toAmount, decimal? percentage)
         {
-            DialogResult dialogResult = await InjectService.ShowModalBoxAsync<P_EditTaxDialog>("Edit Tax");
+            TaxModel model = new()
+            {
+                TaxId = id,
+                FromAmount = fromAmount,
+                ToAmount = toAmount,
+                Percentage = percentage
+            };
+            DialogParameters parameters = new DialogParameters<P_EditTaxDialog>()
+            {
+                {x => x.requestModel, model }
+            };
+
+            DialogResult dialogResult = await InjectService.ShowModalBoxAsync<P_EditTaxDialog>("Edit Tax", parameters);
+
+            if (!dialogResult.Canceled)
+                await List();
         }
 
-        public async Task DeletePopUp()
+        public async Task DeletePopUp(int id)
         {
-            DialogResult result = await InjectService.ShowModalBoxAsync<P_DeleteTaxDialog>("Delete Tax");
+            DialogParameters parameters = new DialogParameters<P_DeleteTaxDialog>()
+            {
+                { x => x.id, id }
+            };
+            DialogResult result = await InjectService.ShowModalBoxAsync<P_DeleteTaxDialog>("Delete Tax", parameters);
+
+            if (!result.Canceled)
+                await List();
         }
 
         public async Task PageChanged(int i)

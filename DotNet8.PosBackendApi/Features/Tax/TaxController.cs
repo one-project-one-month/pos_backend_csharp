@@ -76,7 +76,7 @@ public class TaxController : BaseController
                     IsSuccess = item.MessageResponse.IsSuccess,
                     EnumPos = EnumPos.Tax,
                     Message = item.MessageResponse.Message,
-                    Item = item
+                    Item = item.Data
                 });
             return Content(responseModel);
         }

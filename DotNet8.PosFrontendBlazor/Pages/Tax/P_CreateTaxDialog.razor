@@ -38,6 +38,12 @@
             return;
         }
 
+        if (requestModel.FromAmount > requestModel.ToAmount)
+        {
+            InjectService.ShowMessage("From Amount must be less than To Amount", EnumResponseType.Warning);
+            return;
+        }
+
         requestModel.FromAmount = Convert.ToInt32(requestModel.FromAmount);
         requestModel.ToAmount = Convert.ToInt32(requestModel.ToAmount);
         requestModel.Percentage = Convert.ToInt32(requestModel.Percentage);

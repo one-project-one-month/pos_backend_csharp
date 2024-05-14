@@ -183,7 +183,6 @@ public class DL_Tax
             }
 
             _context.Tbl_Taxes.Remove(item);
-            _context.Entry(item).State = EntityState.Modified;
             int result = await _context.SaveChangesAsync();
 
             responseModel = result > 0
