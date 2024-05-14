@@ -2,6 +2,6 @@
 {
     public class TaxResponseModel : ResponseModel
     {
-        public TaxModel Item { get; set; }
+        public TaxModel Data { get; set; }
     }
 }
