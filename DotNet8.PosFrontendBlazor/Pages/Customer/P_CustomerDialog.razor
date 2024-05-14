@@ -28,7 +28,7 @@
             }
             @if (townshipListResponseModel is not null)
             {
-                <MudSelect @bind-Value="@requestModel.TownshipCode" Label="Please choose Township" Variant="MudBlazor.Variant.Text">
+                <MudSelect @bind-Value="@requestModel.TownshipCode" Label="Please choose Township" Variant="MudBlazor.Variant.Text" Disabled="isDisabled">
                     @foreach (var item in townshipListResponseModel.Data.Township)
                     {
                         <MudSelectItem Value="@(item.TownshipCode)">@item.TownshipName</MudSelectItem>

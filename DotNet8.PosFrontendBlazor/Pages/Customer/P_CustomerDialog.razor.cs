@@ -18,6 +18,8 @@ public partial class P_CustomerDialog
 
     private void Cancel() => MudDialog?.Cancel();
 
+    private bool isDisabled = true;
+
     protected async override Task OnInitializedAsync()
     {
         if (model is null)
@@ -213,5 +215,7 @@ public partial class P_CustomerDialog
         townshipListResponseModel = await HttpClientService.ExecuteAsync<TownshipListResponseModel>(
              $"{Endpoints.Township}/GetTownshipByStateCode/{stateCode}",
              EnumHttpMethod.Get);
+
+        isDisabled = false;
     }
 }
