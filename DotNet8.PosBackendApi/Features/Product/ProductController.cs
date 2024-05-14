@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Features.Product;
+﻿using System.Collections.Generic;
+
+namespace DotNet8.PosBackendApi.Features.Product;
 
 [Route("api/v1/products")]
 [ApiController]
@@ -122,6 +124,31 @@ public class ProductController : BaseController
                 IsSuccess = product.IsSuccess,
                 EnumPos = EnumPos.Product,
                 Message = product.Message,
+            });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+    [HttpGet("{pageNo}/{pageSize}")]
+    public async Task<IActionResult> GetTaxList(int pageNo, int pageSize)
+    {
+        try
+        {
+            var productLst = await _bL_Product.GetProduct(pageNo, pageSize);
+            var responseModel = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                Count = productLst.DataLst.Count,
+                IsSuccess = productLst.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Product,
+                Message = productLst.MessageResponse.Message,
+                Item = productLst.DataLst,
+                PageSetting = productLst.PageSetting
             });
             return Content(responseModel);
         }
