@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DotNet8.PosBackendApi.Features.Tax;
 
-[Route("api/taxes")]
+[Route("api/v1/taxes")]
 [ApiController]
 public class TaxController : BaseController
 {
@@ -52,7 +52,8 @@ public class TaxController : BaseController
                 IsSuccess = lst.MessageResponse.IsSuccess,
                 EnumPos = EnumPos.Tax,
                 Message = lst.MessageResponse.Message,
-                Item = lst.DataLst
+                Item = lst.DataLst,
+                PageSetting = lst.PageSetting
             });
             return Content(responseModel);
         }
