@@ -44,7 +44,7 @@ public class TaxController : BaseController
     {
         try
         {
-            var lst = await _bL_Tax.GetTaxList();
+            var lst = await _bL_Tax.GetTaxList(pageNo, pageSize);
             var responseModel = _response.Return
             (new ReturnModel
             {
