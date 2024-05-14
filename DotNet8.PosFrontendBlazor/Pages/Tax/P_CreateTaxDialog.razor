@@ -38,7 +38,7 @@
             return;
         }
 
-        if (requestModel.FromAmount > requestModel.ToAmount)
+        if (requestModel.FromAmount >= requestModel.ToAmount)
         {
             InjectService.ShowMessage("From Amount must be less than To Amount", EnumResponseType.Warning);
             return;
