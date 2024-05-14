@@ -1,0 +1,22 @@
+﻿@page "/tax";
+
+<MudText Typo="Typo.h6">
+    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="CreatePopUp"></MudIconButton>
+    Tax
+</MudText>
+
+<MudSimpleTable Style="overflow-x: auto;">
+    <thead>
+        <tr>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <MudButton Variant=" MudBlazor.Variant.Filled" Size="Size.Small" OnClick="EditPopUp" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
+                <MudButton Variant="MudBlazor.Variant.Filled" Size="Size.Small" OnClick="DeletePopUp" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
+            </td>
+        </tr>
+    </tbody>
+</MudSimpleTable>
