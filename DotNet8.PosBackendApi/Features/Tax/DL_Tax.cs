@@ -41,6 +41,7 @@ public class DL_Tax
         {
             var query = _context
                 .Tbl_Taxes
+                .OrderByDescending(x => x.TaxId)
                 .AsNoTracking();
 
             var tax = await query
