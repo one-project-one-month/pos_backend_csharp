@@ -39,6 +39,29 @@ public class TaxController : BaseController
         }
     }
 
+    [HttpGet("{pageNo}/{pageSize}")]
+    public async Task<IActionResult> GetTaxList(int pageNo, int pageSize)
+    {
+        try
+        {
+            var lst = await _bL_Tax.GetTaxList();
+            var responseModel = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = lst.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Tax,
+                Message = lst.MessageResponse.Message,
+                Item = lst.DataLst
+            });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTaxById(int id)
     {
