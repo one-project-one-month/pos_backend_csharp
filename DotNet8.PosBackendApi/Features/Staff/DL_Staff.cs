@@ -83,6 +83,35 @@ public class DL_Staff
         return responseModel;
     }
 
+    public async Task<StaffResponseModel> GetStaffByMobileNo(string MobileNo)
+    {
+        var responseModel = new StaffResponseModel();
+        try
+        {
+            var Staff = await _context
+                .TblStaffs
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.MobileNo == MobileNo);
+            if (Staff is null)
+            {
+                responseModel.MessageResponse = new MessageResponseModel
+                    (false, EnumStatus.NotFound.ToString());
+                goto result;
+            }
+
+            responseModel.Data = Staff.Change();
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.Data = new StaffModel();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
+    result:
+        return responseModel;
+    }
+
     private async Task<string> GenerateUserCode()
     {
         string userCode = string.Empty;
