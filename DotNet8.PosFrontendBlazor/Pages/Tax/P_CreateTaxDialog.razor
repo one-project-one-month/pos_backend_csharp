@@ -1,0 +1,12 @@
+﻿@using DotNet8.PosFrontendBlazor.Models.Tax
+<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="requestModel.FromAmount" Label="From Amount" Variant="MudBlazor.Variant.Text" InputType="InputType.Number"></MudTextField>
+        <MudTextField @bind-Value="requestModel.ToAmount" Label="To Amount" Variant="MudBlazor.Variant.Text" InputType="InputType.Number"></MudTextField>
+        <MudTextField @bind-Value="requestModel.Percentage" Label="Percentage" Variant="MudBlazor.Variant.Text" InputType="InputType.Number"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="SaveAsync">Save</MudButton>
+    </DialogActions>
+</MudDialog>

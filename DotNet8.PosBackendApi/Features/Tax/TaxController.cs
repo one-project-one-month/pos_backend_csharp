@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DotNet8.PosBackendApi.Features.Tax;
 
-[Route("api/taxes")]
+[Route("api/v1/taxes")]
 [ApiController]
 public class TaxController : BaseController
 {
@@ -39,6 +39,30 @@ public class TaxController : BaseController
         }
     }
 
+    [HttpGet("{pageNo}/{pageSize}")]
+    public async Task<IActionResult> GetTaxList(int pageNo, int pageSize)
+    {
+        try
+        {
+            var lst = await _bL_Tax.GetTaxList(pageNo, pageSize);
+            var responseModel = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = lst.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Tax,
+                Message = lst.MessageResponse.Message,
+                Item = lst.DataLst,
+                PageSetting = lst.PageSetting
+            });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTaxById(int id)
     {
@@ -52,7 +76,7 @@ public class TaxController : BaseController
                     IsSuccess = item.MessageResponse.IsSuccess,
                     EnumPos = EnumPos.Tax,
                     Message = item.MessageResponse.Message,
-                    Item = item
+                    Item = item.Data
                 });
             return Content(responseModel);
         }

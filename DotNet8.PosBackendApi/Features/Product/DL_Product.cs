@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Features.Product;
+﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
+namespace DotNet8.PosBackendApi.Features.Product;
 
 public class DL_Product
 {
@@ -19,6 +21,40 @@ public class DL_Product
                 .Select(x => x.Change())
                 .ToList();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.DataLst = new List<ProductModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
+        return responseModel;
+    }
+    public async Task<ProductListResponseModel> GetProduct(int pageNo, int pageSize)
+    {
+        var responseModel = new ProductListResponseModel();
+        try
+        {
+            var query = _context
+                .TblProducts
+                .OrderByDescending(x => x.ProductId)
+                .AsNoTracking();
+
+            var products = await query
+                .Pagination(pageNo, pageSize)
+                .ToListAsync();
+
+            var totalCount = await query.CountAsync();
+            var pageCount = totalCount / pageSize;
+
+            if (totalCount % pageSize > 0)
+            {
+                pageCount++;
+            }
+
+            responseModel.DataLst = products.Select(x => x.Change()).ToList();
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+            responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         }
         catch (Exception ex)
         {
