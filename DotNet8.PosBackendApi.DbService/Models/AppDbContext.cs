@@ -44,6 +44,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.FromAmount).IsRequired();
             entity.Property(e => e.ToAmount).IsRequired();
             entity.Property(e => e.Percentage).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.FixedAmount).HasColumnType("decimal(18, 2)");
         });
 
         modelBuilder.Entity<TblCustomer>(entity =>

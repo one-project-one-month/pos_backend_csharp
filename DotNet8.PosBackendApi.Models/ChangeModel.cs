@@ -356,7 +356,8 @@ public static class ChangeModel
         {
             FromAmount = dataModel.FromAmount,
             ToAmount = dataModel.ToAmount,
-            Percentage = dataModel.Percentage
+            Percentage = dataModel.Percentage,
+            FixedAmount = dataModel.FixedAmount
         };
         return tax;
     }

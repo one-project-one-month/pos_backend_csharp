@@ -30,19 +30,28 @@ public partial class P_CreateTaxDialog
             return;
         }
 
-        if (requestModel.Percentage != 0 && requestModel.Percentage is not null)
+        if (requestModel.Percentage is null && requestModel.FixedAmount is null)
         {
-            if (requestModel.Percentage == 100 || requestModel.Percentage > 100)
+            InjectService.ShowMessage("Please fill all fields...", EnumResponseType.Warning);
+            return;
+        }
+
+        if (requestModel.Percentage is not null)
+        {
+            if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
             {
-                InjectService.ShowMessage("Percentage is invalid.", EnumResponseType.Warning);
+                InjectService.ShowMessage("Invalid Percentage.", EnumResponseType.Warning);
                 return;
             }
         }
 
-        if (requestModel.FromAmount >= requestModel.ToAmount)
+        if (requestModel.FixedAmount is not null)
         {
-            InjectService.ShowMessage("From Amount must be less than To Amount", EnumResponseType.Warning);
-            return;
+            if (requestModel.FixedAmount <= 0)
+            {
+                InjectService.ShowMessage("Invalid Fixed Amount.", EnumResponseType.Warning);
+                return;
+            }
         }
 
         #endregion
@@ -50,6 +59,7 @@ public partial class P_CreateTaxDialog
         requestModel.FromAmount = Convert.ToInt32(requestModel.FromAmount);
         requestModel.ToAmount = Convert.ToInt32(requestModel.ToAmount);
         requestModel.Percentage = Convert.ToInt32(requestModel.Percentage);
+        requestModel.FixedAmount = Convert.ToInt32(requestModel.FixedAmount);
 
         var response = await HttpClientService.ExecuteAsync<TaxResponseModel>(
             Endpoints.Tax,
