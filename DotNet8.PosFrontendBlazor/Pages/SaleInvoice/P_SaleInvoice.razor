@@ -5,10 +5,16 @@
 @if (ResponseModel is not null)
 {
     <MudGrid>
-        <MudItem xs="9">
-            <MudPaper Class="d-flex align-center justify-center mud-width-full mud-height-full py-8">
+        <MudItem xs="9" Elevation="0">
+            <MudPaper Elevation="0">
+                <div class="d-flex align-center  ml-8 ">
+                    <MudTextField Immediate="true" @bind-Value="Search" Label="Search" Variant="MudBlazor.Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Default" OnAdornmentClick="SearchIcon" OnKeyDown="SearchIcon" />
+                </div>
+            </MudPaper>
+            <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full mud-height-full">
                 <MudGrid>
-                    @foreach (var item in ResponseModel.Data.Product)
+
+                    @foreach (var item in lstProduct)
                     {
                         <MudItem xs="4">
                             <MudPaper>
@@ -26,9 +32,17 @@
             </MudPaper>
         </MudItem>
         <MudItem xs="3">
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+             <MudPaper Class="d-flex align-center justify-center mud-width-full  py-8">
+
                 <MudGrid>
-                    @if (lstSaleInvoice is not null && lstSaleInvoice.Count > 0)
+                    <MudItem xs="12">
+                        <MudPaper Elevation="0">
+                            <div class="d-flex align-center  ml-8 ">
+                                <MudText Align="Align.Left">New Order  </MudText>
+                            </div>
+                        </MudPaper>
+                    </MudItem>
+                    @if (lstSaleInvoice.Count > 0)
                     {
                         @foreach (var product in lstSaleInvoice)
                         {
@@ -48,7 +62,10 @@
                                                 </MudText>
                                                 <MudText Align="Align.Center" Typo="Typo.body2">@product.Quantity</MudText>
                                                 <MudText Align="Align.Right" Typo="Typo.body2">
-                                                    <MudIconButton Icon="@Icons.Material.Filled.RemoveCircle" OnClick="@(()=>DecreaseCount(product))"></MudIconButton>
+                                                    <MudIconButton Icon="@Icons.Material.Filled.RemoveCircle" OnClick="@(()=>DecreaseCount(product,1))"></MudIconButton>
+                                                </MudText>
+                                                <MudText>
+                                                    <MudIconButton Icon="@Icons.Material.Filled.Close" OnClick="@(()=>DecreaseCount(product,product.Quantity))"> </MudIconButton>
                                                 </MudText>
                                             </div>
                                         </div>
@@ -57,30 +74,35 @@
                                 </MudItem>
                             }
                         }
-                        <MudItem xs="12">
-                            <MudPaper Elevation="0" Class="mt-4 text-white ml-2  mr-2" Style="@($"background:#006064;color:#FFFFFF;height:80%;")">
-                                <MudGrid>
-                                    <MudItem xs="6">
-                                        <MudText Typo="Typo.body2" Align="Align.Left" Class="ml-4 mt-2">@lstSaleInvoice.Sum(x => x.Amount)</MudText>
-                                    </MudItem>
-                                    <MudItem xs="6" Class="d-flex align-items-center justify-end mb-4">
-                                        <MudButton Align="Align.Right" Style="color: white;">Pay ></MudButton>
-                                    </MudItem>
-                                </MudGrid>
-                            </MudPaper>
-                        </MudItem>
+                        @if (lstSaleInvoice.Sum(x => x.Amount) > 0)
+                        {
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0" Class="mt-4 text-white ml-2  mr-2" Style="@($"background:#006064;color:#FFFFFF;height:80%;")">
+                                    <MudGrid>
+                                        <MudItem xs="6">
+                                            <MudText Typo="Typo.body2" Align="Align.Left" Class="ml-4 mt-2">@lstSaleInvoice.Sum(x => x.Amount)</MudText>
+                                        </MudItem>
+                                        <MudItem xs="6" Class="d-flex align-items-right mb-4">
+                                            <MudButton Align="Align.Right" Style="color:black;background-color:white" Href="/checkout">Pay ></MudButton>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudPaper>
+                            </MudItem>
+                        }
                     }
-
                 </MudGrid>
             </MudPaper>
         </MudItem>
     </MudGrid>
-
 }
 
 @code {
     private ProductListResponseModel? ResponseModel;
+    List<ProductModel> lstProduct;
     private List<SaleInvoiceDetailModel>? lstSaleInvoice = new List<SaleInvoiceDetailModel>();
+    private SaleInvoiceModel saleInvoiceModel = new SaleInvoiceModel();
+
+    public string Search { get; set; }
 
     protected override async void OnAfterRender(bool firstRender)
     {
@@ -96,7 +118,9 @@
     private async Task List()
     {
         ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
+        lstProduct = ResponseModel.Data.Product;
     }
+
     private void AddItem(ProductModel requestModel)
     {
         SaleInvoiceDetailModel saleInvoiceDetail = new SaleInvoiceDetailModel
@@ -106,7 +130,7 @@
                 Price = requestModel.Price,
             };
 
-        if (!lstSaleInvoice.Where(x=>x.ProductCode==requestModel.ProductCode).Any())
+        if (!lstSaleInvoice.Where(x => x.ProductCode == requestModel.ProductCode).Any())
         {
             saleInvoiceDetail.Quantity = 1;
             saleInvoiceDetail.Amount = requestModel.Price;
@@ -127,13 +151,22 @@
         lstSaleInvoice!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Amount = (requestModel.Price * requestModel.Quantity);
     }
 
-    private void DecreaseCount(SaleInvoiceDetailModel requestModel)
+    private void DecreaseCount(SaleInvoiceDetailModel requestModel, int quantity)
     {
         if (requestModel.Quantity > 0)
         {
-            requestModel.Quantity += -1;
+            requestModel.Quantity -= quantity;
             lstSaleInvoice!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity = requestModel.Quantity;
             lstSaleInvoice!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Amount = (requestModel.Price * requestModel.Quantity);
         }
+    }
+
+    private async void SearchIcon()
+    {
+        Console.WriteLine(Search);
+        if (Search.Length > 0)
+        {
+            lstProduct = ResponseModel.Data.Product.Where(x => x.ProductName.ToLower().Contains(Search.ToLower())).ToList();
+        };
     }
 }
