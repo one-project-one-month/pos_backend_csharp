@@ -30,36 +30,36 @@ public partial class P_CreateTaxDialog
             return;
         }
 
-        if (requestModel.Percentage is null && requestModel.FixedAmount is null)
-        {
-            InjectService.ShowMessage("Please fill all fields...", EnumResponseType.Warning);
-            return;
-        }
+        //if (requestModel.Percentage is null && requestModel.FixedAmount is null)
+        //{
+        //    InjectService.ShowMessage("Please fill all fields...", EnumResponseType.Warning);
+        //    return;
+        //}
 
-        if (requestModel.Percentage is not null)
-        {
-            if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
-            {
-                InjectService.ShowMessage("Invalid Percentage.", EnumResponseType.Warning);
-                return;
-            }
-        }
+        //if (requestModel.Percentage != 0)
+        //{
+        //    if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
+        //    {
+        //        InjectService.ShowMessage("Invalid Percentage.", EnumResponseType.Warning);
+        //        return;
+        //    }
+        //}
 
-        if (requestModel.FixedAmount is not null)
-        {
-            if (requestModel.FixedAmount <= 0)
-            {
-                InjectService.ShowMessage("Invalid Fixed Amount.", EnumResponseType.Warning);
-                return;
-            }
-        }
+        //if (requestModel.FixedAmount is not null)
+        //{
+        //    if (requestModel.FixedAmount <= 0)
+        //    {
+        //        InjectService.ShowMessage("Invalid Fixed Amount.", EnumResponseType.Warning);
+        //        return;
+        //    }
+        //}
 
         #endregion
 
         requestModel.FromAmount = Convert.ToInt32(requestModel.FromAmount);
         requestModel.ToAmount = Convert.ToInt32(requestModel.ToAmount);
-        requestModel.Percentage = Convert.ToInt32(requestModel.Percentage);
-        requestModel.FixedAmount = Convert.ToInt32(requestModel.FixedAmount);
+        requestModel.Percentage = Convert.ToDecimal(requestModel.Percentage);
+        requestModel.FixedAmount = Convert.ToDecimal(requestModel.FixedAmount);
 
         var response = await HttpClientService.ExecuteAsync<TaxResponseModel>(
             Endpoints.Tax,

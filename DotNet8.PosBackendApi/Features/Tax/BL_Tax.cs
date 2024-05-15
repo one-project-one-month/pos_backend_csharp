@@ -37,7 +37,7 @@ public class BL_Tax
         if (requestModel.ToAmount <= 0)
             throw new Exception("To Amount cannot be empty.");
 
-        if (requestModel.Percentage is null && requestModel.FixedAmount is null)
+        if (requestModel.Percentage == 0 && requestModel.FixedAmount == 0)
             throw new Exception();
 
         if (requestModel.Percentage > 0)
@@ -45,14 +45,6 @@ public class BL_Tax
             if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
             {
                 throw new Exception("Percentage is invalid.");
-            }
-        }
-
-        if (requestModel.FixedAmount is not null)
-        {
-            if (requestModel.FixedAmount <= 0)
-            {
-                throw new Exception("Invalid Fixed Amount.");
             }
         }
 

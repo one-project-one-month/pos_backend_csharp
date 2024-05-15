@@ -15,6 +15,7 @@
                 <th>From Amount</th>
                 <th>To Amount</th>
                 <th>Percentage</th>
+                <th>Fixed Amount</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,6 +27,7 @@
                     <td>@item.FromAmount</td>
                     <td>@item.ToAmount</td>
                     <td>@item.Percentage</td>
+                    <td>@item.FixedAmount</td>
                     <td>
                         <MudButton Variant=" MudBlazor.Variant.Filled" Size="Size.Small" OnClick="() => EditPopUp(item.TaxId, item.FromAmount, item.ToAmount, item.Percentage)" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
                         <MudButton Variant="MudBlazor.Variant.Filled" Size="Size.Small" OnClick="() => DeletePopUp(item.TaxId)" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>

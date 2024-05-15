@@ -59,14 +59,6 @@ public class DL_Tax
             taxListResponseModel.DataLst = tax.Select(x => x.Change()).ToList();
             taxListResponseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
             taxListResponseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
-
-            //var lst = await _context.Tbl_Taxes
-            //    .AsNoTracking()
-            //    .OrderByDescending(x => x.TaxId)
-            //    .ToListAsync();
-
-            //taxListResponseModel.DataLst = lst.Select(x => x.Change()).ToList();
-            //taxListResponseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
         catch (Exception ex)
         {

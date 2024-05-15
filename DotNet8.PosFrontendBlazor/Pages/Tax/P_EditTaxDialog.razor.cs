@@ -26,11 +26,11 @@ public partial class P_EditTaxDialog
             return;
         }
 
-        if (requestModel.Percentage == 100 || requestModel.Percentage > 100 || requestModel.Percentage is null)
-        {
-            InjectService.ShowMessage("Percentage is invalid.", EnumResponseType.Warning);
-            return;
-        }
+        //if (requestModel.Percentage == 100 || requestModel.Percentage > 100 || requestModel.Percentage is null)
+        //{
+        //    InjectService.ShowMessage("Percentage is invalid.", EnumResponseType.Warning);
+        //    return;
+        //}
 
         if (requestModel.FromAmount >= requestModel.ToAmount)
         {
