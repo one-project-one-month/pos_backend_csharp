@@ -11,7 +11,15 @@ public class BL_Staff
 
     public async Task<StaffListResponseModel> GetStaffs()
     {
-        var model = await _staff.GetStaffs();
+        var response = await _staff.GetStaffs();
+        return response;
+    }
+
+    public async Task<StaffListResponseModel> GetStaffs(int PageSize, int PageNo)
+    {
+        if (PageSize <= 0 ) throw new Exception("PageSize is not less than 0.");
+        if (PageNo <= 0) throw new Exception("PageNo is not less than 0.");
+        var model = await _staff.GetStaffs(PageSize, PageNo);
         return model;
     }
 

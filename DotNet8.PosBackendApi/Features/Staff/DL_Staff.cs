@@ -1,3 +1,4 @@
+using DotNet8.PosBackendApi.Models.Setup.PageSetting;
 using Microsoft.Extensions.Options;
 
 namespace DotNet8.PosBackendApi.Features.Staff;
@@ -27,6 +28,35 @@ public class DL_Staff
 
             responseModel.DataList = staffList.Select(x => x.Change()).ToList();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.DataList = new List<StaffModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
+        return responseModel;
+    }
+
+    public async Task<StaffListResponseModel> GetStaffs(int PageSize, int PageNo)
+    {
+        var responseModel = new StaffListResponseModel();
+        try
+        {
+            var staffList = _context.TblStaffs.AsNoTracking();
+
+            var staff = await staffList
+               .Pagination(PageNo, PageSize)
+               .ToListAsync();
+
+            var totalCount = await staffList.CountAsync();
+            var pageCount = totalCount / PageSize;
+            if (totalCount % PageSize > 0)
+                pageCount++;
+
+            responseModel.DataList = staff.Select(x => x.Change()).ToList();
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+            responseModel.PageSetting = new PageSettingModel(PageNo, PageSize, pageCount, totalCount);
         }
         catch (Exception ex)
         {

@@ -47,6 +47,38 @@ public class StaffController : BaseController
         }
     }
 
+    [HttpGet("{PageSize}/{PageNo}")]
+    public async Task<IActionResult> GetStaffs(int PageSize, int PageNo)
+    {
+        try
+        {
+            var lst = await _staff.GetStaffs(PageSize, PageNo);
+            //var responseModel = _response.ReturnGet
+            //(model.MessageResponse.Message,
+            //    model.DataList.Count,
+            //    EnumPos.Staff,
+            //    model.MessageResponse.IsSuccess,
+            //    model.DataList);
+            var responseModel = _response.Return
+           (new ReturnModel
+           {
+               Token = RefreshToken(),
+               Count = lst.DataList.Count,
+               EnumPos = EnumPos.Staff,
+               IsSuccess = lst.MessageResponse.IsSuccess,
+               Message = lst.MessageResponse.Message,
+               Item = lst.DataList,
+               PageSetting = lst.PageSetting
+           });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetStaff(int id)
     {
