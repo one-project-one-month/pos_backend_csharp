@@ -43,6 +43,13 @@ public class BL_Staff
         return model;
     }
 
+    public async Task<StaffResponseModel> GetStaffByMobileNo(string MobileNo)
+    {
+        if (MobileNo is null) throw new Exception("MobileNo is null");
+        var response = await _staff.GetStaffByMobileNo(MobileNo);
+        return response;
+    }
+
     private void CheckShopNullValue(StaffModel staff)
     {
         if (staff is null)

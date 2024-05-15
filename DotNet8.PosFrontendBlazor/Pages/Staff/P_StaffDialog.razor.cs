@@ -50,11 +50,29 @@ namespace DotNet8.PosFrontendBlazor.Pages.Staff
             DateTime DateTimeNow = DateTime.Now;
             TimeSpan ageSpan = DateTimeNow - StaffDOB;
             int StaffAge = (int)(ageSpan.Days / 365.25);
-            if (StaffAge < 18)
+            if (StaffAge < 18 || StaffAge > 45)
             {
                 //await JSRuntime.InvokeVoidAsync("alert", "Staff Age must be greater than 18 years.");
-                InjectService.ShowMessage("Staff Age must be greater than 18 years.", EnumResponseType.Success);
+                InjectService.ShowMessage("Staff Age must have between 18 and 45.", EnumResponseType.Information);
                 return;
+            }
+
+            if(_reqModel.MobileNo.Length != 11)
+            {
+                InjectService.ShowMessage("MobileNo must have 11 Digit.", EnumResponseType.Information);
+                return;
+            }
+            else
+            {
+                var respondStaff = await HttpClientService.ExecuteAsync<StaffResponseModel>(
+                             $"{Endpoints.Staff}/GetStaffByMobileNo/{_reqModel.MobileNo}",
+                             EnumHttpMethod.Get);
+
+                if (respondStaff.Data is not null)
+                {
+                    InjectService.ShowMessage("Please use another Mobile No.", EnumResponseType.Error);
+                    return;
+                }
             }
 
             var response = await HttpClientService.ExecuteAsync<StaffResponseModel>(
@@ -62,6 +80,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Staff
             EnumHttpMethod.Post,
             _reqModel
             );
+
             if (response.IsError)
             {
                 Console.WriteLine(response.Message);

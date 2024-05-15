@@ -75,6 +75,29 @@ public class StaffController : BaseController
         }
     }
 
+    [HttpGet("GetStaffByMobileNo/{MobileNo}")]
+    public async Task<IActionResult> GetStaffByMobileNo(string MobileNo)
+    {
+        try
+        {
+            var staff = await _staff.GetStaffByMobileNo(MobileNo);
+            var responseModel = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                IsSuccess = staff.MessageResponse.IsSuccess,
+                EnumPos = EnumPos.Customer,
+                Message = staff.MessageResponse.Message,
+                Item = staff.Data
+            });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateStaff([FromBody] StaffModel requestModel)
     {
