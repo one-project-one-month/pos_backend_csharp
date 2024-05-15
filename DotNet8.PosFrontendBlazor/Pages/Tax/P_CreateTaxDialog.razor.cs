@@ -6,6 +6,10 @@ public partial class P_CreateTaxDialog
 {
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
+    public bool showPercentageField = false;
+
+    public bool showFixedAmountField = false;
+
     TaxModel requestModel = new();
 
     void Cancel() => MudDialog?.Cancel();
@@ -26,10 +30,13 @@ public partial class P_CreateTaxDialog
             return;
         }
 
-        if (requestModel.Percentage == 100 || requestModel.Percentage > 100 || requestModel.Percentage is null)
+        if (requestModel.Percentage != 0 && requestModel.Percentage is not null)
         {
-            InjectService.ShowMessage("Percentage is invalid.", EnumResponseType.Warning);
-            return;
+            if (requestModel.Percentage == 100 || requestModel.Percentage > 100)
+            {
+                InjectService.ShowMessage("Percentage is invalid.", EnumResponseType.Warning);
+                return;
+            }
         }
 
         if (requestModel.FromAmount >= requestModel.ToAmount)
@@ -57,5 +64,26 @@ public partial class P_CreateTaxDialog
 
         InjectService.ShowMessage(response.Message, EnumResponseType.Success);
         MudDialog?.Close();
+    }
+
+    private void TaxTypeChanged(string tax)
+    {
+        if (tax == nameof(EnumTaxType.Percentage))
+        {
+            showPercentageField = true;
+            showFixedAmountField = false;
+        }
+        else
+        {
+            showFixedAmountField = true;
+            showPercentageField = false;
+        }
+    }
+
+    public enum EnumTaxType
+    {
+        None,
+        Percentage,
+        Fixed
     }
 }

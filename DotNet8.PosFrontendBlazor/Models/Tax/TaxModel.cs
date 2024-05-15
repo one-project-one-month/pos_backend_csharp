@@ -6,4 +6,5 @@ public class TaxModel
     public int? FromAmount { get; set; }
     public int? ToAmount { get; set; }
     public decimal? Percentage { get; set; }
+    public int? FixedAmount { get; set; }
 }
