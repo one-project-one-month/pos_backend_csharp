@@ -40,6 +40,9 @@ public class BL_Tax
         if (requestModel.Percentage == 0 && requestModel.FixedAmount == 0)
             throw new Exception();
 
+        if (string.IsNullOrEmpty(requestModel.TaxType))
+            throw new Exception("Tax Type cannot be empty.");
+
         if (requestModel.Percentage > 0)
         {
             if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)

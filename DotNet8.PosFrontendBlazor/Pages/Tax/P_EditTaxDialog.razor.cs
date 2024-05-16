@@ -14,23 +14,23 @@ public partial class P_EditTaxDialog
     {
         #region Validation
 
-        if (requestModel.FromAmount <= 0 || requestModel.FromAmount is null)
+        if (requestModel.FromAmount <= 0)
         {
             InjectService.ShowMessage("From Amount is invalid.", EnumResponseType.Warning);
             return;
         }
 
-        if (requestModel.ToAmount <= 0 || requestModel.ToAmount is null)
+        if (requestModel.ToAmount <= 0)
         {
             InjectService.ShowMessage("To Amount is invalid.", EnumResponseType.Warning);
             return;
         }
 
-        //if (requestModel.Percentage == 100 || requestModel.Percentage > 100 || requestModel.Percentage is null)
-        //{
-        //    InjectService.ShowMessage("Percentage is invalid.", EnumResponseType.Warning);
-        //    return;
-        //}
+        if (requestModel.Percentage == 100 || requestModel.Percentage > 100 || requestModel.Percentage is null)
+        {
+            InjectService.ShowMessage("Percentage is invalid.", EnumResponseType.Warning);
+            return;
+        }
 
         if (requestModel.FromAmount >= requestModel.ToAmount)
         {
@@ -40,9 +40,8 @@ public partial class P_EditTaxDialog
 
         #endregion
 
-        requestModel.FromAmount = Convert.ToInt32(requestModel.FromAmount);
-        requestModel.ToAmount = Convert.ToInt32(requestModel.ToAmount);
-        requestModel.Percentage = Convert.ToInt32(requestModel.Percentage);
+        requestModel.Percentage = Convert.ToDecimal(requestModel.Percentage);
+        requestModel.FixedAmount = Convert.ToDecimal(requestModel.FixedAmount);
 
         var response = await HttpClientService.ExecuteAsync<TaxResponseModel>(
             $"{Endpoints.Tax}/{requestModel.TaxId}",

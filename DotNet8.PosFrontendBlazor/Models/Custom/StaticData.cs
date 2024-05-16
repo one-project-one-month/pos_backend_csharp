@@ -16,7 +16,6 @@
         {
             return new List<KeyValueModel>()
             {
-                new("0", "--Select One--"),
                 new("Percentage", "Percentage"),
                 new("Fixed", "Fixed"),
             };
