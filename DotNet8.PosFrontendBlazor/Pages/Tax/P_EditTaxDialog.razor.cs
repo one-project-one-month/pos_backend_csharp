@@ -19,28 +19,52 @@ public partial class P_EditTaxDialog
     {
         #region Validation
 
-        if (requestModel.FromAmount <= 0)
+        if (requestModel.FromAmount <= 0 || requestModel.FromAmount is null)
         {
             InjectService.ShowMessage("From Amount is invalid.", EnumResponseType.Warning);
             return;
         }
 
-        if (requestModel.ToAmount <= 0)
+        if (requestModel.ToAmount <= 0 || requestModel.ToAmount is null)
         {
             InjectService.ShowMessage("To Amount is invalid.", EnumResponseType.Warning);
             return;
         }
 
-        if (requestModel.Percentage == 100 || requestModel.Percentage > 100 || requestModel.Percentage is null)
+        if (requestModel.FromAmount >= requestModel.ToAmount)
         {
-            InjectService.ShowMessage("Percentage is invalid.", EnumResponseType.Warning);
+            InjectService.ShowMessage("From Amount must be greater than To Amount", EnumResponseType.Warning);
             return;
         }
 
-        if (requestModel.FromAmount >= requestModel.ToAmount)
+        if (string.IsNullOrEmpty(requestModel.TaxType))
         {
-            InjectService.ShowMessage("From Amount must be less than To Amount", EnumResponseType.Warning);
+            InjectService.ShowMessage("Tax Type cannot be empty.", EnumResponseType.Warning);
             return;
+        }
+
+        if (requestModel.Percentage is null && requestModel.FixedAmount is null)
+        {
+            InjectService.ShowMessage("Please fill all fields...", EnumResponseType.Warning);
+            return;
+        }
+
+        if (requestModel.Percentage != 0 && requestModel.Percentage is not null)
+        {
+            if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
+            {
+                InjectService.ShowMessage("Invalid Percentage.", EnumResponseType.Warning);
+                return;
+            }
+        }
+
+        if (requestModel.FixedAmount is not null && requestModel.FixedAmount != 0)
+        {
+            if (requestModel.FixedAmount <= 0)
+            {
+                InjectService.ShowMessage("Invalid Fixed Amount.", EnumResponseType.Warning);
+                return;
+            }
         }
 
         #endregion
@@ -69,11 +93,13 @@ public partial class P_EditTaxDialog
         {
             showPercentageField = true;
             showFixedAmountField = false;
+            requestModel.FixedAmount = null;
         }
         else
         {
             showFixedAmountField = true;
             showPercentageField = false;
+            requestModel.Percentage = null;
         }
     }
 }
