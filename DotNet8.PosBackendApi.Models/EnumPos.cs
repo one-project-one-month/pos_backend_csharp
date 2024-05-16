@@ -10,7 +10,8 @@ public enum EnumPos
     Customer,
     Township,
     State,
-    Tax
+    Tax,
+    Report
 }
 
 public enum EnumCodePrefix

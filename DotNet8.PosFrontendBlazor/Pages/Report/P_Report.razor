@@ -1,0 +1,33 @@
+﻿@page "/report"
+
+@* <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="1" Date="@(DateTime.Today.AddDays(1))" /> *@
+@* <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="1" @bind-Date="@(DateValue)" /> *@
+<MudDatePicker Label="Report Date" @bind-Date="DateValue" />
+<MudSelect T="string" Label="Report Range" Variant="MudBlazor.Variant.Outlined" @bind-Value="@DateFormat" SelectedValuesChanged="OnValueChanged">
+    <MudSelectItem Value="@("Monthly")" />
+    <MudSelectItem Value="@("Yearly")" />
+</MudSelect>
+<br />
+@if (responseModel is not null)
+{
+    int count = 0;
+    <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Sale Invoice Date</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in responseModel.Data.Report)
+            {
+                <tr>
+                    <td>@(++count)</td>
+                    <td>@item.SaleInvoiceDate</td>
+                    <td>@item.TotalAmount</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+}

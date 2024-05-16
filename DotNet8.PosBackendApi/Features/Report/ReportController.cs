@@ -14,8 +14,8 @@ public class ReportController : BaseController
         _response = response;
     }
 
-    [Route("monthly-report")]
-    [HttpGet]
+    //[Route("monthly-report")]
+    [HttpGet("monthly-report/{month}/{year}")]
     public async Task<IActionResult> MonthlyReport(int month, int year)
     {
         try
@@ -26,7 +26,7 @@ public class ReportController : BaseController
                 {
                     Token = RefreshToken(),
                     Count = lst.Data.Count,
-                    EnumPos = EnumPos.ProductCategory,
+                    EnumPos = EnumPos.Report,
                     IsSuccess = lst.MessageResponse.IsSuccess,
                     Message = lst.MessageResponse.Message,
                     Item = lst.Data
@@ -39,8 +39,8 @@ public class ReportController : BaseController
         }
     }
 
-    [Route("yearly-report")]
-    [HttpGet]
+    //[Route("yearly-report")]
+    [HttpGet("yearly-report/{year}")]
     public async Task<IActionResult> YearlyReport(int year)
     {
         try
@@ -51,7 +51,7 @@ public class ReportController : BaseController
                 {
                     Token = RefreshToken(),
                     Count = lst.Data.Count,
-                    EnumPos = EnumPos.ProductCategory,
+                    EnumPos = EnumPos.Report,
                     IsSuccess = lst.MessageResponse.IsSuccess,
                     Message = lst.MessageResponse.Message,
                     Item = lst.Data

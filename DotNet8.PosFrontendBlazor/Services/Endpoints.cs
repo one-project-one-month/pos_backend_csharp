@@ -9,6 +9,7 @@
         public static string Township { get; } = "api/v1/townships";
         public static string State { get; } = "api/v1/states";
         public static string Tax { get; } = "api/v1/taxes";
+        public static string Report { get; } = "api/v1/report";
         public static string WithPagination(this string url, int pageNo, int pageSize)
         {
             return $"{url}/{pageNo}/{pageSize}";
