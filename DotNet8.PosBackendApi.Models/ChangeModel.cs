@@ -345,7 +345,9 @@ public static class ChangeModel
             TaxId = dataModel.TaxId,
             FromAmount = dataModel.FromAmount,
             ToAmount = dataModel.ToAmount,
+            TaxType = dataModel.TaxType,
             Percentage = Convert.ToDecimal(dataModel.Percentage),
+            FixedAmount = Convert.ToDecimal(dataModel.FixedAmount)
         };
         return tax;
     }
@@ -356,6 +358,7 @@ public static class ChangeModel
         {
             FromAmount = dataModel.FromAmount,
             ToAmount = dataModel.ToAmount,
+            TaxType = dataModel.TaxType,
             Percentage = dataModel.Percentage,
             FixedAmount = dataModel.FixedAmount
         };

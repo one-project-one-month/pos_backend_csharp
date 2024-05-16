@@ -30,29 +30,41 @@ public partial class P_CreateTaxDialog
             return;
         }
 
-        //if (requestModel.Percentage is null && requestModel.FixedAmount is null)
-        //{
-        //    InjectService.ShowMessage("Please fill all fields...", EnumResponseType.Warning);
-        //    return;
-        //}
+        if (requestModel.FromAmount >= requestModel.ToAmount)
+        {
+            InjectService.ShowMessage("From Amount must be greater than To Amount", EnumResponseType.Warning);
+            return;
+        }
 
-        //if (requestModel.Percentage != 0)
-        //{
-        //    if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
-        //    {
-        //        InjectService.ShowMessage("Invalid Percentage.", EnumResponseType.Warning);
-        //        return;
-        //    }
-        //}
+        if (string.IsNullOrEmpty(requestModel.TaxType))
+        {
+            InjectService.ShowMessage("Tax Type cannot be empty.", EnumResponseType.Warning);
+            return;
+        }
 
-        //if (requestModel.FixedAmount is not null)
-        //{
-        //    if (requestModel.FixedAmount <= 0)
-        //    {
-        //        InjectService.ShowMessage("Invalid Fixed Amount.", EnumResponseType.Warning);
-        //        return;
-        //    }
-        //}
+        if (requestModel.Percentage is null && requestModel.FixedAmount is null)
+        {
+            InjectService.ShowMessage("Please fill all fields...", EnumResponseType.Warning);
+            return;
+        }
+
+        if (requestModel.Percentage != 0 && requestModel.Percentage is not null)
+        {
+            if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
+            {
+                InjectService.ShowMessage("Invalid Percentage.", EnumResponseType.Warning);
+                return;
+            }
+        }
+
+        if (requestModel.FixedAmount is not null && requestModel.FixedAmount != 0)
+        {
+            if (requestModel.FixedAmount <= 0)
+            {
+                InjectService.ShowMessage("Invalid Fixed Amount.", EnumResponseType.Warning);
+                return;
+            }
+        }
 
         #endregion
 

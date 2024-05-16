@@ -36,18 +36,22 @@ namespace DotNet8.PosFrontendBlazor.Pages.Tax
                 await List();
         }
 
-        public async Task EditPopUp(int id, int? fromAmount, int? toAmount, decimal? percentage)
+        public async Task EditPopUp(int id, int? fromAmount, int? toAmount, decimal? percentage, decimal? fixedAmount, string taxType)
         {
             TaxModel model = new()
             {
                 TaxId = id,
                 FromAmount = fromAmount,
                 ToAmount = toAmount,
-                Percentage = Convert.ToDecimal(percentage)
+                TaxType = taxType,
+                Percentage = percentage,
+                FixedAmount = fixedAmount
             };
             DialogParameters parameters = new DialogParameters<P_EditTaxDialog>()
             {
-                {x => x.requestModel, model }
+                {x => x.requestModel, model },
+                {x => x.showPercentageField, model.Percentage == 0 ? false : true },
+                {x => x.showFixedAmountField, model.FixedAmount == 0 ? false : true}
             };
 
             DialogResult dialogResult = await InjectService.ShowModalBoxAsync<P_EditTaxDialog>("Edit Tax", parameters);

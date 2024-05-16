@@ -142,6 +142,18 @@ public class DL_Tax
             if (requestModel.Percentage != 0)
             {
                 item.Percentage = requestModel.Percentage;
+                item.FixedAmount = default;
+            }
+
+            if (requestModel.FixedAmount != 0)
+            {
+                item.FixedAmount = requestModel.FixedAmount;
+                item.Percentage = default;
+            }
+
+            if (!string.IsNullOrEmpty(requestModel.TaxType))
+            {
+                item.TaxType = requestModel.TaxType;
             }
 
             _context.Entry(item).State = EntityState.Modified;
