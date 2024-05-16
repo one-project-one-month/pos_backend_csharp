@@ -36,6 +36,12 @@ public partial class P_CreateTaxDialog
             return;
         }
 
+        if (string.IsNullOrEmpty(requestModel.TaxType))
+        {
+            InjectService.ShowMessage("Tax Type cannot be empty.", EnumResponseType.Warning);
+            return;
+        }
+
         if (requestModel.Percentage is null && requestModel.FixedAmount is null)
         {
             InjectService.ShowMessage("Please fill all fields...", EnumResponseType.Warning);

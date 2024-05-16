@@ -3,7 +3,7 @@
     <DialogContent>
         <MudTextField @bind-Value="requestModel.FromAmount" Label="From Amount" Variant="MudBlazor.Variant.Text" InputType="InputType.Number"></MudTextField>
         <MudTextField @bind-Value="requestModel.ToAmount" Label="To Amount" Variant="MudBlazor.Variant.Text" InputType="InputType.Number"></MudTextField>
-        <MudSelect T="string" Label="Choose Tax Type" Variant="MudBlazor.Variant.Text" TextChanged="TaxTypeChanged">
+        <MudSelect @bind-Value="requestModel.TaxType" Label="Choose Tax Type" Variant="MudBlazor.Variant.Text" TextChanged="TaxTypeChanged">
             @foreach (var taxType in StaticData.TaxType())
             {
                 <MudSelectItem Value="@taxType.Key">@taxType.Value</MudSelectItem>

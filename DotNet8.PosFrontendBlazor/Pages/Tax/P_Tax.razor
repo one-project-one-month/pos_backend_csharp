@@ -14,6 +14,7 @@
                 <th>No.</th>
                 <th>From Amount</th>
                 <th>To Amount</th>
+                <th>Tax Type</th>
                 <th>Percentage</th>
                 <th>Fixed Amount</th>
                 <th>Actions</th>
@@ -26,10 +27,11 @@
                     <td>@(++count + ((responseModel.PageSetting.PageNo - 1) * responseModel.PageSetting.PageSize))</td>
                     <td>@item.FromAmount</td>
                     <td>@item.ToAmount</td>
+                    <td>@item.TaxType</td>
                     <td>@Convert.ToDecimal(item.Percentage)</td>
                     <td>@Convert.ToDecimal(item.FixedAmount)</td>
                     <td>
-                        <MudButton Variant=" MudBlazor.Variant.Filled" Size="Size.Small" OnClick="() => EditPopUp(item.TaxId, item.FromAmount, item.ToAmount, item.Percentage, item.FixedAmount)" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
+                        <MudButton Variant=" MudBlazor.Variant.Filled" Size="Size.Small" OnClick="() => EditPopUp(item.TaxId, item.FromAmount, item.ToAmount, item.Percentage, item.FixedAmount, item.TaxType)" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
                         <MudButton Variant="MudBlazor.Variant.Filled" Size="Size.Small" OnClick="() => DeletePopUp(item.TaxId)" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
                     </td>
                 </tr>
