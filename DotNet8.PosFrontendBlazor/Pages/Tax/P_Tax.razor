@@ -28,8 +28,8 @@
                     <td>@item.FromAmount</td>
                     <td>@item.ToAmount</td>
                     <td>@item.TaxType</td>
-                    <td>@Convert.ToDecimal(item.Percentage)</td>
-                    <td>@Convert.ToDecimal(item.FixedAmount)</td>
+                    <td>@Math.Round(Convert.ToDecimal(item.Percentage), 1) %</td>
+                    <td>@Convert.ToInt32(item.FixedAmount)</td>
                     <td>
                         <MudButton Variant=" MudBlazor.Variant.Filled" Size="Size.Small" OnClick="() => EditPopUp(item.TaxId, item.FromAmount, item.ToAmount, item.Percentage, item.FixedAmount, item.TaxType)" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
                         <MudButton Variant="MudBlazor.Variant.Filled" Size="Size.Small" OnClick="() => DeletePopUp(item.TaxId)" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
