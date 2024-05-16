@@ -43,7 +43,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Tax
                 TaxId = id,
                 FromAmount = fromAmount,
                 ToAmount = toAmount,
-                Percentage = percentage
+                Percentage = Convert.ToDecimal(percentage)
             };
             DialogParameters parameters = new DialogParameters<P_EditTaxDialog>()
             {

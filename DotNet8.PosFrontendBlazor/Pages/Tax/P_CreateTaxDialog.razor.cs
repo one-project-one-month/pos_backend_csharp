@@ -6,6 +6,10 @@ public partial class P_CreateTaxDialog
 {
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
+    public bool showPercentageField = false;
+
+    public bool showFixedAmountField = false;
+
     TaxModel requestModel = new();
 
     void Cancel() => MudDialog?.Cancel();
@@ -26,23 +30,36 @@ public partial class P_CreateTaxDialog
             return;
         }
 
-        if (requestModel.Percentage == 100 || requestModel.Percentage > 100 || requestModel.Percentage is null)
-        {
-            InjectService.ShowMessage("Percentage is invalid.", EnumResponseType.Warning);
-            return;
-        }
+        //if (requestModel.Percentage is null && requestModel.FixedAmount is null)
+        //{
+        //    InjectService.ShowMessage("Please fill all fields...", EnumResponseType.Warning);
+        //    return;
+        //}
 
-        if (requestModel.FromAmount >= requestModel.ToAmount)
-        {
-            InjectService.ShowMessage("From Amount must be less than To Amount", EnumResponseType.Warning);
-            return;
-        }
+        //if (requestModel.Percentage != 0)
+        //{
+        //    if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
+        //    {
+        //        InjectService.ShowMessage("Invalid Percentage.", EnumResponseType.Warning);
+        //        return;
+        //    }
+        //}
+
+        //if (requestModel.FixedAmount is not null)
+        //{
+        //    if (requestModel.FixedAmount <= 0)
+        //    {
+        //        InjectService.ShowMessage("Invalid Fixed Amount.", EnumResponseType.Warning);
+        //        return;
+        //    }
+        //}
 
         #endregion
 
         requestModel.FromAmount = Convert.ToInt32(requestModel.FromAmount);
         requestModel.ToAmount = Convert.ToInt32(requestModel.ToAmount);
-        requestModel.Percentage = Convert.ToInt32(requestModel.Percentage);
+        requestModel.Percentage = Convert.ToDecimal(requestModel.Percentage);
+        requestModel.FixedAmount = Convert.ToDecimal(requestModel.FixedAmount);
 
         var response = await HttpClientService.ExecuteAsync<TaxResponseModel>(
             Endpoints.Tax,
@@ -57,5 +74,26 @@ public partial class P_CreateTaxDialog
 
         InjectService.ShowMessage(response.Message, EnumResponseType.Success);
         MudDialog?.Close();
+    }
+
+    private void TaxTypeChanged(string tax)
+    {
+        if (tax == nameof(EnumTaxType.Percentage))
+        {
+            showPercentageField = true;
+            showFixedAmountField = false;
+        }
+        else
+        {
+            showFixedAmountField = true;
+            showPercentageField = false;
+        }
+    }
+
+    public enum EnumTaxType
+    {
+        None,
+        Percentage,
+        Fixed
     }
 }

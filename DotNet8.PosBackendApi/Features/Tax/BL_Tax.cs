@@ -37,11 +37,16 @@ public class BL_Tax
         if (requestModel.ToAmount <= 0)
             throw new Exception("To Amount cannot be empty.");
 
-        if (requestModel.Percentage <= 0)
-            throw new Exception("Percentage cannot be empty.");
+        if (requestModel.Percentage == 0 && requestModel.FixedAmount == 0)
+            throw new Exception();
 
-        if (requestModel.Percentage >= 100)
-            throw new Exception("Invalid Percentage");
+        if (requestModel.Percentage > 0)
+        {
+            if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
+            {
+                throw new Exception("Percentage is invalid.");
+            }
+        }
 
         MessageResponseModel responseModel = await _dL_Tax.CreateTax(requestModel);
 
