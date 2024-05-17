@@ -2,6 +2,7 @@
 @using DotNet8.PosFrontendBlazor.Models.SaleInvoice
 @using Newtonsoft.Json
 
+@if (saleInvoiceFormType == EnumSaleInvoiceFormType.SaleProduct){
 @if (ResponseModel is not null)
 {
     <MudGrid>
@@ -84,7 +85,7 @@
                                         </MudItem>
                                         <MudItem xs="6" Class="d-flex align-items-right mb-4">
                                             @* <MudButton Align="Align.Right" Style="color:black;background-color:white" Href="/checkout">Pay ></MudButton> *@
-                                            <MudButton Align="Align.Right" Style="color:black;background-color:white" OnClick="()=>Pay(lstSaleInvoice)">Pay ></MudButton>
+                                            <MudButton Align="Align.Right" Style="color:black;background-color:white" OnClick="()=>Pay()">Pay ></MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudPaper>
@@ -95,4 +96,9 @@
             </MudPaper>
         </MudItem>
     </MudGrid>
+    }
+}
+else if (saleInvoiceFormType == EnumSaleInvoiceFormType.Checkout)
+{
+    <P_CheckOut SaleInvoiceDetails="lstSaleInvoice" />
 }

@@ -1,13 +1,42 @@
 ﻿@page "/checkout"
+@using DotNet8.PosFrontendBlazor.Models.SaleInvoice
 <MudGrid>
-    <MudItem xs="6">
-        <MudPaper></MudPaper>
-    </MudItem>
-    <MudItem xs="6">
-        <MudPaper></MudPaper>
-    </MudItem>
+    @if (SaleInvoiceDetails.Count > 0)
+    {
+        @foreach (var product in SaleInvoiceDetails)
+        {
+            if (product.Quantity > 0)
+            {
+                <MudItem xs="12">
+                    <MudPaper Elevation="0">
+                        <div class="d-flex align-center  ml-8 ">
+                            <MudImage ObjectPosition="ObjectPosition.Center" Src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnciW5w-jCOnI1XnAhc1RuNq5BgYubMy5Zhw&s" Elevation="25" Class="rounded-lg" Width="50" />
+                            <MudText Align="Align.Center" Class="pa-2">@product.ProductName</MudText>
+                            <MudText Align="Align.Right">@product.Amount  </MudText>
+                        </div>
+                        <div>
+                            <div class="d-flex align-center ml-16 ">
+                                <MudText Align="Align.Left">
+                                    <MudIconButton Icon="@Icons.Material.Filled.AddCircle"> </MudIconButton>
+                                </MudText>
+                                <MudText Align="Align.Center" Typo="Typo.body2">@product.Quantity</MudText>
+                                <MudText Align="Align.Right" Typo="Typo.body2">
+                                    <MudIconButton Icon="@Icons.Material.Filled.RemoveCircle"></MudIconButton>
+                                </MudText>
+                                <MudText>
+                                    <MudIconButton Icon="@Icons.Material.Filled.Close"> </MudIconButton>
+                                </MudText>
+                            </div>
+                        </div>
+
+                    </MudPaper>
+                </MudItem>
+            }
+        }
+    }
 </MudGrid>
 
 @code {
-
+    [Parameter]
+    public List<SaleInvoiceDetailModel> SaleInvoiceDetails { get; set; }
 }
