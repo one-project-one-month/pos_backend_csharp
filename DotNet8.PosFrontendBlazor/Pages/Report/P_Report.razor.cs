@@ -6,16 +6,26 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
 {
     public partial class P_Report
     {
-        //public ReportModel reqModel { get; set; } = new();
+        public ReportListResponseModel? responseModel;
         private string DateFormat { get; set; }
         private DateTime? DateValue { get; set; } = DateTime.Today;
-
-        public ReportListResponseModel? responseModel;
+        private int _pageNo = 1;
+        private int _pageSize = 10;
         private async Task OnValueChanged()
         {
+            int? dateDay = DateValue?.Day;
             int? dateMonth = DateValue?.Month;
             int? dateYear = DateValue?.Year;
-            if (DateFormat.ToLower() is "monthly")
+
+            if (DateFormat.ToLower() is "daily")
+            {
+                await InjectService.EnableLoading();
+                responseModel = await HttpClientService.ExecuteAsync<ReportListResponseModel>(
+                $"{Endpoints.Report}/daily-report/{dateDay}/{dateMonth}/{dateYear}/{_pageNo}/{_pageSize}",
+                EnumHttpMethod.Get
+                );
+            }
+            else if (DateFormat.ToLower() is "monthly")
             {
                 await InjectService.EnableLoading();
                 responseModel = await HttpClientService.ExecuteAsync<ReportListResponseModel>(
@@ -33,6 +43,12 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
             }
             StateHasChanged();
             await InjectService.DisableLoading();
+        }
+
+        private async Task PageChanged(int i)
+        {
+            _pageNo = i;
+            await OnValueChanged();
         }
     }
 }

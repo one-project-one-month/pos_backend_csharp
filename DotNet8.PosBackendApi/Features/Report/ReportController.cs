@@ -14,6 +14,30 @@ public class ReportController : BaseController
         _response = response;
     }
 
+    [HttpGet("daily-report/{DateDay}/{DateMonth}/{DateYear}/{PageNo}/{PageSize}")]
+    public async Task<IActionResult> DailyReport(int DateDay, int DateMonth, int DateYear, int PageNo,int PageSize)
+    {
+        try
+        {
+            var lst = await _report.DailyReport(DateDay, DateMonth, DateYear, PageNo, PageSize);
+            var model = _response.Return(
+                new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    Count = lst.Data.Count,
+                    EnumPos = EnumPos.Report,
+                    IsSuccess = lst.MessageResponse.IsSuccess,
+                    Message = lst.MessageResponse.Message,
+                    Item = lst.Data
+                });
+            return Content(model);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
     //[Route("monthly-report")]
     [HttpGet("monthly-report/{month}/{year}")]
     public async Task<IActionResult> MonthlyReport(int month, int year)

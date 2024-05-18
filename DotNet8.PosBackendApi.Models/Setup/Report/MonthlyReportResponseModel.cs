@@ -10,5 +10,6 @@ namespace DotNet8.PosBackendApi.Models.Setup.Report
     {
         public List<ReportModel> Data { get; set; }
         public MessageResponseModel MessageResponse { get; set; }
+        public PageSettingModel PageSetting { get; set; }
     }
 }
