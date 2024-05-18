@@ -28,7 +28,8 @@ public class ReportController : BaseController
                     EnumPos = EnumPos.Report,
                     IsSuccess = lst.MessageResponse.IsSuccess,
                     Message = lst.MessageResponse.Message,
-                    Item = lst.Data
+                    Item = lst.Data,
+                    PageSetting = lst.PageSetting
                 });
             return Content(model);
         }
