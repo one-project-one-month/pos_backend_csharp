@@ -87,9 +87,9 @@ public partial class P_EditTaxDialog
         MudDialog?.Close();
     }
 
-    private void TaxTypeChanged(string tax)
+    private void TaxTypeChanged(string taxType)
     {
-        if (tax == nameof(EnumTaxType.Percentage))
+        if (taxType == nameof(EnumTaxType.Percentage))
         {
             showPercentageField = true;
             showFixedAmountField = false;
