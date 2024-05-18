@@ -14,7 +14,7 @@ public class DL_Report
         var query = _context
             .TblSaleInvoices
             .AsNoTracking()
-            .Where(x => x.SaleInvoiceDateTime.Day >= DateDay && x.SaleInvoiceDateTime.Month >= DateMonth && x.SaleInvoiceDateTime.Year == DateYear)
+            .Where(x => x.SaleInvoiceDateTime.Day == DateDay && x.SaleInvoiceDateTime.Month == DateMonth && x.SaleInvoiceDateTime.Year == DateYear)
             .GroupBy(x => x.SaleInvoiceDateTime.Date)
             .Select(y => new ReportModel
             {
