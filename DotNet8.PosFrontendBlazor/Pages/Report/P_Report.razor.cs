@@ -45,6 +45,12 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
             await InjectService.DisableLoading();
         }
 
+        private async Task DateChanged(DateTime? newDate)
+        {
+            DateValue = newDate;
+            await OnValueChanged();
+        }
+
         private async Task PageChanged(int i)
         {
             _pageNo = i;

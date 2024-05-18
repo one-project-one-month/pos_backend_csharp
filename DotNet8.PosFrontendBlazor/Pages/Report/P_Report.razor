@@ -2,7 +2,10 @@
 
 @* <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="1" Date="@(DateTime.Today.AddDays(1))" /> *@
 @* <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="1" @bind-Date="@(DateValue)" /> *@
-<MudDatePicker Label="Report Date" @bind-Date="DateValue" />
+@* <MudDatePicker Label="Report Date" @bind-Date="DateValue" /> *@
+<MudDatePicker Label="Report Date" DateChanged="@(e => DateChanged(e))" />
+   
+
 <MudSelect T="string" Label="Report Range" Variant="MudBlazor.Variant.Outlined" @bind-Value="@DateFormat" SelectedValuesChanged="OnValueChanged">
     <MudSelectItem Value="@("Daily")" />
     <MudSelectItem Value="@("Monthly")" />
