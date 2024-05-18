@@ -3,16 +3,13 @@
 @* <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="1" Date="@(DateTime.Today.AddDays(1))" /> *@
 @* <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="1" @bind-Date="@(DateValue)" /> *@
 @* <MudDatePicker Label="Report Date" @bind-Date="DateValue" /> *@
-<MudDatePicker Label="Report Date"
-               Editable="true"
-               @bind-Text="@DateText"
-               DateChanged="OnDateChanged" />
+<MudDatePicker Label="Report Date" DateChanged="@(e => DateChanged(e))" />
+   
 
-<MudSelect T="EnumReportDate" Label="Report Range" Variant="MudBlazor.Variant.Outlined" @bind-Value="@DateFormat" SelectedValuesChanged="OnValueChanged">
-    <MudSelectItem Value="EnumReportDate.None" />
-    <MudSelectItem Value="EnumReportDate.Daily" />
-    <MudSelectItem Value="EnumReportDate.Monthly" />
-    <MudSelectItem Value="EnumReportDate.Yearly" />
+<MudSelect T="string" Label="Report Range" Variant="MudBlazor.Variant.Outlined" @bind-Value="@DateFormat" SelectedValuesChanged="OnValueChanged">
+    <MudSelectItem Value="@("Daily")" />
+    <MudSelectItem Value="@("Monthly")" />
+    <MudSelectItem Value="@("Yearly")" />
 </MudSelect>
 <br />
 @if (responseModel is not null)
@@ -38,14 +35,4 @@
         </tbody>
     </MudSimpleTable>
     <MudPagination SelectedChanged="PageChanged" Variant="MudBlazor.Variant.Filled" Count="@responseModel.PageSetting.PageCount" Style="margin-top:3%" />
-}
-
-@code {
-    private enum EnumReportDate
-    {
-        None,
-        Daily,
-        Monthly,
-        Yearly
-    }
 }
