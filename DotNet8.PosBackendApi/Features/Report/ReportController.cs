@@ -40,12 +40,12 @@ public class ReportController : BaseController
     }
 
     //[Route("monthly-report")]
-    [HttpGet("monthly-report/{month}/{year}")]
-    public async Task<IActionResult> MonthlyReport(int month, int year)
+    [HttpGet("monthly-report/{month}/{year}/{PageNo}/{PageSize}")]
+    public async Task<IActionResult> MonthlyReport(int month, int year, int PageNo, int PageSize)
     {
         try
         {
-            var lst = await _report.MonthlyReport(month, year);
+            var lst = await _report.MonthlyReport(month, year, PageNo, PageSize);
             var model = _response.Return(
                 new ReturnModel
                 {
@@ -54,7 +54,8 @@ public class ReportController : BaseController
                     EnumPos = EnumPos.Report,
                     IsSuccess = lst.MessageResponse.IsSuccess,
                     Message = lst.MessageResponse.Message,
-                    Item = lst.Data
+                    Item = lst.Data,
+                    PageSetting = lst.PageSetting
                 });
             return Content(model);
         }
@@ -65,12 +66,12 @@ public class ReportController : BaseController
     }
 
     //[Route("yearly-report")]
-    [HttpGet("yearly-report/{year}")]
-    public async Task<IActionResult> YearlyReport(int year)
+    [HttpGet("yearly-report/{year}/{PageNo}/{PageSize}")]
+    public async Task<IActionResult> YearlyReport(int year, int PageNo, int PageSize)
     {
         try
         {
-            var lst = await _report.YearlyReport(year);
+            var lst = await _report.YearlyReport(year, PageNo, PageSize);
             var model = _response.Return(
                 new ReturnModel
                 {
@@ -79,7 +80,8 @@ public class ReportController : BaseController
                     EnumPos = EnumPos.Report,
                     IsSuccess = lst.MessageResponse.IsSuccess,
                     Message = lst.MessageResponse.Message,
-                    Item = lst.Data
+                    Item = lst.Data,
+                    PageSetting = lst.PageSetting
                 });
             return Content(model);
         }

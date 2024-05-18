@@ -29,7 +29,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
             {
                 await InjectService.EnableLoading();
                 responseModel = await HttpClientService.ExecuteAsync<ReportListResponseModel>(
-                $"{Endpoints.Report}/monthly-report/{dateMonth}/{dateYear}",
+                $"{Endpoints.Report}/monthly-report/{dateMonth}/{dateYear}/{_pageNo}/{_pageSize}",
                 EnumHttpMethod.Get
                 );
             }
@@ -37,7 +37,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
             {
                 await InjectService.EnableLoading();
                 responseModel = await HttpClientService.ExecuteAsync<ReportListResponseModel>(
-                $"{Endpoints.Report}/yearly-report/{dateYear}",
+                $"{Endpoints.Report}/yearly-report/{dateYear}/{_pageNo}/{_pageSize}",
                 EnumHttpMethod.Get
                 );
             }

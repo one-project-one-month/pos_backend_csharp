@@ -12,15 +12,15 @@
             return response;
         }
 
-        public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year)
+        public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year, int PageNo, int PageSize)
         {
-            var response = await _report.MonthlyReport(month, year);
+            var response = await _report.MonthlyReport(month, year, PageNo, PageSize);
             return response;
         }
 
-        public async Task<MonthlyReportResponseModel> YearlyReport(int year)
+        public async Task<MonthlyReportResponseModel> YearlyReport(int year, int PageNo, int PageSize)
         {
-            var response = await _report.YearlyReport(year);
+            var response = await _report.YearlyReport(year, PageNo, PageSize);
             return response;
         }
     }
