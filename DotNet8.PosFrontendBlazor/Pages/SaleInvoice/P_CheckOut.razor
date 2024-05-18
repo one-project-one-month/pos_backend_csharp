@@ -1,42 +1,57 @@
 ﻿@page "/checkout"
 @using DotNet8.PosFrontendBlazor.Models.SaleInvoice
+
 <MudGrid>
-    @if (SaleInvoiceDetails.Count > 0)
-    {
-        @foreach (var product in SaleInvoiceDetails)
-        {
-            if (product.Quantity > 0)
-            {
+    <MudItem xs="6">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full  py-8">
+            <MudGrid>
                 <MudItem xs="12">
-                    <MudPaper Elevation="0">
-                        <div class="d-flex align-center  ml-8 ">
-                            <MudImage ObjectPosition="ObjectPosition.Center" Src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnciW5w-jCOnI1XnAhc1RuNq5BgYubMy5Zhw&s" Elevation="25" Class="rounded-lg" Width="50" />
-                            <MudText Align="Align.Center" Class="pa-2">@product.ProductName</MudText>
-                            <MudText Align="Align.Right">@product.Amount  </MudText>
-                        </div>
-                        <div>
-                            <div class="d-flex align-center ml-16 ">
-                                <MudText Align="Align.Left">
-                                    <MudIconButton Icon="@Icons.Material.Filled.AddCircle"> </MudIconButton>
-                                </MudText>
-                                <MudText Align="Align.Center" Typo="Typo.body2">@product.Quantity</MudText>
-                                <MudText Align="Align.Right" Typo="Typo.body2">
-                                    <MudIconButton Icon="@Icons.Material.Filled.RemoveCircle"></MudIconButton>
-                                </MudText>
-                                <MudText>
-                                    <MudIconButton Icon="@Icons.Material.Filled.Close"> </MudIconButton>
-                                </MudText>
-                            </div>
-                        </div>
-
-                    </MudPaper>
+                    <MudText Align="Align.Center"> Checkout </MudText>
                 </MudItem>
-            }
-        }
-    }
+                @if (SaleInvoiceDetails.Count > 0)
+                {
+                    @foreach (var product in SaleInvoiceDetails)
+                    {
+                        if (product.Quantity > 0)
+                        {
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0">
+                                    <div class="d-flex align-center  ml-8 ">
+                                        <MudImage ObjectPosition="ObjectPosition.Center" Src="strawberry.jpg" Elevation="25" Class="rounded-lg" Width="50" />
+                                        <MudText Align="Align.Center" Class="pa-2">@product.ProductName</MudText>
+                                        <MudText Align="Align.Right">@product.Amount  </MudText>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex align-center ml-16 ">
+                                            <MudText Align="Align.Left">
+                                                <MudIconButton Icon="@Icons.Material.Filled.AddCircle" OnClick="@(()=>IncreaseCount(product))"> </MudIconButton>
+                                            </MudText>
+                                            <MudText Align="Align.Center" Typo="Typo.body2">@product.Quantity</MudText>
+                                            <MudText Align="Align.Right" Typo="Typo.body2">
+                                                <MudIconButton Icon="@Icons.Material.Filled.RemoveCircle" OnClick="@(()=>DecreaseCount(product,1))"></MudIconButton>
+                                            </MudText>
+                                            <MudText>
+                                                <MudIconButton Icon="@Icons.Material.Filled.Close" OnClick="@(()=>DecreaseCount(product,product.Quantity))"> </MudIconButton>
+                                            </MudText>
+                                        </div>
+                                    </div>
+                                </MudPaper>
+                            </MudItem>
+                        }
+                    }
+                }
+            </MudGrid>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="6" Elevation="0">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full  py-8">
+            <MudGrid>
+                <MudItem xs="12" class="ml-5 mr-5">
+                    <MudText Align="Align.Center"> Payment </MudText>
+                        <MudTextField @bind-Value="MobileNo" Label="MobileNo" Variant="MudBlazor.Variant.Text"></MudTextField>
+                        <MudTextField @bind-Value="StaffName" Label="StaffName" Variant="MudBlazor.Variant.Text"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </MudItem>
 </MudGrid>
-
-@code {
-    [Parameter]
-    public List<SaleInvoiceDetailModel> SaleInvoiceDetails { get; set; }
-}
