@@ -31,6 +31,39 @@ public class DL_State
         return responseModel;
     }
 
+    public async Task<StateListResponseModel> GetState(int pageNo,int pageSize )
+    {
+        var responseModel = new StateListResponseModel();
+        try
+        {
+            var query = _context
+                .TblPlaceStates
+                .AsNoTracking();
+
+            var totalCount=await query.CountAsync();
+            var pageCount = totalCount / pageSize;
+            if (totalCount % pageSize > 0)
+                pageCount++;
+            var lst = await query.
+                Pagination(pageNo, pageSize)
+                .ToListAsync();
+
+            responseModel.Data = new StateDataModel
+            {
+                State = lst.Select(x => x.Change()).ToList(),
+                PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount)
+            };
+           
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.DataLst = new List<StateModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex.Message);
+        }
+
+        return responseModel;
+    }
     public async Task<StateResponseModel> GetStateByCode(string stateCode)
     {
         var responseModel = new StateResponseModel();

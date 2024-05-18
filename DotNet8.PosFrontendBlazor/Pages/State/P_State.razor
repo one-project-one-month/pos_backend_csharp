@@ -21,7 +21,7 @@
             @foreach (var item in ResponseModel.Data.State)
             {
                 <tr>
-                    <td>@(++count)</td>
+                    <td>@(++count + ((pageNo - 1) * pageSize))</td>
                     <td>@item.StateCode</td>
                     <td>@item.StateName</td>
                     <td>
@@ -32,10 +32,13 @@
             }
         </tbody>
     </MudSimpleTable>
+    <MudPagination SelectedChanged="PageChanged" Count="@ResponseModel.PageSetting.PageCount" Class="pa-4" />
 }
 
 @code {
     private StateListResponseModel? ResponseModel;
+    private int pageNo = 1;
+    private int pageSize = 10;
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -52,7 +55,18 @@
 
     private async Task List()
     {
-        ResponseModel = await HttpClientService.ExecuteAsync<StateListResponseModel>(Endpoints.State, EnumHttpMethod.Get);
+       // ResponseModel = await HttpClientService.ExecuteAsync<StateListResponseModel>(Endpoints.State, EnumHttpMethod.Get);
+        ResponseModel = await HttpClientService.ExecuteAsync<StateListResponseModel>
+        (
+            Endpoints.State.WithPagination(pageNo, pageSize),
+            EnumHttpMethod.Get
+        );
+    }
+
+    private async Task PageChanged(int i)
+    {
+        pageNo = i;
+        await List();
     }
 
     private async Task Popup(string title, string stateCode = null)
