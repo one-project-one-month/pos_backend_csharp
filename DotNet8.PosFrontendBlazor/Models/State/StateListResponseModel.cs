@@ -3,5 +3,6 @@
     public class StateListResponseModel:ResponseModel
     {
         public StateDataModel Data { get; set; } = new StateDataModel();
+        public PageSettingModel PageSetting { get; set; }
     }
 }
