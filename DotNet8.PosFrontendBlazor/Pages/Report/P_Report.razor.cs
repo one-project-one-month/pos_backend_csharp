@@ -12,10 +12,9 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
         private int? _dateMonth;
         private int? _dateYear;
         private ReportListResponseModel? responseModel;
-        private string DateText { get; set; }
         private EnumReportDate DateFormat { get; set; }
         private DateTime? DateValue { get; set; }
-        private async Task OnDateChanged(DateTime? newDate)
+        private async Task DateChanged(DateTime? newDate)
         {
             DateValue = newDate;
             await OnValueChanged();
@@ -24,7 +23,6 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
         private async Task PageChanged(int i)
         {
             _pageNo = i;
-            DateValue = Convert.ToDateTime(DateText);
             await OnValueChanged();
         }
         private async Task OnValueChanged()
