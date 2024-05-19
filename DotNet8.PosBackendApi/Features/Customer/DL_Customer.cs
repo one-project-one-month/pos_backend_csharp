@@ -24,8 +24,7 @@ public class DL_Customer
         }
         catch (Exception ex)
         {
-            responseModel.DataLst =  []
-            ;
+            responseModel.DataLst = new List<CustomerModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
@@ -58,8 +57,7 @@ public class DL_Customer
         }
         catch (Exception ex)
         {
-            responseModel.DataLst =  []
-            ;
+            responseModel.DataLst = new List<CustomerModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
