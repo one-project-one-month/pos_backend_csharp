@@ -88,6 +88,11 @@ public partial class P_SaleInvoice
         saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
         //StateHasChanged();
     }
+
+    private void Back()
+    {
+        saleInvoiceFormType = EnumSaleInvoiceFormType.SaleProduct;
+    }
 }
 
 public enum EnumSaleInvoiceFormType

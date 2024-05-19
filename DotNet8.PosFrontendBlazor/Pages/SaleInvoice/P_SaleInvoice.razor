@@ -17,11 +17,14 @@
                     <MudGrid>
                         @foreach (var item in lstProduct)
                         {
-                            <MudItem xs="4">
-                                <MudPaper>
+                            <MudItem xs="3">
+                                <MudPaper Class="py-4">
                                     <div class="d-flex justify-center" Elevation="25">
                                         <MudLink OnClick="@(()=>AddItem(item))" Underline="Underline.None">
-                                            <MudImage ObjectPosition="ObjectPosition.Center" Src="strawberry.jpg" Alt="@item.ProductName" Elevation="25" Class="rounded-lg" Width="100" />
+                                            @* <MudImage ObjectPosition="ObjectPosition.Center" Src="strawberry.jpg" Alt="@item.ProductName" Elevation="25" Class="rounded-lg" Width="100" /> *@
+                                            <MudAvatar Color="Color.Success" Variant="MudBlazor.Variant.Outlined">
+                                                @item.ProductName.Substring(0, 1)
+                                            </MudAvatar>
                                         </MudLink>
                                     </div>
                                     <MudText Align="Align.Center" Typo="Typo.body2">@item.Price</MudText>
@@ -33,7 +36,7 @@
                 </MudPaper>
             </MudItem>
             <MudItem xs="3">
-                 <MudPaper Class="d-flex align-center justify-center mud-width-full  py-8">
+                <MudPaper Class="d-flex align-center justify-center mud-width-full  py-8">
                     <MudGrid>
                         <MudItem xs="12">
                             <MudPaper Elevation="0">
@@ -42,7 +45,7 @@
                                 </div>
                             </MudPaper>
                         </MudItem>
-                        @if (lstSaleInvoice.Count > 0)
+                        @if (lstSaleInvoice is not null && lstSaleInvoice.Count > 0)
                         {
                             @foreach (var product in lstSaleInvoice)
                             {
@@ -73,25 +76,26 @@
                                     </MudItem>
                                 }
                             }
-                            @if (lstSaleInvoice.Sum(x => x.Amount) > 0)
-                            {
-                                <MudItem xs="12">
-                                    <MudPaper Elevation="0" Class="mt-4 text-white ml-2  mr-2" Style="@($"background:#006064;color:#FFFFFF;height:80%;")">
-                                        <MudGrid>
-                                            <MudItem xs="6">
-                                                <MudText Typo="Typo.body2" Align="Align.Left" Class="ml-4 mt-2">@lstSaleInvoice.Sum(x => x.Amount)</MudText>
-                                            </MudItem>
-                                            <MudItem xs="6" Class="d-flex align-items-right mb-4">
-                                                @* <MudButton Align="Align.Right" Style="color:black;background-color:white" Href="/checkout">Pay ></MudButton> *@
-                                                <MudButton Align="Align.Right" Style="color:black;background-color:white" OnClick="()=>Pay()">Pay ></MudButton>
-                                            </MudItem>
-                                        </MudGrid>
-                                    </MudPaper>
-                                </MudItem>
-                            }
                         }
+                       @*  @if (lstSaleInvoice is not null && lstSaleInvoice.Sum(x => x.Amount) > 0)
+                        {
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0" Class="mt-4 text-white ml-2 mr-2 mb-6" Style="@("background:#006064;color:#FFFFFF;height:80%;")">
+                                    <MudGrid>
+                                        <MudItem xs="6">
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudPaper>
+                            </MudItem>
+                        } *@
                     </MudGrid>
                 </MudPaper>
+                @if (lstSaleInvoice is not null && lstSaleInvoice.Sum(x => x.Amount) > 0)
+                {
+                    <MudAlert Severity="Severity.Info" Class="my-2" Variant="MudBlazor.Variant.Outlined">@lstSaleInvoice.Sum(x => x.Amount)</MudAlert>
+                    @* <MudText Typo="Typo.body2" Align="Align.Left" Class="ml-4 mt-2"></MudText> *@
+                }
+                <MudButton FullWidth="true" Class="my-2" Variant="MudBlazor.Variant.Filled" Color="Color.Success" OnClick="()=>Pay()">Pay</MudButton>
             </MudItem>
         </MudGrid>
     }
@@ -99,4 +103,5 @@
 else if (saleInvoiceFormType == EnumSaleInvoiceFormType.Checkout)
 {
     <P_CheckOut SaleInvoiceDetails="lstSaleInvoice" />
+    <MudButton Class="my-4" Variant="MudBlazor.Variant.Outlined" Color="Color.Warning" OnClick="()=>Back()">Back</MudButton>
 }
