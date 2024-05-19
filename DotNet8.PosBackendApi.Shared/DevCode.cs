@@ -90,4 +90,33 @@ public static class DevCode
             .Skip((pageNo - 1) * pageSize)
             .Take(pageSize);
     }
+
+    public static string ToName2HexColor(this string name)
+    {
+        // Convert name to Base64
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(name);
+        string base64 = Convert.ToBase64String(bytes);
+
+        // Take a substring of the Base64 string
+        string substring = base64.Substring(0, 6);
+
+        // Convert the substring to hex
+        string hex = "";
+        foreach (char c in substring)
+        {
+            hex += ((int)c).ToString("X2");
+        }
+
+        // Ensure hex has exactly 6 characters
+        if (hex.Length < 6)
+        {
+            hex = hex.PadRight(6, '0');
+        }
+        else if (hex.Length > 6)
+        {
+            hex = hex.Substring(0, 6);
+        }
+
+        return "#" + hex;
+    }
 }
