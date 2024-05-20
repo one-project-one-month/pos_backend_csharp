@@ -9,33 +9,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
         private SaleInvoiceModel? reqModel = new SaleInvoiceModel();
 
         [Parameter]
-        public List<SaleInvoiceDetailModel> SaleInvoiceDetails { get; set; }
-
-        public string MobileNo { get; set; }
-        public string StaffName { get; set; }
-
-        private void AddItem(ProductModel requestModel)
-        {
-            SaleInvoiceDetailModel saleInvoiceDetail = new SaleInvoiceDetailModel
-            {
-                ProductCode = requestModel.ProductCode,
-                ProductName = requestModel.ProductName,
-                Price = requestModel.Price,
-            };
-
-            if (!SaleInvoiceDetails.Where(x => x.ProductCode == requestModel.ProductCode).Any())
-            {
-                saleInvoiceDetail.Quantity = 1;
-                saleInvoiceDetail.Amount = requestModel.Price;
-                SaleInvoiceDetails!.Add(saleInvoiceDetail);
-            }
-            else
-            {
-                SaleInvoiceDetails.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity += 1;
-                SaleInvoiceDetails.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Amount += requestModel.Price;
-            }
-            Console.WriteLine(SaleInvoiceDetails.Select(x => x.Price * x.Quantity).Sum());
-        }
+        public List<SaleInvoiceDetailModel> SaleInvoiceDetails { get; set; } = new List<SaleInvoiceDetailModel>();
 
         private void IncreaseCount(SaleInvoiceDetailModel requestModel)
         {
@@ -56,8 +30,15 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
 
         private void Pay()
         {
-            Console.WriteLine(JsonConvert.SerializeObject(SaleInvoiceDetails));
+            reqModel.SaleInvoiceDetails = SaleInvoiceDetails;
+            Console.WriteLine(JsonConvert.SerializeObject(reqModel).ToString());
             //saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
         }
+
+        //private Task Set(string value)
+        //{
+        //    reqModel.PaymentAmount = value == null ? 0 : Convert.ToDecimal(value);
+        //    return Task.CompletedTask;
+        //}
     }
 }
