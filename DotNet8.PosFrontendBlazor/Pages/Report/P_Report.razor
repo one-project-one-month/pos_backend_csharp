@@ -1,19 +1,18 @@
 ﻿@page "/report"
 
-@* <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="1" Date="@(DateTime.Today.AddDays(1))" /> *@
-@* <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="1" @bind-Date="@(DateValue)" /> *@
-@* <MudDatePicker Label="Report Date" @bind-Date="DateValue" /> *@
-<MudDatePicker Label="Report Date"
-               Editable="true"
-               @bind-Text="@DateText"
-               DateChanged="OnDateChanged" />
-
-<MudSelect T="EnumReportDate" Label="Report Range" Variant="MudBlazor.Variant.Outlined" @bind-Value="@DateFormat" SelectedValuesChanged="OnValueChanged">
-    <MudSelectItem Value="EnumReportDate.None" />
-    <MudSelectItem Value="EnumReportDate.Daily" />
-    <MudSelectItem Value="EnumReportDate.Monthly" />
-    <MudSelectItem Value="EnumReportDate.Yearly" />
-</MudSelect>
+<MudGrid>
+    <MudItem xs="12" sm="6">
+        <MudDatePicker Label="Report Date" DateChanged="@(e => DateChanged(e))" DateFormat="dd/MMM/yyyy"/>
+    </MudItem>
+    <MudItem xs="12" sm="6">
+        <MudSelect T="EnumReportDate" Label="Report Range" Variant="MudBlazor.Variant.Outlined" @bind-Value="@DateFormat" SelectedValuesChanged="OnValueChanged">
+            <MudSelectItem Value="EnumReportDate.None"/>
+            <MudSelectItem Value="EnumReportDate.Daily"/>
+            <MudSelectItem Value="EnumReportDate.Monthly"/>
+            <MudSelectItem Value="EnumReportDate.Yearly"/>
+        </MudSelect>
+    </MudItem>
+</MudGrid>
 <br />
 @if (responseModel is not null)
 {
@@ -31,7 +30,7 @@
             {
                 <tr>
                     <td>@(++count)</td>
-                    <td>@item.SaleInvoiceDate</td>
+                    <td>@(item.SaleInvoiceDate.ToDateTime().ToString("dd/MMM/yyyy"))</td>
                     <td>@item.TotalAmount</td>
                 </tr>
             }

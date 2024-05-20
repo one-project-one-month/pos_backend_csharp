@@ -13,5 +13,13 @@ namespace DotNet8.PosBackendApi.Models.Setup.State
 
         public List<StateModel> DataLst { get; set; }
         public MessageResponseModel MessageResponse { get; set; }
+        public StateDataModel Data { get; set; }
     }
+
+    public class StateDataModel
+    {
+        public PageSettingModel PageSetting { get; set; }
+        public List<StateModel> State { get; set; }
+    }
+
 }

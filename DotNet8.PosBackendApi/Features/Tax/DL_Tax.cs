@@ -28,7 +28,7 @@ public class DL_Tax
         }
         catch (Exception ex)
         {
-            taxListResponseModel.DataLst = [];
+            taxListResponseModel.DataLst = new List<TaxModel>();
             taxListResponseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
         return taxListResponseModel;
@@ -62,7 +62,7 @@ public class DL_Tax
         }
         catch (Exception ex)
         {
-            taxListResponseModel.DataLst = [];
+            taxListResponseModel.DataLst = new List<TaxModel>();
             taxListResponseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
         return taxListResponseModel;

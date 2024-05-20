@@ -11,7 +11,16 @@
             var response = await _dL_State.GetState();
             return response;
         }
-
+        //public async Task<TownshipListResponseModel> GetTownship(int pageNo, int pageSize)
+        //{
+        //    var response = await _dL_Township.GetTownship(pageNo, pageSize);
+        //    return response;
+        //}
+        public async Task<StateListResponseModel> GetState(int pageNo, int pageSize)
+        {
+            var response=await _dL_State.GetState(pageNo, pageSize);
+            return response;
+        }
         public async Task<StateResponseModel> GetStateByCode(string StateCode)
         {
             if (StateCode is null) throw new Exception("StateCode is null");

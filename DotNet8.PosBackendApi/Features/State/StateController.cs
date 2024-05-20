@@ -40,6 +40,31 @@ public class StateController : BaseController
         }
     }
 
+
+    [HttpGet("{pageNo}/{pageSize}")]
+    public async Task<IActionResult> GetState(int pageNo, int pageSize)
+    {
+        try
+        {
+            var stateLst = await _bL_State.GetState(pageNo, pageSize);
+            var responseModel = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                EnumPos = EnumPos.State,
+                IsSuccess = stateLst.MessageResponse.IsSuccess,
+                Message = stateLst.MessageResponse.Message,
+                Item = stateLst.Data.State,
+                PageSetting = stateLst.Data.PageSetting
+            });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
     [HttpGet("{StateCode}")]
     public async Task<IActionResult> GetStateByCode(string StateCode)
     {
