@@ -40,6 +40,7 @@
                     <td>@item.Position</td>
                     <td>
                         <MudButton OnClick="() => Edit(item.StaffId)" Variant=" MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
+                        <MudButton OnClick="() => DeletePopUp(item.StaffId)" Variant="MudBlazor.Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
                     </td>
                 </tr>
             }
@@ -118,5 +119,17 @@
     {
         _pageNo = i;
         await List();
+    }
+
+    private async Task DeletePopUp(int id)
+    {
+        var parameters = new DialogParameters<P_DeleteStaffDialog>()
+        {
+            {"id", id}
+        };
+        DialogResult result = await InjectService.ShowModalBoxAsync<P_DeleteStaffDialog>("Delete Staff", parameters);
+
+        if (!result.Canceled)
+            await List();
     }
 }
