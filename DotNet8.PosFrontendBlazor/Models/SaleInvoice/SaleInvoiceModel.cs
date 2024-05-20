@@ -11,9 +11,9 @@
         public decimal Tax { get; set; }
         public string? PaymentType { get; set; }
         public string? CustomerAccountNo { get; set; }
-        public decimal? PaymentAmount { get; set; }
-        public decimal? ReceiveAmount { get; set; }
-        public decimal? Change { get; set; }
+        public decimal PaymentAmount { get; set; } = 0;
+        public decimal ReceiveAmount { get; set; } = 0;
+        public decimal? Change { get { return ReceiveAmount - PaymentAmount; } }
         public string? CustomerCode { get; set; }
         public List<SaleInvoiceDetailModel>? SaleInvoiceDetails { get; set; } = new List<SaleInvoiceDetailModel>();
     }

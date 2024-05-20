@@ -54,7 +54,10 @@
                                     <MudItem xs="12">
                                         <MudPaper Elevation="0">
                                             <div class="d-flex align-center  ml-8 ">
-                                                <MudImage ObjectPosition="ObjectPosition.Center" Src="strawberry.jpg" Elevation="25" Class="rounded-lg" Width="50" />
+                                                @* <MudImage ObjectPosition="ObjectPosition.Center" Src="strawberry.jpg" Elevation="25" Class="rounded-lg" Width="50" /> *@
+                                                <MudAvatar Color="Color.Success" Variant="MudBlazor.Variant.Outlined">
+                                                    @product.ProductName.Substring(0, 1)
+                                                </MudAvatar>
                                                 <MudText Align="Align.Center" Class="pa-2">@product.ProductName</MudText>
                                                 <MudText Align="Align.Right">@product.Amount  </MudText>
                                             </div>
@@ -77,17 +80,17 @@
                                 }
                             }
                         }
-                       @*  @if (lstSaleInvoice is not null && lstSaleInvoice.Sum(x => x.Amount) > 0)
-                        {
-                            <MudItem xs="12">
-                                <MudPaper Elevation="0" Class="mt-4 text-white ml-2 mr-2 mb-6" Style="@("background:#006064;color:#FFFFFF;height:80%;")">
-                                    <MudGrid>
-                                        <MudItem xs="6">
-                                        </MudItem>
-                                    </MudGrid>
-                                </MudPaper>
-                            </MudItem>
-                        } *@
+                        @*  @if (lstSaleInvoice is not null && lstSaleInvoice.Sum(x => x.Amount) > 0)
+                {
+                <MudItem xs="12">
+                <MudPaper Elevation="0" Class="mt-4 text-white ml-2 mr-2 mb-6" Style="@("background:#006064;color:#FFFFFF;height:80%;")">
+                <MudGrid>
+                <MudItem xs="6">
+                </MudItem>
+                </MudGrid>
+                </MudPaper>
+                </MudItem>
+                } *@
                     </MudGrid>
                 </MudPaper>
                 @if (lstSaleInvoice is not null && lstSaleInvoice.Sum(x => x.Amount) > 0)
