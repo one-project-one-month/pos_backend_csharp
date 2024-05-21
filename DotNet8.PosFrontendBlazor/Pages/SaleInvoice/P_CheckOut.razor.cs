@@ -12,6 +12,8 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
 
         private SaleInvoiceModel? reqModel = new SaleInvoiceModel();
 
+        private EnumSaleInvoiceFormType saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
+
         private void IncreaseCount(SaleInvoiceDetailModel requestModel)
         {
             requestModel.Quantity += 1;
@@ -46,10 +48,13 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
             if (response.IsError)
             {
                 InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+                saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
                 return;
             }
 
             InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+            saleInvoiceFormType = EnumSaleInvoiceFormType.SaleProduct;
+            StateHasChanged();
         }
     }
 }
