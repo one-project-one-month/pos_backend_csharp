@@ -17,4 +17,9 @@
         public string? CustomerCode { get; set; }
         public List<SaleInvoiceDetailModel>? SaleInvoiceDetails { get; set; } = new List<SaleInvoiceDetailModel>();
     }
+
+    public class SaleInvoiceItemModel
+    {
+        public SaleInvoiceModel SaleInvoice { get; set; } = new SaleInvoiceModel();
+    }
 }
