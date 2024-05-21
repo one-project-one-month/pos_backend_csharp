@@ -1,0 +1,10 @@
+﻿<MudDialog>
+    <DialogContent>       
+        <MudTextField @bind-Value="@reqModel.ProductCategoryName" Label="Product Category Name" />
+        <MudTextField @bind-Value="@reqModel.ProductCategoryCode" Label="ProductCategory Code" />       
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Success" OnClick="SaveAsync">Save</MudButton>
+    </DialogActions>
+</MudDialog>
