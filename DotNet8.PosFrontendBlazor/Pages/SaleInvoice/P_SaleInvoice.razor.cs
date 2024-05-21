@@ -93,6 +93,32 @@ public partial class P_SaleInvoice
     {
         saleInvoiceFormType = EnumSaleInvoiceFormType.SaleProduct;
     }
+
+    private async void CheckoutPay()
+    {
+        reqModel.SaleInvoiceDetails = lstSaleInvoice;
+        reqModel.SaleInvoiceDateTime = DateTime.Now;
+        reqModel.TotalAmount = lstSaleInvoice.Sum(x => x.Amount);
+        reqModel.StaffCode = "S_001";
+        reqModel.PaymentType = "KBZPay";
+        Console.WriteLine(JsonConvert.SerializeObject(reqModel).ToString());
+        var response = await HttpClientService.ExecuteAsync<SaleInvoiceResponseModel>(
+            Endpoints.SaleInvoice,
+            EnumHttpMethod.Post,
+            reqModel
+            );
+        Console.WriteLine(JsonConvert.SerializeObject(response).ToString());
+        if (response.IsError)
+        {
+            InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+            return;
+        }
+
+        InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+        saleInvoiceFormType = EnumSaleInvoiceFormType.SaleProduct;
+        lstSaleInvoice = new List<SaleInvoiceDetailModel>();
+        StateHasChanged();
+    }
 }
 
 public enum EnumSaleInvoiceFormType
