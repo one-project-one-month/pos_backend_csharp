@@ -11,6 +11,11 @@
             var response = await _report.DailyReport(DateDay, DateMonth, DateYear, PageNo, PageSize);
             return response;
         }
+        public async Task<MonthlyReportResponseModel> DailyReportV1(SaleDailyReportRequestModel requestModel)
+        {
+            var response = await _report.DailyReportV1(requestModel);
+            return response;
+        }
 
         public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year, int PageNo, int PageSize)
         {
