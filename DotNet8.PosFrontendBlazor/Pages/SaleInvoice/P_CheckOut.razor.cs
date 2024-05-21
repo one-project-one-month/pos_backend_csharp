@@ -5,8 +5,6 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
 {
     public partial class P_CheckOut
     {
-        
-
         [Parameter]
         public List<SaleInvoiceDetailModel> SaleInvoiceDetails { get; set; } = new List<SaleInvoiceDetailModel>();
 
@@ -14,6 +12,10 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
 
         private EnumSaleInvoiceFormType saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
 
+        protected override void OnParametersSet()
+        {
+            reqModel.PaymentAmount = SaleInvoiceDetails.Sum(x=> x.Amount);
+        }
         private void IncreaseCount(SaleInvoiceDetailModel requestModel)
         {
             requestModel.Quantity += 1;
