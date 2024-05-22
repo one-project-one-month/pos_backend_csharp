@@ -28,5 +28,23 @@
             var response = await _report.YearlyReport(year, PageNo, PageSize);
             return response;
         }
+
+        public async Task<ReportResponseModel> DailyReport(DateTime fromDate, DateTime toDate, int PageNo, int PageSize)
+        {
+            var response = await _report.DailyReport(fromDate, toDate, PageNo, PageSize);
+            return response;
+        }
+
+        public async Task<ReportResponseModel> MonthlyReport(DateTime fromDate, DateTime toDate, int PageNo, int PageSize)
+        {
+            var response = await _report.MonthlyReport(fromDate, toDate, PageNo, PageSize);
+            return response;
+        }
+
+        public async Task<MonthlyReportResponseModel> YearlyReport(DateTime fromDate, DateTime toDate, int PageNo, int PageSize)
+        {
+            var response = await _report.YearlyReport(fromDate, toDate, PageNo, PageSize);
+            return response;
+        }
     }
 }
