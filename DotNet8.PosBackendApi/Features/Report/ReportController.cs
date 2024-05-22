@@ -15,7 +15,7 @@ public class ReportController : BaseController
     }
 
     [HttpGet("daily-report/{DateDay}/{DateMonth}/{DateYear}/{PageNo}/{PageSize}")]
-    public async Task<IActionResult> DailyReport(int DateDay, int DateMonth, int DateYear, int PageNo,int PageSize)
+    public async Task<IActionResult> DailyReport(int DateDay, int DateMonth, int DateYear, int PageNo, int PageSize)
     {
         try
         {
@@ -65,7 +65,7 @@ public class ReportController : BaseController
     }
 
     //[Route("monthly-report")]
-    [HttpGet("monthly-report/{month}/{year}/{PageNo}/{PageSize}")]
+    /*[HttpGet("monthly-report/{month}/{year}/{PageNo}/{PageSize}")]
     public async Task<IActionResult> MonthlyReport(int month, int year, int PageNo, int PageSize)
     {
         try
@@ -88,15 +88,91 @@ public class ReportController : BaseController
         {
             return InternalServerError(ex);
         }
-    }
+    }*/
 
     //[Route("yearly-report")]
+
     [HttpGet("yearly-report/{year}/{PageNo}/{PageSize}")]
     public async Task<IActionResult> YearlyReport(int year, int PageNo, int PageSize)
     {
         try
         {
             var lst = await _report.YearlyReport(year, PageNo, PageSize);
+            var model = _response.Return(
+                new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    Count = lst.Data.Count,
+                    EnumPos = EnumPos.Report,
+                    IsSuccess = lst.MessageResponse.IsSuccess,
+                    Message = lst.MessageResponse.Message,
+                    Item = lst.Data,
+                    PageSetting = lst.PageSetting
+                });
+            return Content(model);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+    [HttpGet("daily-report/{fromDate}/{toDate}/{pageNo}/{pageSize}")]
+    public async Task<IActionResult> DailyReport(DateTime fromDate, DateTime toDate, int pageNo, int pageSize)
+    {
+        try
+        {
+            var lst = await _report.DailyReport(fromDate, toDate, pageNo, pageSize);
+            var model = _response.Return(
+                new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    Count = lst.Data.Count,
+                    EnumPos = EnumPos.Report,
+                    IsSuccess = lst.MessageResponse.IsSuccess,
+                    Message = lst.MessageResponse.Message,
+                    Item = lst.Data,
+                    PageSetting = lst.PageSetting
+                });
+            return Content(model);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+    [HttpGet("monthly-report/{fromDate}/{toDate}/{pageNo}/{pageSize}")]
+    public async Task<IActionResult> MonthlyReport(DateTime fromDate, DateTime toDate, int pageNo, int pageSize)
+    {
+        try
+        {
+            var lst = await _report.MonthlyReport(fromDate, toDate, pageNo, pageSize);
+            var model = _response.Return(
+                new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    Count = lst.Data.Count,
+                    EnumPos = EnumPos.Report,
+                    IsSuccess = lst.MessageResponse.IsSuccess,
+                    Message = lst.MessageResponse.Message,
+                    Item = lst.Data,
+                    PageSetting = lst.PageSetting
+                });
+            return Content(model);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+    [HttpGet("yearly-report/{fromDate}/{toDate}/{PageNo}/{PageSize}")]
+    public async Task<IActionResult> YearlyReport(DateTime fromDate, DateTime toDate, int PageNo, int PageSize)
+    {
+        try
+        {
+            var lst = await _report.YearlyReport(fromDate, toDate, PageNo, PageSize);
             var model = _response.Return(
                 new ReturnModel
                 {
