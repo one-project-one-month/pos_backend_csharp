@@ -11,6 +11,7 @@
         public static string SaleInvoice { get; } = "api/v1/sale-invoices";
         public static string Tax { get; } = "api/v1/taxes";
         public static string Report { get; } = "api/v1/report";
+        public static string Shop { get; } = "api/v1/shops";
         public static string WithPagination(this string url, int pageNo, int pageSize)
         {
             return $"{url}/{pageNo}/{pageSize}";
