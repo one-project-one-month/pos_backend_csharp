@@ -160,4 +160,39 @@ public class DL_Shop
         result:
         return responseModel;
     }
+
+    public async Task<ShopListResponseModel> GetShops(int pageNo, int pageSize)
+    {
+        var responseModel = new ShopListResponseModel();
+        try
+        {
+            var query = _context
+                .TblShops
+                .OrderBy(x => x.ShopId)
+                .AsNoTracking();
+
+            var shopList = await query
+                .Pagination(pageNo, pageSize)
+                .ToListAsync();
+
+            var totalCount = await query.CountAsync();
+            var pageCount = totalCount / pageSize;
+
+            if (totalCount % pageSize > 0)
+            {
+                pageCount++;
+            }
+
+            responseModel.DataLst = shopList.Select(x => x.Change()).ToList();
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+            responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
+        }
+        catch (Exception ex)
+        {
+            responseModel.DataLst = new List<ShopModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
+        return responseModel;
+    }
 }

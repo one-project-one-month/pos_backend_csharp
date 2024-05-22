@@ -134,7 +134,7 @@ public class ProductController : BaseController
     }
 
     [HttpGet("{pageNo}/{pageSize}")]
-    public async Task<IActionResult> GetTaxList(int pageNo, int pageSize)
+    public async Task<IActionResult> GetProductList(int pageNo, int pageSize)
     {
         try
         {
