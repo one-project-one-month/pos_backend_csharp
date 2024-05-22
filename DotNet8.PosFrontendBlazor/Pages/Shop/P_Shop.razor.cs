@@ -58,9 +58,9 @@ namespace DotNet8.PosFrontendBlazor.Pages.Shop
 
         private async Task Delete(int id)
         {
-            var parameters = new DialogParameters<P_ProductDeleteDialog>();
+            var parameters = new DialogParameters<P_ShopDeleteDialog>();
             parameters.Add(x => x.contentText, "Are you sure you want to delete?");
-            parameters.Add(x => x.productId, id);
+            parameters.Add(x => x.shopId, id);
 
             var options = new MudBlazor.DialogOptions()
             {
@@ -68,7 +68,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Shop
                 MaxWidth = MaxWidth.ExtraSmall
             };
 
-            var result = await InjectService.ShowModalBoxAsync<P_ProductDeleteDialog>("Delete", parameters);
+            var result = await InjectService.ShowModalBoxAsync<P_ShopDeleteDialog>("Delete", parameters);
             if (!result.Canceled)
             {
                 await List();
