@@ -159,6 +159,11 @@ public class DL_SaleInvoice
             //string voucherNo = $"VC_{DateTime.Now.ToString("yyyymmddhhmmssfff")}";
             string voucherNo = _dapperService.QueryStoredProcedure<string>("Sp_GenerateSaleInvoiceNo");
             model.VoucherNo = voucherNo;
+
+            // Tax Calculation
+            decimal taxAmount = await TaxCalculation(model.TotalAmount);
+            model.Tax = taxAmount;
+
             await _context.TblSaleInvoices.AddAsync(model.Change());
             await _context.TblSaleInvoiceDetails
                 .AddRangeAsync(model.SaleInvoiceDetails!.Select(x => x.Change(voucherNo)).ToList());
@@ -302,5 +307,35 @@ public class DL_SaleInvoice
 
         result:
         return responseModel;
+    }
+
+    private async Task<decimal> TaxCalculation(decimal amount)
+    {
+        decimal result = 0;
+        decimal balance = amount;
+        while (balance != 0)
+        {
+            var lstTax = await _context.Tbl_Taxes
+                .AsNoTracking()
+                .Where(x => (balance > x.ToAmount) || (balance >= x.FromAmount && balance <= x.ToAmount))
+                .OrderBy(x => x.FromAmount)
+                .ToListAsync();
+            foreach (var item in lstTax)
+            {
+                var amountRange = item.ToAmount - item.FromAmount;
+
+                if (balance > amountRange)
+                {
+                    result += Convert.ToDecimal((amountRange * (item.Percentage / 100)) + item.FixedAmount);
+                    balance -= (item.ToAmount - item.FromAmount);
+                }
+                else
+                {
+                    result += Convert.ToDecimal((balance * (item.Percentage / 100)) + item.FixedAmount);
+                    balance -= balance;
+                }
+            }
+        }
+        return result;
     }
 }
