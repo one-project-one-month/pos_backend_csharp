@@ -44,6 +44,9 @@
                                 </MudItem>
                             }
                         }
+                        <MudItem xs="12">
+                            <MudAlert Severity="Severity.Info" Class="my-2" Variant="MudBlazor.Variant.Outlined">Total Amount : @SaleInvoiceDetails.Sum(x => x.Amount)</MudAlert>
+                        </MudItem>
                     }
                 </MudGrid>
             </MudPaper>
@@ -71,5 +74,5 @@
 }
 else if (saleInvoiceFormType == EnumSaleInvoiceFormType.SaleProduct)
 {
-    <P_SaleInvoice/>
+    <P_SaleInvoice />
 }
