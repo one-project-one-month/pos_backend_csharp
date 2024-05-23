@@ -30,7 +30,7 @@
                     <td>@item.ProductCategoryCode</td>
                     <td>@item.Price</td>
                     <td>
-                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(()=>EditPopUp(item.ProductId, item.ProductCode, item.ProductName, item.ProductCategoryCode, item.Price))">Edit</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" OnClick="@(()=>EditPopUp(item.ProductId, item.ProductCode, item.ProductName, item.ProductCategoryCode, item.Price))">Edit</MudButton>
                         <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(()=>Delete(item.ProductId))">Delete</MudButton>
                     </td>
                 </tr>

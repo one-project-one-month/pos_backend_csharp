@@ -2,7 +2,8 @@
 
 <MudGrid>
     <MudItem xs="12" sm="6">
-        <MudDatePicker Label="Report Date" DateChanged="@(e => DateChanged(e))" DateFormat="dd/MMM/yyyy"/>
+        <MudDatePicker Label="FromDate" DateChanged="@(e => FromDateChanged(e))" DateFormat="dd/MMM/yyyy" />
+        <MudDatePicker Label="ToDate" DateChanged="@(e => ToDateChanged(e))" DateFormat="dd/MMM/yyyy" />
     </MudItem>
     <MudItem xs="12" sm="6">
         <MudSelect T="EnumReportDate" Label="Report Range" Variant="MudBlazor.Variant.Outlined" @bind-Value="@DateFormat" SelectedValuesChanged="OnValueChanged">

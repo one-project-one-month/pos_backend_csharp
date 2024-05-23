@@ -5,13 +5,17 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
 {
     public partial class P_CheckOut
     {
-        
-
         [Parameter]
         public List<SaleInvoiceDetailModel> SaleInvoiceDetails { get; set; } = new List<SaleInvoiceDetailModel>();
 
         private SaleInvoiceModel? reqModel = new SaleInvoiceModel();
 
+        private EnumSaleInvoiceFormType saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
+
+        protected override void OnParametersSet()
+        {
+            reqModel.PaymentAmount = SaleInvoiceDetails.Sum(x=> x.Amount);
+        }
         private void IncreaseCount(SaleInvoiceDetailModel requestModel)
         {
             requestModel.Quantity += 1;
@@ -46,10 +50,13 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
             if (response.IsError)
             {
                 InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+                saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
                 return;
             }
 
             InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+            saleInvoiceFormType = EnumSaleInvoiceFormType.SaleProduct;
+            StateHasChanged();
         }
     }
 }

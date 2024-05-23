@@ -151,4 +151,29 @@ public class ShopController : BaseController
 
         ;
     }
+
+    [HttpGet("{pageNo}/{pageSize}")]
+    public async Task<IActionResult> GetShopsWithPagination(int pageNo, int pageSize)
+    {
+        try
+        {
+            var lst = await _bL_Shop.GetShops(pageNo, pageSize);
+            var responseModel = _response.Return
+            (new ReturnModel
+            {
+                Token = RefreshToken(),
+                Count = lst.DataLst.Count,
+                EnumPos = EnumPos.Shop,
+                IsSuccess = lst.MessageResponse.IsSuccess,
+                Message = lst.MessageResponse.Message,
+                Item = lst.DataLst,
+                PageSetting = lst.PageSetting
+            });
+            return Content(responseModel);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
 }

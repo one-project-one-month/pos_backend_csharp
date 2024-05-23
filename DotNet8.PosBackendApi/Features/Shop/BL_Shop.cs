@@ -11,7 +11,11 @@ public class BL_Shop
         var response = await _dL_Shop.GetShops();
         return response;
     }
-
+    public async Task<ShopListResponseModel> GetShops(int pageNo, int pageSize)
+    {
+        var response = await _dL_Shop.GetShops(pageNo, pageSize);
+        return response;
+    }
     public async Task<ShopResponseModel> GetShop(int id)
     {
         if (id <= 0) throw new Exception("id is 0.");
