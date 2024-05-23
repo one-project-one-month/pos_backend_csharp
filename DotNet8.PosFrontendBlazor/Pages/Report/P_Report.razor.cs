@@ -7,17 +7,19 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
 {
     public partial class P_Report
     {
+        private bool _editable = true;
+        private bool _clearable = true;
+        private DateRange _dateRange { get; set; }
+
         private int _pageNo = 1;
+
         private int _pageSize = 10;
-        private int? _dateDay;
-        private int? _dateMonth;
-        private int? _dateYear;
+
         private ReportListResponseModel? responseModel;
         private EnumReportDate DateFormat { get; set; }
         private DateTime? DateValue { get; set; }
         private string? fromDate {  get; set; }
         private string? toDate { get; set; }
-        private string? CheckValue { get; set; }
         private async Task FromDateChanged(DateTime? newDate)
         {
             fromDate = newDate?.ToString("yyyy-MMM-dd") ?? DateTime.Today.ToString("yyyy-MMM-dd");
@@ -32,11 +34,19 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
             await OnValueChanged();
         }
 
+        private async Task DateRangeChanged(DateRange? newDateRange)
+        {
+            fromDate = newDateRange?.Start?.ToString("yyyy-MMM-dd");
+            toDate = newDateRange?.End?.ToString("yyyy-MMM-dd");
+            await OnValueChanged();
+        }
+
         private async Task PageChanged(int i)
         {
             _pageNo = i;
             await OnValueChanged();
         }
+
         private async Task OnValueChanged()
         {
             await InjectService.EnableLoading();
@@ -65,27 +75,22 @@ namespace DotNet8.PosFrontendBlazor.Pages.Report
             $"{Endpoints.Report}/daily-report/{fromDate}/{toDate}/{_pageNo}/{_pageSize}",
             EnumHttpMethod.Get
             );
-            CheckValue = $"{Endpoints.Report}/daily-report/{fromDate}/{toDate}/{_pageNo}/{_pageSize}";
         }
+
         private async Task ReportMonthly()
         {
-            _dateMonth = DateValue?.Month;
-            _dateYear = DateValue?.Year;
             responseModel = await HttpClientService.ExecuteAsync<ReportListResponseModel>(
             $"{Endpoints.Report}/monthly-report/{fromDate}/{toDate}/{_pageNo}/{_pageSize}",
             EnumHttpMethod.Get
             );
-            CheckValue = $"{Endpoints.Report}/monthly-report/{fromDate}/{toDate}/{_pageNo}/{_pageSize}";
         }
+
         private async Task ReportYearly()
         {
-            _dateMonth = DateValue?.Month;
-            _dateYear = DateValue?.Year;
             responseModel = await HttpClientService.ExecuteAsync<ReportListResponseModel>(
             $"{Endpoints.Report}/yearly-report/{fromDate}/{toDate}/{_pageNo}/{_pageSize}",
             EnumHttpMethod.Get
             );
-            CheckValue = $"{Endpoints.Report}/yearly-report/{fromDate}/{toDate}/{_pageNo}/{_pageSize}";
         }
 
         /*private async Task ReportDaily()
