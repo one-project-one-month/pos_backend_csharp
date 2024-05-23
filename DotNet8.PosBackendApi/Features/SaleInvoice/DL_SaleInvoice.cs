@@ -164,11 +164,22 @@ public class DL_SaleInvoice
             decimal taxAmount = await TaxCalculation(model.TotalAmount);
             model.Tax = taxAmount;
 
+            // Bind Product Info
+            foreach (var item in model.SaleInvoiceDetails)
+            {
+                var pItem = await _context.TblProducts
+                    .AsNoTracking()
+                    .Where(x => x.ProductCode == item.ProductCode)
+                    .FirstOrDefaultAsync();
+                item.ProductName = pItem!.ProductName;
+            }
+
             await _context.TblSaleInvoices.AddAsync(model.Change());
             await _context.TblSaleInvoiceDetails
                 .AddRangeAsync(model.SaleInvoiceDetails!.Select(x => x.Change(voucherNo)).ToList());
             var result = await _context.SaveChangesAsync();
             responseModel.Data = result > 0 ? model : new SaleInvoiceModel();
+
             responseModel.MessageResponse = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
