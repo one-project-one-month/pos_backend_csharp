@@ -1,7 +1,7 @@
 ﻿<MudDialog>
-    <DialogContent>       
-        <MudTextField @bind-Value="@reqModel.ProductCategoryName" Label="Product Category Name" />
-        <MudTextField @bind-Value="@reqModel.ProductCategoryCode" Label="ProductCategory Code" />       
+    <DialogContent>
+        <MudTextField @bind-Value="@reqModel.ProductCategoryCode" ReadOnly="true" Label="ProductCategory Code" />
+        <MudTextField @bind-Value="@reqModel.ProductCategoryName" Label="Product Category Name" />              
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>

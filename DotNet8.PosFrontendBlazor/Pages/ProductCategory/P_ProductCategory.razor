@@ -1,7 +1,7 @@
 ﻿@page "/product-category"
 
 <MudText Typo="Typo.h6">
-    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="Popup"></MudIconButton>
+    <MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="Create" OnClick="@(()=>Popup("New ProductCategory"))"></MudIconButton>
     Product Category
 </MudText>
 
@@ -26,7 +26,7 @@
                     <td>@item.ProductCategoryCode</td>
                     <td>@item.ProductCategoryName</td>
                     <td>
-                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(()=>EditPopUp(item.ProductCategoryId, item.ProductCategoryCode, item.ProductCategoryName))">Edit</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" OnClick="@(()=>EditPopUp(item.ProductCategoryId, item.ProductCategoryCode, item.ProductCategoryName))">Edit</MudButton>
                         <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(()=>Delete(item.ProductCategoryId))">Delete</MudButton>
 
                     </td>
@@ -74,11 +74,18 @@
         await List();
     }
 
-    private async Task Popup()
-    {
-        var dialog = await DialogService.ShowAsync<P_ProductCategoryDialog>("New Product Category");
-        var result = await dialog.Result;
+    // private async Task Popup()
+    // {
+    //     var dialog = await DialogService.ShowAsync<P_ProductCategoryDialog>("New Product Category");
+    //     var result = await dialog.Result;
 
+    //     if (!result.Canceled)
+    //     {
+    //         await List();
+    //     }
+    // }
+    private async Task Popup(string title)
+    {   var result = await InjectService.ShowModalBoxAsync<P_ProductCategoryDialog>(title);
         if (!result.Canceled)
         {
             await List();
