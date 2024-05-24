@@ -87,12 +87,12 @@ public class TownshipController : BaseController
         }
     }
 
-    [HttpGet("GetTownshipByStateCode/{StateCode}")]
-    public async Task<IActionResult> GetTownshipByStateCode(string StateCode)
+    [HttpGet("GetTownshipByStateCode/{stateCode}")]
+    public async Task<IActionResult> GetTownshipByStateCode(string stateCode)
     {
         try
         {
-            var lstTownship = await _bL_Township.GetTownshipByStateCode(StateCode);
+            var lstTownship = await _bL_Township.GetTownshipByStateCode(stateCode);
             var responseModel = _response.Return
             (new ReturnModel
             {
