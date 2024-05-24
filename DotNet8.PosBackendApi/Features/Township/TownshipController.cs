@@ -64,12 +64,12 @@ public class TownshipController : BaseController
         }
     }
 
-    [HttpGet("{TownshipCode}")]
-    public async Task<IActionResult> GetTownshipByCode(string TownshipCode)
+    [HttpGet("{townshipCode}")]
+    public async Task<IActionResult> GetTownshipByCode(string townshipCode)
     {
         try
         {
-            var township = await _bL_Township.GetTownshipByCode(TownshipCode);
+            var township = await _bL_Township.GetTownshipByCode(townshipCode);
             var responseModel = _response.Return
             (new ReturnModel
             {
