@@ -2,6 +2,6 @@
 {
     public class SaleInvoiceDataModel
     {
-        public List<SaleInvoiceModel> SaleInvoice { get; set; }
+        public List<SaleInvoiceModel> SaleInvoice { get; set; } = new List<SaleInvoiceModel>();
     }
 }

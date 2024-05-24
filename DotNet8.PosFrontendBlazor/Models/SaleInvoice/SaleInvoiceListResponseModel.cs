@@ -2,7 +2,7 @@
 {
     public class SaleInvoiceListResponseModel
     {
-        public SaleInvoiceDataModel Data { get; set; }
+        public SaleInvoiceDataModel Data { get; set; } = new SaleInvoiceDataModel();
         public PageSettingModel PageSetting { get; set; }
     }
 }
