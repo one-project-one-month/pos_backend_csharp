@@ -88,7 +88,7 @@ public class DL_Tax
         }
         catch (Exception ex)
         {
-            responseModel.Data = null;
+            responseModel.Data = new TaxModel();
             responseModel.MessageResponse = new MessageResponseModel(false, ex.Message);
         }
     result:
