@@ -1,22 +1,22 @@
 ﻿@page "/report"
 
 <MudGrid>
+    <MudItem xs="5" sm="3">
+        <MudDatePicker Label="FromDate" Editable="true" Clearable="true" DateChanged="@(e => FromDateChanged(e))" DateFormat="dd/MMM/yyyy" />
+        <MudDatePicker Label="ToDate" Editable="true" Clearable="true" DateChanged="@(e => ToDateChanged(e))" DateFormat="dd/MMM/yyyy" />
+    </MudItem>
     @* <MudItem xs="5" sm="4">
-        <MudDatePicker Label="FromDate" DateChanged="@(e => FromDateChanged(e))" DateFormat="dd/MMM/yyyy" />
-        <MudDatePicker Label="ToDate" DateChanged="@(e => ToDateChanged(e))" DateFormat="dd/MMM/yyyy" />
-    </MudItem> *@
-    <MudItem xs="5" sm="4">
         <MudStack>
             <MudDateRangePicker Margin="Margin.Dense" Editable="true" Clearable="true" DateFormat="dd/MMM/yyyy"
-                                PlaceholderStart="Start Date" PlaceholderEnd="End Date" DateRangeChanged="@(e => DateRangeChanged(e))" /> @* @bind-DateRange="@_dateRange" *@
+                                PlaceholderStart="Start Date" PlaceholderEnd="End Date" DateRangeChanged="@(e => DateRangeChanged(e))" /> // @bind-DateRange="@_dateRange"
 
-            @* <MudStack Row="true">
+             <MudStack Row="true">
                 <MudSwitch @bind-Value="@_editable" Color="Color.Secondary">Editable</MudSwitch>
                 <MudSwitch @bind-Value="@_clearable" Color="Color.Secondary">Clearable</MudSwitch>
-            </MudStack> *@
+            </MudStack> 
         </MudStack>
-    </MudItem>
-    <MudItem xs="5" sm="4">
+    </MudItem> *@
+    <MudItem xs="5" sm="3">
         <MudSelect T="EnumReportDate" Label="Report Range" Variant="MudBlazor.Variant.Outlined" @bind-Value="@DateFormat" SelectedValuesChanged="OnValueChanged">
             <MudSelectItem Value="EnumReportDate.None"/>
             <MudSelectItem Value="EnumReportDate.Daily"/>
