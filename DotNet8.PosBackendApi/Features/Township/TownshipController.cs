@@ -131,8 +131,6 @@ public class TownshipController : BaseController
         {
             return InternalServerError(ex);
         }
-
-        ;
     }
 
     [HttpPatch("{id}")]
