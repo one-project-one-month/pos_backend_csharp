@@ -26,7 +26,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
         {
             ResponseModel = await HttpClientService.ExecuteAsync<SaleInvoiceListResponseModel>
             (
-                Endpoints.SaleInvoice + "?startDate=2024-01-01&endDate=2024-01-02",
+                Endpoints.SaleInvoice.WithPagination(pageNo, pageSize),
                 EnumHttpMethod.Get
             );
             Console.WriteLine(JsonConvert.SerializeObject(ResponseModel));
