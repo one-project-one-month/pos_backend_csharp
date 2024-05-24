@@ -29,8 +29,8 @@
                     <td>@item.TownshipCode</td>
                     <td>@item.TownshipName</td>
                     <td>
-                        <MudButton Variant="MudBlazor.Variant.Outlined" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(()=>Popup("Edit Township",item.TownshipCode))">Edit</MudButton>
-                        <MudButton Variant="MudBlazor.Variant.Outlined" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(()=>Delete(item.TownshipId,item.TownshipName))">Delete</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" OnClick="@(()=>Popup("Edit Township",item.TownshipCode))">Edit</MudButton>
+                        <MudButton Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(()=>Delete(item.TownshipId,item.TownshipName))">Delete</MudButton>
                     </td>
                 </tr>
             }
