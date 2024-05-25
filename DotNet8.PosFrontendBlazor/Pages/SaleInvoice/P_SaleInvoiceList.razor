@@ -26,8 +26,7 @@
             @foreach (var item in ResponseModel.Data.SaleInvoice)
             {
                 <tr>
-                    <td>@(++count)</td>
-                    @* <td>@(++count + ((pageNo - 1) * pageSize))</td> *@
+                    <td>@(++count + ((pageNo - 1) * pageSize))</td>
                     <td>@item.SaleInvoiceDateTime.ToString("dd-MM-yyyy")</td>
                     <td>@item.VoucherNo</td>
                     <td>@item.StaffCode</td>

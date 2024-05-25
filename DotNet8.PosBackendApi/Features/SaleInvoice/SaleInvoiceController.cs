@@ -25,10 +25,10 @@
                 (new ReturnModel
                 {
                     Token = RefreshToken(),
-                    EnumPos = EnumPos.ProductCategory,
+                    EnumPos = EnumPos.SaleInvoice,
                     IsSuccess = item.MessageResponse.IsSuccess,
                     Message = item.MessageResponse.Message,
-                    Item = item.Data,
+                    Item = item.DataList,
                     PageSetting = item.Data.PageSetting
                 });
                 return Content(model);
