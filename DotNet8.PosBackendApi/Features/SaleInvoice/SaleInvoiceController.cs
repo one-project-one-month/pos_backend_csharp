@@ -14,6 +14,31 @@
             _response = response;
         }
 
+        [HttpGet("{pageNo}/{pageSize}")]
+        public async Task<IActionResult> GetProductCategory(int pageNo, int pageSize)
+        {
+            try
+            {
+                var item = await _saleInvoice.GetSaleInvoice(pageNo, pageSize);
+
+                var model = _response.Return
+                (new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    EnumPos = EnumPos.SaleInvoice,
+                    IsSuccess = item.MessageResponse.IsSuccess,
+                    Message = item.MessageResponse.Message,
+                    Item = item.DataList,
+                    PageSetting = item.Data.PageSetting
+                });
+                return Content(model);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetSaleInvoice(DateTime startDate, DateTime endDate)
         {

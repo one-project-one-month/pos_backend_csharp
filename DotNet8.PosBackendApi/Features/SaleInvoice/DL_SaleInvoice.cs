@@ -48,6 +48,52 @@ public class DL_SaleInvoice
     //    return responseModel;
     //}
 
+    public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(int pageNo, int pageSize)
+    {
+        var responseModel = new SaleInvoiceListResponseModel();
+        try
+        {
+            var query = _context
+                .TblSaleInvoices
+                .AsNoTracking();
+            var totalCount = await query.CountAsync();
+            var pageCount = totalCount / pageSize;
+            if (totalCount % pageSize > 0)
+                pageCount++;
+
+            var lst = await query
+                .Pagination(pageNo, pageSize)
+                .ToListAsync();
+
+            foreach (var item in lst)
+            {
+                SaleInvoiceModel saleInvoiceModel = new SaleInvoiceModel();
+                saleInvoiceModel = item.Change();
+                var detailList = await _context
+                    .TblSaleInvoiceDetails
+                    .AsNoTracking()
+                    .Where(x => x.VoucherNo == item.VoucherNo)
+                    .ToListAsync();
+                saleInvoiceModel.SaleInvoiceDetails = detailList.Select(x => x.Change()).ToList();
+                responseModel.DataList.Add(saleInvoiceModel);
+            }
+
+            responseModel.Data = new SaleInvoiceDataModel
+            {
+                SaleInvoice = responseModel.DataList,
+                PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount)
+            };
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.DataList = new List<SaleInvoiceModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
+        return responseModel;
+    }
+
     public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(DateTime startDate, DateTime endDate)
     {
         var responseModel = new SaleInvoiceListResponseModel();
