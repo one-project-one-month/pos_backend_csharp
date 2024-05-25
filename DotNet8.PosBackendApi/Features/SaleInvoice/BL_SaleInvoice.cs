@@ -6,6 +6,11 @@ public class BL_SaleInvoice
 
     public BL_SaleInvoice(DL_SaleInvoice saleInvoice) => _saleInvoice = saleInvoice;
 
+    public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(int pageNo, int pageSize)
+    {
+        return await _saleInvoice.GetSaleInvoice(pageNo, pageSize);
+    }
+
     public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(DateTime startDate, DateTime endDate)
     {
         var response = await _saleInvoice.GetSaleInvoice(startDate, endDate);

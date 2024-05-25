@@ -16,12 +16,12 @@ public class ReportController : BaseController
         _response = response;
     }
 
-    [HttpGet("daily-report/{DateDay}/{DateMonth}/{DateYear}/{PageNo}/{PageSize}")]
-    public async Task<IActionResult> DailyReport(int DateDay, int DateMonth, int DateYear, int PageNo, int PageSize)
+    [HttpGet("daily-report/{dateDay}/{dateMonth}/{dateYear}/{pageNo}/{pageSize}")]
+    public async Task<IActionResult> DailyReport(int dateDay, int dateMonth, int dateYear, int pageNo, int pageSize)
     {
         try
         {
-            var lst = await _report.DailyReport(DateDay, DateMonth, DateYear, PageNo, PageSize);
+            var lst = await _report.DailyReport(dateDay, dateMonth, dateYear, pageNo, pageSize);
             var model = _response.Return(
                 new ReturnModel
                 {
@@ -67,12 +67,12 @@ public class ReportController : BaseController
     }
 
     //[Route("monthly-report")]
-    /*[HttpGet("monthly-report/{month}/{year}/{PageNo}/{PageSize}")]
-    public async Task<IActionResult> MonthlyReport(int month, int year, int PageNo, int PageSize)
+    /*[HttpGet("monthly-report/{month}/{year}/{pageNo}/{pageSize}")]
+    public async Task<IActionResult> MonthlyReport(int month, int year, int pageNo, int pageSize)
     {
         try
         {
-            var lst = await _report.MonthlyReport(month, year, PageNo, PageSize);
+            var lst = await _report.MonthlyReport(month, year, pageNo, pageSize);
             var model = _response.Return(
                 new ReturnModel
                 {
@@ -94,12 +94,12 @@ public class ReportController : BaseController
 
     //[Route("yearly-report")]
 
-    [HttpGet("yearly-report/{year}/{PageNo}/{PageSize}")]
-    public async Task<IActionResult> YearlyReport(int year, int PageNo, int PageSize)
+    [HttpGet("yearly-report/{year}/{pageNo}/{pageSize}")]
+    public async Task<IActionResult> YearlyReport(int year, int pageNo, int pageSize)
     {
         try
         {
-            var lst = await _report.YearlyReport(year, PageNo, PageSize);
+            var lst = await _report.YearlyReport(year, pageNo, pageSize);
             var model = _response.Return(
                 new ReturnModel
                 {
@@ -169,12 +169,12 @@ public class ReportController : BaseController
         }
     }
 
-    [HttpGet("yearly-report/{fromDate}/{toDate}/{PageNo}/{PageSize}")]
-    public async Task<IActionResult> YearlyReport(DateTime fromDate, DateTime toDate, int PageNo, int PageSize)
+    [HttpGet("yearly-report/{fromDate}/{toDate}/{pageNo}/{pageSize}")]
+    public async Task<IActionResult> YearlyReport(DateTime fromDate, DateTime toDate, int pageNo, int pageSize)
     {
         try
         {
-            var lst = await _report.YearlyReport(fromDate, toDate, PageNo, PageSize);
+            var lst = await _report.YearlyReport(fromDate, toDate, pageNo, pageSize);
             var model = _response.Return(
                 new ReturnModel
                 {

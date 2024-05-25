@@ -6,9 +6,9 @@
 
         public BL_Report(DL_Report report) => _report = report;
 
-        public async Task<MonthlyReportResponseModel> DailyReport(int DateDay, int DateMonth, int DateYear, int PageNo,int PageSize)
+        public async Task<MonthlyReportResponseModel> DailyReport(int dateDay, int dateMonth, int dateYear, int pageNo,int pageSize)
         {
-            var response = await _report.DailyReport(DateDay, DateMonth, DateYear, PageNo, PageSize);
+            var response = await _report.DailyReport(dateDay, dateMonth, dateYear, pageNo, pageSize);
             return response;
         }
 
@@ -24,33 +24,33 @@
             return response;
         }
 
-        public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year, int PageNo, int PageSize)
+        public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year, int pageNo, int pageSize)
         {
-            var response = await _report.MonthlyReport(month, year, PageNo, PageSize);
+            var response = await _report.MonthlyReport(month, year, pageNo, pageSize);
             return response;
         }
 
-        public async Task<MonthlyReportResponseModel> YearlyReport(int year, int PageNo, int PageSize)
+        public async Task<MonthlyReportResponseModel> YearlyReport(int year, int pageNo, int pageSize)
         {
-            var response = await _report.YearlyReport(year, PageNo, PageSize);
+            var response = await _report.YearlyReport(year, pageNo, pageSize);
             return response;
         }
 
-        public async Task<ReportResponseModel> DailyReport(DateTime fromDate, DateTime toDate, int PageNo, int PageSize)
+        public async Task<ReportResponseModel> DailyReport(DateTime fromDate, DateTime toDate, int pageNo, int pageSize)
         {
-            var response = await _report.DailyReport(fromDate, toDate, PageNo, PageSize);
+            var response = await _report.DailyReport(fromDate, toDate, pageNo, pageSize);
             return response;
         }
 
-        public async Task<ReportResponseModel> MonthlyReport(DateTime fromDate, DateTime toDate, int PageNo, int PageSize)
+        public async Task<ReportResponseModel> MonthlyReport(DateTime fromDate, DateTime toDate, int pageNo, int pageSize)
         {
-            var response = await _report.MonthlyReport(fromDate, toDate, PageNo, PageSize);
+            var response = await _report.MonthlyReport(fromDate, toDate, pageNo, pageSize);
             return response;
         }
 
-        public async Task<MonthlyReportResponseModel> YearlyReport(DateTime fromDate, DateTime toDate, int PageNo, int PageSize)
+        public async Task<MonthlyReportResponseModel> YearlyReport(DateTime fromDate, DateTime toDate, int pageNo, int pageSize)
         {
-            var response = await _report.YearlyReport(fromDate, toDate, PageNo, PageSize);
+            var response = await _report.YearlyReport(fromDate, toDate, pageNo, pageSize);
             return response;
         }
     }

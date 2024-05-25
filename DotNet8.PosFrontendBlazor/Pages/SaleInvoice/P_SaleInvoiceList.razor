@@ -26,18 +26,17 @@
             @foreach (var item in ResponseModel.Data.SaleInvoice)
             {
                 <tr>
-                    <td>@(++count)</td>
-                    @* <td>@(++count + ((pageNo - 1) * pageSize))</td> *@
+                    <td>@(++count + ((pageNo - 1) * pageSize))</td>
                     <td>@item.SaleInvoiceDateTime.ToString("dd-MM-yyyy")</td>
                     <td>@item.VoucherNo</td>
                     <td>@item.StaffCode</td>
                     <td>@item.TotalAmount</td>
                     <td>@item.Discount</td>
                     <td>@item.Tax</td>
-                    <td><MudIconButton Icon="@Icons.Material.Filled.Settings" Variant="MudBlazor.Variant.Filled" Color="Color.Primary" Size="Size.Small" /></td>
+                    <td><MudIconButton Icon="@Icons.Material.Filled.Settings" Variant="MudBlazor.Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@(()=>Popup(item.VoucherNo))"/></td>
                 </tr>
             }
         </tbody>
     </MudSimpleTable>
-    @* <MudPagination SelectedChanged="PageChanged" Count="@ResponseModel.PageSetting.PageCount" Class="pa-4" /> *@
+    <MudPagination SelectedChanged="PageChanged" Count="@ResponseModel.PageSetting.PageCount" Class="pa-4" />
 }

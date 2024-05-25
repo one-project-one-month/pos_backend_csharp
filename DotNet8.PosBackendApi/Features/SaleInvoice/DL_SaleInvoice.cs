@@ -48,6 +48,52 @@ public class DL_SaleInvoice
     //    return responseModel;
     //}
 
+    public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(int pageNo, int pageSize)
+    {
+        var responseModel = new SaleInvoiceListResponseModel();
+        try
+        {
+            var query = _context
+                .TblSaleInvoices
+                .AsNoTracking();
+            var totalCount = await query.CountAsync();
+            var pageCount = totalCount / pageSize;
+            if (totalCount % pageSize > 0)
+                pageCount++;
+
+            var lst = await query
+                .Pagination(pageNo, pageSize)
+                .ToListAsync();
+
+            foreach (var item in lst)
+            {
+                SaleInvoiceModel saleInvoiceModel = new SaleInvoiceModel();
+                saleInvoiceModel = item.Change();
+                var detailList = await _context
+                    .TblSaleInvoiceDetails
+                    .AsNoTracking()
+                    .Where(x => x.VoucherNo == item.VoucherNo)
+                    .ToListAsync();
+                saleInvoiceModel.SaleInvoiceDetails = detailList.Select(x => x.Change()).ToList();
+                responseModel.DataList.Add(saleInvoiceModel);
+            }
+
+            responseModel.Data = new SaleInvoiceDataModel
+            {
+                SaleInvoice = responseModel.DataList,
+                PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount)
+            };
+            responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+        }
+        catch (Exception ex)
+        {
+            responseModel.DataList = new List<SaleInvoiceModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex);
+        }
+
+        return responseModel;
+    }
+
     public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(DateTime startDate, DateTime endDate)
     {
         var responseModel = new SaleInvoiceListResponseModel();
@@ -122,6 +168,17 @@ public class DL_SaleInvoice
                 .Where(x => x.VoucherNo == item.VoucherNo)
                 .ToListAsync();
             responseModel.Data.SaleInvoiceDetails = detailList.Select(x => x.Change()).ToList();
+
+            // Bind Product Info
+            foreach (var detail in responseModel.Data.SaleInvoiceDetails)
+            {
+                var pItem = await _context.TblProducts
+                    .AsNoTracking()
+                    .Where(x => x.ProductCode == detail.ProductCode)
+                    .FirstOrDefaultAsync();
+                detail.ProductName = pItem!.ProductName;
+            }
+
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
         catch (Exception ex)
@@ -331,6 +388,7 @@ public class DL_SaleInvoice
                 .Where(x => (balance > x.ToAmount) || (balance >= x.FromAmount && balance <= x.ToAmount))
                 .OrderBy(x => x.FromAmount)
                 .ToListAsync();
+            if (lstTax == null || lstTax.Count == 0) return result;
             foreach (var item in lstTax)
             {
                 var amountRange = item.ToAmount - item.FromAmount;

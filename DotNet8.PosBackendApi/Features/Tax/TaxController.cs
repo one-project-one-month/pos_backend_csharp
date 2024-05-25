@@ -35,7 +35,7 @@ public class TaxController : BaseController
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            return InternalServerError(ex);
         }
     }
 
@@ -59,7 +59,7 @@ public class TaxController : BaseController
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            return InternalServerError(ex);
         }
     }
 
@@ -82,7 +82,7 @@ public class TaxController : BaseController
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            return InternalServerError(ex);
         }
     }
 
@@ -105,7 +105,7 @@ public class TaxController : BaseController
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            return InternalServerError(ex);
         }
     }
 
@@ -128,7 +128,7 @@ public class TaxController : BaseController
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            return InternalServerError(ex);
         }
     }
 
@@ -151,7 +151,7 @@ public class TaxController : BaseController
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.ToString());
+            return InternalServerError(ex);
         }
     }
 }

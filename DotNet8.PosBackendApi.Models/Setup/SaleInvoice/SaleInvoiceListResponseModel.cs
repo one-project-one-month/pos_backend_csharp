@@ -10,5 +10,13 @@ namespace DotNet8.PosBackendApi.Models.Setup.SaleInvoice
     {
         public List<SaleInvoiceModel> DataList { get; set; } = new List<SaleInvoiceModel>();
         public MessageResponseModel MessageResponse { get; set; }
+        public SaleInvoiceDataModel Data { get; set; }
+
+    }
+
+    public class SaleInvoiceDataModel
+    {
+        public PageSettingModel PageSetting { get; set; }
+        public List<SaleInvoiceModel> SaleInvoice { get; set; }
     }
 }

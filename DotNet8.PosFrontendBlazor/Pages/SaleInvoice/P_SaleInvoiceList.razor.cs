@@ -26,7 +26,8 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
         {
             ResponseModel = await HttpClientService.ExecuteAsync<SaleInvoiceListResponseModel>
             (
-                Endpoints.SaleInvoice + "?startDate=2024-01-01&endDate=2024-01-02",
+                Endpoints.SaleInvoice.WithPagination(pageNo, pageSize),
+                //Endpoints.SaleInvoice + "?startDate=2023-01-01&endDate=2023-04-01",
                 EnumHttpMethod.Get
             );
             Console.WriteLine(JsonConvert.SerializeObject(ResponseModel));
@@ -43,57 +44,20 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
             await List();
         }
 
-        //private async Task Popup(string title, string townshipCode = null)
-        //{
-        //    DialogResult result;
-        //    if (townshipCode is null)
-        //    {
-        //        result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>(title);
-        //    }
-        //    else
-        //    {
-        //        #region Get Township By Code
+        private async Task Popup(string voucherNo)
+        {
+            DialogResult result;
 
-        //        var tspModel = await HttpClientService.ExecuteAsync<TownshipResponseModel>(Endpoints.Township + "/" + townshipCode, EnumHttpMethod.Get);
-        //        if (tspModel != null && tspModel.Data != null)
-        //        {
-        //            var stateModel = await HttpClientService.ExecuteAsync<StateResponeModel>($"{Endpoints.State}/{tspModel.Data.Township.StateCode}", EnumHttpMethod.Get);
-        //            if (stateModel is not null && stateModel.Data is not null && stateModel.Data.State is not null)
-        //                tspModel.Data.Township.StateName = stateModel.Data.State.StateName;
-        //        }
+            var parameters = new DialogParameters<P_SaleInvoiceDetailDialog>();
+            parameters.Add("voucherNo", voucherNo);
 
-        //        #endregion
+            result = await InjectService.ShowModalBoxAsync<P_SaleInvoiceDetailDialog>("Sale Invoice Detail", parameters);
 
-        //        #region Add Parameters
-
-        //        var parameters = new DialogParameters<P_TownshipDialog>();
-        //        parameters.Add(x => x.model, tspModel == null ? new TownshipModel() : tspModel.Data.Township);
-
-        //        #endregion
-
-        //        result = await InjectService.ShowModalBoxAsync<P_TownshipDialog>(title, parameters);
-        //    }
-
-        //    if (!result.Canceled)
-        //    {
-        //        await List();
-        //        StateHasChanged();
-        //    }
-        //}
-
-        //private async Task Delete(int townshipId, string townshipName)
-        //{
-        //    var parameters = new DialogParameters<P_TownshipDeleteDialog>();
-        //    parameters.Add(x => x.contentText, $"Are you sure you want to delete {townshipName} township?");
-        //    parameters.Add(x => x.buttonText, "Delete");
-        //    parameters.Add(x => x.color, Color.Error);
-        //    parameters.Add(x => x.townshipId, townshipId);
-
-        //    var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
-
-        //    var result = await InjectService.ShowModalBoxAsync<P_TownshipDeleteDialog>("Delete", parameters);
-        //    if (!result.Canceled)
-        //        await List();
-        //}
+            if (!result.Canceled)
+            {
+                await List();
+                StateHasChanged();
+            }
+        }
     }
 }
