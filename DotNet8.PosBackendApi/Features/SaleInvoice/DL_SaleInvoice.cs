@@ -168,6 +168,17 @@ public class DL_SaleInvoice
                 .Where(x => x.VoucherNo == item.VoucherNo)
                 .ToListAsync();
             responseModel.Data.SaleInvoiceDetails = detailList.Select(x => x.Change()).ToList();
+
+            // Bind Product Info
+            foreach (var detail in responseModel.Data.SaleInvoiceDetails)
+            {
+                var pItem = await _context.TblProducts
+                    .AsNoTracking()
+                    .Where(x => x.ProductCode == detail.ProductCode)
+                    .FirstOrDefaultAsync();
+                detail.ProductName = pItem!.ProductName;
+            }
+
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
         catch (Exception ex)
@@ -377,6 +388,7 @@ public class DL_SaleInvoice
                 .Where(x => (balance > x.ToAmount) || (balance >= x.FromAmount && balance <= x.ToAmount))
                 .OrderBy(x => x.FromAmount)
                 .ToListAsync();
+            if (lstTax == null || lstTax.Count == 0) return result;
             foreach (var item in lstTax)
             {
                 var amountRange = item.ToAmount - item.FromAmount;
