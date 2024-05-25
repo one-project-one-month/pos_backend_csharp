@@ -7,7 +7,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Shop
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-        [Parameter] public ShopRequestModel RequestModel { get; set; } = new();
+        [Parameter] public ShopRequestModel requestModel { get; set; } = new();
 
         void Cancel() => MudDialog?.Cancel();
 
@@ -16,9 +16,9 @@ namespace DotNet8.PosFrontendBlazor.Pages.Shop
             if (validate())
             {
                 var response = await HttpClientService.ExecuteAsync<ShopResponseModel>(
-                Endpoints.Shop + $"/{RequestModel.ShopId}",
+                Endpoints.Shop + $"/{requestModel.ShopId}",
                 EnumHttpMethod.Patch,
-                RequestModel
+                requestModel
             );
                 if (response.IsError)
                 {
@@ -33,22 +33,22 @@ namespace DotNet8.PosFrontendBlazor.Pages.Shop
 
         private bool validate()
         {
-            if (string.IsNullOrEmpty(RequestModel.ShopCode))
+            if (string.IsNullOrEmpty(requestModel.ShopCode))
             {
-                ShowWarningMessage("Shop Category Code is required.");
+                ShowWarningMessage("Shop Code is required.");
                 return false;
             }
-            if (string.IsNullOrEmpty(RequestModel.ShopName))
+            if (string.IsNullOrEmpty(requestModel.ShopName))
             {
                 ShowWarningMessage("Shop Name is required.");
                 return false;
             }
-            if (string.IsNullOrEmpty(RequestModel.MobileNo))
+            if (string.IsNullOrEmpty(requestModel.MobileNo))
             {
                 ShowWarningMessage("Mobile Number is required.");
                 return false;
             }
-            if (string.IsNullOrEmpty(RequestModel.Address))
+            if (string.IsNullOrEmpty(requestModel.Address))
             {
                 ShowWarningMessage("Address is required.");
                 return false;
