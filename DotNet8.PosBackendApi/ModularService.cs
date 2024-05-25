@@ -27,11 +27,9 @@ public static class ModularService
 
     private static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
     {
-        services.AddScoped<StaffService>();
         services.AddScoped<BL_Shop>();
         services.AddScoped<BL_Staff>();
         services.AddScoped<BL_Product>();
-        services.AddScoped<ShopService>();
         services.AddScoped<ResponseModel>();
         services.AddScoped<BL_ProductCategory>();
         services.AddScoped<BL_Login>();

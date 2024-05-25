@@ -16,16 +16,16 @@
 
     [Parameter] public int shopId { get; set; }
 
-    private ShopListResponseModel reqModel = new();
+    private ShopListResponseModel responseModel = new();
 
     void Cancel() => MudDialog?.Cancel();
 
     private async Task DeleteShop(int id)
     {
-        var reqModel = await HttpClientService.ExecuteAsync<ShopListResponseModel>(Endpoints.Shop, EnumHttpMethod.Get);
-        if (reqModel is not null)
+        var responseModel = await HttpClientService.ExecuteAsync<ShopListResponseModel>(Endpoints.Shop, EnumHttpMethod.Get);
+        if (responseModel is not null)
         {
-            await HttpClientService.ExecuteAsync<TownshipResponseModel>(
+            await HttpClientService.ExecuteAsync<ShopListResponseModel>(
             Endpoints.Shop + $"/{id}",
             EnumHttpMethod.Delete
             );
