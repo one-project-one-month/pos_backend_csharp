@@ -1,12 +1,17 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using DotNet8.PosBackendApi.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DotNet8.PosBackendApi.Features.Report;
 
 public class DL_Report
 {
     private readonly AppDbContext _context;
-
-    public DL_Report(AppDbContext context) => _context = context;
+    private readonly DapperService _dapperService;
+    public DL_Report(AppDbContext context, DapperService dapperService)
+    {
+        _context = context;
+        _dapperService = dapperService;
+    }
 
     public async Task<MonthlyReportResponseModel> DailyReport(int DateDay, int DateMonth, int DateYear, int PageNo, int PageSize)
     {
@@ -237,6 +242,43 @@ public class DL_Report
         responseModel.MessageResponse = responseModel.Data.Count > 0
             ? new MessageResponseModel(true, EnumStatus.Success.ToString())
             : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+        return responseModel;
+    }
+
+    public async Task<DashboardResponseModel> GetDataForDashboard(DashboardRequestModel requestModel)
+    {
+        DashboardResponseModel responseModel = new DashboardResponseModel();
+        try
+        {
+            var parameters = new { SaleInvoiceDate = requestModel.SaleInvoiceDate };
+            var result = await _dapperService.QueryMultipleAsync<BestSellerProductDashboardModel, DailyDashboardModel, WeeklyDashboardModel, MonthlyDashboardModel, YearlyDashboardModel>("sp_Dashboard", parameters);
+            if (result.Item5 is null)
+            {
+                responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+                goto result;
+            }
+
+            responseModel.BestProductData = result.Item1.ToList();
+            responseModel.DailyData = result.Item2.ToList();
+            responseModel.WeeklyData = result.Item3.ToList();
+            responseModel.MonthlyData = result.Item4.ToList();
+            responseModel.YearlyData = result.Item5.ToList();
+            responseModel.MessageResponse = responseModel.YearlyData.Count > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+            return responseModel;
+        }
+        catch (Exception ex)
+        {
+            responseModel.BestProductData = new List<BestSellerProductDashboardModel>();
+            responseModel.DailyData = new List<DailyDashboardModel>();
+            responseModel.WeeklyData = new List<WeeklyDashboardModel>();
+            responseModel.MonthlyData = new List<MonthlyDashboardModel>();
+            responseModel.YearlyData = new List<YearlyDashboardModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex.Message);
+        }
+
+    result:
         return responseModel;
     }
 }

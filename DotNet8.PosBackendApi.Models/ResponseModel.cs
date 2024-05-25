@@ -40,6 +40,26 @@ public class ResponseModel
             new JProperty("data", model.Item is null ? model.Item : new JObject(
                     new JProperty(model.EnumPos.ToString().ToLower(), JToken.FromObject(model.Item))
                 )
+            ),
+            new JProperty("bestsellerproductdata", model.BestSellerProduct is null ? model.BestSellerProduct : new JObject(
+                    new JProperty("bestsellerproduct", JToken.FromObject(model.BestSellerProduct))
+                )
+            ),
+            new JProperty("dailydashboarddata", model.DailyData is null ? model.DailyData : new JObject(
+                    new JProperty("dailydata", JToken.FromObject(model.DailyData))
+                )
+            ),
+            new JProperty("weeklydashboarddata", model.WeeklyData is null ? model.WeeklyData : new JObject(
+                    new JProperty("weeklydata", JToken.FromObject(model.WeeklyData))
+                )
+            ),
+            new JProperty("monthlydashboarddata", model.MonthlyData is null ? model.MonthlyData : new JObject(
+                    new JProperty("monthlydata", JToken.FromObject(model.MonthlyData))
+                )
+            ),
+            new JProperty("yearlydashboarddata", model.YearlyData is null ? model.YearlyData : new JObject(
+                    new JProperty("yearlydata", JToken.FromObject(model.YearlyData))
+                )
             )
         );
         if (model.Count is not null)
@@ -62,5 +82,11 @@ public class ReturnModel
     public EnumPos EnumPos { get; set; }
     public bool IsSuccess { get; set; }
     public object? Item { get; set; }
+    public object? BestSellerProduct { get; set; }
+    public object? DailyData { get; set; }
+    public object? WeeklyData { get; set; }
+    public object? MonthlyData { get; set; }
+    public object? YearlyData { get; set; }
+
     public PageSettingModel PageSetting { get; set; }
 }

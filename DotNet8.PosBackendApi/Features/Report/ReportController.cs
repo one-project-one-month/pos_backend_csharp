@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Features.Report;
+﻿using DotNet8.PosBackendApi.Shared;
+
+namespace DotNet8.PosBackendApi.Features.Report;
 
 [Route("api/v1/report")]
 [ApiController]

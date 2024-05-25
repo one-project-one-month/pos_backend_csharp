@@ -36,4 +36,18 @@ public class DapperService
         int result = db.Execute(query, parameters);
         return result;
     }
+
+    public async Task<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>)> QueryMultipleAsync<T1, T2, T3, T4, T5>(string storedProcedure, object parameters = null)
+    {
+        using IDbConnection db = new SqlConnection(_sqlConnectionStringBuilder.ConnectionString);
+        using var multi = await db.QueryMultipleAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+
+        var result1 = (await multi.ReadAsync<T1>()).ToList();
+        var result2 = (await multi.ReadAsync<T2>()).ToList();
+        var result3 = (await multi.ReadAsync<T3>()).ToList();
+        var result4 = (await multi.ReadAsync<T4>()).ToList();
+        var result5 = (await multi.ReadAsync<T5>()).ToList();
+
+        return (result1, result2, result3, result4, result5);
+    }
 }
