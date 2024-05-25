@@ -7,7 +7,8 @@ namespace DotNet8.PosFrontendBlazor.Pages.Shop
     {
         private int _pageNo = 1;
         private int _pageSize = 10;
-        private ShopListResponseModel? ResponseModel;
+
+        private ShopListResponseModel? responseModel;
         protected override async void OnAfterRender(bool firstRender)
         {
             if (firstRender)
@@ -21,7 +22,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Shop
 
         private async Task List()
         {
-            ResponseModel = await HttpClientService.ExecuteAsync<ShopListResponseModel>(
+            responseModel = await HttpClientService.ExecuteAsync<ShopListResponseModel>(
                 $"{Endpoints.Shop}/{_pageNo}/{_pageSize}",
                 EnumHttpMethod.Get
                 );
@@ -38,7 +39,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Shop
 
         private async Task EditPopUp(ShopModel shop)
         {
-            ShopRequestModel? model = new()
+            ShopRequestModel? requestModel = new()
             {
                 ShopId = shop.ShopId,
                 ShopCode = shop.ShopCode,
@@ -48,7 +49,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Shop
             };
             DialogParameters parameters = new DialogParameters<P_ShopEditDialog>()
             {
-                {x => x.RequestModel, model }
+                {x => x.requestModel, requestModel }
             };
             DialogResult dialogResult = await InjectService.ShowModalBoxAsync<P_ShopEditDialog>("Edit Shop", parameters);
 
