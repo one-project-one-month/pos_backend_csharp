@@ -40,13 +40,13 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
             reqModel.TotalAmount = SaleInvoiceDetails.Sum(x=> x.Amount);
             reqModel.StaffCode = "S_001";
             reqModel.PaymentType = "KBZPay";
-            Console.WriteLine(JsonConvert.SerializeObject(reqModel).ToString());
+            //Console.WriteLine(JsonConvert.SerializeObject(reqModel).ToString());
             var response = await HttpClientService.ExecuteAsync<SaleInvoiceResponseModel>(
                 Endpoints.SaleInvoice,
                 EnumHttpMethod.Post,
                 reqModel
                 );
-            Console.WriteLine(JsonConvert.SerializeObject(response).ToString());
+            //Console.WriteLine(JsonConvert.SerializeObject(response).ToString());
             if (response.IsError)
             {
                 InjectService.ShowMessage(response.Message, EnumResponseType.Error);
@@ -55,8 +55,11 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
             }
 
             InjectService.ShowMessage(response.Message, EnumResponseType.Success);
-            saleInvoiceFormType = EnumSaleInvoiceFormType.SaleProduct;
+            //Console.WriteLine(JsonConvert.SerializeObject(response.Data.SaleInvoice));
+            //saleInvoiceFormType = EnumSaleInvoiceFormType.SaleProduct;
+            saleInvoiceFormType = EnumSaleInvoiceFormType.Receipt;
             StateHasChanged();
+            //Nav.NavigateTo($"/salereceipt?response={JsonConvert.SerializeObject(response.Data.SaleInvoice)}");
         }
     }
 }

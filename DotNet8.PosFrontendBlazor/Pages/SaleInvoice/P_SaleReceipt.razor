@@ -1,0 +1,20 @@
+﻿@page "/salereceipt"
+@layout EmptyLayout
+@using DotNet8.PosFrontendBlazor.Models.SaleInvoice;
+@if (saleInvoiceFormType == EnumSaleInvoiceFormType.Receipt)
+{
+    <MudGrid>
+        <MudItem xs="4">
+            
+        </MudItem>
+        <MudItem xs="4">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=6</MudPaper>
+        </MudItem>
+        <MudItem xs="4">
+        </MudItem>
+    </MudGrid>
+}
+
+@code {
+
+}

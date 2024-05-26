@@ -51,6 +51,7 @@
                 </MudGrid>
             </MudPaper>
         </MudItem>
+        
         <MudItem xs="6" Elevation="0">
             <MudPaper Class="d-flex align-center justify-center mud-width-full  py-8">
                 <MudGrid>
@@ -70,9 +71,17 @@
                 </MudGrid>
             </MudPaper>
         </MudItem>
+        <MudItem>
+            <MudButton Class="my-4" Variant="MudBlazor.Variant.Outlined" Color="Color.Warning">Back</MudButton>
+
+        </MudItem>
     </MudGrid>
 }
 else if (saleInvoiceFormType == EnumSaleInvoiceFormType.SaleProduct)
 {
     <P_SaleInvoice />
+}
+else if (saleInvoiceFormType == EnumSaleInvoiceFormType.Receipt)
+{
+  <P_SaleReceipt />
 }
