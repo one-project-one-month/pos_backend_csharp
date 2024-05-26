@@ -154,7 +154,7 @@ public class DL_Report
         var query = _context
             .TblSaleInvoices
             .AsNoTracking()
-            .Where(x => x.SaleInvoiceDateTime >= fromDate && x.SaleInvoiceDateTime <= toDate)
+            .Where(x => x.SaleInvoiceDateTime >= fromDate.AddHours(-12) && x.SaleInvoiceDateTime <= toDate.AddHours(12))
             .GroupBy(x => x.SaleInvoiceDateTime.Date)
             .Select(y => new ReportModel
             {
@@ -186,9 +186,8 @@ public class DL_Report
         var query = _context
             .TblSaleInvoices
             .AsNoTracking()
-            .Where(x => x.SaleInvoiceDateTime.Month >= fromDate.Month && x.SaleInvoiceDateTime.Month <= toDate.Month && 
-                        x.SaleInvoiceDateTime.Year >= fromDate.Year && x.SaleInvoiceDateTime.Year <= toDate.Year)
-            .GroupBy(x => x.SaleInvoiceDateTime.Month)
+            .Where(x => x.SaleInvoiceDateTime >= fromDate.AddHours(-12) && x.SaleInvoiceDateTime <= toDate.AddHours(12))
+            .GroupBy(x => new { x.SaleInvoiceDateTime.Year, x.SaleInvoiceDateTime.Month })
             .Select(y => new ReportModel
             {
                 SaleInvoiceDate = y.First().SaleInvoiceDateTime,
