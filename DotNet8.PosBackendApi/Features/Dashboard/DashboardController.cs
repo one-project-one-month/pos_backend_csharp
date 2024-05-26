@@ -29,11 +29,14 @@ namespace DotNet8.PosBackendApi.Features.Dashboard
                         EnumPos = EnumPos.SaleInvoice,
                         IsSuccess = responseModel.MessageResponse.IsSuccess,
                         Message = responseModel.MessageResponse.Message,
-                        //BestSellerProduct = responseModel.BestProductData,
-                        //DailyData = responseModel.DailyData,
-                        //WeeklyData = responseModel.WeeklyData,
-                        //MonthlyData = responseModel.MonthlyData,
-                        //YearlyData = responseModel.YearlyData
+                        Item = new
+                        {
+                            DailyData = responseModel.DailyData,
+                            WeeklyData = responseModel.WeeklyData,
+                            MonthlyData = responseModel.MonthlyData,
+                            YearlyData = responseModel.YearlyData,
+                            BestSellerProduct = responseModel.BestProductData,
+                        }
                     });
                 return Content(model);
             }

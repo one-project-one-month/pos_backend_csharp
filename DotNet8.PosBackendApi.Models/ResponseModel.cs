@@ -82,10 +82,5 @@ public class ReturnModel
     public EnumPos EnumPos { get; set; }
     public bool IsSuccess { get; set; }
     public object? Item { get; set; }
-    //public object? BestSellerProduct { get; set; }
-    //public object? DailyData { get; set; }
-    //public object? WeeklyData { get; set; }
-    //public object? MonthlyData { get; set; }
-    //public object? YearlyData { get; set; }
     public PageSettingModel PageSetting { get; set; }
 }
