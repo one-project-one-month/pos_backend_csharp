@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosFrontendBlazor.Models.Product;
+using DotNet8.PosFrontendBlazor.Models.ProductCategory;
 using System.ComponentModel.DataAnnotations;
 
 namespace DotNet8.PosFrontendBlazor.Pages.Product
@@ -7,11 +8,29 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-        private ProductRequestModel reqModel = new();
+        private ProductRequestModel requestModel = new();
 
-        private void Cancel()
+        private void Cancel() => MudDialog.Cancel();
+
+        private ProductCategoryListResponseModel? categoryResponseModel;
+
+        protected override async void OnAfterRender(bool firstRender)
         {
-            MudDialog.Cancel();
+            if (firstRender)
+            {
+                await InjectService.EnableLoading();
+                await ProductCategoryCodeList();
+                StateHasChanged();
+                await InjectService.DisableLoading();
+            }
+        }
+        private async Task ProductCategoryCodeList()
+        {
+            categoryResponseModel = await HttpClientService.ExecuteAsync<ProductCategoryListResponseModel>
+            (
+                Endpoints.ProductCategory,
+                EnumHttpMethod.Get
+            );
         }
 
         private async Task SaveAsync()
@@ -21,7 +40,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
                 var response = await HttpClientService.ExecuteAsync<ProductResponseModel>(
                 Endpoints.Product,
                 EnumHttpMethod.Post,
-                reqModel
+                requestModel
             );
                 if (response.IsError)
                 {
@@ -35,17 +54,17 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
         }
         private bool validate()
         {
-            if (string.IsNullOrEmpty(reqModel.ProductName))
+            if (string.IsNullOrEmpty(requestModel.ProductName))
             {
                 ShowWarningMessage("Product Name is required.");
                 return false;
             }
-            if (string.IsNullOrEmpty(reqModel.ProductCategoryCode))
+            if (string.IsNullOrEmpty(requestModel.ProductCategoryCode))
             {
-                ShowWarningMessage("Product Category Code is required.");
+                ShowWarningMessage("Product Category is required.");
                 return false;
             }
-            if (!(reqModel.Price > 0))
+            if (!(requestModel.Price > 0))
             {
                 ShowWarningMessage("Product Price must be greater than zero.");
                 return false;
