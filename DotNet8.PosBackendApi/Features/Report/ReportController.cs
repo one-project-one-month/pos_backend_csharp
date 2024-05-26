@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Features.Report;
+﻿using DotNet8.PosBackendApi.Shared;
+
+namespace DotNet8.PosBackendApi.Features.Report;
 
 [Route("api/v1/report")]
 [ApiController]
@@ -183,6 +185,33 @@ public class ReportController : BaseController
                     Message = lst.MessageResponse.Message,
                     Item = lst.Data,
                     PageSetting = lst.PageSetting
+                });
+            return Content(model);
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+
+    [HttpPost("dashboard")]
+    public async Task<IActionResult> GetDataForDashboard(DashboardRequestModel Dashboard)
+    {
+        try
+        {
+            var responseModel = await _report.GetDataForDashboard(Dashboard);
+            var model = _response.Return(
+                new ReturnModel
+                {
+                    Token = RefreshToken(),
+                    EnumPos = EnumPos.SaleInvoice,
+                    IsSuccess = responseModel.MessageResponse.IsSuccess,
+                    Message = responseModel.MessageResponse.Message,
+                    BestSellerProduct = responseModel.BestProductData,
+                    DailyData = responseModel.DailyData,
+                    WeeklyData = responseModel.WeeklyData,
+                    MonthlyData = responseModel.MonthlyData,
+                    YearlyData = responseModel.YearlyData
                 });
             return Content(model);
         }

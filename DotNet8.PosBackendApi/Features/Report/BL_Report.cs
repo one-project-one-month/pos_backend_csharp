@@ -11,6 +11,13 @@
             var response = await _report.DailyReport(dateDay, dateMonth, dateYear, pageNo, pageSize);
             return response;
         }
+
+        public async Task<DashboardResponseModel> GetDataForDashboard(DashboardRequestModel dashboardrequestmodel)
+        {
+            var response = await _report.GetDataForDashboard(dashboardrequestmodel);
+            return response;
+        }
+
         public async Task<MonthlyReportResponseModel> DailyReportV1(SaleDailyReportRequestModel requestModel)
         {
             var response = await _report.DailyReportV1(requestModel);
