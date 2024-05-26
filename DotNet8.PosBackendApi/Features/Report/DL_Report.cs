@@ -1,38 +1,43 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using DotNet8.PosBackendApi.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DotNet8.PosBackendApi.Features.Report;
 
 public class DL_Report
 {
     private readonly AppDbContext _context;
+    private readonly DapperService _dapperService;
+    public DL_Report(AppDbContext context, DapperService dapperService)
+    {
+        _context = context;
+        _dapperService = dapperService;
+    }
 
-    public DL_Report(AppDbContext context) => _context = context;
-
-    public async Task<MonthlyReportResponseModel> DailyReport(int DateDay, int DateMonth, int DateYear, int PageNo, int PageSize)
+    public async Task<MonthlyReportResponseModel> DailyReport(int dateDay, int dateMonth, int dateYear, int pageNo, int pageSize)
     {
         MonthlyReportResponseModel responseModel = new MonthlyReportResponseModel();
         var query = _context
             .TblSaleInvoices
             .AsNoTracking()
-            .Where(x => x.SaleInvoiceDateTime.Day >= DateDay && x.SaleInvoiceDateTime.Month >= DateMonth && x.SaleInvoiceDateTime.Year == DateYear)
+            .Where(x => x.SaleInvoiceDateTime.Day >= dateDay && x.SaleInvoiceDateTime.Month >= dateMonth && x.SaleInvoiceDateTime.Year == dateYear)
             .GroupBy(x => x.SaleInvoiceDateTime.Date)
             .Select(y => new ReportModel
             {
                 SaleInvoiceDate = y.First().SaleInvoiceDateTime,
                 TotalAmount = y.Sum(c => c.TotalAmount)
             }).OrderBy(x => x.SaleInvoiceDate);
-        int TotalCount = query.Count();
-        int PageCount = TotalCount / PageSize;
-        if (TotalCount % PageSize != 0)
+        int totalCount = query.Count();
+        int pageCount = totalCount / pageSize;
+        if (totalCount % pageSize != 0)
         {
-            PageCount = PageCount + 1;
+            pageCount = pageCount + 1;
         }
         var report = await query
-                .Pagination(PageNo, PageSize)
+                .Pagination(pageNo, pageSize)
                 .ToListAsync();
 
         responseModel.Data = report;
-        responseModel.PageSetting = new PageSettingModel(PageNo, PageSize, PageCount, TotalCount);
+        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         responseModel.MessageResponse = responseModel.Data.Count > 0
             ? new MessageResponseModel(true, EnumStatus.Success.ToString())
             : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
@@ -56,11 +61,11 @@ public class DL_Report
                 TotalAmount = y.Sum(c => c.TotalAmount)
             }).OrderBy(x => x.SaleInvoiceDate);
 
-        int TotalCount = query.Count();
-        int PageCount = TotalCount / requestModel.PageSetting.PageSize;
-        if (TotalCount % requestModel.PageSetting.PageSize != 0)
+        int totalCount = query.Count();
+        int pageCount = totalCount / requestModel.PageSetting.PageSize;
+        if (totalCount % requestModel.PageSetting.PageSize != 0)
         {
-            PageCount = PageCount + 1;
+            pageCount = pageCount + 1;
         }
         var report = await query
                 .Pagination(
@@ -72,14 +77,14 @@ public class DL_Report
         responseModel.PageSetting = new PageSettingModel(
                 requestModel.PageSetting.PageNo,
                 requestModel.PageSetting.PageSize,
-                PageCount, TotalCount);
+                pageCount, totalCount);
         responseModel.MessageResponse = responseModel.Data.Count > 0
             ? new MessageResponseModel(true, EnumStatus.Success.ToString())
             : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
         return responseModel;
     }
 
-    public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year, int PageNo, int PageSize)
+    public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year, int pageNo, int pageSize)
     {
         MonthlyReportResponseModel responseModel = new MonthlyReportResponseModel();
         var query = _context
@@ -92,26 +97,26 @@ public class DL_Report
                 SaleInvoiceDate = y.First().SaleInvoiceDateTime,
                 TotalAmount = y.Sum(c => c.TotalAmount)
             }).OrderBy(x => x.SaleInvoiceDate);
-        int TotalCount = query.Count();
-        int PageCount = TotalCount / PageSize;
-        if (TotalCount % PageSize != 0)
+        int totalCount = query.Count();
+        int pageCount = totalCount / pageSize;
+        if (totalCount % pageSize != 0)
         {
-            PageCount = PageCount + 1;
+            pageCount = pageCount + 1;
         }
 
         var report = await query
-                .Pagination(PageNo, PageSize)
+                .Pagination(pageNo, pageSize)
                 .ToListAsync();
 
         responseModel.Data = report;
-        responseModel.PageSetting = new PageSettingModel(PageNo, PageSize, PageCount, TotalCount);
+        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         responseModel.MessageResponse = responseModel.Data.Count > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
         return responseModel;
     }
 
-    public async Task<MonthlyReportResponseModel> YearlyReport(int year, int PageNo, int PageSize)
+    public async Task<MonthlyReportResponseModel> YearlyReport(int year, int pageNo, int pageSize)
     {
         MonthlyReportResponseModel responseModel = new MonthlyReportResponseModel();
 
@@ -125,18 +130,18 @@ public class DL_Report
                 SaleInvoiceDate = y.First().SaleInvoiceDateTime,
                 TotalAmount = y.Sum(c => c.TotalAmount)
             }).OrderBy(x => x.SaleInvoiceDate);
-        int TotalCount = query.Count();
-        int PageCount = TotalCount / PageSize;
-        if (TotalCount % PageSize != 0)
+        int totalCount = query.Count();
+        int pageCount = totalCount / pageSize;
+        if (totalCount % pageSize != 0)
         {
-            PageCount = PageCount + 1;
+            pageCount = pageCount + 1;
         }
         var report = await query
-                .Pagination(PageNo, PageSize)
+                .Pagination(pageNo, pageSize)
                 .ToListAsync();
 
         responseModel.Data = report;
-        responseModel.PageSetting = new PageSettingModel(PageNo, PageSize, PageCount, TotalCount);
+        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         responseModel.MessageResponse = responseModel.Data.Count > 0
             ? new MessageResponseModel(true, EnumStatus.Success.ToString())
             : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
@@ -157,18 +162,18 @@ public class DL_Report
                 TotalAmount = y.Sum(c => c.TotalAmount)
             }).OrderBy(x => x.SaleInvoiceDate);
 
-        int TotalCount = query.Count();
-        int PageCount = TotalCount / pageSize;
-        if (TotalCount % pageSize != 0)
+        int totalCount = query.Count();
+        int pageCount = totalCount / pageSize;
+        if (totalCount % pageSize != 0)
         {
-            PageCount = PageCount + 1;
+            pageCount = pageCount + 1;
         }
         var report = await query
                 .Pagination(pageNo, pageSize)
                 .ToListAsync();
 
         responseModel.Data = report;
-        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, PageCount, TotalCount);
+        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         responseModel.MessageResponse = responseModel.Data.Count > 0
             ? new MessageResponseModel(true, EnumStatus.Success.ToString())
             : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
@@ -181,18 +186,19 @@ public class DL_Report
         var query = _context
             .TblSaleInvoices
             .AsNoTracking()
-            .Where(x => x.SaleInvoiceDateTime >= fromDate.AddHours(-12) && x.SaleInvoiceDateTime <= toDate.AddHours(-12))
+            .Where(x => x.SaleInvoiceDateTime.Month >= fromDate.Month && x.SaleInvoiceDateTime.Month <= toDate.Month && 
+                        x.SaleInvoiceDateTime.Year >= fromDate.Year && x.SaleInvoiceDateTime.Year <= toDate.Year)
             .GroupBy(x => x.SaleInvoiceDateTime.Month)
             .Select(y => new ReportModel
             {
                 SaleInvoiceDate = y.First().SaleInvoiceDateTime,
                 TotalAmount = y.Sum(c => c.TotalAmount)
             }).OrderBy(x => x.SaleInvoiceDate);
-        int TotalCount = query.Count();
-        int PageCount = TotalCount / pageSize;
-        if (TotalCount % pageSize != 0)
+        int totalCount = query.Count();
+        int pageCount = totalCount / pageSize;
+        if (totalCount % pageSize != 0)
         {
-            PageCount = PageCount + 1;
+            pageCount = pageCount + 1;
         }
 
         var report = await query
@@ -200,7 +206,7 @@ public class DL_Report
                 .ToListAsync();
 
         responseModel.Data = report;
-        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, PageCount, TotalCount);
+        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         responseModel.MessageResponse = responseModel.Data.Count > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
@@ -214,7 +220,7 @@ public class DL_Report
         var query = _context
             .TblSaleInvoices
             .AsNoTracking()
-            .Where(x => x.SaleInvoiceDateTime >= fromDate.AddHours(-12) && x.SaleInvoiceDateTime <= toDate.AddHours(-12))
+            .Where(x => x.SaleInvoiceDateTime.Year >= fromDate.Year && x.SaleInvoiceDateTime.Year <= toDate.Year)
             .GroupBy(x => x.SaleInvoiceDateTime.Year)
             .Select(y => new ReportModel
             {
@@ -222,21 +228,58 @@ public class DL_Report
                 TotalAmount = y.Sum(c => c.TotalAmount)
             }).OrderBy(x => x.SaleInvoiceDate);
 
-        int TotalCount = query.Count();
-        int PageCount = TotalCount / pageSize;
-        if (TotalCount % pageSize != 0)
+        int totalCount = query.Count();
+        int pageCount = totalCount / pageSize;
+        if (totalCount % pageSize != 0)
         {
-            PageCount = PageCount + 1;
+            pageCount = pageCount + 1;
         }
         var report = await query
                 .Pagination(pageNo, pageSize)
                 .ToListAsync();
 
         responseModel.Data = report;
-        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, PageCount, TotalCount);
+        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         responseModel.MessageResponse = responseModel.Data.Count > 0
             ? new MessageResponseModel(true, EnumStatus.Success.ToString())
             : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+        return responseModel;
+    }
+
+    public async Task<DashboardResponseModel> GetDataForDashboard(DashboardRequestModel requestModel)
+    {
+        DashboardResponseModel responseModel = new DashboardResponseModel();
+        try
+        {
+            var parameters = new { SaleInvoiceDate = requestModel.SaleInvoiceDate };
+            var result = await _dapperService.QueryMultipleAsync<BestSellerProductDashboardModel, DailyDashboardModel, WeeklyDashboardModel, MonthlyDashboardModel, YearlyDashboardModel>("sp_Dashboard", parameters);
+            if (result.Item5 is null)
+            {
+                responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+                goto result;
+            }
+
+            responseModel.BestProductData = result.Item1.ToList();
+            responseModel.DailyData = result.Item2.ToList();
+            responseModel.WeeklyData = result.Item3.ToList();
+            responseModel.MonthlyData = result.Item4.ToList();
+            responseModel.YearlyData = result.Item5.ToList();
+            responseModel.MessageResponse = responseModel.YearlyData.Count > 0
+                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+                : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+            return responseModel;
+        }
+        catch (Exception ex)
+        {
+            responseModel.BestProductData = new List<BestSellerProductDashboardModel>();
+            responseModel.DailyData = new List<DailyDashboardModel>();
+            responseModel.WeeklyData = new List<WeeklyDashboardModel>();
+            responseModel.MonthlyData = new List<MonthlyDashboardModel>();
+            responseModel.YearlyData = new List<YearlyDashboardModel>();
+            responseModel.MessageResponse = new MessageResponseModel(false, ex.Message);
+        }
+
+    result:
         return responseModel;
     }
 }

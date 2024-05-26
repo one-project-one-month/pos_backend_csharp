@@ -52,15 +52,13 @@ public class BL_ProductCategory
         {
             throw new Exception("productCategory is null.");
         }
-
         if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryName))
         {
             throw new Exception("ProductCategoryName is null.");
         }
-
-        if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryCode))
-        {
-            throw new Exception("ProductCategoryCode is null.");
-        }
+        //if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryCode))
+        //{
+        //    throw new Exception("ProductCategoryCode is null.");
+        //}
     }
 }
