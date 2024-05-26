@@ -50,11 +50,11 @@
                             </tr>
                             <tr>
                                 <td colspan="4">Cash </td>
-                                <td colspan="1">@ResponseModel.PaymentAmount</td>
+                                <td colspan="1">@ResponseModel.ReceiveAmount</td>
                             </tr>
                             <tr>
                                 <td colspan="4">Change </td>
-                                <td colspan="1">@(ResponseModel.PaymentAmount - ResponseModel.TotalAmount)</td>
+                                <td colspan="1">@ResponseModel.Change</td>
                             </tr>
                         </tbody>
                     </MudSimpleTable>
