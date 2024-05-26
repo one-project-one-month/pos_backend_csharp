@@ -5,21 +5,33 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice;
 
 public partial class P_SaleReceipt
 {
-    private EnumSaleInvoiceFormType saleInvoiceFormType = EnumSaleInvoiceFormType.Receipt;
+    [Parameter]
+    public string? VoucherNo { get; set; } = null!;
 
-    protected override void OnInitialized()
-    {
-        var uri = new Uri(Nav.Uri);
-        Console.WriteLine(uri.Query);
-    }
+    public SaleInvoiceModel ResponseModel { get; set; }
+
+    private int count = 0;
+
     protected override async void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
             await InjectService.EnableLoading();
-            
-            //StateHasChanged();
+            await GetSaleInvoice();
+            StateHasChanged();
             await InjectService.DisableLoading();
+        }
+    }
+    private async Task GetSaleInvoice()
+    {
+        var response = await HttpClientService.ExecuteAsync<SaleInvoiceResponseModel>
+        (
+            $"{Endpoints.SaleInvoice}/{VoucherNo}",
+                    EnumHttpMethod.Get
+        );
+        if (response != null)
+        {
+            ResponseModel = response.Data.SaleInvoice;
         }
     }
 }

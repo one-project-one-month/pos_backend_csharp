@@ -2,12 +2,6 @@
 
 <MudPaper Height="900px" Style="overflow:hidden; position:relative;">
     <MudDrawerContainer Class="mud-height-full">
-        @* <MudDrawer @bind-Open="open" Elevation="0" Variant="@DrawerVariant.Persistent" Color="Color.Default">
-            <MudDrawerHeader>
-                <MudText Typo="Typo.h6">POS</MudText>
-            </MudDrawerHeader>
-           
-        </MudDrawer> *@
         <div class="d-flex mud-height-full">
             <MudContainer MaxWidth="MaxWidth.Large" Class="ma-4">
                 @Body
@@ -17,15 +11,7 @@
 </MudPaper>
 @code
 {
-    bool open = true;
-
-    // private async Task MenuClick(string url)
-    // {
-    //     await InjectService.EnableLoading();
-    //     Nav.NavigateTo(url);
-    // }
 }
-
 
 <MudThemeProvider />
 <MudDialogProvider />
