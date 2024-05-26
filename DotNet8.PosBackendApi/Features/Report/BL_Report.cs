@@ -12,12 +12,6 @@
             return response;
         }
 
-        public async Task<DashboardResponseModel> Dashboard(DashboardRequestModel dashboardrequestmodel)
-        {
-            var response = await _report.GetDataForDashboard(dashboardrequestmodel);
-            return response;
-        }
-
         public async Task<MonthlyReportResponseModel> DailyReportV1(SaleDailyReportRequestModel requestModel)
         {
             var response = await _report.DailyReportV1(requestModel);

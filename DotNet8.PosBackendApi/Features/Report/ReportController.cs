@@ -193,31 +193,4 @@ public class ReportController : BaseController
             return InternalServerError(ex);
         }
     }
-
-    [HttpPost("dashboard")]
-    public async Task<IActionResult> Dashboard(DashboardRequestModel Dashboard)
-    {
-        try
-        {
-            var responseModel = await _report.Dashboard(Dashboard);
-            var model = _response.Return(
-                new ReturnModel
-                {
-                    Token = RefreshToken(),
-                    EnumPos = EnumPos.SaleInvoice,
-                    IsSuccess = responseModel.MessageResponse.IsSuccess,
-                    Message = responseModel.MessageResponse.Message,
-                    BestSellerProduct = responseModel.BestProductData,
-                    DailyData = responseModel.DailyData,
-                    WeeklyData = responseModel.WeeklyData,
-                    MonthlyData = responseModel.MonthlyData,
-                    YearlyData = responseModel.YearlyData
-                });
-            return Content(model);
-        }
-        catch (Exception ex)
-        {
-            return InternalServerError(ex);
-        }
-    }
 }
