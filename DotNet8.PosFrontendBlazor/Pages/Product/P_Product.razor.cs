@@ -23,7 +23,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
         private async Task List()
         {
             ResponseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(
-                $"{Endpoints.Product}/{_pageNo}/{_pageSize}", 
+                $"{Endpoints.Product}/{_pageNo}/{_pageSize}",
                 EnumHttpMethod.Get
                 );
         }
@@ -40,6 +40,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
                 await List();
             }
         }
+
         private async Task EditPopUp(int id, string? ProductCode, string? ProductName, string? ProductCategoryCode, decimal Price)
         {
             ProductRequestModel? model = new()
@@ -52,7 +53,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
             };
             DialogParameters parameters = new DialogParameters<P_ProductEditDialog>()
             {
-                {x => x.reqModel, model }
+                {x => x.requestModel, model }
             };
             DialogResult dialogResult = await InjectService.ShowModalBoxAsync<P_ProductEditDialog>("Edit Product", parameters);
 
@@ -78,6 +79,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Product
                 await List();
             }
         }
+
         public async Task PageChanged(int i)
         {
             _pageNo = i;
