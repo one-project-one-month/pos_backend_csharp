@@ -195,11 +195,11 @@ public class ReportController : BaseController
     }
 
     [HttpPost("dashboard")]
-    public async Task<IActionResult> GetDataForDashboard(DashboardRequestModel Dashboard)
+    public async Task<IActionResult> Dashboard(DashboardRequestModel Dashboard)
     {
         try
         {
-            var responseModel = await _report.GetDataForDashboard(Dashboard);
+            var responseModel = await _report.Dashboard(Dashboard);
             var model = _response.Return(
                 new ReturnModel
                 {

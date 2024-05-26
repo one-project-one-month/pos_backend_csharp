@@ -12,7 +12,7 @@
             return response;
         }
 
-        public async Task<DashboardResponseModel> GetDataForDashboard(DashboardRequestModel dashboardrequestmodel)
+        public async Task<DashboardResponseModel> Dashboard(DashboardRequestModel dashboardrequestmodel)
         {
             var response = await _report.GetDataForDashboard(dashboardrequestmodel);
             return response;

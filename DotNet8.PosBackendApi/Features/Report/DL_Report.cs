@@ -245,13 +245,18 @@ public class DL_Report
         return responseModel;
     }
 
-    public async Task<DashboardResponseModel> GetDataForDashboard(DashboardRequestModel requestModel)
+    public async Task<DashboardResponseModel> Dashboard(DashboardRequestModel requestModel)
     {
         DashboardResponseModel responseModel = new DashboardResponseModel();
         try
         {
             var parameters = new { SaleInvoiceDate = requestModel.SaleInvoiceDate };
-            var result = await _dapperService.QueryMultipleAsync<BestSellerProductDashboardModel, DailyDashboardModel, WeeklyDashboardModel, MonthlyDashboardModel, YearlyDashboardModel>("sp_Dashboard", parameters);
+            var result = await _dapperService.QueryMultipleAsync<
+                BestSellerProductDashboardModel, 
+                DailyDashboardModel, 
+                WeeklyDashboardModel, 
+                MonthlyDashboardModel, 
+                YearlyDashboardModel>("sp_Dashboard", parameters);
             if (result.Item5 is null)
             {
                 responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
