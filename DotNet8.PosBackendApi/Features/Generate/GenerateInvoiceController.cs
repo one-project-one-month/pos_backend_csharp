@@ -26,11 +26,11 @@ public class GenerateController : BaseController
         SaleInvoiceModel requestModel = new SaleInvoiceModel();
         Random rnd = new Random();
         DateTime startDate = new DateTime(year, 01, 01);
-        DateTime endDate = new DateTime(year, 12, 31);
+        DateTime endDate = new DateTime(year, 05, 31);
         //DateTime endDate = new DateTime(year, 01, 03);
         for (DateTime date = startDate.Date; endDate.CompareTo(date) >= 0; date = date.AddDays(1))
         {
-            var infoRecordCount = rnd.Next(20, 50);
+            var infoRecordCount = rnd.Next(1, 10);
             for (int i = 0; i < infoRecordCount; i++)
             {
                 requestModel = new SaleInvoiceModel
@@ -42,12 +42,12 @@ public class GenerateController : BaseController
                     Tax = 0
                 };
 
-                var detailRecordCount = rnd.Next(5, 10);
+                var detailRecordCount = rnd.Next(1, 3);
                 for (int j = 0; j < detailRecordCount; j++)
                 {
                     var quantity = rnd.Next(1, 10);
                     SaleInvoiceDetailModel detail = new SaleInvoiceDetailModel();
-                    detail.ProductCode = "P_" + (j + 1).ToString("00000");
+                    detail.ProductCode = "P" + (j + 1).ToString("00000");
                     detail.Quantity = quantity;
                     detail.Price = _product.GetProductByCode(detail.ProductCode).Result.Data.Price;
                     detail.Amount = detail.Quantity * detail.Price;
