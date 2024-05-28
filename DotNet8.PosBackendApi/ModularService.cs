@@ -1,3 +1,4 @@
+using DotNet8.PosBackendApi.Features.Dashboard;
 using DotNet8.PosBackendApi.Features.State;
 using DotNet8.PosBackendApi.Features.Tax;
 
@@ -39,6 +40,7 @@ public static class ModularService
         services.AddScoped<BL_Township>();
         services.AddScoped<BL_State>();
         services.AddScoped<BL_Tax>();
+        services.AddScoped<BL_Dashboard>();
         return services;
     }
 
@@ -55,6 +57,7 @@ public static class ModularService
         services.AddScoped<DL_Township>();
         services.AddScoped<DL_State>();
         services.AddScoped<DL_Tax>();
+        services.AddScoped<DL_Dashboard>();
         return services;
     }
 
