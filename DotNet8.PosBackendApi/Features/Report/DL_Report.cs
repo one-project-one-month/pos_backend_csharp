@@ -183,29 +183,36 @@ public class DL_Report
     public async Task<ReportResponseModel> MonthlyReport(DateTime fromDate, DateTime toDate, int pageNo, int pageSize)
     {
         ReportResponseModel responseModel = new ReportResponseModel();
-        var query = _context
-            .TblSaleInvoices
-            .AsNoTracking()
-            .Where(x => x.SaleInvoiceDateTime >= fromDate.AddHours(-12) && x.SaleInvoiceDateTime <= toDate.AddHours(12))
-            .GroupBy(x => new { x.SaleInvoiceDateTime.Year, x.SaleInvoiceDateTime.Month })
-            .Select(y => new ReportModel
-            {
-                SaleInvoiceDate = y.First().SaleInvoiceDateTime,
-                TotalAmount = y.Sum(c => c.TotalAmount)
-            }).OrderBy(x => x.SaleInvoiceDate);
-        int totalCount = query.Count();
-        int pageCount = totalCount / pageSize;
-        if (totalCount % pageSize != 0)
+        //var query = _context
+        //    .TblSaleInvoices
+        //    .AsNoTracking()
+        //    .Where(x => x.SaleInvoiceDateTime >= fromDate.AddHours(-12) && x.SaleInvoiceDateTime <= toDate.AddHours(12))
+        //    .GroupBy(x => new { x.SaleInvoiceDateTime.Year, x.SaleInvoiceDateTime.Month })
+        //    .Select(y => new ReportModel
+        //    {
+        //        SaleInvoiceDate = y.First().SaleInvoiceDateTime,
+        //        TotalAmount = y.Sum(c => c.TotalAmount)
+        //    }).OrderBy(x => x.SaleInvoiceDate);
+        //int totalCount = query.Count();
+        //int pageCount = totalCount / pageSize;
+        //if (totalCount % pageSize != 0)
+        //{
+        //    pageCount = pageCount + 1;
+        //}
+
+        //var report = await query
+        //        .Pagination(pageNo, pageSize)
+        //        .ToListAsync();
+
+        var parameters = new
         {
-            pageCount = pageCount + 1;
-        }
+            PageNo = pageNo, PageSize = pageSize, FromDate = fromDate.ToString("yyyy-MM-dd"), ToDate = toDate.ToString("yyyy-MM-dd")
+        };
 
-        var report = await query
-                .Pagination(pageNo, pageSize)
-                .ToListAsync();
+        var result = await _dapperService.QueryMultipleAsync<ReportModel, PageSettingModel>("Sp_monthly_report", parameters);
 
-        responseModel.Data = report;
-        responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
+        responseModel.Data = result.Item1.ToList();
+        responseModel.PageSetting = result.Item2.FirstOrDefault()!;
         responseModel.MessageResponse = responseModel.Data.Count > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
