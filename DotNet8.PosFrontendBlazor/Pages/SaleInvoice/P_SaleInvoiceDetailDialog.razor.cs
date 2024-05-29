@@ -20,7 +20,6 @@ namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
                     $"{Endpoints.SaleInvoice}/{voucherNo}",
                     EnumHttpMethod.Get
                 );
-            //Console.WriteLine(JsonConvert.SerializeObject(lstDetail));
             if (lstDetail != null)
             {
                 lstSaleInvoiceDetail = lstDetail.Data.SaleInvoice.SaleInvoiceDetails;
