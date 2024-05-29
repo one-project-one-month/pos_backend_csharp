@@ -124,6 +124,5 @@ public partial class P_SaleInvoice
 public enum EnumSaleInvoiceFormType
 {
     SaleProduct,
-    Checkout,
-    Receipt
+    Checkout
 }
