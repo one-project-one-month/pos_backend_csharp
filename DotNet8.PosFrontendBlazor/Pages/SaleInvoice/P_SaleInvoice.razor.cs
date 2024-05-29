@@ -86,7 +86,6 @@ public partial class P_SaleInvoice
     {
         Console.WriteLine(JsonConvert.SerializeObject(lstSaleInvoice));
         saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
-        //StateHasChanged();
     }
 
     private void Back()
