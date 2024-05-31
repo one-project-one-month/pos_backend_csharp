@@ -16,7 +16,7 @@ namespace DotNet8.PosBackendApi.Features.Dashboard
             _response = response;
         }
 
-        [HttpPost("dashboard")]
+        [HttpPost]
         public async Task<IActionResult> Dashboard(DashboardRequestModel requestModel)
         {
             try
@@ -26,7 +26,7 @@ namespace DotNet8.PosBackendApi.Features.Dashboard
                     new ReturnModel
                     {
                         Token = RefreshToken(),
-                        EnumPos = EnumPos.SaleInvoice,
+                        EnumPos = EnumPos.Dashboard,
                         IsSuccess = responseModel.MessageResponse.IsSuccess,
                         Message = responseModel.MessageResponse.Message,
                         Item = new

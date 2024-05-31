@@ -11,7 +11,8 @@ public enum EnumPos
     Township,
     State,
     Tax,
-    Report
+    Report,
+    Dashboard
 }
 
 public enum EnumCodePrefix

@@ -1,0 +1,45 @@
+﻿@page "/dashboard"
+@using DotNet8.PosFrontendBlazor.Models.Dashboard
+@inject IJSRuntime JSRuntime
+
+<div id="container"></div>
+<div id="chart"></div>
+
+@code {
+    private DashboardRequestModel? _requestModel { get; set; } = new();
+    public DashboardResponseModel _responseModel { get; set; } = new();
+    private string? fromDate { get; set; }
+    private string[] _data { get; set; }
+    private string[] _name { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        _requestModel.SaleInvoiceDate = DateTime.Now;
+        _responseModel = await HttpClientService.ExecuteAsync<DashboardResponseModel>($"{Endpoints.Dashboard}", EnumHttpMethod.Post, _requestModel);
+        Console.WriteLine(_responseModel);
+        StateHasChanged();
+        var _data = _responseModel.Data.Dashboard.BestSellerProduct.Select(b => b.ProductName).ToArray();
+        var _name = _responseModel.Data.Dashboard.BestSellerProduct.Select(b => b.TotalQty).ToArray();
+        Console.WriteLine(_data);
+        Console.WriteLine(_name);
+    }
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     // if (firstRender)
+    //     // {
+    //         var response = new
+    //         {
+    //             xData = _name,
+    //             websiteBlogData = _data
+    //         };
+    //         Console.WriteLine(_data);
+    //         Console.WriteLine(_name);
+    //         await InjectService.EnableLoading();
+    //         await JSRuntime.InvokeVoidAsync("setLineColumnChart", response);
+    //         await InjectService.DisableLoading();
+    //     //}
+    //     // var data = _responseModel.Data.BestSellerProduct.Select(b => b.TotalQty).ToArray();
+       
+    // }
+}
