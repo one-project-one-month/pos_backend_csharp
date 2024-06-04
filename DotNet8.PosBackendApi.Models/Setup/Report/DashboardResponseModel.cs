@@ -8,12 +8,12 @@ namespace DotNet8.PosBackendApi.Models.Setup.Report
 {
     public class DashboardResponseModel
     {
-        public List<DailyDashboardModel> DailyData { get; set; }
-        public List<WeeklyDashboardModel> WeeklyData { get; set; }
-        public List<MonthlyDashboardModel> MonthlyData { get; set; }
-        public List<YearlyDashboardModel> YearlyData { get; set; }
-        public List<BestSellerProductDashboardModel> BestProductData { get; set; }
-        public MessageResponseModel MessageResponse { get; set; }
+        public List<DailyDashboardModel> DailyData { get; set; } = new List<DailyDashboardModel>();
+        public List<WeeklyDashboardModel> WeeklyData { get; set; } = new List<WeeklyDashboardModel>();
+        public List<MonthlyDashboardModel> MonthlyData { get; set; } = new List<MonthlyDashboardModel>();
+        public List<YearlyDashboardModel> YearlyData { get; set; } = new List<YearlyDashboardModel>();
+        public List<BestSellerProductDashboardModel> BestProductData { get; set; } = new List<BestSellerProductDashboardModel>();
+        public MessageResponseModel MessageResponse { get; set; } = new MessageResponseModel();
         public PageSettingModel PageSetting { get; set; }
     }
 
