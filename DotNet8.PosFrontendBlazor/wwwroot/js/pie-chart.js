@@ -27,22 +27,17 @@
 
 window.setLineColumnChart = function (response) {
     console.log(response);
-    const xData = response.xData;
-    const websiteBlogData = response.websiteBlogData;
-    const socialMediaData = response.socialMediaData;
+    const productName = response.productName;
+    const quantity = response.quantity;
 
     // [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160]
     // [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16]
     //  ['01 Jan 2001', '02 Jan 2001', '03 Jan 2001', '04 Jan 2001', '05 Jan 2001', '06 Jan 2001', '07 Jan 2001', '08 Jan 2001', '09 Jan 2001', '10 Jan 2001', '11 Jan 2001', '12 Jan 2001']
     var options = {
         series: [{
-            name: 'Website Blog',
+            name: 'Quantity',
             type: 'column',
-            data: websiteBlogData
-        }, {
-            name: 'Social Media',
-            type: 'line',
-            data: socialMediaData
+            data: quantity
         }],
         chart: {
             height: 350,
@@ -52,26 +47,21 @@ window.setLineColumnChart = function (response) {
             width: [0, 4]
         },
         title: {
-            text: 'Traffic Sources'
+            text: 'Best Seller Product List'
         },
         dataLabels: {
             enabled: true,
             enabledOnSeries: [1]
         },
-        labels: xData,
+        labels: productName,
         xaxis: {
-            type: 'datetime'
+            type: 'string'
         },
         yaxis: [{
             title: {
-                text: 'Website Blog',
+                text: 'Quantity',
             },
 
-        }, {
-            opposite: true,
-            title: {
-                text: 'Social Media'
-            }
         }]
     };
 
