@@ -20,13 +20,23 @@ namespace DotNet8.PosFrontendBlazor.Pages.Dashboard
                 var productName = _responseModel.Data.Dashboard.BestSellerProduct.Select(b => b.ProductName).ToList().ToArray();
                 var quantity = _responseModel.Data.Dashboard.BestSellerProduct.Select(b => b.TotalQty).ToList().ToArray();
 
+                var DailySaleInvoiceDate = _responseModel.Data.Dashboard.DailyData.Select(b => b.SaleInvoiceDate).ToList().ToArray();
+                var TotalAmt = _responseModel.Data.Dashboard.DailyData.Select(b => b.Amount).ToList().ToArray();
+                //Console.WriteLine(DailySaleInvoiceDate);
+                //Console.WriteLine(TotalAmt);
+                var DailyResponse = new
+                {
+                    SalesInvoiceDate = DailySaleInvoiceDate,
+                    TotalAmount = TotalAmt
+                };
                 var response = new
                 {
                     productName = productName,
                     quantity = quantity
                 };
                 await InjectService.EnableLoading();
-                await JSRuntime.InvokeVoidAsync("setLineColumnChart", response);
+                //await JSRuntime.InvokeVoidAsync("SetHighPieCharts");
+                await JSRuntime.InvokeVoidAsync("setLineChart", DailyResponse);
                 await InjectService.DisableLoading();
             }
         }

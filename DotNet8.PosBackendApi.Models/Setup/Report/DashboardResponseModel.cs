@@ -20,7 +20,7 @@ namespace DotNet8.PosBackendApi.Models.Setup.Report
     public class DailyDashboardModel
     {
         public DateTime SaleInvoiceDate { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal Amount { get; set; }
     }
 
     public class WeeklyDashboardModel

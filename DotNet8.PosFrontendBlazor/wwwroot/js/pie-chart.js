@@ -70,7 +70,11 @@ window.setLineColumnChart = function (response) {
     chart.render();
 }
 
-window.setLineChart = function () {
+window.setLineChart = function (response) {
+    console.log(response);
+    const ProductName = response.productName;
+    const TotalAmount = response.TotalAmount;
+    console.log(TotalAmount);
     Highcharts.chart('container', {
         chart: {
             type: 'column'
@@ -86,7 +90,7 @@ window.setLineChart = function () {
             align: 'left'
         },
         xAxis: {
-            categories: ['USA', 'China', 'Brazil', 'EU', 'India', 'Russia'],
+            categories: ProductName,
             crosshair: true,
             accessibility: {
                 description: 'Countries'
@@ -109,12 +113,8 @@ window.setLineChart = function () {
         },
         series: [
             {
-                name: 'Corn',
-                data: [406292, 260000, 107000, 68300, 27500, 14500]
-            },
-            {
-                name: 'Wheat',
-                data: [51086, 136000, 5500, 141000, 107180, 77000]
+                name: 'TotalAmt',
+                data: TotalAmount
             }
         ]
     });
