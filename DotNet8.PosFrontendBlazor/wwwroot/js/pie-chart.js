@@ -62,7 +62,8 @@ window.setLineColumnChart = function (response) {
                 text: 'Quantity',
             },
 
-        }]
+        }],
+        colors: ['#00C853']
     };
 
     var chart = new ApexCharts(document.querySelector("#chart"), options);
