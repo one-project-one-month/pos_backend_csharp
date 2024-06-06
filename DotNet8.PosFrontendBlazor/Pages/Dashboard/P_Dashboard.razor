@@ -1,17 +1,39 @@
-﻿@page "/dashboard"
+﻿@page "/"
 @using DotNet8.PosFrontendBlazor.Models.Dashboard
 @using Newtonsoft.Json
 @inject IJSRuntime JSRuntime
 
-<div class="row">
+@* <div class="row">
+    <MudCard Class="d-flex justify-content-md-start">
+        <MudCardContent>
+            <MudText>Story of the day</MudText>
+            <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="MudBlazor.Variant.Text" Color="Color.Primary">Learn More</MudButton>
+        </MudCardActions>
+    </MudCard>
+    <MudCard Class="d-flex justify-content-md-center">
+        <MudCardContent>
+            <MudText>Story of the day</MudText>
+            <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="MudBlazor.Variant.Text" Color="Color.Primary">Learn More</MudButton>
+        </MudCardActions>
+    </MudCard>
+    <MudCard Class="d-flex justify-content-md-end">
+        <MudCardContent>
+            <MudText>Story of the day</MudText>
+            <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="MudBlazor.Variant.Text" Color="Color.Primary">Learn More</MudButton>
+        </MudCardActions>
+    </MudCard>
+</div> *@
 
+<div class="row">
     <div id="chart" style="float:left;width:50%;"></div>
     <div id="lineChart" style="float:right;width:50%;"></div>
-
-    @* <div style="float:left;width:50%;">
-        <div id="chart"></div>
-    </div>
-    <div style="float:right;width:50%;">
-        <div id="lineChart"></div>
-    </div> *@
 </div>
