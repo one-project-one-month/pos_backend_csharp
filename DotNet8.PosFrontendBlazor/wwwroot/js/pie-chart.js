@@ -23,7 +23,7 @@
 
     var chart = new ApexCharts(document.querySelector("#chart"), options);
     chart.render();
-}     
+}
 
 window.setLineColumnChart = function (response) {
     console.log(response);
@@ -70,53 +70,51 @@ window.setLineColumnChart = function (response) {
     chart.render();
 }
 
-window.setLineChart = function (response) {
-    console.log(response);
-    const ProductName = response.productName;
-    const TotalAmount = response.TotalAmount;
-    console.log(TotalAmount);
-    Highcharts.chart('container', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Corn vs wheat estimated production for 2020',
-            align: 'left'
-        },
-        subtitle: {
-            text:
-                'Source: <a target="_blank" ' +
-                'href="https://www.indexmundi.com/agriculture/?commodity=corn">indexmundi</a>',
-            align: 'left'
-        },
-        xAxis: {
-            categories: ProductName,
-            crosshair: true,
-            accessibility: {
-                description: 'Countries'
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: '1000 metric tons (MT)'
-            }
-        },
-        tooltip: {
-            valueSuffix: ' (1000 MT)'
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
+window.setFunnelChart = function (dailyResponse) {
+    const saleInvoiceDate = dailyResponse.salesInvoiceDate;
+    const totalAmount = dailyResponse.totalAmount;
+
+    var options = {
         series: [
             {
-                name: 'TotalAmt',
-                data: TotalAmount
-            }
-        ]
-    });
+                name: "Total Amount",
+                data: totalAmount,
+            },
+        ],
+        chart: {
+            type: 'bar',
+            height: 350,
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 0,
+                horizontal: true,
+                barHeight: '80%',
+                isFunnel: true,
+            },
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opt) {
+                return opt.w.globals.labels[opt.dataPointIndex] + ':  ' + val
+            },
+            dropShadow: {
+                enabled: true,
+            },
+        },
+        title: {
+            text: 'Weekly Sale',
+            align: 'middle',
+        },
+        xaxis: {
+            categories: saleInvoiceDate,
+        },
+        legend: {
+            show: false,
+        },
+        colors: ['#00C853', '#00C853']
+    };
 
+    var chart = new ApexCharts(document.querySelector("#lineChart"), options);
+    chart.render();
 }
