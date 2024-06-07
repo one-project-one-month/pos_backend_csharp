@@ -6,8 +6,8 @@ namespace DotNet8.PosFrontendBlazor.Pages.Dashboard
 {
     public partial class P_Dashboard
     {
-        private DashboardRequestModel? _requestModel { get; set; } = new();
-        public DashboardResponseModel _responseModel { get; set; } = new();
+        private DashboardRequestModel? _requestModel { get; set; } = new DashboardRequestModel();
+        public DashboardResponseModel _responseModel { get; set; } = new DashboardResponseModel();
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
