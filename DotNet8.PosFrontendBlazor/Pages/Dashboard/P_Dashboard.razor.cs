@@ -8,6 +8,10 @@ namespace DotNet8.PosFrontendBlazor.Pages.Dashboard
     {
         private DashboardRequestModel? _requestModel { get; set; } = new DashboardRequestModel();
         public DashboardResponseModel _responseModel { get; set; } = new DashboardResponseModel();
+        public string _yearlyDate { get; set; }
+        public string _yearlyAmount { get; set; }
+        public string _dailyDate { get; set; }
+        public string _dailyAmount { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -17,6 +21,14 @@ namespace DotNet8.PosFrontendBlazor.Pages.Dashboard
                 _responseModel = await HttpClientService.ExecuteAsync<DashboardResponseModel>($"{Endpoints.Dashboard}", EnumHttpMethod.Post, _requestModel);
                 Console.WriteLine(JsonConvert.SerializeObject(_responseModel).ToString());
                 StateHasChanged();
+
+                if (_requestModel != null)
+                {
+                    _yearlyDate = _responseModel?.Data.Dashboard?.YearlyData?.FirstOrDefault()?.Year.ToString("yyyy") ?? string.Empty;
+                    _yearlyAmount = _responseModel?.Data.Dashboard?.YearlyData?.FirstOrDefault()?.Amount.ToString() ?? "0";
+                    _dailyDate = _responseModel?.Data?.Dashboard?.DailyData?.FirstOrDefault()?.SaleInvoiceDate.ToString("dd-MM-yyyy") ?? string.Empty;
+                    _dailyAmount = _responseModel?.Data?.Dashboard?.DailyData?.FirstOrDefault()?.Amount.ToString() ?? "0";
+                }
 
                 var productName = _responseModel.Data.Dashboard.BestSellerProduct.Select(b => b.ProductName).ToList().ToArray();
                 var quantity = _responseModel.Data.Dashboard.BestSellerProduct.Select(b => b.TotalQty).ToList().ToArray();
@@ -33,7 +45,7 @@ namespace DotNet8.PosFrontendBlazor.Pages.Dashboard
                     SalesInvoiceDate = DailySaleInvoiceDate,
                     TotalAmount = TotalAmt
                 };
-                
+
                 await InjectService.EnableLoading();
                 await JSRuntime.InvokeVoidAsync("setLineColumnChart", response);
                 await JSRuntime.InvokeVoidAsync("setFunnelChart", dailyResponse);
