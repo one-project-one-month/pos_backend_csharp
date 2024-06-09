@@ -1,6 +1,6 @@
 {
-  "name": "DotNet8.PosFrontendBlazor",
-  "short_name": "DotNet8.PosFrontendBlazor",
+  "name": "Blazor POS",
+  "short_name": "Blazor POS",
   "id": "./",
   "start_url": "./",
   "display": "standalone",
@@ -9,12 +9,12 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "favicon.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "icon-192.png",
+      "src": "favicon.png",
       "type": "image/png",
       "sizes": "192x192"
     }
