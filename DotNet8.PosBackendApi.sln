@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Documents", "_Documents", 
 		POS.postman_collection.json = POS.postman_collection.json
 		pos_db_script.sql = pos_db_script.sql
 		README.md = README.md
+		scripts.sql = scripts.sql
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet8.PosBackendApi.DbService", "DotNet8.PosBackendApi.DbService\DotNet8.PosBackendApi.DbService.csproj", "{A9050BD4-D63B-42EE-A63E-7E61E7DC0CE1}"
