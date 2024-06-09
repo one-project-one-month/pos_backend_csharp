@@ -5,21 +5,21 @@ public class DashboardResponseModel : ResponseModel
     public string Message { get; set; }
     public string Token { get; set; }
     public bool IsSuccess { get; set; }
-    public Data Data { get; set; }
+    public Data Data { get; set; } = new Data();
 }
 
 public class Data
 {
-    public Dashboard Dashboard { get; set; }
+    public Dashboard Dashboard { get; set; } = new Dashboard();
 }
 
 public class Dashboard
 {
-    public List<DailyDashboardModel> DailyData { get; set; }
-    public List<WeeklyDashboardModel> WeeklyData { get; set; }
-    public List<MonthlyDashboardModel> MonthlyData { get; set; }
-    public List<YearlyDashboardModel> YearlyData { get; set; }
-    public List<BestSellerProduct> BestSellerProduct { get; set; }
+    public List<DailyDashboardModel> DailyData { get; set; } = new List<DailyDashboardModel>();
+    public List<WeeklyDashboardModel> WeeklyData { get; set; } = new List<WeeklyDashboardModel>();
+    public List<MonthlyDashboardModel> MonthlyData { get; set; } = new List<MonthlyDashboardModel>();
+    public List<YearlyDashboardModel> YearlyData { get; set; } = new List<YearlyDashboardModel>();
+    public List<BestSellerProduct> BestSellerProduct { get; set; } = new List<BestSellerProduct>();
 }
 
 public class DailyDashboardModel
