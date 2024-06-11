@@ -22,12 +22,13 @@ namespace DotNet8.PosFrontendBlazor.Pages.Dashboard
                 Console.WriteLine(JsonConvert.SerializeObject(_responseModel).ToString());
                 StateHasChanged();
 
-                if (_requestModel != null)
+                if (_responseModel != null)
                 {
-                    _yearlyDate = _responseModel?.Data.Dashboard?.YearlyData?.FirstOrDefault()?.Year.ToString("yyyy") ?? string.Empty;
+                    _yearlyDate = _responseModel?.Data.Dashboard?.YearlyData?.FirstOrDefault()?.Year.ToString() ?? string.Empty;
                     _yearlyAmount = _responseModel?.Data.Dashboard?.YearlyData?.FirstOrDefault()?.Amount.ToString() ?? "0";
                     _dailyDate = _responseModel?.Data?.Dashboard?.DailyData?.FirstOrDefault()?.SaleInvoiceDate.ToString("dd-MM-yyyy") ?? string.Empty;
                     _dailyAmount = _responseModel?.Data?.Dashboard?.DailyData?.FirstOrDefault()?.Amount.ToString() ?? "0";
+                    Console.WriteLine($"_yearlyDate{_yearlyDate} _yearlyAmount{_yearlyAmount} _dailyDate{_dailyDate} _dailyAmount{_dailyAmount}");
                 }
 
                 var productName = _responseModel.Data.Dashboard.BestSellerProduct.Select(b => b.ProductName).ToList().ToArray();
