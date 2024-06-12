@@ -7,8 +7,59 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DotNet8.PosBackendApi.Shared\DotNet8.PosBackendApi.Shared.csproj" />
     <ProjectReference Include="..\DotNet8.Pos.App.Client\DotNet8.Pos.App.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.5" />
+    <PackageReference Include="MudBlazor" Version="6.19.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Radzen.Blazor" Version="4.30.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Components\Pages\ApexChart\LineColumnChart.razor" />
+    <AdditionalFiles Include="Components\Pages\ApexChart\PieChart.razor" />
+    <AdditionalFiles Include="Components\Pages\Customer\P_Customer.razor" />
+    <AdditionalFiles Include="Components\Pages\Customer\P_CustomerDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Customer\P_DeleteCustomerDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Dashboard\P_Dashboard.razor" />
+    <AdditionalFiles Include="Components\Pages\HighChart\ColumnChart.razor" />
+    <AdditionalFiles Include="Components\Pages\ProductCategory\P_ProductCategory.razor" />
+    <AdditionalFiles Include="Components\Pages\ProductCategory\P_ProductCategoryDeleteDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\ProductCategory\P_ProductCategoryDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\ProductCategory\P_ProductCategoryEditDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Product\P_Product.razor" />
+    <AdditionalFiles Include="Components\Pages\Product\P_ProductDeleteDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Product\P_ProductDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Product\P_ProductEditDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Report\P_Report.razor" />
+    <AdditionalFiles Include="Components\Pages\SaleInvoice\P_CheckOut.razor" />
+    <AdditionalFiles Include="Components\Pages\SaleInvoice\P_SaleInvoice.razor" />
+    <AdditionalFiles Include="Components\Pages\SaleInvoice\P_SaleInvoiceDetailDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\SaleInvoice\P_SaleInvoiceList.razor" />
+    <AdditionalFiles Include="Components\Pages\SaleInvoice\P_SaleReceipt.razor" />
+    <AdditionalFiles Include="Components\Pages\Sale\P_Sale.razor" />
+    <AdditionalFiles Include="Components\Pages\Shop\P_Shop.razor" />
+    <AdditionalFiles Include="Components\Pages\Shop\P_ShopDeleteDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Shop\P_ShopDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Shop\P_ShopEditDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Staff\P_DeleteStaffDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Staff\P_Staff.razor" />
+    <AdditionalFiles Include="Components\Pages\Staff\P_StaffDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\State\P_State.razor" />
+    <AdditionalFiles Include="Components\Pages\State\P_StateDeleteDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\State\P_StateDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Tax\P_CreateTaxDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Tax\P_DeleteTaxDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Tax\P_EditTaxDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Tax\P_Tax.razor" />
+    <AdditionalFiles Include="Components\Pages\Township\P_Township.razor" />
+    <AdditionalFiles Include="Components\Pages\Township\P_TownshipDeleteDialog.razor" />
+    <AdditionalFiles Include="Components\Pages\Township\P_TownshipDialog.razor" />
   </ItemGroup>
 
 </Project>

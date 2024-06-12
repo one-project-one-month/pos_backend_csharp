@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.SaleInvoice;
+﻿namespace DotNet8.Pos.App.Models.SaleInvoice;
 
 public class SaleInvoiceDataModel
 {

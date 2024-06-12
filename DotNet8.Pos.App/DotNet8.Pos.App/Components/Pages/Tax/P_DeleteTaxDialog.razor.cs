@@ -1,6 +1,6 @@
-﻿using DotNet8.PosFrontendBlazor.Models.Tax;
+﻿using DotNet8.Pos.App.Models.Tax;
 
-namespace DotNet8.PosFrontendBlazor.Pages.Tax;
+namespace DotNet8.Pos.App.Components.Pages.Tax;
 
 public partial class P_DeleteTaxDialog
 {

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.ProductCategory;
+﻿namespace DotNet8.Pos.App.Models.ProductCategory;
 
 public class ProductCategoryModel
 {

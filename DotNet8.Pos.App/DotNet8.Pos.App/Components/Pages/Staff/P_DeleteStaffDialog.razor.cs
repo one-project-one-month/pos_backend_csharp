@@ -1,6 +1,6 @@
-﻿using DotNet8.PosFrontendBlazor.Models.Staff;
+﻿using DotNet8.Pos.App.Models.Staff;
 
-namespace DotNet8.PosFrontendBlazor.Pages.Staff;
+namespace DotNet8.Pos.App.Components.Pages.Staff;
 
 public partial class P_DeleteStaffDialog
 {

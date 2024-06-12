@@ -9,3 +9,28 @@
 @using DotNet8.Pos.App
 @using DotNet8.Pos.App.Client
 @using DotNet8.Pos.App.Components
+@using System.Net.Http
+@using System.Net.Http.Json
+@using DotNet8.Pos.App.Services
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.JSInterop
+@using DotNet8.Pos
+@using MudBlazor
+@using Radzen
+@using Radzen.Blazor
+@using DotNet8.PosBackendApi.Shared
+@using DotNet8.Pos.App.Components.Layout
+@using DotNet8.Pos.App.Models.Staff;
+@using DotNet8.PosBackendApi.Shared;
+
+
+@inject HttpClientService HttpClientService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject InjectService InjectService
+@inject NavigationManager Nav
+@inject IJSRuntime JSRuntime

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Product;
+﻿namespace DotNet8.Pos.App.Models.Product;
 
 public class ProductResponseModel : ResponseModel
 {

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Customer;
+﻿namespace DotNet8.Pos.App.Models.Customer;
 
 public class CustomerParamsModel(int customerID, 
     string customerName, 

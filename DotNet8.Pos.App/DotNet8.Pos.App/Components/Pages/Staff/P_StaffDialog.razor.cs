@@ -1,8 +1,9 @@
-using DotNet8.PosFrontendBlazor.Models.Staff;
-using Microsoft.JSInterop;
-using Newtonsoft.Json;
 
-namespace DotNet8.PosFrontendBlazor.Pages.Staff;
+
+using DotNet8.Pos.App.Models.Staff;
+using DotNet8.PosBackendApi.Shared;
+
+namespace DotNet8.Pos.App.Components.Pages.Staff;
 
 public partial class P_StaffDialog
 {

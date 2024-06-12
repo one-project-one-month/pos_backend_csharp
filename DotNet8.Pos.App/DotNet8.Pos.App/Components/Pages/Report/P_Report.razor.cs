@@ -1,10 +1,6 @@
-﻿using DotNet8.PosBackendApi.Models;
-using DotNet8.PosFrontendBlazor.Models;
-using DotNet8.PosFrontendBlazor.Models.Report;
-using MudBlazor;
-using Radzen;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-namespace DotNet8.PosFrontendBlazor.Pages.Report;
+﻿using DotNet8.Pos.App.Models.Report;
+
+namespace DotNet8.Pos.App.Components.Pages.Report;
 
 public partial class P_Report
 {

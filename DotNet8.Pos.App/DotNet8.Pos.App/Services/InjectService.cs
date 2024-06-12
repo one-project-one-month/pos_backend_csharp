@@ -1,7 +1,4 @@
-﻿using DotNet8.PosFrontendBlazor.Pages.Staff;
-using Microsoft.JSInterop;
-
-namespace DotNet8.PosFrontendBlazor.Services;
+﻿namespace DotNet8.Pos.App.Services;
 
 public class InjectService
 {

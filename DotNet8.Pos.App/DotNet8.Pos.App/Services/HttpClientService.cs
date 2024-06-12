@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System.Text;
+﻿using System.Text;
+using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace DotNet8.PosFrontendBlazor.Services;
+namespace DotNet8.Pos.App.Services;
 
 public class HttpClientService
 {

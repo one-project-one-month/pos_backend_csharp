@@ -1,7 +1,6 @@
-﻿using DotNet8.PosFrontendBlazor.Models.Product;
-using DotNet8.PosFrontendBlazor.Models.Shop;
+﻿using DotNet8.Pos.App.Models.Shop;
 
-namespace DotNet8.PosFrontendBlazor.Pages.Shop;
+namespace DotNet8.Pos.App.Components.Pages.Shop;
 
 public partial class P_ShopEditDialog
 {

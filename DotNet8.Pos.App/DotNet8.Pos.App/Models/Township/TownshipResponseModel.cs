@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Township;
+﻿namespace DotNet8.Pos.App.Models.Township;
 
 public class TownshipResponseModel : ResponseModel
 {

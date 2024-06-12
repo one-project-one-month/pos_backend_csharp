@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Report;
+﻿namespace DotNet8.Pos.App.Models.Report;
 
 public class ReportDataModel
 {

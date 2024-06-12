@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models;
+﻿namespace DotNet8.Pos.App.Models;
 
 public class ResponseModel
 {
@@ -7,4 +7,5 @@ public class ResponseModel
     public bool IsSuccess { get; set; }
     public bool IsError => !IsSuccess;
     public string Message { get; set; }
+    // public PageSettingModel PageSetting { get; set; }
 }

@@ -1,7 +1,6 @@
-﻿using DotNet8.PosFrontendBlazor.Models.SaleInvoice;
-using Newtonsoft.Json;
+﻿using DotNet8.Pos.App.Models.SaleInvoice;
 
-namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice;
+namespace DotNet8.Pos.App.Components.Pages.SaleInvoice;
 
 public partial class P_SaleInvoiceDetailDialog
 {

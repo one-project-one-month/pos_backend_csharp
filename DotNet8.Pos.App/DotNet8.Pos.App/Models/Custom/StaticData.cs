@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Custom;
+﻿namespace DotNet8.Pos.App.Models.Custom;
 
 public class StaticData
 {

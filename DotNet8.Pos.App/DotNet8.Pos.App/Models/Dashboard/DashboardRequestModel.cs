@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Dashboard;
+﻿namespace DotNet8.Pos.App.Models.Dashboard;
 
 public class DashboardRequestModel
 {

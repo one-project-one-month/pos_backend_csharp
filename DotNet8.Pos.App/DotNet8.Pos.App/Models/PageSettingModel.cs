@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models;
+﻿namespace DotNet8.Pos.App.Models;
 
 public class PageSettingModel
 {

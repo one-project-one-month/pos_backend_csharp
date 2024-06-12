@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Services;
+﻿namespace DotNet8.Pos.App.Services;
 
 public static class Endpoints
 {

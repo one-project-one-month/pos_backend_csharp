@@ -1,6 +1,4 @@
-﻿using DotNet8.PosFrontendBlazor.Models.State;
-
-namespace DotNet8.PosFrontendBlazor.Pages.State;
+﻿namespace DotNet8.Pos.App.Components.Pages.State;
 
 public partial class P_StateDialog
 {

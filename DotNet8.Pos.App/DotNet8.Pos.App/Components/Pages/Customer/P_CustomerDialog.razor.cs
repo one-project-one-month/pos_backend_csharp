@@ -1,8 +1,4 @@
-﻿using DotNet8.PosFrontendBlazor.Models.Customer;
-using DotNet8.PosFrontendBlazor.Models.State;
-using Radzen.Blazor;
-
-namespace DotNet8.PosFrontendBlazor.Pages.Customer;
+﻿namespace DotNet8.Pos.App.Components.Pages.Customer;
 
 public partial class P_CustomerDialog
 {

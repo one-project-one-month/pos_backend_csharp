@@ -1,8 +1,7 @@
-﻿using DotNet8.PosFrontendBlazor.Models.Dashboard;
-using Microsoft.JSInterop;
+﻿using DotNet8.Pos.App.Models.Dashboard;
 using Newtonsoft.Json;
 
-namespace DotNet8.PosFrontendBlazor.Pages.Dashboard;
+namespace DotNet8.Pos.App.Components.Pages.Dashboard;
 
 public partial class P_Dashboard
 {

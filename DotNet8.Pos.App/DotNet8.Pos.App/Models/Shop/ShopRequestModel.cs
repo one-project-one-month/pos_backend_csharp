@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Shop;
+﻿namespace DotNet8.Pos.App.Models.Shop;
 
 public class ShopRequestModel
 {

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Tax;
+﻿namespace DotNet8.Pos.App.Models.Tax;
 
 public class TaxModel
 {

@@ -1,8 +1,4 @@
-﻿using DotNet8.PosFrontendBlazor.Models.State;
-using Newtonsoft.Json;
-using System.Reflection;
-
-namespace DotNet8.PosFrontendBlazor.Pages.Township;
+﻿namespace DotNet8.Pos.App.Components.Pages.Township;
 
 public partial class P_TownshipDialog
 {

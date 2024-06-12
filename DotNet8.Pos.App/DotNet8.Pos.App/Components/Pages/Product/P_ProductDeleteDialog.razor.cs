@@ -1,6 +1,4 @@
-﻿using DotNet8.PosFrontendBlazor.Models.Product;
-
-namespace DotNet8.PosFrontendBlazor.Pages.Product;
+﻿namespace DotNet8.Pos.App.Components.Pages.Product;
 
 public partial class P_ProductDeleteDialog
 {

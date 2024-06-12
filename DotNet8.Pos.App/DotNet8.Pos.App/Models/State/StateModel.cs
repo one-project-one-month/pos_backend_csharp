@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.State;
+﻿namespace DotNet8.Pos.App.Models.State;
 
 public class StateModel
 {

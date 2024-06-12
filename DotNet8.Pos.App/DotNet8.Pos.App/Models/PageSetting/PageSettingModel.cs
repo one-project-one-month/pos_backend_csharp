@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.PageSetting;
+﻿namespace DotNet8.Pos.App.Models.PageSetting;
 
 public class PageSettingModel(int pageNo, int pageSize, int pageCount, int totalCount)
 {

@@ -1,6 +1,6 @@
 ﻿using DotNet8.PosBackendApi.Models;
 
-namespace DotNet8.PosFrontendBlazor.Models.Tax;
+namespace DotNet8.Pos.App.Models.Tax;
 
 public class TaxListResponseModel
 {

@@ -1,7 +1,7 @@
-﻿using DotNet8.PosFrontendBlazor.Models.Tax;
-using static DotNet8.PosFrontendBlazor.Pages.Tax.P_CreateTaxDialog;
+﻿using DotNet8.Pos.App.Models.Tax;
+using static DotNet8.Pos.App.Components.Pages.Tax.P_CreateTaxDialog;
 
-namespace DotNet8.PosFrontendBlazor.Pages.Tax;
+namespace DotNet8.Pos.App.Components.Pages.Tax;
 
 public partial class P_EditTaxDialog
 {
