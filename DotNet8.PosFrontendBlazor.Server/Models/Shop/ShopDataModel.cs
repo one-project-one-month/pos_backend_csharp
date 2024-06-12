@@ -1,7 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Server.Models.Shop
+﻿namespace DotNet8.PosFrontendBlazor.Server.Models.Shop;
+
+public class ShopDataModel
 {
-    public class ShopDataModel
-    {
-        public List<ShopModel> Shop { get; set; } 
-    }
+    public List<ShopModel> Shop { get; set; } 
 }

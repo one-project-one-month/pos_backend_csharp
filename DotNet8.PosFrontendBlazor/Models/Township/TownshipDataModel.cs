@@ -1,7 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Township
+﻿namespace DotNet8.PosFrontendBlazor.Models.Township;
+
+public class TownshipDataModel
 {
-    public class TownshipDataModel
-    {
-        public List<TownshipModel> Township { get; set; } = new List<TownshipModel>();
-    }
+    public List<TownshipModel> Township { get; set; } = new List<TownshipModel>();
 }

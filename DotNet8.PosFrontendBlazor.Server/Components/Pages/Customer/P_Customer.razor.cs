@@ -1,9 +1,6 @@
 ﻿using DotNet8.PosFrontendBlazor.Server.Models.Customer;
-using DotNet8.PosFrontendBlazor.Server.Models.State;
-using DotNet8.PosFrontendBlazor.Server.Models.Township;
-using DotNet8.PosFrontendBlazor.Server.Services;
 
-namespace DotNet8.PosFrontendBlazor.Server.Pages.Customer;
+namespace DotNet8.PosFrontendBlazor.Server.Components.Pages.Customer;
 
 public partial class P_Customer
 {

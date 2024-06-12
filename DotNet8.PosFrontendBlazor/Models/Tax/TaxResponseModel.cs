@@ -1,7 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Tax
+﻿namespace DotNet8.PosFrontendBlazor.Models.Tax;
+
+public class TaxResponseModel : ResponseModel
 {
-    public class TaxResponseModel : ResponseModel
-    {
-        public TaxModel Data { get; set; }
-    }
+    public TaxModel Data { get; set; }
 }

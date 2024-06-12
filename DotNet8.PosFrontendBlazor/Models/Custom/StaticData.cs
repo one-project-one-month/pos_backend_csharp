@@ -1,24 +1,23 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Custom
-{
-    public class StaticData
-    {
-        public static List<KeyValueModel> Gender()
-        {
-            return new List<KeyValueModel>()
-            {
-                new("0", "--Select One--"),
-                new("Male", "Male"),
-                new("Female", "Female"),
-            };
-        }
+﻿namespace DotNet8.PosFrontendBlazor.Models.Custom;
 
-        public static List<KeyValueModel> TaxType()
+public class StaticData
+{
+    public static List<KeyValueModel> Gender()
+    {
+        return new List<KeyValueModel>()
         {
-            return new List<KeyValueModel>()
-            {
-                new("Percentage", "Percentage"),
-                new("Fixed", "Fixed"),
-            };
-        }
+            new("0", "--Select One--"),
+            new("Male", "Male"),
+            new("Female", "Female"),
+        };
+    }
+
+    public static List<KeyValueModel> TaxType()
+    {
+        return new List<KeyValueModel>()
+        {
+            new("Percentage", "Percentage"),
+            new("Fixed", "Fixed"),
+        };
     }
 }

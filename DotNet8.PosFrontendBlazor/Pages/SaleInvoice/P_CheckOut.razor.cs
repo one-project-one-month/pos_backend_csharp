@@ -1,67 +1,66 @@
 ﻿using DotNet8.PosFrontendBlazor.Models.SaleInvoice;
 using Newtonsoft.Json;
 
-namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice
+namespace DotNet8.PosFrontendBlazor.Pages.SaleInvoice;
+
+public partial class P_CheckOut
 {
-    public partial class P_CheckOut
+    [Parameter]
+    public List<SaleInvoiceDetailModel> SaleInvoiceDetails { get; set; } = new List<SaleInvoiceDetailModel>();
+
+    private SaleInvoiceModel? reqModel = new SaleInvoiceModel();
+
+    private EnumSaleInvoiceFormType saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
+
+    protected override void OnParametersSet()
     {
-        [Parameter]
-        public List<SaleInvoiceDetailModel> SaleInvoiceDetails { get; set; } = new List<SaleInvoiceDetailModel>();
+        reqModel.PaymentAmount = SaleInvoiceDetails.Sum(x => x.Amount);
+    }
+    private void IncreaseCount(SaleInvoiceDetailModel requestModel)
+    {
+        requestModel.Quantity += 1;
+        SaleInvoiceDetails!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity = requestModel.Quantity; ;
+        SaleInvoiceDetails!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Amount = (requestModel.Price * requestModel.Quantity);
+    }
 
-        private SaleInvoiceModel? reqModel = new SaleInvoiceModel();
-
-        private EnumSaleInvoiceFormType saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
-
-        protected override void OnParametersSet()
+    private void DecreaseCount(SaleInvoiceDetailModel requestModel, int quantity)
+    {
+        if (requestModel.Quantity > 0)
         {
-            reqModel.PaymentAmount = SaleInvoiceDetails.Sum(x => x.Amount);
-        }
-        private void IncreaseCount(SaleInvoiceDetailModel requestModel)
-        {
-            requestModel.Quantity += 1;
-            SaleInvoiceDetails!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity = requestModel.Quantity; ;
+            requestModel.Quantity -= quantity;
+            SaleInvoiceDetails!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity = requestModel.Quantity;
             SaleInvoiceDetails!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Amount = (requestModel.Price * requestModel.Quantity);
         }
+    }
 
-        private void DecreaseCount(SaleInvoiceDetailModel requestModel, int quantity)
+    private async void Pay()
+    {
+        reqModel.SaleInvoiceDetails = SaleInvoiceDetails;
+        reqModel.SaleInvoiceDateTime = DateTime.Now;
+        reqModel.TotalAmount = SaleInvoiceDetails.Sum(x => x.Amount);
+        reqModel.StaffCode = "S_001";
+        reqModel.PaymentType = "KBZPay";
+
+        var response = await HttpClientService.ExecuteAsync<SaleInvoiceResponseModel>(
+            Endpoints.SaleInvoice,
+            EnumHttpMethod.Post,
+            reqModel
+        );
+        if (response.IsError)
         {
-            if (requestModel.Quantity > 0)
-            {
-                requestModel.Quantity -= quantity;
-                SaleInvoiceDetails!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Quantity = requestModel.Quantity;
-                SaleInvoiceDetails!.Where(x => x.ProductCode == requestModel.ProductCode).FirstOrDefault()!.Amount = (requestModel.Price * requestModel.Quantity);
-            }
+            InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+            saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
+            return;
         }
 
-        private async void Pay()
-        {
-            reqModel.SaleInvoiceDetails = SaleInvoiceDetails;
-            reqModel.SaleInvoiceDateTime = DateTime.Now;
-            reqModel.TotalAmount = SaleInvoiceDetails.Sum(x => x.Amount);
-            reqModel.StaffCode = "S_001";
-            reqModel.PaymentType = "KBZPay";
+        InjectService.ShowMessage(response.Message, EnumResponseType.Success);
 
-            var response = await HttpClientService.ExecuteAsync<SaleInvoiceResponseModel>(
-                Endpoints.SaleInvoice,
-                EnumHttpMethod.Post,
-                reqModel
-                );
-            if (response.IsError)
-            {
-                InjectService.ShowMessage(response.Message, EnumResponseType.Error);
-                saleInvoiceFormType = EnumSaleInvoiceFormType.Checkout;
-                return;
-            }
+        string VoucherNo = response.Data.SaleInvoice.VoucherNo.ToString();
+        Nav.NavigateTo($"/sale-receipt/{VoucherNo}");
+    }
 
-            InjectService.ShowMessage(response.Message, EnumResponseType.Success);
-
-            string VoucherNo = response.Data.SaleInvoice.VoucherNo.ToString();
-            Nav.NavigateTo($"/sale-receipt/{VoucherNo}");
-        }
-
-        private void Back()
-        {
-            saleInvoiceFormType = EnumSaleInvoiceFormType.SaleProduct;
-        }
+    private void Back()
+    {
+        saleInvoiceFormType = EnumSaleInvoiceFormType.SaleProduct;
     }
 }

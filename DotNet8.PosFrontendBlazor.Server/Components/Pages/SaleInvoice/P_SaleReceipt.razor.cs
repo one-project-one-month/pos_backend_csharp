@@ -1,7 +1,6 @@
 ﻿using DotNet8.PosFrontendBlazor.Server.Models.SaleInvoice;
-using DotNet8.PosFrontendBlazor.Server.Services;
 
-namespace DotNet8.PosFrontendBlazor.Server.Pages.SaleInvoice;
+namespace DotNet8.PosFrontendBlazor.Server.Components.Pages.SaleInvoice;
 
 public partial class P_SaleReceipt
 {

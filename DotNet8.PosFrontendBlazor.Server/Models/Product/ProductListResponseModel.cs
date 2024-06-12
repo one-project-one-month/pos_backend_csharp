@@ -1,9 +1,8 @@
-﻿namespace DotNet8.PosFrontendBlazor.Server.Models.Product
-{
-    public class ProductListResponseModel : ResponseModel
-    {
-        public ProductDataModel Data { get; set; }
+﻿namespace DotNet8.PosFrontendBlazor.Server.Models.Product;
 
-        public PageSettingModel PageSetting { get; set; }
-    }
+public class ProductListResponseModel : ResponseModel
+{
+    public ProductDataModel Data { get; set; }
+
+    public PageSettingModel PageSetting { get; set; }
 }

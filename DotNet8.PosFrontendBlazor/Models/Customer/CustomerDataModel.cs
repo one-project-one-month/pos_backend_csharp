@@ -1,7 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Customer
+﻿namespace DotNet8.PosFrontendBlazor.Models.Customer;
+
+public class CustomerDataModel
 {
-    public class CustomerDataModel
-    {
-        public List<CustomerModel> Customer { get; set; }
-    }
+    public List<CustomerModel> Customer { get; set; }
 }

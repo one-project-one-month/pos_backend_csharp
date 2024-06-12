@@ -1,7 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Server.Models.Report
+﻿namespace DotNet8.PosFrontendBlazor.Server.Models.Report;
+
+public class ReportResponseModel : ResponseModel
 {
-    public class ReportResponseModel : ResponseModel
-    {
-        public ReportModel Report { get; set; }
-    }
+    public ReportModel Report { get; set; }
 }

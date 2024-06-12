@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotNet8.PosBackendApi.Models.Setup.Report
+namespace DotNet8.PosBackendApi.Models.Setup.Report;
+
+public class ReportModel
 {
-    public class ReportModel
-    {
-        public DateTime SaleInvoiceDate { get; set; }
-        public decimal TotalAmount { get; set; }
-    }
+    public DateTime SaleInvoiceDate { get; set; }
+    public decimal TotalAmount { get; set; }
 }

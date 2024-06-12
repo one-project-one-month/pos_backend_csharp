@@ -1,8 +1,7 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.SaleInvoice
+﻿namespace DotNet8.PosFrontendBlazor.Models.SaleInvoice;
+
+public class SaleInvoiceListResponseModel
 {
-    public class SaleInvoiceListResponseModel
-    {
-        public SaleInvoiceDataModel Data { get; set; } = new SaleInvoiceDataModel();
-        public PageSettingModel PageSetting { get; set; }
-    }
+    public SaleInvoiceDataModel Data { get; set; } = new SaleInvoiceDataModel();
+    public PageSettingModel PageSetting { get; set; }
 }

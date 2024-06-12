@@ -1,7 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Staff
+﻿namespace DotNet8.PosFrontendBlazor.Models.Staff;
+
+public class StaffDataModel
 {
-    public class StaffDataModel
-    {
-        public List<StaffModel> Staff { get; set; }
-    }
+    public List<StaffModel> Staff { get; set; }
 }

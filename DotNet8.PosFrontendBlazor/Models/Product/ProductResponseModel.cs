@@ -1,7 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Models.Product
+﻿namespace DotNet8.PosFrontendBlazor.Models.Product;
+
+public class ProductResponseModel : ResponseModel
 {
-    public class ProductResponseModel : ResponseModel
-    {
-        public ProductModel Product { get; set; }
-    }
+    public ProductModel Product { get; set; }
 }

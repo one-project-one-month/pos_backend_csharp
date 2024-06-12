@@ -1,50 +1,49 @@
 ﻿using DotNet8.PosFrontendBlazor.Models.Product;
 using DotNet8.PosFrontendBlazor.Models.ProductCategory;
 
-namespace DotNet8.PosFrontendBlazor.Pages.ProductCategory
-{
-    public partial class P_ProductCategoryEditDialog
-    {
-        [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+namespace DotNet8.PosFrontendBlazor.Pages.ProductCategory;
 
-        [Parameter] public ProductCategoryRequestModel reqModel { get; set; } = new();
-        void Cancel() => MudDialog?.Cancel();
-        private async Task SaveAsync()
+public partial class P_ProductCategoryEditDialog
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public ProductCategoryRequestModel reqModel { get; set; } = new();
+    void Cancel() => MudDialog?.Cancel();
+    private async Task SaveAsync()
+    {
+        if (validate())
         {
-            if (validate())
-            {
-                var response = await HttpClientService.ExecuteAsync<ProductResponseModel>(
+            var response = await HttpClientService.ExecuteAsync<ProductResponseModel>(
                 Endpoints.ProductCategory + $"/{reqModel.ProductCategoryId}",
                 EnumHttpMethod.Patch,
                 reqModel
             );
-                if (response.IsError)
-                {
-                    InjectService.ShowMessage(response.Message, EnumResponseType.Error);
-                    return;
-                }
+            if (response.IsError)
+            {
+                InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+                return;
+            }
 
-                InjectService.ShowMessage(response.Message, EnumResponseType.Success);
-                MudDialog.Close();
-            }
+            InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+            MudDialog.Close();
         }
-        private bool validate()
+    }
+    private bool validate()
+    {
+        if (string.IsNullOrEmpty(reqModel.ProductCategoryName))
         {
-            if (string.IsNullOrEmpty(reqModel.ProductCategoryName))
-            {
-                ShowWarningMessage("Product Name is required.");
-                return false;
-            }
-            if (string.IsNullOrEmpty(reqModel.ProductCategoryCode))
-            {
-                ShowWarningMessage("Product Category Code is required.");
-                return false;
-            }            
-            return true;
+            ShowWarningMessage("Product Name is required.");
+            return false;
         }
-        private void ShowWarningMessage(string message)
+        if (string.IsNullOrEmpty(reqModel.ProductCategoryCode))
         {
-            InjectService.ShowMessage(message, EnumResponseType.Warning);
-        }
+            ShowWarningMessage("Product Category Code is required.");
+            return false;
+        }            
+        return true;
+    }
+    private void ShowWarningMessage(string message)
+    {
+        InjectService.ShowMessage(message, EnumResponseType.Warning);
     }
 }

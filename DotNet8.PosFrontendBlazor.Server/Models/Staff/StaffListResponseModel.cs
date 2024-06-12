@@ -1,8 +1,7 @@
-﻿namespace DotNet8.PosFrontendBlazor.Server.Models.Staff
+﻿namespace DotNet8.PosFrontendBlazor.Server.Models.Staff;
+
+public class StaffListResponseModel : ResponseModel
 {
-    public class StaffListResponseModel : ResponseModel
-    {
-        public StaffDataModel Data { get; set; }
-        public PageSettingModel PageSetting { get; set; }
-    }
+    public StaffDataModel Data { get; set; }
+    public PageSettingModel PageSetting { get; set; }
 }

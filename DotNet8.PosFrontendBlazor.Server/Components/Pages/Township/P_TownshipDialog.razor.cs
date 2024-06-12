@@ -1,62 +1,57 @@
-﻿using DotNet8.PosFrontendBlazor.Server.Models.State;
-using DotNet8.PosFrontendBlazor.Server.Models.Township;
-using DotNet8.PosFrontendBlazor.Server.Services;
+﻿namespace DotNet8.PosFrontendBlazor.Server.Components.Pages.Township;
 
-namespace DotNet8.PosFrontendBlazor.Server.Pages.Township
+public partial class P_TownshipDialog
 {
-    public partial class P_TownshipDialog
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public TownshipModel model { get; set; }
+
+    private TownshipModel reqModel = new TownshipModel();
+
+    private StateListResponseModel lstStateCode = new StateListResponseModel();
+
+    protected override async void OnInitialized()
     {
-        [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-        [Parameter] public TownshipModel model { get; set; }
+        lstStateCode = await HttpClientService.ExecuteAsync<StateListResponseModel>(
+            Endpoints.State,
+            EnumHttpMethod.Get);
+    }
 
-        private TownshipModel reqModel = new TownshipModel();
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
 
-        private StateListResponseModel lstStateCode = new StateListResponseModel();
-
-        protected override async void OnInitialized()
+    private async Task SaveAsync()
+    {
+        var response = await HttpClientService.ExecuteAsync<TownshipResponseModel>(
+            Endpoints.Township,
+            EnumHttpMethod.Post,
+            reqModel
+        );
+        if (response.IsError)
         {
-            lstStateCode = await HttpClientService.ExecuteAsync<StateListResponseModel>(
-                Endpoints.State,
-                EnumHttpMethod.Get);
+            InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+            return;
         }
 
-        private void Cancel()
+        InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+        MudDialog.Close();
+    }
+
+    private async Task EditAsync()
+    {
+        var response = await HttpClientService.ExecuteAsync<TownshipResponseModel>(
+            $"{Endpoints.Township}/{model.TownshipId}",
+            EnumHttpMethod.Patch,
+            model
+        );
+        if (response.IsError)
         {
-            MudDialog.Cancel();
+            InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+            return;
         }
 
-        private async Task SaveAsync()
-        {
-            var response = await HttpClientService.ExecuteAsync<TownshipResponseModel>(
-                Endpoints.Township,
-                EnumHttpMethod.Post,
-                reqModel
-                );
-            if (response.IsError)
-            {
-                InjectService.ShowMessage(response.Message, EnumResponseType.Error);
-                return;
-            }
-
-            InjectService.ShowMessage(response.Message, EnumResponseType.Success);
-            MudDialog.Close();
-        }
-
-        private async Task EditAsync()
-        {
-            var response = await HttpClientService.ExecuteAsync<TownshipResponseModel>(
-                    $"{Endpoints.Township}/{model.TownshipId}",
-                    EnumHttpMethod.Patch,
-                    model
-                    );
-            if (response.IsError)
-            {
-                InjectService.ShowMessage(response.Message, EnumResponseType.Error);
-                return;
-            }
-
-            InjectService.ShowMessage(response.Message, EnumResponseType.Success);
-            MudDialog.Close();
-        }
+        InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+        MudDialog.Close();
     }
 }

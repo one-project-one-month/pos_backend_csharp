@@ -1,7 +1,6 @@
-﻿namespace DotNet8.PosFrontendBlazor.Server.Models.State
+﻿namespace DotNet8.PosFrontendBlazor.Server.Models.State;
+
+public class StateDataModel
 {
-    public class StateDataModel
-    {
-       public List<StateModel> State { get; set; } = new List<StateModel>();
-    }
+    public List<StateModel> State { get; set; } = new List<StateModel>();
 }
