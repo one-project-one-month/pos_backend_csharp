@@ -13,3 +13,6 @@ global using Microsoft.JSInterop;
 global using Newtonsoft.Json;
 global using static System.Net.Mime.MediaTypeNames;
 global using static DotNet8.PosFrontendBlazor.Server.Components.Pages.Tax.P_CreateTaxDialog;
+global using DotNet8.PosFrontendBlazor.Server.Components;
+global using MudBlazor.Services;
+global using Radzen;
