@@ -1,6 +1,4 @@
-﻿using DotNet8.PosFrontendBlazor.Models.SaleInvoice;
-
-namespace DotNet8.PosFrontendBlazor.Models.Township
+﻿namespace DotNet8.PosFrontendBlazor.Models.SaleInvoice
 {
     public class SaleInvoiceResponseModel : ResponseModel
     {

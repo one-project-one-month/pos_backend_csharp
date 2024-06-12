@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{3415EC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{B7F4E037-8790-4322-BD4B-C43DE3D494D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet8.PosFrontendBlazor.Server", "DotNet8.PosFrontendBlazor.Server\DotNet8.PosFrontendBlazor.Server.csproj", "{C8D28291-5A80-44AD-9280-AB91EFB9B180}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{65299D88-DA9D-4C69-8821-A6DDC10C1586}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65299D88-DA9D-4C69-8821-A6DDC10C1586}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65299D88-DA9D-4C69-8821-A6DDC10C1586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8D28291-5A80-44AD-9280-AB91EFB9B180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8D28291-5A80-44AD-9280-AB91EFB9B180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D28291-5A80-44AD-9280-AB91EFB9B180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8D28291-5A80-44AD-9280-AB91EFB9B180}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{A7F600CB-ABBA-4612-A40F-7AE557A607DE} = {B7F4E037-8790-4322-BD4B-C43DE3D494D5}
 		{FA8ACA95-C2E7-401D-AA3E-90A84CDB2AF1} = {B7F4E037-8790-4322-BD4B-C43DE3D494D5}
 		{65299D88-DA9D-4C69-8821-A6DDC10C1586} = {3415EC1D-3959-4A43-8E3D-EFEB4084C952}
+		{C8D28291-5A80-44AD-9280-AB91EFB9B180} = {3415EC1D-3959-4A43-8E3D-EFEB4084C952}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C3F2505-7CD4-4387-B04A-2E8FADE5FC38}
