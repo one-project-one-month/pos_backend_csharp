@@ -1,3 +1,91 @@
+# POS Backend with C# .NET 8
+## Database Schema and Business Logic
+
+### Overview
+
+This database schema is designed to support a sales system that manages customers, products, sales transactions, and related information. It includes various tables to store data about customers, products, sales invoices, and more. Additionally, stored procedures are provided to generate sales reports and manage sequences for invoice numbers.
+
+### Tables
+
+1. **Tbl_Customer**
+    - Stores information about customers.
+    - Fields: `CustomerId`, `CustomerCode`, `CustomerName`, `MobileNo`, `DateOfBirth`, `Gender`, `StateCode`, `TownshipCode`.
+
+2. **Tbl_PlaceState**
+    - Stores information about states.
+    - Fields: `StateId`, `StateCode`, `StateName`.
+
+3. **Tbl_PlaceTownship**
+    - Stores information about townships.
+    - Fields: `TownshipId`, `TownshipCode`, `TownshipName`, `StateCode`.
+
+4. **Tbl_Product**
+    - Stores information about products.
+    - Fields: `ProductId`, `ProductCode`, `ProductCategoryCode`, `ProductName`, `Price`.
+
+5. **Tbl_ProductCategory**
+    - Stores information about product categories.
+    - Fields: `ProductCategoryId`, `ProductCategoryCode`, `ProductCategoryName`.
+
+6. **Tbl_SaleInvoice**
+    - Stores information about sales invoices.
+    - Fields: `SaleInvoiceId`, `SaleInvoiceDateTime`, `VoucherNo`, `TotalAmount`, `Discount`, `StaffCode`, `Tax`, `PaymentType`, `CustomerAccountNo`, `PaymentAmount`, `ReceiveAmount`, `Change`, `CustomerCode`.
+
+7. **Tbl_SaleInvoiceDetail**
+    - Stores details of each sales invoice.
+    - Fields: `SaleInvoiceDetailId`, `VoucherNo`, `ProductCode`, `Quantity`, `Price`, `Amount`.
+
+8. **Tbl_Sequence**
+    - Stores sequence information for generating unique codes.
+    - Fields: `Id`, `Field`, `Code`, `Length`, `Sequence`.
+
+9. **Tbl_Shop**
+    - Stores information about shops.
+    - Fields: `ShopId`, `ShopCode`, `ShopName`, `MobileNo`, `Address`.
+
+10. **Tbl_Staff**
+    - Stores information about staff members.
+    - Fields: `StaffId`, `StaffCode`, `StaffName`, `DateOfBirth`, `MobileNo`, `Address`, `Gender`, `Position`, `Password`.
+
+11. **Tbl_Tax**
+    - Stores tax information.
+    - Fields: `TaxId`, `FromAmount`, `ToAmount`, `TaxType`, `Percentage`, `FixedAmount`.
+
+### Stored Procedures
+
+1. **sp_Dashboard**
+    - Generates various sales reports for the dashboard.
+    - Input: `@SaleInvoiceDate` (Date of the sales invoice).
+    - Logic:
+      - Creates temporary tables for weekly, daily, monthly, and yearly sales reports.
+      - Populates these tables with data based on the input date.
+      - Retrieves and returns data for:
+        - Top 10 best-selling products.
+        - Daily sales report.
+        - Weekly sales report.
+        - Monthly sales report.
+        - Yearly sales report.
+      - Cleans up temporary tables after use.
+
+2. **Sp_GenerateSaleInvoiceNo**
+    - Generates a new sale invoice number.
+    - Logic:
+      - Retrieves the current sequence value for sales invoices.
+      - Increments the sequence.
+      - Updates the sequence in the `Tbl_Sequence` table.
+      - Returns the new sales invoice number formatted with leading zeros.
+
+3. **Sp_monthly_report**
+    - Generates a paginated monthly sales report.
+    - Inputs: `@PageNo`, `@PageSize`, `@FromDate`, `@ToDate`.
+    - Logic:
+      - Creates a temporary table to store monthly sales totals.
+      - Populates the table with sales data aggregated by month within the specified date range.
+      - Calculates total count and page count for pagination.
+      - Retrieves and returns paginated results.
+      - Cleans up the temporary table after use.
+
+---
 
 Staff Token
 ```
