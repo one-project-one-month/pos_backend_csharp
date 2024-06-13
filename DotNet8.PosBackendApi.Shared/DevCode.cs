@@ -1,4 +1,6 @@
-﻿namespace DotNet8.PosBackendApi.Shared;
+﻿using Newtonsoft.Json;
+
+namespace DotNet8.PosBackendApi.Shared;
 
 public static class DevCode
 {
@@ -9,10 +11,10 @@ public static class DevCode
 
     public static DateTime ToDateTime(this DateTime? dateTime)
     {
-        return Convert.ToDateTime(dateTime);    
+        return Convert.ToDateTime(dateTime);
     }
 
-    public static string GenerateCode(this string code,string prefix,int length = 5)
+    public static string GenerateCode(this string code, string prefix, int length = 5)
     {
         string generateCode = string.Empty;
         if (string.IsNullOrWhiteSpace(code))
@@ -26,7 +28,7 @@ public static class DevCode
         code = code.Replace(prefix, "");
         int convertToInt = Convert.ToInt32(code) + 1;
         generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
-        result:
+    result:
         return generateCode;
     }
 
@@ -44,7 +46,7 @@ public static class DevCode
         code = code.Replace(prefix, "");
         int convertToInt = Convert.ToInt32(code) + 1;
         generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
-        result:
+    result:
         return generateCode;
     }
 
@@ -62,7 +64,7 @@ public static class DevCode
         code = code.Replace(prefix, "");
         int convertToInt = Convert.ToInt32(code) + 1;
         generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
-        result:
+    result:
         return generateCode;
     }
 
@@ -80,7 +82,7 @@ public static class DevCode
         code = code.Replace(prefix, "");
         int convertToInt = Convert.ToInt32(code) + 1;
         generateCode = $"{prefix}{convertToInt.ToString().PadLeft(length, '0')}";
-        result:
+    result:
         return generateCode;
     }
 
@@ -118,5 +120,23 @@ public static class DevCode
         }
 
         return "#" + hex;
+    }
+
+    public static string? ToJson<T>(this T? obj, bool format = false)
+    {
+        if (obj == null) return string.Empty;
+        string? result;
+        if (obj is string)
+        {
+            result = obj.ToString();
+            goto Result;
+        }
+
+        var settings = new JsonSerializerSettings { DateFormatString = "yyyy-MM-ddTHH:mm:ss.sssZ" };
+        result = format
+            ? JsonConvert.SerializeObject(obj, Newtonsoft.Json.Formatting.Indented, settings)
+            : JsonConvert.SerializeObject(obj, settings);
+    Result:
+        return result;
     }
 }

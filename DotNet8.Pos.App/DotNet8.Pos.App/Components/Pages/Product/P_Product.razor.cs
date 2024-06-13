@@ -6,7 +6,7 @@ public partial class P_Product
     public int _pageSize = 10;
     private ProductListResponseModel? ResponseModel;
 
-    protected override async void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {

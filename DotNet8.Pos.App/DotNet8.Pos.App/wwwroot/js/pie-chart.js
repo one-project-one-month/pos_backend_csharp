@@ -71,6 +71,7 @@ window.setLineColumnChart = function (response) {
 }
 
 window.setFunnelChart = function (dailyResponse) {
+    console.log(dailyResponse);
     const saleInvoiceDate = dailyResponse.salesInvoiceDate;
     const totalAmount = dailyResponse.totalAmount;
 

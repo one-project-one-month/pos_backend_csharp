@@ -20,35 +20,29 @@
     <link href="css/loader.css" rel="stylesheet" />
 
     <link href="custom.css" rel="stylesheet" />
-    <HeadOutlet />
+    <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender: false)" />
+    @* <HeadOutlet /> *@
 </head>
 
 <body>
-@* <div class="loading" id="loading">Loading&#8230;</div> *@
+    @* <div class="loading" id="loading">Loading&#8230;</div> *@
 
-<Routes />
+    <Routes @rendermode="new InteractiveServerRenderMode(prerender: false)" />
+    @* <Routes /> *@
 
-<script src="_framework/blazor.web.js"></script>
-<script src="_content/MudBlazor/MudBlazor.min.js"></script>
-<script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
+    <script src="_framework/blazor.web.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
 
-<script>
-    window.enableLoading = function (isEnable) {
-        if (isEnable) {
-            document.getElementById('loading').style.display = "";
-        } else {
-            document.getElementById('loading').style.display = "none";
-        }
-    }
-</script>
+    <script src="js/custom.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/data.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<script src="js/pie-chart.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="js/pie-chart.js"></script>
 </body>
 
 </html>

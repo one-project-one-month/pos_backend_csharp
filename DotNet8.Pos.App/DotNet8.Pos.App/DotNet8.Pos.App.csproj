@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\custom.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\DotNet8.PosBackendApi.Shared\DotNet8.PosBackendApi.Shared.csproj" />
     <ProjectReference Include="..\DotNet8.Pos.App.Client\DotNet8.Pos.App.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.5" />
@@ -18,6 +22,7 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />
     <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\custom.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,6 +65,10 @@
     <AdditionalFiles Include="Components\Pages\Township\P_Township.razor" />
     <AdditionalFiles Include="Components\Pages\Township\P_TownshipDeleteDialog.razor" />
     <AdditionalFiles Include="Components\Pages\Township\P_TownshipDialog.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\custom.js" />
   </ItemGroup>
 
 </Project>

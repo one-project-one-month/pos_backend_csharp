@@ -12,6 +12,18 @@ public partial class P_Dashboard
     public string _dailyDate { get; set; }
     public string _dailyAmount { get; set; }
 
+    private ColumnChart ColumnChartData;
+    private FunnelChart FunnelChartData;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //await InjectService.EnableLoading();
+        //await JSRuntime.InvokeVoidAsync("setLineColumnChart", ColumnChartData);
+        //await JSRuntime.InvokeVoidAsync("setFunnelChart", FunnelChartData);
+        //await InjectService.DisableLoading();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -32,24 +44,42 @@ public partial class P_Dashboard
 
             var productName = _responseModel.Data.Dashboard.BestSellerProduct.Select(b => b.ProductName).ToList().ToArray();
             var quantity = _responseModel.Data.Dashboard.BestSellerProduct.Select(b => b.TotalQty).ToList().ToArray();
-            var response = new
-            {
-                productName = productName,
-                quantity = quantity
-            };
+            ColumnChartData = new ColumnChart(productName, quantity);
 
             var DailySaleInvoiceDate = _responseModel.Data.Dashboard.WeeklyData.Select(b => b.SaleInvoiceDate.ToString("dd/MM/yyyy")).ToList().ToArray();
             var TotalAmt = _responseModel.Data.Dashboard.WeeklyData.Select(b => b.Amount).ToList().ToArray();
-            var dailyResponse = new
-            {
-                SalesInvoiceDate = DailySaleInvoiceDate,
-                TotalAmount = TotalAmt
-            };
+            FunnelChartData = new FunnelChart(DailySaleInvoiceDate, TotalAmt);
 
             await InjectService.EnableLoading();
-            await JSRuntime.InvokeVoidAsync("setLineColumnChart", response);
-            await JSRuntime.InvokeVoidAsync("setFunnelChart", dailyResponse);
+            await JSRuntime.InvokeVoidAsync("setLineColumnChart", ColumnChartData);
+            await JSRuntime.InvokeVoidAsync("setFunnelChart", FunnelChartData);
             await InjectService.DisableLoading();
         }
+    }
+
+    public class ColumnChart
+    {
+
+        public ColumnChart(string[] productName, int[] quantity)
+        {
+            this.productName = productName;
+            this.quantity = quantity;
+        }
+        public string[] productName { get; set; }
+
+        public int[] quantity { get; set; }
+    }
+
+    public class FunnelChart
+    {
+        public FunnelChart(string[] salesInvoiceDate, decimal[] totalAmount)
+        {
+            SalesInvoiceDate = salesInvoiceDate;
+            TotalAmount = totalAmount;
+        }
+
+        public string[] SalesInvoiceDate { get; set; }
+
+        public decimal[] TotalAmount { get; set; }
     }
 }

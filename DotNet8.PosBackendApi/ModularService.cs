@@ -6,22 +6,23 @@ namespace DotNet8.PosBackendApi;
 
 public static class ModularService
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
+    public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddAppDbContextService(builder);
         services.AddJwtTokenGenerateServices();
         services.AddDataAccessServices();
         services.AddBusinessLogicServices();
         return services;
     }
 
-    private static IServiceCollection AddAppDbContextService(this IServiceCollection services,
-        WebApplicationBuilder builder)
+    public static IServiceCollection AddAppDbContextService(this IServiceCollection services,
+        string connectionString)
     {
-        services.AddDbContext<AppDbContext>(
-            opt => { opt.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")); },
-            ServiceLifetime.Transient,
-            ServiceLifetime.Transient);
+        services.AddDbContext<AppDbContext>(opt =>
+        {
+            opt.UseSqlServer(connectionString);
+        },
+        ServiceLifetime.Transient,
+        ServiceLifetime.Transient);
 
         return services;
     }
@@ -65,5 +66,52 @@ public static class ModularService
     {
         services.AddScoped<JwtTokenGenerate>();
         return services;
+    }
+
+    public static WebApplicationBuilder AddJwtAuthorization(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSwaggerGen(option =>
+        {
+            option.SwaggerDoc("v1", new OpenApiInfo { Title = "DotNet8.PosBackendApi", Version = "v1" });
+            option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please enter a valid token",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                Scheme = "Bearer"
+            });
+            option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                       new List<string> ()
+                    }
+                });
+        });
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!))
+                };
+            });
+
+        builder.Services.AddAuthorization();
+        return builder;
     }
 }

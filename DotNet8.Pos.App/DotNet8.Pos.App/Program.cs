@@ -5,6 +5,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+    //.AddInteractiveWebAssemblyComponents();
+
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7164") });
 builder.Services.AddScoped<HttpClientService>();
 builder.Services.AddScoped<InjectService>();
@@ -31,9 +35,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+
+//app.MapRazorComponents<App>()
+//    .AddInteractiveServerRenderMode()
+//    .AddInteractiveWebAssemblyRenderMode()
+//    .AddAdditionalAssemblies(typeof(DotNet8.Pos.App.Client._Imports).Assembly);
+
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(DotNet8.Pos.App.Client._Imports).Assembly);
+    .AddInteractiveServerRenderMode();
 
 app.Run();
