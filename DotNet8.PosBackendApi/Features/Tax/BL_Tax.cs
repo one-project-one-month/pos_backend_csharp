@@ -46,9 +46,7 @@ public class BL_Tax
         if (requestModel.Percentage > 0)
         {
             if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
-            {
                 throw new Exception("Percentage is invalid.");
-            }
         }
 
         MessageResponseModel responseModel = await _dL_Tax.CreateTax(requestModel);
@@ -76,9 +74,7 @@ public class BL_Tax
         if (requestModel.Percentage > 0)
         {
             if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
-            {
                 throw new Exception("Percentage is invalid.");
-            }
         }
 
         MessageResponseModel responseModel = await _dL_Tax.UpdateTax(id, requestModel);
