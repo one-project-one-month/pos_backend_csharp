@@ -2,7 +2,7 @@
 @using DotNet8.Pos.App.Models.Product
 @using DotNet8.Pos.App.Models.ProductCategory
 @using DotNet8.Pos.App.Services
-@rendermode InteractiveServer
+@* @rendermode InteractiveServer *@
 @* @rendermode InteractiveAuto *@
 
 <MudText Typo="Typo.h6">
@@ -49,20 +49,6 @@
     private int pageSize = 10;
 
     [Parameter] public ProductRequestModel reqModel { get; set; } = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        // var response = await HttpClientService.ExecuteAsync<ProductCategoryResponseModel>(
-        //     Endpoints.ProductCategory,
-        //     EnumHttpMethod.Post,
-        //     new ProductCategoryRequestModel
-        //         {
-        //             ProductCategoryCode = "001",
-        //             ProductCategoryName = "Testing"
-        //         }
-        // );
-        // await List();
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

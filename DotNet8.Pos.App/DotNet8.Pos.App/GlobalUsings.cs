@@ -13,3 +13,4 @@ global using Microsoft.JSInterop;
 global using MudBlazor;
 global using MudBlazor.Services;
 global using Radzen;
+global using DotNet8.PosBackendApi.Shared;

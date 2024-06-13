@@ -9,9 +9,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins(
-            "https://localhost:7136", 
+            "https://localhost:7136",
             "http://localhost:5065",
-            "https://localhost:7288", 
+            "https://localhost:7288",
             "http://localhost:5048"
             ) // or AllowAnyOrigin()
         .AllowAnyHeader()
@@ -21,63 +21,27 @@ builder.Services.AddCors(options =>
 });
 
 
-string projectDirectory = Environment.CurrentDirectory;
-var builderJwtSetting = new ConfigurationBuilder();
-builderJwtSetting.SetBasePath(projectDirectory)
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-IConfiguration configJwtSetting = builderJwtSetting.Build();
-builder.Services.Configure<JwtModel>(configJwtSetting.GetSection("Jwt"));
+//string projectDirectory = Environment.CurrentDirectory;
+//var builderJwtSetting = new ConfigurationBuilder();
+//builderJwtSetting.SetBasePath(projectDirectory)
+//    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+//IConfiguration configJwtSetting = builderJwtSetting.Build();
+//builder.Services.Configure<JwtModel>(configJwtSetting.GetSection("Jwt"));
+
+builder.Services.Configure<JwtModel>(builder.Configuration.GetSection("Jwt"));
 
 #region Register Services
 
-builder.Services.AddScoped(n => new DapperService(builder.Configuration.GetConnectionString("DbConnection")!));
-builder.Services.AddServices(builder);
+string connectionString = builder.Configuration.GetConnectionString("DbConnection")!;
+
+builder.Services.AddScoped(n => new DapperService(connectionString));
+builder.Services.AddAppDbContextService(connectionString);
+builder.Services.AddServices();
 
 #endregion
 
-builder.Services.AddSwaggerGen(option =>
-{
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "DotNet8.PosBackendApi", Version = "v1" });
-    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please enter a valid token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "Bearer"
-    });
-    option.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-           new List<string> ()
-        }
-    });
-});
+builder.AddJwtAuthorization();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!))
-        };
-    });
-
-
-builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

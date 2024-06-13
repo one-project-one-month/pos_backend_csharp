@@ -26,6 +26,7 @@
 }
 
 window.setLineColumnChart = function (response) {
+    console.log(response);
     const productName = response.productName;
     const quantity = response.quantity;
 
@@ -70,6 +71,7 @@ window.setLineColumnChart = function (response) {
 }
 
 window.setFunnelChart = function (dailyResponse) {
+    console.log(dailyResponse);
     const saleInvoiceDate = dailyResponse.salesInvoiceDate;
     const totalAmount = dailyResponse.totalAmount;
 

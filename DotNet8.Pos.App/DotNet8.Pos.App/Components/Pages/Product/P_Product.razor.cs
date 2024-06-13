@@ -6,14 +6,6 @@ public partial class P_Product
     public int _pageSize = 10;
     private ProductListResponseModel? ResponseModel;
 
-    protected override async Task OnInitializedAsync()
-    {
-        //await InjectService.EnableLoading();
-        //await List();
-        //StateHasChanged();
-        //await InjectService.DisableLoading();
-    }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
