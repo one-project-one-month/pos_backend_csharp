@@ -54,8 +54,8 @@ public class BL_SaleInvoice
         if (saleInvoice == null)
             throw new Exception("SaleInvoice is null.");
 
-        if (!saleInvoice.SaleInvoiceDateTime.HasValue)
-            throw new Exception("SaleInvoiceDateTime is null");
+        //if (!saleInvoice.SaleInvoiceDateTime)
+        //    throw new Exception("SaleInvoiceDateTime is null");
 
         if (string.IsNullOrEmpty(saleInvoice.VoucherNo))
             throw new Exception("VoucherNo is null");
