@@ -53,6 +53,10 @@ public class BL_ProductCategory
 
         if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryName))
             throw new Exception("ProductCategoryName is null.");
+
+        if (string.IsNullOrEmpty(productCategory.ProductCategoryCode))
+            throw new Exception("ProductCateoryCode is null.");
+
         //if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryCode))
         //{
         //    throw new Exception("ProductCategoryCode is null.");

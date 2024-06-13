@@ -266,59 +266,40 @@ public class DL_SaleInvoice
             #region Patch Method Validation Codition
 
             if (!string.IsNullOrEmpty(requestModel.CustomerCode))
-            {
                 item.CustomerCode = requestModel.CustomerCode;
-            }
+
+            if(!string.IsNullOrEmpty(requestModel.CustomerAccountNo))
+                item.CustomerAccountNo = requestModel.CustomerAccountNo;    
 
             if (!string.IsNullOrEmpty(requestModel.VoucherNo))
-            {
                 item.VoucherNo = requestModel.VoucherNo;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.PaymentType))
-            {
                 item.PaymentType = requestModel.PaymentType;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.StaffCode))
-            {
                 item.StaffCode = requestModel.StaffCode;
-            }
 
             if (requestModel.SaleInvoiceDateTime != null)
-            {
                 item.SaleInvoiceDateTime = requestModel.SaleInvoiceDateTime;
-            }
 
             if (requestModel.PaymentAmount > 0)
-            {
                 item.PaymentAmount = requestModel.PaymentAmount;
-            }
 
             if (requestModel.ReceiveAmount > 0)
-            {
                 item.ReceiveAmount = requestModel.ReceiveAmount;
-            }
 
             if (requestModel.TotalAmount > 0)
-            {
                 item.TotalAmount = requestModel.TotalAmount;
-            }
 
             if (requestModel.Change > 0)
-            {
                 item.Change = requestModel.Change;
-            }
 
             if (requestModel.Tax > 0)
-            {
                 item.Tax = requestModel.Tax;
-            }
 
             if (requestModel.Discount > 0)
-            {
                 item.Discount = requestModel.Discount;
-            }
 
             #endregion
 

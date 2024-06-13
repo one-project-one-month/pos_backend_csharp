@@ -14,6 +14,7 @@ public class BL_Report
 
     public async Task<MonthlyReportResponseModel> DailyReportV1(SaleDailyReportRequestModel requestModel)
     {
+        SaleDailyReportRequestModelCheck(requestModel);
         var response = await _report.DailyReportV1(requestModel);
         return response;
     }
@@ -46,5 +47,14 @@ public class BL_Report
     {
         var response = await _report.YearlyReport(fromDate, toDate, pageNo, pageSize);
         return response;
+    }
+
+    private static void SaleDailyReportRequestModelCheck(SaleDailyReportRequestModel requestModel)
+    {
+        if (!requestModel.FromDate.HasValue )
+            throw new Exception("From Date is null.");
+
+        if (!requestModel.ToDate.HasValue)
+            throw new Exception("To Date is null.");
     }
 }
