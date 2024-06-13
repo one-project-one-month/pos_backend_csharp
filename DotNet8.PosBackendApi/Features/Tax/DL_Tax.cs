@@ -130,14 +130,10 @@ public class DL_Tax
             #region Patch
 
             if (requestModel.FromAmount != 0)
-            {
                 item.FromAmount = requestModel.FromAmount;
-            }
 
             if (requestModel.ToAmount != 0)
-            {
                 item.ToAmount = requestModel.ToAmount;
-            }
 
             if (requestModel.Percentage != 0)
             {
@@ -152,9 +148,7 @@ public class DL_Tax
             }
 
             if (!string.IsNullOrEmpty(requestModel.TaxType))
-            {
                 item.TaxType = requestModel.TaxType;
-            }
 
             _context.Entry(item).State = EntityState.Modified;
             int result = await _context.SaveChangesAsync();
