@@ -51,7 +51,7 @@ public class DL_Shop
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 
@@ -95,24 +95,16 @@ public class DL_Shop
             #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.ShopCode))
-            {
                 shop.ShopCode = requestModel.ShopCode;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.ShopName))
-            {
                 shop.ShopName = requestModel.ShopName;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.Address))
-            {
                 shop.Address = requestModel.Address;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.MobileNo))
-            {
                 shop.MobileNo = requestModel.MobileNo;
-            }
 
             #endregion
 
@@ -157,7 +149,7 @@ public class DL_Shop
             responseModel = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 

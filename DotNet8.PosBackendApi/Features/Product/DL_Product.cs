@@ -48,9 +48,8 @@ public class DL_Product
             var pageCount = totalCount / pageSize;
 
             if (totalCount % pageSize > 0)
-            {
                 pageCount++;
-            }
+
 
             responseModel.DataLst = products.Select(x => x.Change()).ToList();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
@@ -90,7 +89,7 @@ public class DL_Product
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 
@@ -133,24 +132,16 @@ public class DL_Product
             #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.ProductCode))
-            {
                 item.ProductCode = requestModel.ProductCode;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.ProductName))
-            {
                 item.ProductName = requestModel.ProductName;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.ProductCategoryCode))
-            {
                 item.ProductCategoryCode = requestModel.ProductCategoryCode;
-            }
 
             if (requestModel.Price > 0)
-            {
                 item.Price = requestModel.Price;
-            }
 
             #endregion
 
@@ -195,7 +186,7 @@ public class DL_Product
             responseModel = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 }

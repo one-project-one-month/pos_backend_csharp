@@ -49,13 +49,10 @@ public class BL_ProductCategory
     private void CheckProductNullValue(ProductCategoryModel productCategory)
     {
         if (productCategory == null)
-        {
             throw new Exception("productCategory is null.");
-        }
+
         if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryName))
-        {
             throw new Exception("ProductCategoryName is null.");
-        }
         //if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryCode))
         //{
         //    throw new Exception("ProductCategoryCode is null.");
