@@ -1,6 +1,5 @@
 ﻿// Global using directives
 
-global using DotNet8.Pos.App.Client.Pages;
 global using DotNet8.Pos.App.Components;
 global using DotNet8.Pos.App.Models.Customer;
 global using DotNet8.Pos.App.Models.Product;
