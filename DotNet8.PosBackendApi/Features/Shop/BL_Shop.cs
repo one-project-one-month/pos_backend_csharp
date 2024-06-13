@@ -48,28 +48,18 @@ public class BL_Shop
     private void CheckShopNullValue(ShopModel shop)
     {
         if (shop == null)
-        {
             throw new Exception("shop is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(shop.ShopCode))
-        {
             throw new Exception("shop.ShopCode is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(shop.ShopName))
-        {
             throw new Exception("shop.ShopName is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(shop.MobileNo))
-        {
             throw new Exception("shop.ShopName is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(shop.Address))
-        {
             throw new Exception("shop.ShopName is null.");
-        }
     }
 }
