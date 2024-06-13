@@ -26,7 +26,6 @@
 }
 
 window.setLineColumnChart = function (response) {
-    console.log(response);
     const productName = response.productName;
     const quantity = response.quantity;
 
