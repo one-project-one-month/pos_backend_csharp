@@ -87,7 +87,7 @@ public class DL_ProductCategory
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 
@@ -131,14 +131,10 @@ public class DL_ProductCategory
             #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.ProductCategoryCode))
-            {
                 item.ProductCategoryCode = requestModel.ProductCategoryCode;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.ProductCategoryName))
-            {
                 item.ProductCategoryName = requestModel.ProductCategoryName;
-            }
 
             #endregion
 
@@ -183,7 +179,7 @@ public class DL_ProductCategory
             responseModel = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 }

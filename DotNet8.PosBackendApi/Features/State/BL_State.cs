@@ -18,7 +18,7 @@ public class BL_State
     //}
     public async Task<StateListResponseModel> GetState(int pageNo, int pageSize)
     {
-        var response=await _dL_State.GetState(pageNo, pageSize);
+        var response = await _dL_State.GetState(pageNo, pageSize);
         return response;
     }
     public async Task<StateResponseModel> GetStateByCode(string StateCode)
@@ -52,13 +52,9 @@ public class BL_State
     private void CheckStateNullValue(StateModel State)
     {
         if (State is null)
-        {
             throw new Exception("State is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(State.StateName))
-        {
             throw new Exception("StateName is null.");
-        }
     }
 }

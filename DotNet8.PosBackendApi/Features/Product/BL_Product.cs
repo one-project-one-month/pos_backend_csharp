@@ -49,14 +49,10 @@ public class BL_Product
     private static void CheckProductNullValue(ProductModel product)
     {
         if (product == null)
-        {
             throw new Exception("product is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(product.ProductName))
-        {
             throw new Exception("product.ProductName is null.");
-        }
 
         /*if (string.IsNullOrWhiteSpace(product.ProductCode))
         {
@@ -64,13 +60,9 @@ public class BL_Product
         }*/
 
         if (string.IsNullOrWhiteSpace(product.ProductCategoryCode))
-        {
             throw new Exception("product.ProductCategoryCode is null.");
-        }
 
         if (product.Price <= 0)
-        {
             throw new Exception("product.Price must be greater than zero.");
-        }
     }
 }

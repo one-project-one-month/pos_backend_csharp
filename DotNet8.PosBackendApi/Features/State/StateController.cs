@@ -153,8 +153,6 @@ public class StateController : BaseController
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        }
-
-        ;
+        };
     }
 }

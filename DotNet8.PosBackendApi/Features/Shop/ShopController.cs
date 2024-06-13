@@ -94,9 +94,7 @@ public class ShopController : BaseController
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        }
-
-        ;
+        };
     }
 
     [HttpPatch("{id}")]
@@ -121,9 +119,7 @@ public class ShopController : BaseController
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        }
-
-        ;
+        };
     }
 
     [HttpDelete("{id}")]
@@ -147,9 +143,7 @@ public class ShopController : BaseController
         catch (Exception ex)
         {
             return InternalServerError(ex);
-        }
-
-        ;
+        };
     }
 
     [HttpGet("{pageNo}/{pageSize}")]

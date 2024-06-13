@@ -89,7 +89,7 @@ public class DL_Customer
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 
@@ -133,7 +133,7 @@ public class DL_Customer
         maxStaffCode = maxStaffCode.Substring(1);
         int staffCode = Convert.ToInt32(maxStaffCode) + 1;
         customerCode = $"C{staffCode.ToString().PadLeft(5, '0')}";
-        result:
+    result:
         return customerCode;
     }
 
@@ -153,39 +153,25 @@ public class DL_Customer
             #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.CustomerCode))
-            {
                 customer.CustomerCode = requestModel.CustomerCode;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.CustomerName))
-            {
                 customer.CustomerName = requestModel.CustomerName;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.Gender))
-            {
                 customer.Gender = requestModel.Gender;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.MobileNo))
-            {
                 customer.MobileNo = requestModel.MobileNo;
-            }
 
             if (requestModel.DateOfBirth != null)
-            {
                 customer.DateOfBirth = requestModel.DateOfBirth;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.StateCode))
-            {
                 customer.StateCode = requestModel.StateCode;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.TownshipCode))
-            {
                 customer.TownshipCode = requestModel.TownshipCode;
-            }
 
             #endregion
 
@@ -230,7 +216,7 @@ public class DL_Customer
             responseModel = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 }

@@ -67,13 +67,9 @@ public class BL_Township
         //}
 
         if (string.IsNullOrWhiteSpace(Township.TownshipName))
-        {
             throw new Exception("Township.TownshipName is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(Township.StateCode))
-        {
             throw new Exception("Township.StateCode is null.");
-        }
     }
 }

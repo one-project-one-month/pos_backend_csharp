@@ -31,7 +31,7 @@ public class DL_State
         return responseModel;
     }
 
-    public async Task<StateListResponseModel> GetState(int pageNo,int pageSize )
+    public async Task<StateListResponseModel> GetState(int pageNo, int pageSize)
     {
         var responseModel = new StateListResponseModel();
         try
@@ -40,7 +40,7 @@ public class DL_State
                 .TblPlaceStates
                 .AsNoTracking();
 
-            var totalCount=await query.CountAsync();
+            var totalCount = await query.CountAsync();
             var pageCount = totalCount / pageSize;
             if (totalCount % pageSize > 0)
                 pageCount++;
@@ -53,7 +53,7 @@ public class DL_State
                 State = lst.Select(x => x.Change()).ToList(),
                 PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount)
             };
-           
+
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
         catch (Exception ex)
@@ -88,7 +88,7 @@ public class DL_State
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 
@@ -132,9 +132,7 @@ public class DL_State
             #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.StateName))
-            {
                 state.StateName = requestModel.StateName;
-            }
 
             #endregion
 
@@ -179,7 +177,7 @@ public class DL_State
             responseModel = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 }

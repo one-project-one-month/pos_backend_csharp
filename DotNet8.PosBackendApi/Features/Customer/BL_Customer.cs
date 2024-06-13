@@ -55,46 +55,30 @@ public class BL_Customer
     private void CheckCustomerNullValue(CustomerModel customer)
     {
         if (customer is null)
-        {
             throw new Exception("customer is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(customer.Gender))
-        {
             throw new Exception("customer.Gender is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(customer.CustomerName))
-        {
             throw new Exception("customer.CustomerName is null.");
-        }
 
         if (customer.DateOfBirth == default)
-        {
             throw new Exception("customer.DateOfBirth is null.");
-        }
 
         var age = CalculateAge(customer.DateOfBirth);
 
         if (age >= 40 || age <= 18)
-        {
             throw new ArgumentOutOfRangeException(nameof(age), "Age must be between 18 and 40 (exclusive).");
-        }
 
         if (string.IsNullOrWhiteSpace(customer.StateCode))
-        {
             throw new Exception("customer.StateCode is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(customer.TownshipCode))
-        {
             throw new Exception("customer.TownshipCode is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(customer.MobileNo))
-        {
             throw new Exception("customer.MobileNo is null.");
-        }
     }
 
     private int CalculateAge(DateTime birthdate)

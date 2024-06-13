@@ -89,7 +89,7 @@ public class DL_Township
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 
@@ -157,7 +157,7 @@ public class DL_Township
         maxStaffCode = maxStaffCode.Substring(3);
         int staffCode = Convert.ToInt32(maxStaffCode) + 1;
         customerCode = $"MMR{staffCode.ToString().PadLeft(2, '0')}";
-        result:
+    result:
         return customerCode;
     }
 
@@ -180,14 +180,10 @@ public class DL_Township
             #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.TownshipName))
-            {
                 township.TownshipName = requestModel.TownshipName;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.TownshipCode))
-            {
                 township.TownshipCode = requestModel.TownshipCode;
-            }
 
             #endregion
 
@@ -232,7 +228,7 @@ public class DL_Township
             responseModel = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 }
