@@ -158,7 +158,7 @@ public class DL_Staff
         maxStaffCode = maxStaffCode.Substring(1);
         int staffCode = Convert.ToInt32(maxStaffCode) + 1;
         userCode = $"U{staffCode.ToString().PadLeft(5, '0')}";
-        result:
+    result:
         return userCode;
     }
 
@@ -178,44 +178,28 @@ public class DL_Staff
             #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.StaffCode))
-            {
                 staff.StaffCode = requestModel.StaffCode;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.StaffName))
-            {
                 staff.StaffName = requestModel.StaffName;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.Position))
-            {
                 staff.Position = requestModel.Position;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.Password))
-            {
                 staff.Password = requestModel.Password;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.Address))
-            {
                 staff.Address = requestModel.Address;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.MobileNo))
-            {
                 staff.MobileNo = requestModel.MobileNo;
-            }
 
             if (requestModel.DateOfBirth != null)
-            {
                 staff.DateOfBirth = requestModel.DateOfBirth;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.Gender))
-            {
                 staff.Gender = requestModel.Gender;
-            }
 
             #endregion
 
@@ -261,7 +245,7 @@ public class DL_Staff
             responseModel = new MessageResponseModel(false, ex);
         }
 
-        result:
+    result:
         return responseModel;
     }
 }
