@@ -17,7 +17,7 @@ public class BL_Staff
 
     public async Task<StaffListResponseModel> GetStaffs(int PageSize, int PageNo)
     {
-        if (PageSize <= 0 ) throw new Exception("PageSize is not less than 0.");
+        if (PageSize <= 0) throw new Exception("PageSize is not less than 0.");
         if (PageNo <= 0) throw new Exception("PageNo is not less than 0.");
         var model = await _staff.GetStaffs(PageSize, PageNo);
         return model;
@@ -61,43 +61,27 @@ public class BL_Staff
     private void CheckShopNullValue(StaffModel staff)
     {
         if (staff is null)
-        {
             throw new Exception("Staff is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(staff.StaffCode))
-        {
             throw new Exception("StaffCode is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(staff.StaffName))
-        {
             throw new Exception("StaffName is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(staff.MobileNo))
-        {
             throw new Exception("Staff MobileNo is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(staff.Address))
-        {
             throw new Exception("Staff Address is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(staff.DateOfBirth.ToString()))
-        {
             throw new Exception("Staff DateOfBirth is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(staff.Gender))
-        {
             throw new Exception("Staff Gender is null.");
-        }
 
         if (string.IsNullOrWhiteSpace(staff.Position))
-        {
             throw new Exception("Staff Position is null.");
-        }
     }
 }
