@@ -1,4 +1,5 @@
 ﻿using DotNet8.PosBackendApi.Models.Setup.Tax;
+using System.Security.Cryptography;
 
 namespace DotNet8.PosBackendApi.Features.Tax;
 
@@ -31,26 +32,8 @@ public class BL_Tax
 
     public async Task<MessageResponseModel> CreateTax(TaxModel requestModel)
     {
-        if (requestModel.FromAmount <= 0)
-            throw new Exception("From Amount cannot be empty.");
-
-        if (requestModel.ToAmount <= 0)
-            throw new Exception("To Amount cannot be empty.");
-
-        if (requestModel.Percentage == 0 && requestModel.FixedAmount == 0)
-            throw new Exception();
-
-        if (string.IsNullOrEmpty(requestModel.TaxType))
-            throw new Exception("Tax Type cannot be empty.");
-
-        if (requestModel.Percentage > 0)
-        {
-            if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
-                throw new Exception("Percentage is invalid.");
-        }
-
+        CheckTaxModel(requestModel);
         MessageResponseModel responseModel = await _dL_Tax.CreateTax(requestModel);
-
         return responseModel;
     }
 
@@ -88,5 +71,27 @@ public class BL_Tax
 
         MessageResponseModel responseModel = await _dL_Tax.DeleteTax(id);
         return responseModel;
+    }
+
+    private static void CheckTaxModel(TaxModel requestModel)
+    {
+        if (requestModel.FromAmount <= 0)
+            throw new Exception("From Amount cannot be empty.");
+
+        if (requestModel.ToAmount <= 0)
+            throw new Exception("To Amount cannot be empty.");
+
+        if (requestModel.Percentage == 0 && requestModel.FixedAmount == 0)
+            throw new Exception();
+
+        if (string.IsNullOrEmpty(requestModel.TaxType))
+            throw new Exception("Tax Type cannot be empty.");
+
+        if (requestModel.Percentage > 0)
+        {
+            if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
+                throw new Exception("Percentage is invalid.");
+        }
+
     }
 }
