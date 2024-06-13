@@ -125,9 +125,9 @@ public class SaleInvoiceController : BaseController
             });
             return Content(model);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            return InternalServerError(ex);
         }
     }
 
