@@ -1,5 +1,4 @@
 # POS Backend with C# .NET 8
-## Database Schema and Business Logic
 
 ### Overview
 
