@@ -61,7 +61,18 @@
         //             ProductCategoryName = "Testing"
         //         }
         // );
-        await List();
+        // await List();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InjectService.EnableLoading();
+            await List();
+            StateHasChanged();
+            await InjectService.DisableLoading();
+        }
     }
 
     private async Task List()

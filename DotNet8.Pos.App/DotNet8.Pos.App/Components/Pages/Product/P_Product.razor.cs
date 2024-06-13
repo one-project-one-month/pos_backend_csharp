@@ -9,21 +9,21 @@ public partial class P_Product
     protected override async Task OnInitializedAsync()
     {
         //await InjectService.EnableLoading();
-        await List();
+        //await List();
         //StateHasChanged();
         //await InjectService.DisableLoading();
     }
 
-    //protected override async void OnAfterRender(bool firstRender)
-    //{
-    //    if (firstRender)
-    //    {
-    //        await InjectService.EnableLoading();
-    //        await List();
-    //        StateHasChanged();
-    //        await InjectService.DisableLoading();
-    //    }
-    //}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InjectService.EnableLoading();
+            await List();
+            StateHasChanged();
+            await InjectService.DisableLoading();
+        }
+    }
 
     private async Task List()
     {
