@@ -153,39 +153,25 @@ public class DL_Customer
             #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.CustomerCode))
-            {
                 customer.CustomerCode = requestModel.CustomerCode;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.CustomerName))
-            {
                 customer.CustomerName = requestModel.CustomerName;
-            }
-
-            if (!string.IsNullOrEmpty(requestModel.Gender))
-            {
-                customer.Gender = requestModel.Gender;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.MobileNo))
-            {
                 customer.MobileNo = requestModel.MobileNo;
-            }
+
+            if (!string.IsNullOrEmpty(requestModel.Gender))
+                customer.Gender = requestModel.Gender;
 
             if (requestModel.DateOfBirth != null)
-            {
                 customer.DateOfBirth = requestModel.DateOfBirth;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.StateCode))
-            {
                 customer.StateCode = requestModel.StateCode;
-            }
 
             if (!string.IsNullOrEmpty(requestModel.TownshipCode))
-            {
                 customer.TownshipCode = requestModel.TownshipCode;
-            }
 
             #endregion
 
