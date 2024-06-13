@@ -51,7 +51,7 @@ public class ProductCategoryController : BaseController
         try
         {
             var item = await _productCategory.GetProductCategory(pageNo, pageSize);
-            
+
             var model = _response.Return
             (new ReturnModel
             {
