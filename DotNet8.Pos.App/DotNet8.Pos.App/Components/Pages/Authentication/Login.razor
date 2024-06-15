@@ -1,8 +1,10 @@
 ﻿@page "/login"
 @using System.Security.Claims
+@using DotNet8.Pos.App.Models.Auth
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Authentication.Cookies
 @inject NavigationManager NavigationManager
+@rendermode InteractiveServer
 
 <h3>Login</h3>
 
@@ -20,33 +22,3 @@
     <button type="submit">Login</button>
 </EditForm>
 
-@code{
-    [CascadingParameter]
-    public HttpContext HttpContext { get; set; } = default;
-
-    [SupplyParameterFromForm]
-    public Credentials UserCredentials { get; set; } = new Credentials();
-
-    public async Task LoginUser()
-    {
-        if(UserCredentials.UserName == "MK" && UserCredentials.Password == "MK123")
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(type: ClaimTypes.Name,UserCredentials.UserName)
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,principal);
-                    
-            NavigationManager.NavigateTo("/");
-        }
-    }
-
-    public class Credentials
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
-}
