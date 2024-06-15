@@ -1,6 +1,8 @@
 ﻿@page "/"
+@attribute [Authorize]
 @* @rendermode InteractiveServer *@
 @attribute [StreamRendering(true)]
+@using Microsoft.AspNetCore.Authorization
 @using Newtonsoft.Json
 @inject IJSRuntime JSRuntime
 

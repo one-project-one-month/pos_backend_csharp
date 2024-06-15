@@ -1,0 +1,52 @@
+﻿@page "/login"
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@inject NavigationManager NavigationManager
+
+<h3>Login</h3>
+
+<EditForm Model="UserCredentials" OnValidSubmit="LoginUser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div>
+        <label for="username">User Name:</label>
+        <InputText id="username" @bind-Value="UserCredentials.UserName" placeholder="UserName" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="UserCredentials.Password" placeholder="Password" type="password" />
+    </div>
+    <button type="submit">Login</button>
+</EditForm>
+
+@code{
+    [CascadingParameter]
+    public HttpContext HttpContext { get; set; } = default;
+
+    [SupplyParameterFromForm]
+    public Credentials UserCredentials { get; set; } = new Credentials();
+
+    public async Task LoginUser()
+    {
+        if(UserCredentials.UserName == "MK" && UserCredentials.Password == "MK123")
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(type: ClaimTypes.Name,UserCredentials.UserName)
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,principal);
+                    
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+    public class Credentials
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+}
