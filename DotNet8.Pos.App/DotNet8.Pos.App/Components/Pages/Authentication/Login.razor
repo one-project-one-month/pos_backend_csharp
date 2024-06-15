@@ -8,16 +8,16 @@
 
 <h3>Login</h3>
 
-<EditForm Model="@requestModel" OnValidSubmit="LoginUser">
+<EditForm Model="@_loginRequest" OnValidSubmit="LoginUser">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div>
         <label for="username">User Name:</label>
-        <InputText id="username" bind-Value="@requestModel.UserName" For="@(() => requestModel.UserName)" placeholder="UserName" />
+        <InputText id="username" @bind-Value="_loginRequest.UserName" placeholder="UserName" />
     </div>
     <div>
         <label for="password">Password:</label>
-        <InputText id="password" bind-Value="@requestModel.Password" For="@(() => requestModel.Password)" placeholder="Password" type="password" />
+        <InputText id="password" @bind-Value="_loginRequest.Password" placeholder="Password" type="password" />
     </div>
     <button type="submit">Login</button>
 </EditForm>

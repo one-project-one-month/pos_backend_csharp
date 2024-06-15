@@ -8,39 +8,23 @@ namespace DotNet8.Pos.App.Components.Pages.Authentication;
 
 public partial class Login
 {
-    private LoginRequestModel? requestModel;
-
-    [CascadingParameter]
-    public HttpContext HttpContext { get; set; } = default;
-
-    [Parameter] public LoginRequestModel townshipListResponseModel { get; set; } = new();
-
-
-    [SupplyParameterFromForm]
-    public LoginRequestModel Input { get; set; } = new LoginRequestModel { UserName = string.Empty, Password = string.Empty };
-
-    // [SupplyParameterFromForm]
-    // public Credentials UserCredentials { get; set; } = new Credentials();
+    private LoginRequestModel _loginRequest = new LoginRequestModel();
     public async Task LoginUser()
     {
-        var responseModel = await HttpClientService.ExecuteAsync<LoginRequestModel>(
+        var responseModel = await HttpClientService.ExecuteAsync<LoginResponseModel>(
             $"{Endpoints.Login}",
-            EnumHttpMethod.Post);
+            EnumHttpMethod.Post,
+            _loginRequest);
 
-        //if (responseModel == null) return;
+        if(responseModel.Message.IsSuccess == false && responseModel.Message.IsError == true && responseModel.token == null)
+        {
+            NavigationManager.NavigateTo("/login");
+        }      
 
-        //if (responseModel.UserName == requestModel.UserName && UserCredentials.Password == "MK123")
-        //{
-        //    var claims = new List<Claim>
-        //{
-        //    new Claim(type: ClaimTypes.Name,UserCredentials.UserName)
-        //};
-
-        //var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //var principal = new ClaimsPrincipal(identity);
-        //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-        NavigationManager.NavigateTo("/");
+        if(responseModel.Message.IsSuccess == true && responseModel.Message.IsError == false && responseModel.token != null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
 
     }
 }
