@@ -56,5 +56,6 @@ public class BL_State
 
         if (string.IsNullOrWhiteSpace(State.StateName))
             throw new Exception("StateName is null.");
+
     }
 }

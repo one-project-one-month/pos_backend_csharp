@@ -11,6 +11,8 @@ public class BL_Dashboard
 
     public async Task<DashboardResponseModel> Dashboard(DashboardRequestModel requestModel)
     {
+        if (requestModel.SaleInvoiceDate == default(DateTime)) 
+            throw new Exception("Datetime is null");
         var response = await _dashboard.Dashboard(requestModel);
         return response;
     }

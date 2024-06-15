@@ -8,9 +8,18 @@ public class BL_Login
 
     public async Task<TokenResponseModel> Login(LoginRequestModel reqModel)
     {
-
-        if (reqModel is null ) throw new Exception("UserName and password cannot be null");
+        CheckLoginNullValue(reqModel);
+        //if (reqModel is null ) throw new Exception("UserName and password cannot be null");
         var model = await _DL_login.Login(reqModel);
         return model;
+    }
+
+    private static void CheckLoginNullValue(LoginRequestModel reqModel)
+    {
+        if (string.IsNullOrEmpty(reqModel.UserName))
+            throw new Exception("UserName is null.");
+
+        if (string.IsNullOrEmpty(reqModel.Password))
+            throw new Exception("Password is null.");
     }
 }
