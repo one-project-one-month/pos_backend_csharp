@@ -52,7 +52,9 @@ public partial class P_Dashboard
 
             await InjectService.EnableLoading();
             await JSRuntime.InvokeVoidAsync("setLineColumnChart", ColumnChartData);
-            await JSRuntime.InvokeVoidAsync("setFunnelChart", FunnelChartData);
+            //await JSRuntime.InvokeVoidAsync("setFunnelChart", FunnelChartData);
+            var totalAmountList = TotalAmt.Select(x => x / 1000).ToList();
+            await JSRuntime.InvokeVoidAsync("setBarChart", "#barChart", DailySaleInvoiceDate, totalAmountList);
             await InjectService.DisableLoading();
         }
     }
