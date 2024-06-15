@@ -8,7 +8,7 @@
 
 @if (ResponseModel is not null)
 {
-    int count = 0;
+int count = 0;
     <MudSimpleTable Style="overflow-x: auto;">
         <thead>
             <tr>
@@ -24,8 +24,8 @@
         </thead>
         <tbody>
             @foreach (var item in ResponseModel.Data.SaleInvoice)
-            {
-                <tr>
+        {
+            <tr>
                     <td>@(++count + ((pageNo - 1) * pageSize))</td>
                     <td>@item.SaleInvoiceDateTime.ToString("dd-MM-yyyy")</td>
                     <td>@item.VoucherNo</td>
@@ -35,7 +35,7 @@
                     <td>@item.Tax</td>
                     <td><MudIconButton Icon="@Icons.Material.Filled.Settings" Variant="MudBlazor.Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@(()=>Popup(item.VoucherNo))"/></td>
                 </tr>
-            }
+        }
         </tbody>
     </MudSimpleTable>
     <MudPagination SelectedChanged="PageChanged" Count="@ResponseModel.PageSetting.PageCount" Class="pa-4" />

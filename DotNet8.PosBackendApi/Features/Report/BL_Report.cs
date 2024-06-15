@@ -12,12 +12,12 @@ public class BL_Report
         return response;
     }
 
-    public async Task<MonthlyReportResponseModel> DailyReportV1(SaleDailyReportRequestModel requestModel)
-    {
-        SaleDailyReportRequestModelCheck(requestModel);
-        var response = await _report.DailyReportV1(requestModel);
-        return response;
-    }
+    //public async Task<MonthlyReportResponseModel> DailyReportV1(SaleDailyReportRequestModel requestModel)
+    //{
+    //    SaleDailyReportRequestModelCheck(requestModel);
+    //    var response = await _report.DailyReportV1(requestModel);
+    //    return response;
+    //}
 
     public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year, int pageNo, int pageSize)
     {

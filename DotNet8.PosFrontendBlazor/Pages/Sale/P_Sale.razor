@@ -2,22 +2,22 @@
 
 
 @code {
-    private ProductListResponseModel? _responseModel { get; set; } = null;
-    private int _qty = 0;
+private ProductListResponseModel? _responseModel { get; set; } = null;
+private int _qty = 0;
 
-    protected override async void OnAfterRender(bool firstRender)
+protected override async void OnAfterRender(bool firstRender)
+{
+    if (firstRender)
     {
-        if (firstRender)
-        {
-            await InjectService.EnableLoading();
-            await List();
-            StateHasChanged();
-            await InjectService.DisableLoading();
-        }
+        await InjectService.EnableLoading();
+        await List();
+        StateHasChanged();
+        await InjectService.DisableLoading();
     }
+}
 
-    private async Task List()
-    {
-        _responseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
-    }
+private async Task List()
+{
+    _responseModel = await HttpClientService.ExecuteAsync<ProductListResponseModel>(Endpoints.Product, EnumHttpMethod.Get);
+}
 }

@@ -13,6 +13,7 @@ public static class Endpoints
     public static string Report { get; } = "api/v1/report";
     public static string Shop { get; } = "api/v1/shops";
     public static string Dashboard { get; } = "api/v1/dashboard";
+    public static string Login { get; } = "api/v1/auth/login";
     public static string WithPagination(this string url, int pageNo, int pageSize)
     {
         return $"{url}/{pageNo}/{pageSize}";

@@ -7,7 +7,7 @@
 
 @if (responseModel is not null)
 {
-    int count = 0;
+int count = 0;
     <MudSimpleTable Style="overflow-x: auto;">
         <thead>
             <tr>
@@ -22,8 +22,8 @@
         </thead>
         <tbody>
             @foreach (var item in responseModel.Data.Tax)
-            {
-                <tr>
+        {
+            <tr>
                     <td>@(++count + ((responseModel.PageSetting.PageNo - 1) * responseModel.PageSetting.PageSize))</td>
                     <td>@item.FromAmount</td>
                     <td>@item.ToAmount</td>
@@ -35,7 +35,7 @@
                         <MudButton Variant="MudBlazor.Variant.Filled" Size="Size.Small" OnClick="() => DeletePopUp(item.TaxId)" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
                     </td>
                 </tr>
-            }
+        }
         </tbody>
     </MudSimpleTable>
 

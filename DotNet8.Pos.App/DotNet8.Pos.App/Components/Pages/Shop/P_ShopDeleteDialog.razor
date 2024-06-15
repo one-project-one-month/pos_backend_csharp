@@ -12,30 +12,30 @@
 
 @code {
 
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+[CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-    [Parameter] public string contentText { get; set; }
+[Parameter] public string contentText { get; set; }
 
-    [Parameter] public int shopId { get; set; }
+[Parameter] public int shopId { get; set; }
 
-    private ShopListResponseModel responseModel = new();
+private ShopListResponseModel responseModel = new();
 
-    void Cancel() => MudDialog?.Cancel();
+void Cancel() => MudDialog?.Cancel();
 
-    private async Task DeleteShop(int id)
+private async Task DeleteShop(int id)
+{
+    var responseModel = await HttpClientService.ExecuteAsync<ShopListResponseModel>(Endpoints.Shop, EnumHttpMethod.Get);
+    if (responseModel is not null)
     {
-        var responseModel = await HttpClientService.ExecuteAsync<ShopListResponseModel>(Endpoints.Shop, EnumHttpMethod.Get);
-        if (responseModel is not null)
-        {
-            await HttpClientService.ExecuteAsync<ShopListResponseModel>(
-            Endpoints.Shop + $"/{id}",
-            EnumHttpMethod.Delete
-            );
-            MudDialog.Close(DialogResult.Ok(true));
-        }
-        else
-        {
-            InjectService.ShowMessage("No data found.", EnumResponseType.Warning);
-        }
+        await HttpClientService.ExecuteAsync<ShopListResponseModel>(
+        Endpoints.Shop + $"/{id}",
+        EnumHttpMethod.Delete
+        );
+        MudDialog.Close(DialogResult.Ok(true));
     }
+    else
+    {
+        InjectService.ShowMessage("No data found.", EnumResponseType.Warning);
+    }
+}
 }

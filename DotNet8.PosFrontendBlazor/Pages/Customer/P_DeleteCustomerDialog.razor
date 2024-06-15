@@ -10,25 +10,25 @@
 </MudDialog>
 
 @code {
-    [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+[CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
-    [Parameter] public int id { get; set; }
+[Parameter] public int id { get; set; }
 
-    void Cancel() => MudDialog?.Cancel();
+void Cancel() => MudDialog?.Cancel();
 
-    private async Task DeleteAsync()
+private async Task DeleteAsync()
+{
+    if (id != 0)
     {
-        if (id != 0)
+        var response = await HttpClientService.ExecuteAsync<CustomerResponseModel>($"{Endpoints.Customer}/{id}", EnumHttpMethod.Delete);
+        if (response.IsError)
         {
-            var response = await HttpClientService.ExecuteAsync<CustomerResponseModel>($"{Endpoints.Customer}/{id}", EnumHttpMethod.Delete);
-            if (response.IsError)
-            {
-                InjectService.ShowMessage(response.Message, EnumResponseType.Error);
-                return;
-            }
-
-            InjectService.ShowMessage(response.Message, EnumResponseType.Success);
-            MudDialog?.Close();
+            InjectService.ShowMessage(response.Message, EnumResponseType.Error);
+            return;
         }
+
+        InjectService.ShowMessage(response.Message, EnumResponseType.Success);
+        MudDialog?.Close();
     }
+}
 }

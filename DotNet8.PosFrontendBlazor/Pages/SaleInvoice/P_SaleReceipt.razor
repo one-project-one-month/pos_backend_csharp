@@ -4,9 +4,9 @@
 
 <MudGrid>
     @if (ResponseModel is not null)
-    {
-        <MudItem xs="3"></MudItem>
-        <MudItem xs="6">
+{
+    <MudItem xs="3"></MudItem>
+    <MudItem xs="6">
             <MudCard>
                 <MudCardHeader>
                     <CardHeaderContent>
@@ -31,15 +31,15 @@
                         </thead>
                         <tbody>
                             @foreach (var item in ResponseModel.SaleInvoiceDetails)
-                            {
-                                <tr>
+                        {
+                            <tr>
                                     <td>@(++count)</td>
                                     <td>@item.ProductName</td>
                                     <td align="right">@item.Quantity</td>
                                     <td align="right">@item.Price</td>
                                     <td align="right">@item.Amount</td>
                                 </tr>
-                            }
+                        }
                             <tr class="border-dashed">
                                 <td colspan="4">Total Amount </td>
                                 <td colspan="1">@ResponseModel.TotalAmount</td>
@@ -68,9 +68,9 @@
                 </MudCardActions>
             </MudCard>
         </MudItem>
-    }
-    else
-    {
-        <MudText>No Invoice Data Available</MudText>
-    }
+}
+else
+{
+    <MudText>No Invoice Data Available</MudText>
+}
 </MudGrid>

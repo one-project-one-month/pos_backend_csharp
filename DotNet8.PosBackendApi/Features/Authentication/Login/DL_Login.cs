@@ -14,15 +14,15 @@ public class DL_Login
         _tokenModel = tokenModel.CurrentValue;
     }
 
-    public async Task<TokenResponseModel> Login(LoginRequestModel reqModel)
+    public async Task<LoginResponseModel> Login(LoginRequestModel reqModel)
     {
-        var responseModel = new TokenResponseModel();
-        var staff = await _context.TblStaffs.AsNoTracking()
+        var responseModel = new LoginResponseModel();
+        var item = await _context.TblStaffs.AsNoTracking()
             .FirstOrDefaultAsync(x => x.StaffName == reqModel.UserName);
 
-        if (staff is null || staff.Password != reqModel.Password.ToHash(_tokenModel.Key))
+        if (item is null || item.Password != reqModel.Password)
         {
-            responseModel = new TokenResponseModel
+            responseModel = new LoginResponseModel
             {
                 Message = new MessageResponseModel(false, "UserName and Password Incorrect.Please try again."),
             };
@@ -31,18 +31,18 @@ public class DL_Login
 
         var model = new StaffModel
         {
-            StaffId = staff.StaffId,
-            StaffName = staff.StaffName,
-            StaffCode = staff.StaffCode,
-            Position = staff.Position,
-            MobileNo = staff.MobileNo,
+            StaffId = item.StaffId,
+            StaffName = item.StaffName,
+            StaffCode = item.StaffCode,
+            Position = item.Position,
+            MobileNo = item.MobileNo,
         };
 
         var accessToken = _tokenGenerator.GenerateAccessToken(model);
-        responseModel = new TokenResponseModel
+        responseModel = new LoginResponseModel
         {
             Message = new MessageResponseModel(true, "Login Successful"),
-            AccessToken = accessToken,
+            token = accessToken,
         };
     result:
         return responseModel;
