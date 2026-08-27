@@ -1,0 +1,116 @@
+@page "/product/create"
+@page "/product/{Key}/edit"
+@page "/product-category/create"
+@page "/product-category/{Key}/edit"
+@page "/customer/create"
+@page "/customer/{Key}/edit"
+@page "/state/create"
+@page "/state/{Key}/edit"
+@page "/township/create"
+@page "/township/{Key}/edit"
+@page "/staff/create"
+@page "/staff/{Key}/edit"
+@page "/tax/create"
+@page "/tax/{Key}/edit"
+@page "/shop/create"
+@page "/shop/{Key}/edit"
+@attribute [Authorize]
+@inject BackendApiClient Api
+@inject NavigationManager Navigation
+@inject IHttpContextAccessor ContextAccessor
+@inject FlashMessageService Flash
+
+<PageTitle>@(IsEdit ? "Edit" : "Create") @Definition.Title · POS Ledger</PageTitle>
+
+<header class="mb-7">
+    <a href="/@Definition.Slug" class="link link-hover text-sm">← Back to @Definition.Title.ToLowerInvariant()</a>
+    <p class="page-kicker mt-5">@(IsEdit ? "Update record" : "New record")</p>
+    <h1 class="page-title">@(IsEdit ? $"Edit {Definition.Title}" : $"Create {Definition.Title}")</h1>
+</header>
+
+@if (!string.IsNullOrWhiteSpace(ErrorMessage))
+{
+    <div class="alert alert-error mb-5" role="alert">@ErrorMessage</div>
+}
+
+<section class="max-w-3xl rounded-box border border-base-300 bg-base-100 p-6 shadow-sm sm:p-8">
+    <EditForm Model="Form" FormName="@FormName" OnSubmit="SubmitAsync" class="space-y-6">
+        <DataAnnotationsValidator />
+        <div class="grid gap-5 sm:grid-cols-2">
+            @foreach (var field in Definition.Fields)
+            {
+                <div class="@(field.Property is "Address" ? "sm:col-span-2" : "")">
+                    <label class="field-label" for="@field.Property">@field.Label</label>
+                    <input id="@field.Property" name="@($"Form.{field.Property}")" type="@field.Type" value="@Form.GetValue(field.Property)"
+                           step="@(field.Type == "number" ? "0.01" : null)" required="@field.Required"
+                           class="input input-bordered w-full" autocomplete="off" />
+                </div>
+            }
+        </div>
+        <div class="flex flex-wrap justify-end gap-3 border-t border-base-300 pt-5">
+            <a class="btn btn-ghost" href="/@Definition.Slug">Cancel</a>
+            <button class="btn btn-primary" type="submit">@(IsEdit ? "Save changes" : "Create record")</button>
+        </div>
+    </EditForm>
+</section>
+
+@code {
+    [Parameter] public string? Key { get; set; }
+    [SupplyParameterFromForm] public ResourceFormModel Form { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashMessage")] public string? FlashMessage { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashLevel")] public string? FlashLevel { get; set; }
+    private ResourceDefinition Definition { get; set; } = null!;
+    private string? ErrorMessage { get; set; }
+    private bool IsEdit => !string.IsNullOrWhiteSpace(Key);
+    private string FormName => $"{Definition.Slug}-record-form";
+
+    public ResourceForm() => Form = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var slug = Navigation.ToBaseRelativePath(Navigation.Uri).Split('?', 2)[0].Split('/', StringSplitOptions.RemoveEmptyEntries)[0];
+        Definition = ResourceCatalog.Get(slug);
+        if (ContextAccessor.HttpContext?.Request.Method is not string method || !HttpMethods.IsGet(method) || !IsEdit) return;
+
+        if (!await LoadAsync())
+            ErrorMessage = "The requested record could not be loaded.";
+    }
+
+    private async Task<bool> LoadAsync()
+    {
+        using var document = await Api.GetDocumentAsync($"{Definition.Endpoint}/{Uri.EscapeDataString(Key!)}");
+        var item = document is null ? null : JsonApiReader.GetDataItem(document);
+        if (item is not { ValueKind: JsonValueKind.Object }) return false;
+        Form.Load(item.Value);
+        return true;
+    }
+
+    private async Task SubmitAsync()
+    {
+        var missing = Definition.Fields.FirstOrDefault(field => field.Required && string.IsNullOrWhiteSpace(Form.GetValue(field.Property)));
+        if (missing is not null)
+        {
+            ErrorMessage = $"{missing.Label} is required.";
+            return;
+        }
+
+        HttpResponseMessage response;
+        if (IsEdit)
+        {
+            if (Form.Id <= 0 && !await LoadAsync())
+            {
+                ErrorMessage = "The record identifier is invalid.";
+                return;
+            }
+            response = await Api.PatchAsync($"{Definition.Endpoint}/{Form.Id}", Form.ToPayload(Definition.Slug));
+        }
+        else
+        {
+            response = await Api.PostAsync(Definition.Endpoint, Form.ToPayload(Definition.Slug));
+        }
+
+        var result = await Api.ReadCommandResultAsync(response);
+        Flash.Set(result.Message, result.IsSuccess ? "success" : "error");
+        Navigation.NavigateTo($"/{Definition.Slug}", forceLoad: true);
+    }
+}

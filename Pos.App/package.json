@@ -1,0 +1,12 @@
+{
+  "name": "pos-app-styles",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/site.generated.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.3",
+    "daisyui": "5.7.22",
+    "tailwindcss": "4.3.3"
+  }
+}

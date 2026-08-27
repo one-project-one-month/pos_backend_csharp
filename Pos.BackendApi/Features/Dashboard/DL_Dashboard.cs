@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Dashboard;
+namespace Pos.BackendApi.Features.Dashboard;
 
 public class DL_Dashboard
 {

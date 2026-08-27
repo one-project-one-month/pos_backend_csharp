@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "App + API",
+    "Projects": [
+      {
+        "Path": "Pos.BackendApi\\Pos.BackendApi.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Path": "Pos.App\\Pos.App.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      }
+    ]
+  }
+]

@@ -1,4 +1,4 @@
-namespace DotNet8.PosBackendApi.Features.Staff;
+namespace Pos.BackendApi.Features.Staff;
 
 public class BL_Staff
 {

@@ -1,0 +1,51 @@
+@page "/sale-drafts/{DraftId:int}/checkout"
+@attribute [Authorize]
+@inject BackendApiClient Api
+@inject NavigationManager Navigation
+@inject FlashMessageService Flash
+
+<PageTitle>Checkout sale draft · POS Ledger</PageTitle>
+<header class="mb-7"><a class="link link-hover text-sm" href="/sale-drafts/@DraftId">← Back to draft</a><p class="page-kicker mt-5">Final transaction</p><h1 class="page-title">Checkout @(Draft?.DraftName ?? $"Draft #{DraftId}")</h1></header>
+
+<div class="grid gap-6 xl:grid-cols-[1fr_23rem]">
+    <section class="rounded-box border border-base-300 bg-base-100 p-7 shadow-sm">
+        <EditForm Model="Form" FormName="checkout-sale-draft" OnValidSubmit="SubmitAsync" class="space-y-5">
+            <DataAnnotationsValidator/>
+            <div class="grid gap-5 sm:grid-cols-2">
+                <div><label class="field-label" for="customer-account">Customer account no.</label><InputText id="customer-account" class="input input-bordered w-full" @bind-Value="Form.CustomerAccountNo"/><ValidationMessage For="() => Form.CustomerAccountNo" class="text-sm text-error"/></div>
+                <div><label class="field-label" for="customer-code">Customer code <span class="font-normal text-base-content/50">(optional)</span></label><InputText id="customer-code" class="input input-bordered w-full" @bind-Value="Form.CustomerCode"/></div>
+                <div><label class="field-label" for="payment-type">Payment type</label><InputSelect id="payment-type" class="select select-bordered w-full" @bind-Value="Form.PaymentType"><option>Cash</option><option>Card</option><option>KBZPay</option></InputSelect></div>
+                <div><label class="field-label" for="discount">Discount</label><InputNumber id="discount" class="input input-bordered w-full" @bind-Value="Form.Discount"/></div>
+                <div class="sm:col-span-2"><label class="field-label" for="received">Received amount</label><InputNumber id="received" class="input input-bordered w-full" @bind-Value="Form.ReceiveAmount"/><ValidationMessage For="() => Form.ReceiveAmount" class="text-sm text-error"/></div>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(ErrorMessage)){<div class="alert alert-error">@ErrorMessage</div>}
+            <div class="flex justify-end"><button type="submit" class="btn btn-primary">Complete checkout</button></div>
+        </EditForm>
+    </section>
+    <aside class="h-fit rounded-box bg-[#102a43] p-6 text-white shadow-sm"><p class="font-mono text-[10px] uppercase tracking-[.18em] text-warning">Server calculation</p><h2 class="mt-2 text-xl font-black">Draft summary</h2><dl class="mt-6 space-y-3"><div class="flex justify-between"><dt>Items</dt><dd>@(Draft?.ItemCount ?? 0)</dd></div><div class="flex justify-between border-t border-white/15 pt-3 text-xl font-black"><dt>Total</dt><dd>@(Draft?.TotalAmount.ToString("N2") ?? "0.00")</dd></div></dl><p class="mt-6 text-xs text-white/55">Price, tax, ownership and concurrency are checked again inside one database transaction.</p></aside>
+</div>
+
+@code {
+    [Parameter] public int DraftId { get; set; }
+    [SupplyParameterFromForm(FormName = "checkout-sale-draft")] public CheckoutSaleDraftRequestModel Form { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashMessage")] public string? FlashMessage { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashLevel")] public string? FlashLevel { get; set; }
+    private SaleDraftModel? Draft { get; set; }
+    private string? ErrorMessage { get; set; }
+    public SaleDraftCheckout() => Form = new();
+    protected override async Task OnInitializedAsync()
+    {
+        Draft = await Api.GetFromJsonAsync<SaleDraftModel>($"api/v1/sale-drafts/{DraftId}");
+        if (Draft is not null) Form.RowVersion = Draft.RowVersion;
+    }
+    private async Task SubmitAsync()
+    {
+        Form.RowVersion = Draft?.RowVersion ?? string.Empty;
+        using var response = await Api.PostAsync($"api/v1/sale-drafts/{DraftId}/checkout", Form);
+        if (!response.IsSuccessStatusCode){ ErrorMessage = (await Api.ReadCommandResultAsync(response)).Message; return; }
+        var receipt = await response.Content.ReadFromJsonAsync<SaleDraftCheckoutResponseModel>();
+        if (receipt is null){ ErrorMessage = "Checkout completed but the receipt response was invalid."; return; }
+        Flash.Set($"Checkout completed: {receipt.VoucherNo}");
+        Navigation.NavigateTo($"/sale-receipt/{Uri.EscapeDataString(receipt.VoucherNo)}", forceLoad: true);
+    }
+}

@@ -1,0 +1,63 @@
+@page "/login"
+@attribute [AllowAnonymous]
+@layout LoginLayout
+@inject AuthSessionService AuthSession
+@inject NavigationManager Navigation
+@inject FlashMessageService Flash
+
+<PageTitle>Sign in · POS Ledger</PageTitle>
+
+<section class="rounded-box border border-white/10 bg-base-100 p-7 text-base-content shadow-2xl sm:p-9">
+    <div class="mb-8 flex items-center gap-3">
+        <span class="grid size-12 place-items-center rounded-lg bg-warning font-mono text-xl font-black text-warning-content">P</span>
+        <div>
+            <p class="page-kicker">Secure terminal</p>
+            <h1 class="text-3xl font-black">Sign in</h1>
+        </div>
+    </div>
+
+    <FlashAlert />
+
+    <EditForm Model="Form" FormName="login-form" OnValidSubmit="SubmitAsync" class="space-y-5">
+        <DataAnnotationsValidator />
+        <div>
+            <label class="field-label" for="username">Username</label>
+            <InputText id="username" class="input input-bordered w-full" autocomplete="username" @bind-Value="Form.UserName" />
+            <ValidationMessage For="() => Form.UserName" class="mt-1 block text-sm text-error" />
+        </div>
+        <div>
+            <label class="field-label" for="password">Password</label>
+            <InputText id="password" type="password" class="input input-bordered w-full" autocomplete="current-password" @bind-Value="Form.Password" />
+            <ValidationMessage For="() => Form.Password" class="mt-1 block text-sm text-error" />
+        </div>
+        <button class="btn btn-primary w-full" type="submit">Open operations desk</button>
+    </EditForm>
+    <p class="mt-6 text-center font-mono text-[10px] uppercase tracking-[.16em] text-base-content/45">HttpOnly session · 15 minute access token</p>
+</section>
+
+@code {
+    [SupplyParameterFromForm(FormName = "login-form")]
+    public LoginFormModel Form { get; set; }
+
+    public Login() => Form = new();
+
+    [SupplyParameterFromQuery(Name = "returnUrl")]
+    public string? ReturnUrl { get; set; }
+
+    private async Task SubmitAsync()
+    {
+        var result = await AuthSession.SignInAsync(Form.UserName, Form.Password);
+        if (!result.IsSuccess)
+        {
+            Flash.Set(result.Message, "error");
+            Navigation.NavigateTo("/login", forceLoad: true);
+            return;
+        }
+
+        var target = IsLocalUrl(ReturnUrl) ? ReturnUrl! : "/";
+        Navigation.NavigateTo(target, forceLoad: true);
+    }
+
+    private static bool IsLocalUrl(string? value) =>
+        !string.IsNullOrWhiteSpace(value) && value.StartsWith('/') && !value.StartsWith("//") && !value.StartsWith("/\\");
+}

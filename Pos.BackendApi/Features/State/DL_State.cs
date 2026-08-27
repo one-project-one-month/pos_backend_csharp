@@ -1,6 +1,6 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.State;
+using Pos.BackendApi.Models.Setup.State;
 
-namespace DotNet8.PosBackendApi.Features.State;
+namespace Pos.BackendApi.Features.State;
 
 public class DL_State
 {

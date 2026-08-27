@@ -1,6 +1,6 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Token;
+using Pos.BackendApi.Models.Setup.Token;
 
-namespace DotNet8.PosBackendApi.Models.Setup.Product;
+namespace Pos.BackendApi.Models.Setup.Product;
 
 public class ProductListResponseModel:TokenResponseModel
 {

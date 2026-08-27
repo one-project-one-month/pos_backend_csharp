@@ -1,0 +1,68 @@
+@inherits LayoutComponentBase
+
+<div class="min-h-screen lg:grid lg:grid-cols-[17rem_1fr]">
+    <aside class="border-b border-base-300 bg-[#102a43] text-white lg:min-h-screen lg:border-b-0 lg:border-r">
+        <div class="flex items-center justify-between px-5 py-5">
+            <a href="/" class="flex items-center gap-3" aria-label="POS dashboard">
+                <span class="grid size-10 place-items-center rounded-lg bg-warning font-mono text-lg font-black text-warning-content">P</span>
+                <span>
+                    <strong class="block text-lg tracking-tight">POS Ledger</strong>
+                    <small class="font-mono text-[10px] uppercase tracking-[.22em] text-white/55">Static Operations</small>
+                </span>
+            </a>
+            <details class="dropdown dropdown-end lg:hidden">
+                <summary class="btn btn-sm border-white/20 bg-white/10 text-white">Menu</summary>
+                <nav class="menu dropdown-content z-20 mt-2 w-64 rounded-box bg-[#102a43] p-3 shadow-xl">
+                    @NavigationLinks
+                </nav>
+            </details>
+        </div>
+        <nav class="menu hidden gap-1 px-4 pb-8 text-sm lg:flex">
+            @NavigationLinks
+        </nav>
+    </aside>
+
+    <div class="min-w-0">
+        <header class="flex min-h-20 items-center justify-between border-b border-base-300 bg-base-100 px-4 sm:px-8">
+            <div>
+                <p class="font-mono text-[10px] uppercase tracking-[.2em] text-primary">Operations desk</p>
+                <p class="font-semibold">Inventory · Sales · Reporting</p>
+            </div>
+            <AuthorizeView>
+                <Authorized Context="auth">
+                    <div class="flex items-center gap-3">
+                        <div class="hidden text-right sm:block">
+                            <p class="text-sm font-bold">@auth.User.Identity?.Name</p>
+                            <p class="font-mono text-[10px] uppercase text-base-content/55">@auth.User.FindFirst("StaffCode")?.Value</p>
+                        </div>
+                        <LogoutForm />
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+        </header>
+        <main class="mx-auto max-w-[96rem] p-4 sm:p-8">
+            @Body
+        </main>
+    </div>
+</div>
+
+@code {
+    private RenderFragment NavigationLinks => @<>
+        <li><NavLink href="/" Match="NavLinkMatch.All">Dashboard</NavLink></li>
+        <li class="menu-title mt-3 text-white/45">Sell</li>
+        <li><NavLink href="/sale-drafts">Sale drafts</NavLink></li>
+        <li><NavLink href="/sale-invoice-list">Invoices</NavLink></li>
+        <li class="menu-title mt-3 text-white/45">Catalog</li>
+        <li><NavLink href="/product">Products</NavLink></li>
+        <li><NavLink href="/product-category">Categories</NavLink></li>
+        <li><NavLink href="/customer">Customers</NavLink></li>
+        <li class="menu-title mt-3 text-white/45">Administration</li>
+        <li><NavLink href="/staff">Staff</NavLink></li>
+        <li><NavLink href="/shop">Shops</NavLink></li>
+        <li><NavLink href="/tax">Tax rules</NavLink></li>
+        <li><NavLink href="/state">States</NavLink></li>
+        <li><NavLink href="/township">Townships</NavLink></li>
+        <li class="menu-title mt-3 text-white/45">Insights</li>
+        <li><NavLink href="/report">Reports</NavLink></li>
+    </>;
+}

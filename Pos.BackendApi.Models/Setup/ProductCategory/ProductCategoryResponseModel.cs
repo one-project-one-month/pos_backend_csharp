@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.ProductCategory;
+namespace Pos.BackendApi.Models.Setup.ProductCategory;
 
 public class ProductCategoryResponseModel
 {

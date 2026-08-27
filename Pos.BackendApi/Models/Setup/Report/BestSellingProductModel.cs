@@ -1,6 +1,6 @@
-using DotNet8.PosBackendApi.Shared;
+using Pos.BackendApi.Shared;
 
-namespace DotNet8.PosBackendApi.Models.Setup.Report;
+namespace Pos.BackendApi.Models.Setup.Report;
 
 public class BestSellingProductModel
 {

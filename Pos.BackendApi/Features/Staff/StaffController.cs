@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Staff;
+namespace Pos.BackendApi.Features.Staff;
 
 [Route("api/v1/staffs")]
 [ApiController]

@@ -1,8 +1,9 @@
-using DotNet8.PosBackendApi.Features.Dashboard;
-using DotNet8.PosBackendApi.Features.State;
-using DotNet8.PosBackendApi.Features.Tax;
+using Pos.BackendApi.Features.Dashboard;
+using Pos.BackendApi.Features.State;
+using Pos.BackendApi.Features.Tax;
+using Pos.BackendApi.Features.SaleDraft;
 
-namespace DotNet8.PosBackendApi;
+namespace Pos.BackendApi;
 
 public static class ModularService
 {
@@ -21,8 +22,8 @@ public static class ModularService
         {
             opt.UseSqlServer(connectionString);
         },
-        ServiceLifetime.Transient,
-        ServiceLifetime.Transient);
+        ServiceLifetime.Scoped,
+        ServiceLifetime.Scoped);
 
         return services;
     }
@@ -42,6 +43,7 @@ public static class ModularService
         services.AddScoped<BL_State>();
         services.AddScoped<BL_Tax>();
         services.AddScoped<BL_Dashboard>();
+        services.AddScoped<SaleDraftService>();
         return services;
     }
 
@@ -72,7 +74,7 @@ public static class ModularService
     {
         builder.Services.AddSwaggerGen(option =>
         {
-            option.SwaggerDoc("v1", new OpenApiInfo { Title = "DotNet8.PosBackendApi", Version = "v1" });
+            option.SwaggerDoc("v1", new OpenApiInfo { Title = "Pos.BackendApi", Version = "v1" });
             option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -103,15 +105,23 @@ public static class ModularService
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    ClockSkew = TimeSpan.FromSeconds(30),
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!))
                 };
             });
 
-        builder.Services.AddAuthorization();
+        builder.Services.AddAuthorization(options =>
+        {
+            options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+        });
         return builder;
     }
 }

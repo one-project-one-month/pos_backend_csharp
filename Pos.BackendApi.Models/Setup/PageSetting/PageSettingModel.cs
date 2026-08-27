@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.PageSetting;
+namespace Pos.BackendApi.Models.Setup.PageSetting;
 
 public class PageSettingModel
 {

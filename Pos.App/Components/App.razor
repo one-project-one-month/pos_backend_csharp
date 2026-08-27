@@ -1,48 +1,16 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="en" data-theme="corporate">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blazor POS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#102a43" />
     <base href="/" />
-
     <link rel="icon" type="image/png" href="favicon.png" />
-
-    <link rel="apple-touch-icon" sizes="512x512" href="favicon.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="favicon.png" />
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
-
-    <link href="css/loader.css" rel="stylesheet" />
-
-    <link href="custom.css" rel="stylesheet" />
-    <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender: false)" />
-    @* <HeadOutlet /> *@
+    <link rel="stylesheet" href="css/site.generated.css" />
+    <HeadOutlet />
 </head>
-
-<body>
-    @* <div class="loading" id="loading">Loading&#8230;</div> *@
-
-    <Routes @rendermode="new InteractiveServerRenderMode(prerender: false)" />
-    @* <Routes /> *@
-
+<body class="min-h-screen bg-base-200 text-base-content antialiased">
+    <Routes />
     <script src="_framework/blazor.web.js"></script>
-    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
-
-    <script src="js/custom.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/data.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="js/pie-chart.js"></script>
 </body>
-
 </html>

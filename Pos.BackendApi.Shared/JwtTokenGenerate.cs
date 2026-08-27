@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Shared;
+namespace Pos.BackendApi.Shared;
 
 public class JwtTokenGenerate
 {
@@ -10,58 +10,52 @@ public class JwtTokenGenerate
     }
 
     public string GenerateAccessToken(StaffModel staff)
+        => GenerateAccessTokenWithExpiry(staff).Token;
+
+    public AccessTokenResult GenerateAccessTokenWithExpiry(StaffModel staff)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var secret = _token.Key;
         var key = Encoding.ASCII.GetBytes(secret);
+        var expiresAtUtc = DateTime.UtcNow.AddMinutes(_token.AccessTokenMinutes);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
             {
-                new Claim("Id", staff.StaffId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, staff.StaffId.ToString()),
+                new Claim(ClaimTypes.Name, staff.StaffName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                new Claim("StaffId", staff.StaffId.ToString()),
                 new Claim("StaffName", staff.StaffName.ToString()),
                 new Claim("StaffCode", staff.StaffCode.ToString()),
-                new Claim("TokenExpired", DateTime.UtcNow.AddMinutes(15).ToString("o")),
+                new Claim("Position", staff.Position ?? string.Empty),
             }),
-            Expires = DateTime.UtcNow.AddMinutes(15),
+            Issuer = _token.Issuer,
+            Audience = _token.Audience,
+            IssuedAt = DateTime.UtcNow,
+            NotBefore = DateTime.UtcNow,
+            Expires = expiresAtUtc,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
+        return new AccessTokenResult(tokenHandler.WriteToken(token), expiresAtUtc);
     }
 
-    public string GenerateRefreshTokenV1()
+    public static string GenerateRefreshToken()
     {
-        var randomNumber = new byte[32];
-        using var rng = RandomNumberGenerator.Create();
-        rng.GetBytes(randomNumber);
-        return Convert.ToBase64String(randomNumber);
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
     }
 
+    public static byte[] HashRefreshToken(string refreshToken)
+        => SHA256.HashData(Encoding.UTF8.GetBytes(refreshToken));
+
+    [Obsolete("Use the rotating refresh-token endpoints instead.")]
     public string GenerateRefreshToken(string token)
     {
-        var handler = new JwtSecurityTokenHandler();
-        var decodedToken = handler.ReadJwtToken(token);
-
-        var item = decodedToken.Claims.FirstOrDefault(x => x.Type == "TokenExpired");
-        DateTime tokenExpired = Convert.ToDateTime(item?.Value);
-
-        var staffId = decodedToken.Claims.FirstOrDefault(x => x.Type == "Id") ?? throw new Exception("Id is required.");
-        var staffName = decodedToken.Claims.FirstOrDefault(x => x.Type == "StaffName") ??
-                        throw new Exception("StaffName is required");
-        var staffCode = decodedToken.Claims.FirstOrDefault(x => x.Type == "StaffCode") ??
-                        throw new Exception("StaffCode is required.");
-        var model = new StaffModel
-        {
-            StaffId = Convert.ToInt32(staffId.Value),
-            StaffName = staffName.Value,
-            StaffCode = staffCode.Value,
-        };
-        var refreshToken = DateTime.Now > tokenExpired ? GenerateAccessToken(model) : token;
-        return refreshToken;
+        return token;
     }
 
     public string GenerateAccessTokenFromRefreshToken(string refreshToken, string secret)
@@ -85,3 +79,5 @@ public class JwtTokenGenerate
         return tokenHandler.WriteToken(token);
     }
 }
+
+public sealed record AccessTokenResult(string Token, DateTime ExpiresAtUtc);

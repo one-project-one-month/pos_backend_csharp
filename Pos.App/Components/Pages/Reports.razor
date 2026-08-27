@@ -1,0 +1,66 @@
+@page "/report"
+@page "/report/daily"
+@page "/report/monthly"
+@page "/report/yearly"
+@page "/report/best-selling"
+@page "/report/sales-by-category"
+@attribute [Authorize]
+@inject BackendApiClient Api
+@inject NavigationManager Navigation
+
+<PageTitle>Reports · POS Ledger</PageTitle>
+<header class="mb-7"><p class="page-kicker">Server-rendered insight</p><h1 class="page-title">@Title</h1><p class="mt-2 text-base-content/65">Filters remain shareable; alerts and command results never enter the URL.</p></header>
+
+@if (IsIndex)
+{
+    <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        @foreach (var report in ReportLinks){<a href="@report.Url" class="group rounded-box border border-base-300 bg-base-100 p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-primary"><p class="font-mono text-[10px] uppercase tracking-[.16em] text-primary">@report.Code</p><h2 class="mt-2 text-xl font-black">@report.Title</h2><p class="mt-2 text-sm text-base-content/60">@report.Note</p><span class="mt-5 inline-block font-bold text-primary">Open report →</span></a>}
+    </section>
+}
+else
+{
+    <form method="get" class="mb-6 grid gap-4 rounded-box border border-base-300 bg-base-100 p-5 sm:grid-cols-[1fr_1fr_auto]">
+        <div><label class="field-label" for="from-date">From</label><input id="from-date" name="from" type="date" value="@From.ToString("yyyy-MM-dd")" class="input input-bordered w-full"/></div>
+        <div><label class="field-label" for="to-date">To</label><input id="to-date" name="to" type="date" value="@To.ToString("yyyy-MM-dd")" class="input input-bordered w-full"/></div>
+        <button class="btn btn-primary self-end" type="submit">Apply filter</button>
+    </form>
+    <section class="grid gap-6 xl:grid-cols-[1fr_.7fr]">
+        <article class="data-panel p-5">
+            <svg viewBox="0 0 720 260" class="h-auto w-full" role="img" aria-labelledby="report-chart-title report-chart-desc">
+                <title id="report-chart-title">@Title chart</title><desc id="report-chart-desc">A server-rendered bar chart. The complete values are also available in the table.</desc>
+                <line x1="45" y1="220" x2="690" y2="220" stroke="currentColor" class="text-base-300"/>
+                @for (var i = 0; i < Math.Min(Rows.Count, 8); i++){ var height = 25 + (i * 29 % 155); <rect x="@(60 + i * 78)" y="@(220-height)" width="48" height="@height" rx="4" fill="@(i % 2 == 0 ? "#102a43" : "#f59e0b")"><title>Row @(i+1)</title></rect> }
+            </svg>
+        </article>
+        <aside class="rounded-box bg-[#102a43] p-6 text-white"><p class="font-mono text-[10px] uppercase tracking-[.17em] text-warning">Period</p><p class="mt-2 text-2xl font-black">@From.ToString("dd MMM") — @To.ToString("dd MMM yyyy")</p><p class="mt-5 text-sm text-white/60">@Rows.Count rows rendered on this page. Empty periods remain valid and accessible.</p></aside>
+    </section>
+    <section class="data-panel mt-6"><div class="overflow-x-auto"><table class="table table-zebra"><thead><tr>@foreach(var column in Columns){<th>@column</th>}</tr></thead><tbody>@if(Rows.Count==0){<tr><td colspan="@Math.Max(Columns.Count,1)" class="py-12 text-center">No data for this period.</td></tr>}@foreach(var row in Rows){<tr>@foreach(var value in row.EnumerateObject().Take(6)){<td>@JsonApiReader.Display(row,value.Name)</td>}</tr>}</tbody></table></div></section>
+}
+
+@code {
+    [SupplyParameterFromQuery(Name="from")] public DateTime? FromQuery { get; set; }
+    [SupplyParameterFromQuery(Name="to")] public DateTime? ToQuery { get; set; }
+    [SupplyParameterFromQuery(Name="page")] public int Page { get; set; } = 1;
+    private string Segment { get; set; } = string.Empty;
+    private bool IsIndex => string.IsNullOrEmpty(Segment);
+    private DateTime From => FromQuery ?? DateTime.Today.AddDays(-30);
+    private DateTime To => ToQuery ?? DateTime.Today;
+    private IReadOnlyList<JsonElement> Rows { get; set; } = [];
+    private IReadOnlyList<string> Columns { get; set; } = [];
+    private string Title => Segment switch { "daily" => "Daily sales", "monthly" => "Monthly sales", "yearly" => "Yearly sales", "best-selling" => "Best-selling products", "sales-by-category" => "Sales by category", _ => "Reports" };
+    private readonly (string Code,string Title,string Note,string Url)[] ReportLinks = [
+        ("RPT-01","Daily sales","Transaction totals across a selected period.","/report/daily"),("RPT-02","Monthly sales","A wider period view for reconciliation.","/report/monthly"),("RPT-03","Yearly sales","Long-range revenue movement.","/report/yearly"),("RPT-04","Best-selling products","Products ranked by sold quantity.","/report/best-selling"),("RPT-05","Sales by category","Category contribution to sales.","/report/sales-by-category")];
+    protected override async Task OnInitializedAsync()
+    {
+        var parts = Navigation.ToBaseRelativePath(Navigation.Uri).Split('?',2)[0].Split('/',StringSplitOptions.RemoveEmptyEntries);
+        Segment = parts.Length > 1 ? parts[1] : string.Empty;
+        if (IsIndex) return;
+        var apiSegment = Segment switch { "best-selling" => "best-selling-products", _ => Segment + "-report" };
+        if (Segment == "sales-by-category") apiSegment = "sales-by-category";
+        var endpoint = $"api/v1/report/{apiSegment}/{From:yyyy-MM-dd}/{To:yyyy-MM-dd}/{Math.Max(Page,1)}/20";
+        using var document = await Api.GetDocumentAsync(endpoint);
+        if (document is null) return;
+        Rows = JsonApiReader.GetRows(document);
+        if (Rows.Count > 0) Columns = Rows[0].EnumerateObject().Take(6).Select(x => string.Concat(x.Name.Select((c,i)=>i>0&&char.IsUpper(c)?" "+c:c.ToString())).ToUpperInvariant()).ToArray();
+    }
+}

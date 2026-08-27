@@ -1,0 +1,86 @@
+@page "/product"
+@page "/product-category"
+@page "/customer"
+@page "/state"
+@page "/township"
+@page "/staff"
+@page "/tax"
+@page "/shop"
+@attribute [Authorize]
+@inject BackendApiClient Api
+@inject NavigationManager Navigation
+
+<PageTitle>@Definition.Title · POS Ledger</PageTitle>
+<FlashAlert />
+
+<header class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+    <div><p class="page-kicker">Master data</p><h1 class="page-title">@Definition.Title</h1></div>
+    <a class="btn btn-primary" href="/@Definition.Slug/create">Create new</a>
+</header>
+
+<form method="get" class="mb-5 flex max-w-xl gap-2" role="search">
+    <label class="sr-only" for="resource-search">Search @Definition.Title</label>
+    <input id="resource-search" name="search" value="@Search" class="input input-bordered min-w-0 flex-1" placeholder="Search records" />
+    <button class="btn btn-neutral" type="submit">Search</button>
+</form>
+
+<section class="data-panel">
+    @if (!string.IsNullOrWhiteSpace(LoadError))
+    {
+        <div class="alert alert-warning m-5"><span>@LoadError</span></div>
+    }
+    <div class="overflow-x-auto">
+        <table class="table table-zebra">
+            <thead><tr>@foreach (var column in Definition.Columns){<th>@Humanize(column)</th>}<th class="text-right">Actions</th></tr></thead>
+            <tbody>
+                @if (Rows.Count == 0)
+                {
+                    <tr><td colspan="@(Definition.Columns.Count + 1)" class="py-12 text-center text-base-content/55">No records found.</td></tr>
+                }
+                @foreach (var row in Rows)
+                {
+                    var routeKey = JsonApiReader.Display(row, Definition.RouteKeyProperty);
+                    <tr>
+                        @foreach (var column in Definition.Columns){<td>@JsonApiReader.Display(row, column)</td>}
+                        <td><div class="flex justify-end gap-2"><a class="btn btn-ghost btn-xs" href="/@Definition.Slug/@Uri.EscapeDataString(routeKey)/edit">Edit</a><a class="btn btn-ghost btn-xs text-error" href="/@Definition.Slug/@Uri.EscapeDataString(routeKey)/delete">Delete</a></div></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <nav class="flex items-center justify-between border-t border-base-300 p-4" aria-label="Pagination">
+        <a class="btn btn-sm btn-outline @(Page <= 1 ? "btn-disabled" : "")" href="@PageUrl(Math.Max(1, Page - 1))">Previous</a>
+        <span class="font-mono text-xs">PAGE @Page</span>
+        <a class="btn btn-sm btn-outline @(Rows.Count < PageSize ? "btn-disabled" : "")" href="@PageUrl(Page + 1)">Next</a>
+    </nav>
+</section>
+
+@code {
+    [SupplyParameterFromQuery(Name = "search")] public string? Search { get; set; }
+    [SupplyParameterFromQuery(Name = "page")] public int Page { get; set; } = 1;
+    private const int PageSize = 10;
+    private ResourceDefinition Definition { get; set; } = null!;
+    private IReadOnlyList<JsonElement> Rows { get; set; } = [];
+    private string? LoadError { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var slug = Navigation.ToBaseRelativePath(Navigation.Uri).Split('?', 2)[0].Trim('/');
+        Definition = ResourceCatalog.Get(slug);
+        Page = Math.Max(Page, 1);
+        var endpoint = $"{Definition.Endpoint}/{Page}/{PageSize}" + (string.IsNullOrWhiteSpace(Search) ? "" : $"?search={Uri.EscapeDataString(Search)}");
+        try
+        {
+            using var document = await Api.GetDocumentAsync(endpoint);
+            if (document is not null) Rows = JsonApiReader.GetRows(document);
+            else LoadError = "The backend did not return data. You can retry safely.";
+        }
+        catch (HttpRequestException)
+        {
+            LoadError = "The backend API is currently unavailable.";
+        }
+    }
+
+    private string PageUrl(int page) => $"/{Definition.Slug}?page={page}" + (string.IsNullOrWhiteSpace(Search) ? "" : $"&search={Uri.EscapeDataString(Search)}");
+    private static string Humanize(string value) => string.Concat(value.Select((c, i) => i > 0 && char.IsUpper(c) ? " " + c : c.ToString())).Trim().ToUpperInvariant();
+}

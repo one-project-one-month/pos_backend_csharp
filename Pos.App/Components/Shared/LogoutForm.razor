@@ -1,0 +1,15 @@
+@inject AuthSessionService AuthSession
+@inject NavigationManager Navigation
+
+<form method="post" @formname="logout-form" @onsubmit="LogoutAsync">
+    <AntiforgeryToken />
+    <button type="submit" class="btn btn-sm btn-outline" aria-label="Sign out">Sign out</button>
+</form>
+
+@code {
+    private async Task LogoutAsync()
+    {
+        await AuthSession.SignOutAsync();
+        Navigation.NavigateTo("/login", forceLoad: true);
+    }
+}

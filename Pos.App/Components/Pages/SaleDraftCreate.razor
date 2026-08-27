@@ -1,0 +1,28 @@
+@page "/sale-drafts/create"
+@attribute [Authorize]
+@inject BackendApiClient Api
+@inject NavigationManager Navigation
+
+<PageTitle>New sale draft · POS Ledger</PageTitle>
+<section class="mx-auto max-w-xl rounded-box border border-base-300 bg-base-100 p-7 shadow-sm">
+    <p class="page-kicker">New cart</p><h1 class="page-title">Create sale draft</h1>
+    <EditForm Model="Form" FormName="create-sale-draft" OnValidSubmit="SubmitAsync" class="mt-7 space-y-5">
+        <DataAnnotationsValidator/>
+        <div><label class="field-label" for="draft-name">Draft name <span class="font-normal text-base-content/50">(optional)</span></label><InputText id="draft-name" class="input input-bordered w-full" @bind-Value="Form.DraftName" maxlength="100" placeholder="Counter 2 / customer name"/><ValidationMessage For="() => Form.DraftName" class="text-sm text-error"/></div>
+        @if (!string.IsNullOrWhiteSpace(ErrorMessage)){<div class="alert alert-error">@ErrorMessage</div>}
+        <div class="flex justify-end gap-3"><a class="btn btn-ghost" href="/sale-drafts">Cancel</a><button class="btn btn-warning" type="submit">Create draft</button></div>
+    </EditForm>
+</section>
+
+@code {
+    [SupplyParameterFromForm(FormName = "create-sale-draft")] public CreateSaleDraftRequestModel Form { get; set; }
+    public SaleDraftCreate() => Form = new();
+    private string? ErrorMessage { get; set; }
+    private async Task SubmitAsync()
+    {
+        using var response = await Api.PostAsync("api/v1/sale-drafts", Form);
+        if (!response.IsSuccessStatusCode){ ErrorMessage = "Draft could not be created."; return; }
+        var draft = await response.Content.ReadFromJsonAsync<SaleDraftModel>();
+        Navigation.NavigateTo(draft is null ? "/sale-drafts" : $"/sale-drafts/{draft.SaleDraftId}", forceLoad: true);
+    }
+}

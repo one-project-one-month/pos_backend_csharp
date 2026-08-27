@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Township;
+namespace Pos.BackendApi.Features.Township;
 
 public class DL_Township
 {

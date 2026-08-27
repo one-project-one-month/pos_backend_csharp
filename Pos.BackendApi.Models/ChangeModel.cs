@@ -1,14 +1,14 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Customer;
-using DotNet8.PosBackendApi.Models.Setup.Product;
-using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
-using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
-using DotNet8.PosBackendApi.Models.Setup.Shop;
-using DotNet8.PosBackendApi.Models.Setup.Staff;
-using DotNet8.PosBackendApi.Models.Setup.State;
-using DotNet8.PosBackendApi.Models.Setup.Tax;
-using DotNet8.PosBackendApi.Models.Setup.Township;
+using Pos.BackendApi.Models.Setup.Customer;
+using Pos.BackendApi.Models.Setup.Product;
+using Pos.BackendApi.Models.Setup.ProductCategory;
+using Pos.BackendApi.Models.Setup.SaleInvoice;
+using Pos.BackendApi.Models.Setup.Shop;
+using Pos.BackendApi.Models.Setup.Staff;
+using Pos.BackendApi.Models.Setup.State;
+using Pos.BackendApi.Models.Setup.Tax;
+using Pos.BackendApi.Models.Setup.Township;
 
-namespace DotNet8.PosBackendApi.Models;
+namespace Pos.BackendApi.Models;
 
 public static class ChangeModel
 {

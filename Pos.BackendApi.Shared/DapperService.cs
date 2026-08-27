@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Shared;
+namespace Pos.BackendApi.Shared;
 
 public class DapperService
 {

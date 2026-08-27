@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@source "../Components/**/*.razor";
+@plugin "daisyui" {
+  themes: corporate --default;
+}
+
+@layer base {
+  :root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+  h1, h2, h3 { letter-spacing: -0.025em; }
+  a, button, input, select { outline-offset: 3px; }
+}
+
+@layer components {
+  .page-kicker { @apply font-mono text-xs font-bold uppercase tracking-[.18em] text-primary; }
+  .page-title { @apply mt-1 text-3xl font-black sm:text-4xl; }
+  .data-panel { @apply overflow-hidden rounded-box border border-base-300 bg-base-100 shadow-sm; }
+  .field-label { @apply mb-1.5 block text-sm font-bold; }
+}

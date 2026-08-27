@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models;
+namespace Pos.BackendApi.Models;
 
 public enum EnumPos
 {

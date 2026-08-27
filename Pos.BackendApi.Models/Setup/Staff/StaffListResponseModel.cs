@@ -1,6 +1,6 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
+using Pos.BackendApi.Models.Setup.PageSetting;
 
-namespace DotNet8.PosBackendApi.Models.Setup.Staff;
+namespace Pos.BackendApi.Models.Setup.Staff;
 
 public class StaffListResponseModel
 {

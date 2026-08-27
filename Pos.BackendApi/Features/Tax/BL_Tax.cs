@@ -1,7 +1,7 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Tax;
+using Pos.BackendApi.Models.Setup.Tax;
 using System.Security.Cryptography;
 
-namespace DotNet8.PosBackendApi.Features.Tax;
+namespace Pos.BackendApi.Features.Tax;
 
 public class BL_Tax
 {

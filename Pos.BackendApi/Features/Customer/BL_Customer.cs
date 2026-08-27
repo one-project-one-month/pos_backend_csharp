@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Customer;
+namespace Pos.BackendApi.Features.Customer;
 
 public class BL_Customer
 {

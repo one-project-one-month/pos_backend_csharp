@@ -1,0 +1,30 @@
+@page "/sale-drafts/{DraftId:int}/delete"
+@attribute [Authorize]
+@inject BackendApiClient Api
+@inject NavigationManager Navigation
+@inject FlashMessageService Flash
+
+<PageTitle>Delete sale draft · POS Ledger</PageTitle>
+<section class="mx-auto max-w-xl rounded-box border border-error/30 bg-base-100 p-8 shadow-sm">
+    <p class="page-kicker !text-error">Discard cart</p><h1 class="page-title">Delete @(Draft?.DraftName ?? $"Draft #{DraftId}")?</h1>
+    <p class="mt-3 text-base-content/65">All draft items will be removed. Existing invoices are not affected.</p>
+    @if (!string.IsNullOrWhiteSpace(ErrorMessage)){<div class="alert alert-error mt-5">@ErrorMessage</div>}
+    <form method="post" @formname="delete-sale-draft" @onsubmit="DeleteAsync" class="mt-7 flex justify-end gap-3"><AntiforgeryToken/><a class="btn btn-ghost" href="/sale-drafts">Cancel</a><button class="btn btn-error" type="submit">Delete draft</button></form>
+</section>
+
+@code {
+    [Parameter] public int DraftId { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashMessage")] public string? FlashMessage { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashLevel")] public string? FlashLevel { get; set; }
+    private SaleDraftModel? Draft { get; set; }
+    private string? ErrorMessage { get; set; }
+    protected override async Task OnInitializedAsync() => Draft = await Api.GetFromJsonAsync<SaleDraftModel>($"api/v1/sale-drafts/{DraftId}");
+    private async Task DeleteAsync()
+    {
+        var version = Uri.EscapeDataString(Draft?.RowVersion ?? string.Empty);
+        var result = await Api.ReadCommandResultAsync(await Api.DeleteAsync($"api/v1/sale-drafts/{DraftId}?rowVersion={version}"));
+        if (!result.IsSuccess){ ErrorMessage = result.Message; return; }
+        Flash.Set("Sale draft deleted.");
+        Navigation.NavigateTo("/sale-drafts", forceLoad: true);
+    }
+}

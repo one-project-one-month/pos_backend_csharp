@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.DbService.Models;
+namespace Pos.BackendApi.DbService.Models;
 
 public class Tbl_Tax
 {

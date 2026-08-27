@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Generate;
+namespace Pos.BackendApi.Features.Generate;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,0 +1,23 @@
+@inject FlashMessageService Flash
+
+@if (!string.IsNullOrWhiteSpace(FlashMessage))
+{
+    <div role="status" class="alert mb-6 @(FlashLevel == "error" ? "alert-error" : FlashLevel == "warning" ? "alert-warning" : "alert-success")">
+        <span class="font-semibold">@FlashMessage</span>
+    </div>
+}
+
+@code {
+    [SupplyParameterFromTempData(Name = "FlashMessage")]
+    public string? FlashMessage { get; set; }
+
+    [SupplyParameterFromTempData(Name = "FlashLevel")]
+    public string? FlashLevel { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var value = Flash.Consume();
+        FlashMessage = value.Message;
+        FlashLevel = value.Level;
+    }
+}

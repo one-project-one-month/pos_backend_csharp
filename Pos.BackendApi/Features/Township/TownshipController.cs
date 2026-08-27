@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Township;
+namespace Pos.BackendApi.Features.Township;
 
 [Route("api/v1/townships")]
 [ApiController]

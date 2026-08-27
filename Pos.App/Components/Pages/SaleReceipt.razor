@@ -1,0 +1,29 @@
+@page "/sale-receipt/{VoucherNo?}"
+@attribute [Authorize]
+@inject BackendApiClient Api
+
+<PageTitle>Receipt · POS Ledger</PageTitle>
+<FlashAlert />
+@if (string.IsNullOrWhiteSpace(VoucherNo))
+{
+    <section class="mx-auto max-w-lg rounded-box border border-base-300 bg-base-100 p-7"><h1 class="page-title">Find a receipt</h1><form method="get" action="/sale-invoice-list" class="mt-6 flex gap-2"><input name="search" class="input input-bordered flex-1" placeholder="Voucher number"/><button class="btn btn-primary">Find</button></form></section>
+}
+else if (Invoice is null)
+{
+    <div class="alert alert-warning"><span>Receipt @VoucherNo was not found.</span></div>
+}
+else
+{
+    <article class="mx-auto max-w-3xl rounded-box border border-base-300 bg-white p-7 text-black shadow-sm print:border-0 print:shadow-none sm:p-10">
+        <header class="flex justify-between gap-6 border-b-2 border-black pb-6"><div><p class="font-mono text-xs font-bold uppercase tracking-[.18em]">POS LEDGER</p><h1 class="mt-2 text-3xl font-black">Sales receipt</h1></div><div class="text-right"><p class="font-mono font-bold">@Invoice.VoucherNo</p><p class="text-sm">@Invoice.SaleInvoiceDateTime.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</p></div></header>
+        <dl class="my-6 grid gap-3 text-sm sm:grid-cols-2"><div><dt class="font-bold">Staff</dt><dd>@Invoice.StaffCode</dd></div><div><dt class="font-bold">Payment</dt><dd>@Invoice.PaymentType</dd></div><div><dt class="font-bold">Customer account</dt><dd>@Invoice.CustomerAccountNo</dd></div><div><dt class="font-bold">Customer code</dt><dd>@Invoice.CustomerCode</dd></div></dl>
+        <div class="overflow-x-auto"><table class="table text-black"><thead class="text-black"><tr><th>Item</th><th class="text-right">Qty</th><th class="text-right">Price</th><th class="text-right">Amount</th></tr></thead><tbody>@foreach(var item in Invoice.SaleInvoiceDetails ?? []){<tr><td><strong>@item.ProductName</strong><small class="block font-mono">@item.ProductCode</small></td><td class="text-right">@item.Quantity</td><td class="text-right">@item.Price.ToString("N2")</td><td class="text-right">@item.Amount.ToString("N2")</td></tr>}</tbody></table></div>
+        <dl class="ml-auto mt-6 max-w-xs space-y-2"><div class="flex justify-between"><dt>Subtotal</dt><dd>@Invoice.TotalAmount.ToString("N2")</dd></div><div class="flex justify-between"><dt>Tax</dt><dd>@Invoice.Tax.ToString("N2")</dd></div><div class="flex justify-between"><dt>Discount</dt><dd>@Invoice.Discount.ToString("N2")</dd></div><div class="flex justify-between border-t-2 border-black pt-2 text-xl font-black"><dt>Paid</dt><dd>@Invoice.PaymentAmount?.ToString("N2")</dd></div><div class="flex justify-between"><dt>Change</dt><dd>@Invoice.Change?.ToString("N2")</dd></div></dl>
+    </article>
+}
+
+@code {
+    [Parameter] public string? VoucherNo { get; set; }
+    private SaleInvoiceModel? Invoice { get; set; }
+    protected override async Task OnInitializedAsync(){if(string.IsNullOrWhiteSpace(VoucherNo))return;using var document=await Api.GetDocumentAsync($"api/v1/sale-invoices/{Uri.EscapeDataString(VoucherNo)}");var item=document is null?null:JsonApiReader.GetDataItem(document);if(item is {ValueKind:JsonValueKind.Object})Invoice=JsonSerializer.Deserialize<SaleInvoiceModel>(item.Value.GetRawText(),new JsonSerializerOptions(JsonSerializerDefaults.Web));}
+}

@@ -1,15 +1,16 @@
-﻿// Global using directives
+// Global using directives
 
-global using DotNet8.PosBackendApi.DbService.Models;
-global using DotNet8.PosBackendApi.Models;
-global using DotNet8.PosBackendApi.Models.Setup.Customer;
-global using DotNet8.PosBackendApi.Models.Setup.PageSetting;
-global using DotNet8.PosBackendApi.Models.Setup.Product;
-global using DotNet8.PosBackendApi.Models.Setup.ProductCategory;
-global using DotNet8.PosBackendApi.Models.Setup.SaleInvoice;
-global using DotNet8.PosBackendApi.Models.Setup.Shop;
-global using DotNet8.PosBackendApi.Models.Setup.Staff;
-global using DotNet8.PosBackendApi.Models.Setup.State;
+global using Pos.BackendApi.DbService.Models;
+global using Pos.BackendApi.Models;
+global using Pos.BackendApi.Models.Setup.Customer;
+global using Pos.BackendApi.Models.Setup.PageSetting;
+global using Pos.BackendApi.Models.Setup.Product;
+global using Pos.BackendApi.Models.Setup.ProductCategory;
+global using Pos.BackendApi.Models.Setup.SaleInvoice;
+global using Pos.BackendApi.Models.Setup.SaleDraft;
+global using Pos.BackendApi.Models.Setup.Shop;
+global using Pos.BackendApi.Models.Setup.Staff;
+global using Pos.BackendApi.Models.Setup.State;
 global using Newtonsoft.Json.Linq;
-global using DotNet8.PosBackendApi.Models.Setup.Token;
-global using DotNet8.PosBackendApi.Models.Setup.Township;
+global using Pos.BackendApi.Models.Setup.Token;
+global using Pos.BackendApi.Models.Setup.Township;

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Shop;
+namespace Pos.BackendApi.Models.Setup.Shop;
 
 public class ShopResponseModel
 {

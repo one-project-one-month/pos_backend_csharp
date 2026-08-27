@@ -1,7 +1,7 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Tax;
+using Pos.BackendApi.Models.Setup.Tax;
 using System.Collections.Generic;
 
-namespace DotNet8.PosBackendApi.Features.Tax;
+namespace Pos.BackendApi.Features.Tax;
 
 [Route("api/v1/taxes")]
 [ApiController]

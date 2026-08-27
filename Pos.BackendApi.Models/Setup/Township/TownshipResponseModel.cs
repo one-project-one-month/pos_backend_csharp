@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Township;
+namespace Pos.BackendApi.Models.Setup.Township;
 
 public class TownshipResponseModel : TokenResponseModel
 {

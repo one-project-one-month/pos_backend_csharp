@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.SaleInvoice;
+namespace Pos.BackendApi.Features.SaleInvoice;
 
 [Route("api/v1/sale-invoices")]
 [ApiController]

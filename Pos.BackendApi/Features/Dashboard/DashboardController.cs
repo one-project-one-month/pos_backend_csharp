@@ -1,7 +1,7 @@
-﻿using Azure;
+using Azure;
 using Microsoft.AspNetCore.Http;
 
-namespace DotNet8.PosBackendApi.Features.Dashboard;
+namespace Pos.BackendApi.Features.Dashboard;
 
 [Route("api/v1/dashboard")]
 [ApiController]

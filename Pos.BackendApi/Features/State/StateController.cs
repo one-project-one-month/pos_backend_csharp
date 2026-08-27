@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.State;
+namespace Pos.BackendApi.Features.State;
 
 [Route("api/v1/states")]
 [ApiController]

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Token;
+namespace Pos.BackendApi.Models.Setup.Token;
 
 public class TokenResponseModel
 {
@@ -13,7 +13,9 @@ public class TokenModel
 
 public class JwtModel
 {
-    public string Issuer { get; set; }
-    public string Audience { get; set; }
-    public string Key { get; set; }
+    public string Issuer { get; set; } = string.Empty;
+    public string Audience { get; set; } = string.Empty;
+    public string Key { get; set; } = string.Empty;
+    public int AccessTokenMinutes { get; set; } = 15;
+    public int RefreshTokenDays { get; set; } = 7;
 }

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.SaleInvoice;
+namespace Pos.BackendApi.Features.SaleInvoice;
 
 public class DL_SaleInvoice
 {

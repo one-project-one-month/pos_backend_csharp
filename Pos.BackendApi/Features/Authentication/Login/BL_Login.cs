@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Authentication.Login;
+namespace Pos.BackendApi.Features.Authentication.Login;
 
 public class BL_Login
 {
@@ -13,12 +13,28 @@ public class BL_Login
         return model;
     }
 
+    public Task<LoginResponseModel> Refresh(string refreshToken)
+    {
+        if (string.IsNullOrWhiteSpace(refreshToken))
+            throw new ArgumentException("Refresh token is required.", nameof(refreshToken));
+
+        return _dL_login.Refresh(refreshToken);
+    }
+
+    public Task Revoke(string refreshToken)
+    {
+        if (string.IsNullOrWhiteSpace(refreshToken))
+            throw new ArgumentException("Refresh token is required.", nameof(refreshToken));
+
+        return _dL_login.Revoke(refreshToken);
+    }
+
     private static void CheckLoginNullValue(LoginRequestModel reqModel)
     {
         if (string.IsNullOrEmpty(reqModel.UserName))
-            throw new Exception("UserName is null.");
+            throw new ArgumentException("Username is required.", nameof(reqModel));
 
         if (string.IsNullOrEmpty(reqModel.Password))
-            throw new Exception("Password is null.");
+            throw new ArgumentException("Password is required.", nameof(reqModel));
     }
 }

@@ -1,0 +1,65 @@
+@page "/product/{Key}/delete"
+@page "/product-category/{Key}/delete"
+@page "/customer/{Key}/delete"
+@page "/state/{Key}/delete"
+@page "/township/{Key}/delete"
+@page "/staff/{Key}/delete"
+@page "/tax/{Key}/delete"
+@page "/shop/{Key}/delete"
+@attribute [Authorize]
+@inject BackendApiClient Api
+@inject NavigationManager Navigation
+@inject FlashMessageService Flash
+
+<PageTitle>Delete @Definition.Title · POS Ledger</PageTitle>
+
+<section class="mx-auto max-w-xl rounded-box border border-error/30 bg-base-100 p-7 shadow-sm sm:p-9">
+    <p class="font-mono text-xs font-bold uppercase tracking-[.18em] text-error">Destructive action</p>
+    <h1 class="mt-2 text-3xl font-black">Delete this record?</h1>
+    <p class="mt-3 text-base-content/65">You are deleting <strong>@DisplayName</strong> from @Definition.Title.ToLowerInvariant(). This may be rejected if another record still references it.</p>
+    @if (!string.IsNullOrWhiteSpace(ErrorMessage)){<div class="alert alert-error mt-5">@ErrorMessage</div>}
+    <form method="post" @formname="@FormName" @onsubmit="DeleteAsync" class="mt-7 flex justify-end gap-3">
+        <AntiforgeryToken />
+        <a class="btn btn-ghost" href="/@Definition.Slug">Cancel</a>
+        <button class="btn btn-error" type="submit">Delete permanently</button>
+    </form>
+</section>
+
+@code {
+    [Parameter] public string Key { get; set; } = string.Empty;
+    [SupplyParameterFromTempData(Name = "FlashMessage")] public string? FlashMessage { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashLevel")] public string? FlashLevel { get; set; }
+    private ResourceDefinition Definition { get; set; } = null!;
+    private ResourceFormModel Record { get; set; } = new();
+    private string? ErrorMessage { get; set; }
+    private string FormName => $"{Definition.Slug}-delete-form";
+    private string DisplayName => Record.GetValue(Definition.RouteKeyProperty switch { "productCode" => "ProductCode", "productCategoryCode" => "ProductCategoryCode", "customerCode" => "CustomerCode", "stateCode" => "StateCode", "townshipCode" => "TownshipCode", "staffId" => "StaffName", "taxId" => "TaxType", "shopId" => "ShopName", _ => "" }) ?? Key;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var slug = Navigation.ToBaseRelativePath(Navigation.Uri).Split('?', 2)[0].Split('/', StringSplitOptions.RemoveEmptyEntries)[0];
+        Definition = ResourceCatalog.Get(slug);
+        await LoadAsync();
+    }
+
+    private async Task<bool> LoadAsync()
+    {
+        using var document = await Api.GetDocumentAsync($"{Definition.Endpoint}/{Uri.EscapeDataString(Key)}");
+        var item = document is null ? null : JsonApiReader.GetDataItem(document);
+        if (item is not { ValueKind: JsonValueKind.Object }) return false;
+        Record.Load(item.Value);
+        return true;
+    }
+
+    private async Task DeleteAsync()
+    {
+        if (Record.Id <= 0 && !await LoadAsync())
+        {
+            ErrorMessage = "The record could not be loaded.";
+            return;
+        }
+        var result = await Api.ReadCommandResultAsync(await Api.DeleteAsync($"{Definition.Endpoint}/{Record.Id}"));
+        Flash.Set(result.Message, result.IsSuccess ? "success" : "error");
+        Navigation.NavigateTo($"/{Definition.Slug}", forceLoad: true);
+    }
+}

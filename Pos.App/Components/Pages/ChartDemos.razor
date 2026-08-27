@@ -1,0 +1,20 @@
+@page "/high-chart/line-chart"
+@page "/apex-chart/line-column-chart"
+@page "/apex-chart/pie-chart"
+@attribute [Authorize]
+@inject NavigationManager Navigation
+
+<PageTitle>Chart demo · POS Ledger</PageTitle>
+<header class="mb-7"><p class="page-kicker">Native SVG</p><h1 class="page-title">Accessible chart demo</h1><p class="mt-2 text-base-content/65">The former client chart libraries are replaced by deterministic server-rendered SVG.</p></header>
+<section class="data-panel p-6">
+    @if (IsPie)
+    {
+        <div class="grid items-center gap-8 md:grid-cols-2"><svg viewBox="0 0 220 220" class="mx-auto max-w-sm" role="img" aria-labelledby="pie-title pie-desc"><title id="pie-title">Category share</title><desc id="pie-desc">Three-category donut chart: Food 50 percent, Drinks 30 percent, Other 20 percent.</desc><circle cx="110" cy="110" r="72" fill="none" stroke="#dbe5ef" stroke-width="38"/><circle cx="110" cy="110" r="72" fill="none" stroke="#102a43" stroke-width="38" stroke-dasharray="226 452" transform="rotate(-90 110 110)"/><circle cx="110" cy="110" r="72" fill="none" stroke="#f59e0b" stroke-width="38" stroke-dasharray="136 452" stroke-dashoffset="-226" transform="rotate(-90 110 110)"/></svg><table class="table"><thead><tr><th>Category</th><th>Share</th></tr></thead><tbody><tr><td>Food</td><td>50%</td></tr><tr><td>Drinks</td><td>30%</td></tr><tr><td>Other</td><td>20%</td></tr></tbody></table></div>
+    }
+    else
+    {
+        <svg viewBox="0 0 720 260" class="w-full" role="img" aria-labelledby="line-title line-desc"><title id="line-title">Sales demo</title><desc id="line-desc">Seven point sales line with table fallback.</desc><line x1="40" y1="220" x2="690" y2="220" stroke="#ccd6e0"/><polyline points="55,190 150,125 245,155 340,65 435,105 530,45 665,78" fill="none" stroke="#f59e0b" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><table class="table table-sm"><thead><tr><th>Day</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th></tr></thead><tbody><tr><th>Sales</th><td>12</td><td>28</td><td>19</td><td>41</td><td>36</td><td>49</td><td>43</td></tr></tbody></table>
+    }
+</section>
+
+@code { private bool IsPie => Navigation.ToBaseRelativePath(Navigation.Uri).Contains("pie-chart",StringComparison.OrdinalIgnoreCase); }

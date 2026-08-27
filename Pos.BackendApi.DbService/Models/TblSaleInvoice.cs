@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace DotNet8.PosBackendApi.DbService.Models;
+namespace Pos.BackendApi.DbService.Models;
 
 public partial class TblSaleInvoice
 {

@@ -1,7 +1,7 @@
-using DotNet8.PosBackendApi.Models.Setup.PageSetting;
+using Pos.BackendApi.Models.Setup.PageSetting;
 using Microsoft.Extensions.Options;
 
-namespace DotNet8.PosBackendApi.Features.Staff;
+namespace Pos.BackendApi.Features.Staff;
 
 public class DL_Staff
 {

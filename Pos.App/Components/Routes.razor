@@ -1,6 +1,25 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
+<Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
-        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
-        @* <FocusOnNavigate RouteData="routeData" Selector="h1" /> *@
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+            <NotAuthorized>
+                <LayoutView Layout="typeof(Layout.LoginLayout)">
+                    <section class="mx-auto max-w-lg rounded-box border border-error/30 bg-base-100 p-8 shadow-xl">
+                        <h1 class="text-2xl font-black">Session required</h1>
+                        <p class="mt-2 text-base-content/70">Please sign in to continue.</p>
+                        <a class="btn btn-primary mt-6" href="/login">Go to login</a>
+                    </section>
+                </LayoutView>
+            </NotAuthorized>
+        </AuthorizeRouteView>
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
+    <NotFound>
+        <LayoutView Layout="typeof(Layout.MainLayout)">
+            <section class="rounded-box bg-base-100 p-8 shadow-sm">
+                <p class="font-mono text-sm text-primary">404 / NOT FOUND</p>
+                <h1 class="mt-2 text-4xl font-black">That page is not on the ledger.</h1>
+                <a class="btn btn-primary mt-6" href="/">Back to dashboard</a>
+            </section>
+        </LayoutView>
+    </NotFound>
 </Router>

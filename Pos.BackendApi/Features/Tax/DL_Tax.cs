@@ -1,8 +1,8 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Tax;
+using Pos.BackendApi.Models.Setup.Tax;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Collections.Generic;
 
-namespace DotNet8.PosBackendApi.Features.Tax;
+namespace Pos.BackendApi.Features.Tax;
 
 public class DL_Tax
 {

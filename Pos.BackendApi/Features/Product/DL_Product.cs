@@ -1,6 +1,6 @@
-﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace DotNet8.PosBackendApi.Features.Product;
+namespace Pos.BackendApi.Features.Product;
 
 public class DL_Product
 {

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Report;
+namespace Pos.BackendApi.Models.Setup.Report;
 
 public class SaleDailyReportRequestModel
 {

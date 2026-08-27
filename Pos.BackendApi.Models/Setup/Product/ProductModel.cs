@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Product;
+namespace Pos.BackendApi.Models.Setup.Product;
 
 public class ProductModel
 {

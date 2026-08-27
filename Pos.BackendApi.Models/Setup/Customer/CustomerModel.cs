@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Customer;
+namespace Pos.BackendApi.Models.Setup.Customer;
 
 public class CustomerModel
 {

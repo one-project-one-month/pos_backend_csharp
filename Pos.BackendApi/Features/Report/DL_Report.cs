@@ -1,8 +1,8 @@
-﻿using DotNet8.PosBackendApi.Shared;
-using DotNet8.PosBackendApi.Models.Setup.Report;
+using Pos.BackendApi.Shared;
+using Pos.BackendApi.Models.Setup.Report;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace DotNet8.PosBackendApi.Features.Report;
+namespace Pos.BackendApi.Features.Report;
 
 public class DL_Report
 {

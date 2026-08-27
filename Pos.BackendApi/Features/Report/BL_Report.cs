@@ -1,6 +1,6 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.Report;
+using Pos.BackendApi.Models.Setup.Report;
 
-namespace DotNet8.PosBackendApi.Features.Report;
+namespace Pos.BackendApi.Features.Report;
 
 public class BL_Report
 {

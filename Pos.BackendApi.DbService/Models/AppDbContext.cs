@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace DotNet8.PosBackendApi.DbService.Models;
+namespace Pos.BackendApi.DbService.Models;
 
 public partial class AppDbContext : DbContext
 {
@@ -16,6 +16,12 @@ public partial class AppDbContext : DbContext
     }
 
     public virtual DbSet<TblCustomer> TblCustomers { get; set; }
+
+    public virtual DbSet<TblRefreshToken> TblRefreshTokens { get; set; }
+
+    public virtual DbSet<TblSaleDraft> TblSaleDrafts { get; set; }
+
+    public virtual DbSet<TblSaleDraftDetail> TblSaleDraftDetails { get; set; }
 
     public virtual DbSet<TblPlaceState> TblPlaceStates { get; set; }
 
@@ -37,6 +43,40 @@ public partial class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TblRefreshToken>(entity =>
+        {
+            entity.HasKey(e => e.RefreshTokenId);
+            entity.ToTable("Tbl_RefreshToken");
+            entity.Property(e => e.TokenHash).HasMaxLength(32).IsRequired();
+            entity.Property(e => e.ReplacedByTokenHash).HasMaxLength(32);
+            entity.Property(e => e.RowVersion).IsRowVersion();
+            entity.HasIndex(e => e.TokenHash).IsUnique();
+            entity.HasIndex(e => new { e.StaffId, e.FamilyId });
+        });
+
+        modelBuilder.Entity<TblSaleDraft>(entity =>
+        {
+            entity.HasKey(e => e.SaleDraftId);
+            entity.ToTable("Tbl_SaleDraft");
+            entity.Property(e => e.DraftName).HasMaxLength(100);
+            entity.Property(e => e.RowVersion).IsRowVersion();
+            entity.HasIndex(e => new { e.StaffId, e.UpdatedAtUtc });
+        });
+
+        modelBuilder.Entity<TblSaleDraftDetail>(entity =>
+        {
+            entity.HasKey(e => e.SaleDraftDetailId);
+            entity.ToTable("Tbl_SaleDraftDetail");
+            entity.Property(e => e.ProductCode).HasMaxLength(50).IsRequired();
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.RowVersion).IsRowVersion();
+            entity.HasIndex(e => new { e.SaleDraftId, e.ProductCode }).IsUnique();
+            entity.HasOne(e => e.SaleDraft)
+                .WithMany(e => e.Details)
+                .HasForeignKey(e => e.SaleDraftId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
         modelBuilder.Entity<Tbl_Tax>(entity =>
         {
             entity.HasKey(e => e.TaxId);

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Staff;
+namespace Pos.BackendApi.Models.Setup.Staff;
 
 public class StaffResponseModel
 {

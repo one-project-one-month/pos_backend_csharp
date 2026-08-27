@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Authentication.Register;
+namespace Pos.BackendApi.Features.Authentication.Register;
 
 [Route("api/v1/auth/register")]
 [ApiController]

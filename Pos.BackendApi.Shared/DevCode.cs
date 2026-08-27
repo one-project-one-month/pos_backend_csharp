@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace DotNet8.PosBackendApi.Shared;
+namespace Pos.BackendApi.Shared;
 
 public static class DevCode
 {

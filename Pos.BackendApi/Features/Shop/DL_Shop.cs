@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.Shop;
+namespace Pos.BackendApi.Features.Shop;
 
 public class DL_Shop
 {

@@ -1,27 +1,18 @@
-﻿@using System.Net.Http
-@using System.Net.Http.Json
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization
+@using System.Security.Claims
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
-@using static Microsoft.AspNetCore.Components.Web.RenderMode
-@using Microsoft.AspNetCore.Components.Web.Virtualization
-@using Microsoft.JSInterop
-@using DotNet8.Pos.App
-@using DotNet8.Pos.App.Components
-@using DotNet8.Pos.App.Services
-@using DotNet8.Pos
-@using MudBlazor
-@using Radzen
-@using Radzen.Blazor
-@using DotNet8.PosBackendApi.Shared
-@using DotNet8.Pos.App.Components.Layout
-@using DotNet8.Pos.App.Models.Staff;
-@using Microsoft.AspNetCore.Components.Authorization
-
-
-@inject HttpClientService HttpClientService
-@inject IDialogService DialogService
-@inject ISnackbar Snackbar
-@inject InjectService InjectService
-@inject NavigationManager Nav
-@inject IJSRuntime JSRuntime
+@using Pos.App
+@using Pos.App.Components
+@using Pos.App.Components.Layout
+@using Pos.App.Components.Shared
+@using Pos.App.Models.Auth
+@using Pos.App.Models.Resources
+@using Pos.App.Services
+@using Pos.BackendApi.Models.Setup.SaleDraft
+@using Pos.BackendApi.Models.Setup.SaleInvoice

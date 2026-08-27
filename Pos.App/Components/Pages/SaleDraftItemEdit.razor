@@ -1,0 +1,41 @@
+@page "/sale-drafts/{DraftId:int}/items/{ProductCode}/edit"
+@attribute [Authorize]
+@inject BackendApiClient Api
+@inject NavigationManager Navigation
+@inject FlashMessageService Flash
+
+<PageTitle>Edit draft item · POS Ledger</PageTitle>
+<section class="mx-auto max-w-xl rounded-box border border-base-300 bg-base-100 p-7 shadow-sm">
+    <p class="page-kicker">Draft @DraftId</p><h1 class="page-title">Update @ProductCode</h1>
+    <EditForm Model="Form" FormName="edit-draft-item" OnValidSubmit="SubmitAsync" class="mt-7 space-y-5">
+        <DataAnnotationsValidator/>
+        <div><label class="field-label" for="item-quantity">Quantity</label><InputNumber id="item-quantity" class="input input-bordered w-full" @bind-Value="Form.Quantity"/><ValidationMessage For="() => Form.Quantity" class="text-sm text-error"/></div>
+        @if (!string.IsNullOrWhiteSpace(ErrorMessage)){<div class="alert alert-error">@ErrorMessage</div>}
+        <div class="flex justify-end gap-3"><a class="btn btn-ghost" href="/sale-drafts/@DraftId">Cancel</a><button class="btn btn-primary" type="submit">Save quantity</button></div>
+    </EditForm>
+</section>
+
+@code {
+    [Parameter] public int DraftId { get; set; }
+    [Parameter] public string ProductCode { get; set; } = string.Empty;
+    [SupplyParameterFromForm(FormName = "edit-draft-item")] public SetSaleDraftItemQuantityRequestModel Form { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashMessage")] public string? FlashMessage { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashLevel")] public string? FlashLevel { get; set; }
+    private SaleDraftModel? Draft { get; set; }
+    private string? ErrorMessage { get; set; }
+    public SaleDraftItemEdit() => Form = new();
+    protected override async Task OnInitializedAsync()
+    {
+        Draft = await Api.GetFromJsonAsync<SaleDraftModel>($"api/v1/sale-drafts/{DraftId}");
+        var item = Draft?.Items.FirstOrDefault(x => x.ProductCode.Equals(ProductCode, StringComparison.OrdinalIgnoreCase));
+        if (item is not null && Form.Quantity == 0) Form.Quantity = item.Quantity;
+    }
+    private async Task SubmitAsync()
+    {
+        Form.RowVersion = Draft?.RowVersion ?? string.Empty;
+        var result = await Api.ReadCommandResultAsync(await Api.PatchAsync($"api/v1/sale-drafts/{DraftId}/items/{Uri.EscapeDataString(ProductCode)}", Form));
+        if (!result.IsSuccess){ ErrorMessage = result.Message; return; }
+        Flash.Set(Form.Quantity == 0 ? "Item removed from draft." : "Quantity updated.");
+        Navigation.NavigateTo($"/sale-drafts/{DraftId}", forceLoad: true);
+    }
+}

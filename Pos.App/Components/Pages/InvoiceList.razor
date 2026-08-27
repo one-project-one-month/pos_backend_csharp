@@ -1,0 +1,16 @@
+@page "/sale-invoice-list"
+@attribute [Authorize]
+@inject BackendApiClient Api
+
+<PageTitle>Invoices · POS Ledger</PageTitle>
+<FlashAlert />
+<header class="mb-7"><p class="page-kicker">Final ledger</p><h1 class="page-title">Sale invoices</h1></header>
+<form method="get" class="mb-5 flex max-w-xl gap-2"><label class="sr-only" for="invoice-search">Search invoices</label><input id="invoice-search" name="search" value="@Search" class="input input-bordered flex-1" placeholder="Voucher, customer or staff"/><button class="btn btn-neutral">Search</button></form>
+<section class="data-panel"><div class="overflow-x-auto"><table class="table table-zebra"><thead><tr><th>Voucher</th><th>Date</th><th>Staff</th><th>Payment</th><th class="text-right">Total</th><th></th></tr></thead><tbody>@if(Rows.Count==0){<tr><td colspan="6" class="py-12 text-center">No invoices found.</td></tr>}@foreach(var row in Rows){var voucher=JsonApiReader.Display(row,"voucherNo");<tr><td class="font-mono font-bold">@voucher</td><td>@JsonApiReader.Display(row,"saleInvoiceDateTime")</td><td>@JsonApiReader.Display(row,"staffCode")</td><td>@JsonApiReader.Display(row,"paymentType")</td><td class="text-right font-bold">@JsonApiReader.Display(row,"totalAmount")</td><td class="text-right"><a class="btn btn-ghost btn-xs" href="/sale-receipt/@Uri.EscapeDataString(voucher)">Receipt</a></td></tr>}</tbody></table></div></section>
+
+@code {
+    [SupplyParameterFromQuery(Name="search")] public string? Search { get; set; }
+    [SupplyParameterFromQuery(Name="page")] public int Page { get; set; }=1;
+    private IReadOnlyList<JsonElement> Rows { get; set; }=[];
+    protected override async Task OnInitializedAsync(){var url=$"api/v1/sale-invoices/{Math.Max(Page,1)}/20"+(string.IsNullOrWhiteSpace(Search)?"":$"?search={Uri.EscapeDataString(Search)}");using var document=await Api.GetDocumentAsync(url);if(document is not null)Rows=JsonApiReader.GetRows(document);}
+}

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.State;
+namespace Pos.BackendApi.Features.State;
 
 public class BL_State
 {

@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Features.ProductCategory;
+namespace Pos.BackendApi.Features.ProductCategory;
 
 public class BL_ProductCategory
 {

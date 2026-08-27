@@ -1,0 +1,11 @@
+@page "/sale"
+@page "/sale-invoice"
+@page "/checkout"
+@attribute [Authorize]
+@inject NavigationManager Navigation
+
+<p>Redirecting to sale drafts…</p>
+
+@code {
+    protected override void OnInitialized() => Navigation.NavigateTo("/sale-drafts", forceLoad: true);
+}

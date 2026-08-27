@@ -1,0 +1,63 @@
+@page "/sale-drafts/{DraftId:int}"
+@attribute [Authorize]
+@inject BackendApiClient Api
+@inject NavigationManager Navigation
+@inject FlashMessageService Flash
+
+<PageTitle>@(Draft?.DraftName ?? "Sale draft") · POS Ledger</PageTitle>
+<FlashAlert />
+
+@if (Draft is null)
+{
+    <div class="alert alert-warning"><span>The draft was not found or belongs to another user.</span></div>
+}
+else
+{
+    <header class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div><a href="/sale-drafts" class="link link-hover text-sm">← All drafts</a><p class="page-kicker mt-5">DRAFT @Draft.SaleDraftId</p><h1 class="page-title">@Draft.DraftName</h1></div>
+        <a class="btn btn-primary" href="/sale-drafts/@DraftId/checkout">Proceed to checkout</a>
+    </header>
+
+    <div class="grid gap-6 xl:grid-cols-[1fr_23rem]">
+        <section class="data-panel">
+            <div class="overflow-x-auto"><table class="table"><thead><tr><th>Product</th><th class="text-right">Qty</th><th class="text-right">Unit</th><th class="text-right">Amount</th><th></th></tr></thead><tbody>
+            @if (Draft.Items.Count == 0){<tr><td colspan="5" class="py-12 text-center text-base-content/50">Add the first product to this draft.</td></tr>}
+            @foreach (var item in Draft.Items){<tr><td><strong>@item.ProductName</strong><small class="block font-mono text-[10px] text-base-content/45">@item.ProductCode</small></td><td class="text-right">@item.Quantity</td><td class="text-right">@item.UnitPrice.ToString("N2")</td><td class="text-right font-bold">@item.Amount.ToString("N2")</td><td><div class="flex justify-end gap-1"><a class="btn btn-ghost btn-xs" href="/sale-drafts/@DraftId/items/@Uri.EscapeDataString(item.ProductCode)/edit">Edit</a><a class="btn btn-ghost btn-xs text-error" href="/sale-drafts/@DraftId/items/@Uri.EscapeDataString(item.ProductCode)/delete">Remove</a></div></td></tr>}
+            </tbody><tfoot><tr><th colspan="3" class="text-right">Draft total</th><th class="text-right text-lg">@Draft.TotalAmount.ToString("N2")</th><th></th></tr></tfoot></table></div>
+        </section>
+
+        <aside class="h-fit rounded-box border border-base-300 bg-base-100 p-6 shadow-sm">
+            <p class="page-kicker">Add line</p><h2 class="mt-1 text-xl font-black">Scan or enter code</h2>
+            <EditForm Model="AddItem" FormName="add-draft-item" OnValidSubmit="AddItemAsync" class="mt-5 space-y-4">
+                <DataAnnotationsValidator/>
+                <div><label class="field-label" for="product-code">Product code</label><InputText id="product-code" class="input input-bordered w-full" @bind-Value="AddItem.ProductCode"/><ValidationMessage For="() => AddItem.ProductCode" class="text-sm text-error"/></div>
+                <div><label class="field-label" for="quantity">Quantity</label><InputNumber id="quantity" class="input input-bordered w-full" @bind-Value="AddItem.Quantity"/><ValidationMessage For="() => AddItem.Quantity" class="text-sm text-error"/></div>
+                @if (!string.IsNullOrWhiteSpace(ErrorMessage)){<div class="alert alert-error text-sm">@ErrorMessage</div>}
+                <button class="btn btn-warning w-full" type="submit">Add item</button>
+            </EditForm>
+        </aside>
+    </div>
+}
+
+@code {
+    [Parameter] public int DraftId { get; set; }
+    [SupplyParameterFromForm(FormName = "add-draft-item")] public AddSaleDraftItemRequestModel AddItem { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashMessage")] public string? FlashMessage { get; set; }
+    [SupplyParameterFromTempData(Name = "FlashLevel")] public string? FlashLevel { get; set; }
+    private SaleDraftModel? Draft { get; set; }
+    private string? ErrorMessage { get; set; }
+    public SaleDraftDetail() => AddItem = new();
+    protected override async Task OnInitializedAsync()
+    {
+        Draft = await Api.GetFromJsonAsync<SaleDraftModel>($"api/v1/sale-drafts/{DraftId}");
+        if (Draft is not null) AddItem.RowVersion = Draft.RowVersion;
+    }
+    private async Task AddItemAsync()
+    {
+        AddItem.RowVersion = Draft?.RowVersion ?? string.Empty;
+        var result = await Api.ReadCommandResultAsync(await Api.PostAsync($"api/v1/sale-drafts/{DraftId}/items", AddItem));
+        if (!result.IsSuccess){ ErrorMessage = result.Message; return; }
+        Flash.Set("Item added to the draft.");
+        Navigation.NavigateTo($"/sale-drafts/{DraftId}", forceLoad: true);
+    }
+}

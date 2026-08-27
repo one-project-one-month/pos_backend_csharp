@@ -1,4 +1,4 @@
-﻿namespace DotNet8.PosBackendApi.Models.Setup.Tax;
+namespace Pos.BackendApi.Models.Setup.Tax;
 
 public class TaxModel
 {

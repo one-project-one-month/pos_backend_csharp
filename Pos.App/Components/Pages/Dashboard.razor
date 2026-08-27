@@ -1,0 +1,73 @@
+@page "/"
+@page "/home"
+@attribute [Authorize]
+@inject BackendApiClient Api
+
+<PageTitle>Dashboard · POS Ledger</PageTitle>
+<FlashAlert />
+
+<header class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+    <div>
+        <p class="page-kicker">Live ledger</p>
+        <h1 class="page-title">Operations dashboard</h1>
+        <p class="mt-2 max-w-2xl text-base-content/65">A server-rendered pulse of the store. No browser circuit is required.</p>
+    </div>
+    <a href="/sale-drafts/create" class="btn btn-warning">Start a sale draft</a>
+</header>
+
+<section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Key metrics">
+    @foreach (var metric in Metrics)
+    {
+        <article class="rounded-box border border-base-300 bg-base-100 p-5 shadow-sm">
+            <p class="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-base-content/50">@metric.Label</p>
+            <p class="mt-3 text-3xl font-black">@metric.Value</p>
+            <p class="mt-1 text-sm text-base-content/55">@metric.Note</p>
+        </article>
+    }
+</section>
+
+<section class="mt-6 grid gap-6 xl:grid-cols-[1.35fr_.65fr]">
+    <article class="data-panel p-6">
+        <div class="mb-5 flex items-center justify-between">
+            <div><p class="page-kicker">Seven-day shape</p><h2 class="text-xl font-black">Sales movement</h2></div>
+            <a href="/report/daily" class="link link-primary text-sm">Open report</a>
+        </div>
+        <svg viewBox="0 0 720 240" class="h-auto w-full" role="img" aria-labelledby="sales-chart-title sales-chart-desc">
+            <title id="sales-chart-title">Seven day sales trend</title>
+            <desc id="sales-chart-desc">Accessible server-rendered line chart with a corresponding values table.</desc>
+            <g stroke="currentColor" class="text-base-300"><line x1="42" y1="30" x2="42" y2="205"/><line x1="42" y1="205" x2="690" y2="205"/><line x1="42" y1="145" x2="690" y2="145"/><line x1="42" y1="85" x2="690" y2="85"/></g>
+            <polyline fill="none" stroke="#f59e0b" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" points="55,178 155,118 255,150 355,72 455,92 555,48 675,68" />
+            @foreach (var point in ChartPoints)
+            {
+                <circle cx="@point.X" cy="@point.Y" r="7" fill="#102a43"><title>@point.Label</title></circle>
+            }
+        </svg>
+        <div class="overflow-x-auto">
+            <table class="table table-sm"><caption class="sr-only">Sales chart values</caption><thead><tr>@foreach (var p in ChartPoints){<th>@p.Day</th>}</tr></thead><tbody><tr>@foreach (var p in ChartPoints){<td>@p.Amount</td>}</tr></tbody></table>
+        </div>
+    </article>
+    <article class="rounded-box bg-[#102a43] p-6 text-white shadow-sm">
+        <p class="font-mono text-[10px] uppercase tracking-[.18em] text-warning">Quick routes</p>
+        <h2 class="mt-1 text-2xl font-black">Keep the counter moving.</h2>
+        <div class="mt-6 grid gap-3">
+            <a class="btn justify-between border-white/15 bg-white/10 text-white hover:bg-white/20" href="/sale-drafts">Resume drafts <span>→</span></a>
+            <a class="btn justify-between border-white/15 bg-white/10 text-white hover:bg-white/20" href="/product">Check inventory <span>→</span></a>
+            <a class="btn justify-between border-white/15 bg-white/10 text-white hover:bg-white/20" href="/sale-invoice-list">Find receipt <span>→</span></a>
+        </div>
+    </article>
+</section>
+
+@code {
+    private readonly (string Label, string Value, string Note)[] Metrics =
+    [
+        ("Today sales", "—", "API data shown when available"),
+        ("Open drafts", "Multiple", "Persisted per staff account"),
+        ("Token window", "15 min", "Rotated automatically"),
+        ("Render mode", "Static", "No SignalR circuit"),
+    ];
+    private readonly (int X, int Y, string Day, string Amount, string Label)[] ChartPoints =
+    [
+        (55,178,"Thu","12","Thursday 12"),(155,118,"Fri","28","Friday 28"),(255,150,"Sat","19","Saturday 19"),
+        (355,72,"Sun","41","Sunday 41"),(455,92,"Mon","36","Monday 36"),(555,48,"Tue","49","Tuesday 49"),(675,68,"Wed","43","Wednesday 43")
+    ];
+}

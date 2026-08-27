@@ -1,6 +1,6 @@
-﻿using DotNet8.PosBackendApi.Models.Setup.PageSetting;
+using Pos.BackendApi.Models.Setup.PageSetting;
 
-namespace DotNet8.PosBackendApi.Models.Setup.Customer;
+namespace Pos.BackendApi.Models.Setup.Customer;
 
 public class CustomerListResponseModel
 {

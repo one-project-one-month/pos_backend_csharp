@@ -1,7 +1,7 @@
-﻿using DotNet8.PosBackendApi.Shared;
-using DotNet8.PosBackendApi.Models.Setup.Report;
+using Pos.BackendApi.Shared;
+using Pos.BackendApi.Models.Setup.Report;
 
-namespace DotNet8.PosBackendApi.Features.Report;
+namespace Pos.BackendApi.Features.Report;
 
 [Route("api/v1/report")]
 [ApiController]

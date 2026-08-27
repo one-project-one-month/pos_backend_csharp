@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace DotNet8.PosBackendApi.Features.Product;
+namespace Pos.BackendApi.Features.Product;
 
 [Route("api/v1/products")]
 [ApiController]
