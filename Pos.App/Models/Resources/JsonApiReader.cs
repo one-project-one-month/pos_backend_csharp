@@ -23,12 +23,32 @@ public static class JsonApiReader
 
     public static string Display(JsonElement row, string property)
     {
-        if (!row.TryGetProperty(property, out var value) || value.ValueKind == JsonValueKind.Null)
+        if (!TryGetProperty(row, property, out var value) || value.ValueKind == JsonValueKind.Null)
             return "—";
         if (value.ValueKind == JsonValueKind.Number && value.TryGetDecimal(out var number))
             return number.ToString("N2");
         if (value.ValueKind == JsonValueKind.String && value.TryGetDateTime(out var date))
             return date.ToString("dd MMM yyyy");
         return value.ToString();
+    }
+
+    private static bool TryGetProperty(JsonElement row, string property, out JsonElement value)
+    {
+        if (row.TryGetProperty(property, out value))
+            return true;
+
+        if (row.ValueKind != JsonValueKind.Object)
+            return false;
+
+        foreach (var candidate in row.EnumerateObject())
+        {
+            if (string.Equals(candidate.Name, property, StringComparison.OrdinalIgnoreCase))
+            {
+                value = candidate.Value;
+                return true;
+            }
+        }
+
+        return false;
     }
 }
