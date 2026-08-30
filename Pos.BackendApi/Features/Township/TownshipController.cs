@@ -4,15 +4,15 @@ namespace Pos.BackendApi.Features.Township;
 [ApiController]
 public class TownshipController : BaseController
 {
-    private readonly BL_Township _bL_Township;
+    private readonly TownshipService _township;
     private readonly ResponseModel _response;
 
     public TownshipController(
         IServiceProvider serviceProvider,
-        BL_Township bL_Township,
+        TownshipService township,
         ResponseModel response) : base(serviceProvider)
     {
-        _bL_Township = bL_Township;
+        _township = township;
         _response = response;
     }
 
@@ -21,7 +21,7 @@ public class TownshipController : BaseController
     {
         try
         {
-            var townshipLst = await _bL_Township.GetTownship();
+            var townshipLst = await _township.GetTownship();
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -45,7 +45,7 @@ public class TownshipController : BaseController
     {
         try
         {
-            var townshipLst = await _bL_Township.GetTownship(pageNo, pageSize);
+            var townshipLst = await _township.GetTownship(pageNo, pageSize);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -69,7 +69,7 @@ public class TownshipController : BaseController
     {
         try
         {
-            var township = await _bL_Township.GetTownshipByCode(townshipCode);
+            var township = await _township.GetTownshipByCode(townshipCode);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -92,7 +92,7 @@ public class TownshipController : BaseController
     {
         try
         {
-            var lstTownship = await _bL_Township.GetTownshipByStateCode(stateCode);
+            var lstTownship = await _township.GetTownshipByStateCode(stateCode);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -115,7 +115,7 @@ public class TownshipController : BaseController
     {
         try
         {
-            var township = await _bL_Township.CreateTownship(requestModel);
+            var township = await _township.CreateTownship(requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -138,7 +138,7 @@ public class TownshipController : BaseController
     {
         try
         {
-            var township = await _bL_Township.UpdateTownship(id, requestModel);
+            var township = await _township.UpdateTownship(id, requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -161,7 +161,7 @@ public class TownshipController : BaseController
     {
         try
         {
-            var township = await _bL_Township.DeleteTownship(id);
+            var township = await _township.DeleteTownship(id);
             var responseModel = _response.Return
             (new ReturnModel
             {

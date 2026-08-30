@@ -4,13 +4,13 @@ namespace Pos.BackendApi.Features.Authentication.Register;
 [ApiController]
 public class RegisterController : BaseController
 {
-    private readonly DL_Staff _staff;
+    private readonly RegisterService _register;
     private readonly ResponseModel _response;
 
-    public RegisterController(IServiceProvider serviceProvider, DL_Staff staff, ResponseModel response)
+    public RegisterController(IServiceProvider serviceProvider, RegisterService register, ResponseModel response)
         : base(serviceProvider)
     {
-        _staff = staff;
+        _register = register;
         _response = response;
     }
 
@@ -19,9 +19,7 @@ public class RegisterController : BaseController
     {
         try
         {
-            var model = await _staff.CreateStaff(requestModel);
-            //var responseModel = _response.ReturnCommand
-            //    (model.IsSuccess, model.Message, EnumPos.Staff, requestModel);
+            var model = await _register.CreateStaff(requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {

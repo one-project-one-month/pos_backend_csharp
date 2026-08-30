@@ -1,15 +1,15 @@
-using Pos.BackendApi.Models.Setup.PageSetting;
 using Microsoft.Extensions.Options;
+using Pos.BackendApi.Models.Setup.PageSetting;
 
 namespace Pos.BackendApi.Features.Staff;
 
-public class DL_Staff
+public class StaffService
 {
     private readonly AppDbContext _context;
     private readonly JwtTokenGenerate _token;
     private readonly JwtModel _tokenModel;
 
-    public DL_Staff(IOptionsMonitor<JwtModel> tokenModel, AppDbContext context, JwtTokenGenerate token)
+    public StaffService(IOptionsMonitor<JwtModel> tokenModel, AppDbContext context, JwtTokenGenerate token)
     {
         _context = context;
         _token = token;
@@ -40,12 +40,14 @@ public class DL_Staff
 
     public async Task<StaffListResponseModel> GetStaffs(int PageSize, int PageNo, string? search = null)
     {
+        if (PageSize <= 0) throw new Exception("PageSize is not less than 0.");
+        if (PageNo <= 0) throw new Exception("PageNo is not less than 0.");
+
         var responseModel = new StaffListResponseModel();
         try
         {
             var staffList = _context.TblStaffs.AsNoTracking();
 
-            // Apply search filter if provided
             if (!string.IsNullOrWhiteSpace(search))
             {
                 staffList = staffList.Where(x =>
@@ -55,8 +57,8 @@ public class DL_Staff
             }
 
             var staff = await staffList
-               .Pagination(PageNo, PageSize)
-               .ToListAsync();
+                .Pagination(PageNo, PageSize)
+                .ToListAsync();
 
             var totalCount = await staffList.CountAsync();
             var pageCount = totalCount / PageSize;
@@ -98,14 +100,15 @@ public class DL_Staff
 
     public async Task<MessageResponseModel> CreateStaff(StaffModel requestModel)
     {
+        CheckShopNullValue(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
             var staffCode = await _context.TblStaffs
-            .AsNoTracking()
-            .MaxAsync(x => x.StaffCode);
+                .AsNoTracking()
+                .MaxAsync(x => x.StaffCode);
             requestModel.StaffCode = staffCode.GenerateCode(EnumCodePrefix.S.ToString());
-            //requestModel.StaffCode = await GenerateUserCode();
             requestModel.Password = requestModel.Password.ToHash(_tokenModel.Key);
             await _context.TblStaffs.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
@@ -124,6 +127,8 @@ public class DL_Staff
 
     public async Task<StaffResponseModel> GetStaffByMobileNo(string MobileNo)
     {
+        if (MobileNo is null) throw new Exception("MobileNo is null");
+
         var responseModel = new StaffResponseModel();
         try
         {
@@ -151,28 +156,11 @@ public class DL_Staff
         return responseModel;
     }
 
-    private async Task<string> GenerateUserCode()
-    {
-        string userCode = string.Empty;
-        if (!await _context.TblStaffs.AnyAsync())
-        {
-            userCode = "U00001";
-            goto result;
-        }
-
-        var maxStaffCode = await _context.TblStaffs
-            .AsNoTracking()
-            .MaxAsync(x => x.StaffCode);
-
-        maxStaffCode = maxStaffCode.Substring(1);
-        int staffCode = Convert.ToInt32(maxStaffCode) + 1;
-        userCode = $"U{staffCode.ToString().PadLeft(5, '0')}";
-    result:
-        return userCode;
-    }
-
     public async Task<MessageResponseModel> UpdateStaff(int id, StaffModel requestModel)
     {
+        if (id == 0) throw new Exception("id is 0.");
+        CheckShopNullValue(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -183,8 +171,6 @@ public class DL_Staff
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 return responseModel;
             }
-
-            #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.StaffCode))
                 staff.StaffCode = requestModel.StaffCode;
@@ -210,8 +196,6 @@ public class DL_Staff
             if (!string.IsNullOrEmpty(requestModel.Gender))
                 staff.Gender = requestModel.Gender;
 
-            #endregion
-
             _context.Entry(staff).State = EntityState.Modified;
             var result = await _context.SaveChangesAsync();
 
@@ -229,6 +213,8 @@ public class DL_Staff
 
     public async Task<MessageResponseModel> DeleteStaff(int id)
     {
+        if (id == 0) throw new Exception("id is 0.");
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -256,5 +242,32 @@ public class DL_Staff
 
     result:
         return responseModel;
+    }
+
+    private void CheckShopNullValue(StaffModel staff)
+    {
+        if (staff is null)
+            throw new Exception("Staff is null.");
+
+        if (string.IsNullOrWhiteSpace(staff.StaffCode))
+            throw new Exception("StaffCode is null.");
+
+        if (string.IsNullOrWhiteSpace(staff.StaffName))
+            throw new Exception("StaffName is null.");
+
+        if (string.IsNullOrWhiteSpace(staff.MobileNo))
+            throw new Exception("Staff MobileNo is null.");
+
+        if (string.IsNullOrWhiteSpace(staff.Address))
+            throw new Exception("Staff Address is null.");
+
+        if (string.IsNullOrWhiteSpace(staff.DateOfBirth.ToString()))
+            throw new Exception("Staff DateOfBirth is null.");
+
+        if (string.IsNullOrWhiteSpace(staff.Gender))
+            throw new Exception("Staff Gender is null.");
+
+        if (string.IsNullOrWhiteSpace(staff.Position))
+            throw new Exception("Staff Position is null.");
     }
 }

@@ -1,10 +1,11 @@
 namespace Pos.BackendApi.Features.Dashboard;
 
-public class DL_Dashboard
+public class DashboardService
 {
     private readonly AppDbContext _context;
     private readonly DapperService _dapperService;
-    public DL_Dashboard(AppDbContext context, DapperService dapperService)
+
+    public DashboardService(AppDbContext context, DapperService dapperService)
     {
         _context = context;
         _dapperService = dapperService;
@@ -12,6 +13,9 @@ public class DL_Dashboard
 
     public async Task<DashboardResponseModel> Dashboard(DashboardRequestModel requestModel)
     {
+        if (requestModel.SaleInvoiceDate == default(DateTime))
+            throw new Exception("Datetime is null");
+
         DashboardResponseModel responseModel = new DashboardResponseModel();
         try
         {
@@ -48,7 +52,7 @@ public class DL_Dashboard
             responseModel.MessageResponse = new MessageResponseModel(false, ex.Message);
         }
 
-        result:
+    result:
         return responseModel;
     }
 }

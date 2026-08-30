@@ -4,11 +4,11 @@ namespace Pos.BackendApi.Features.Staff;
 [ApiController]
 public class StaffController : BaseController
 {
-    private readonly DL_Staff _staff;
+    private readonly StaffService _staff;
     private readonly ResponseModel _response;
     private readonly JwtTokenGenerate _token;
 
-    public StaffController(IServiceProvider serviceProvider, DL_Staff staff, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
+    public StaffController(IServiceProvider serviceProvider, StaffService staff, ResponseModel response, JwtTokenGenerate token) : base(serviceProvider)
     {
         _staff = staff;
         _response = response;

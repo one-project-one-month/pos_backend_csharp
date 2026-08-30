@@ -1,4 +1,6 @@
+using Pos.BackendApi.Features.Authentication.Register;
 using Pos.BackendApi.Features.Dashboard;
+using Pos.BackendApi.Features.Generate;
 using Pos.BackendApi.Features.State;
 using Pos.BackendApi.Features.Tax;
 using Pos.BackendApi.Features.SaleDraft;
@@ -10,8 +12,7 @@ public static class ModularService
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddJwtTokenGenerateServices();
-        services.AddDataAccessServices();
-        services.AddBusinessLogicServices();
+        services.AddFeatureServices();
         return services;
     }
 
@@ -28,39 +29,24 @@ public static class ModularService
         return services;
     }
 
-    private static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
+    private static IServiceCollection AddFeatureServices(this IServiceCollection services)
     {
-        services.AddScoped<BL_Shop>();
-        services.AddScoped<BL_Staff>();
-        services.AddScoped<BL_Product>();
+        services.AddScoped<ShopService>();
+        services.AddScoped<StaffService>();
+        services.AddScoped<ProductService>();
         services.AddScoped<ResponseModel>();
-        services.AddScoped<BL_ProductCategory>();
-        services.AddScoped<BL_Login>();
-        services.AddScoped<BL_SaleInvoice>();
-        services.AddScoped<BL_Report>();
-        services.AddScoped<BL_Customer>();
-        services.AddScoped<BL_Township>();
-        services.AddScoped<BL_State>();
-        services.AddScoped<BL_Tax>();
-        services.AddScoped<BL_Dashboard>();
+        services.AddScoped<ProductCategoryService>();
+        services.AddScoped<LoginService>();
+        services.AddScoped<RegisterService>();
+        services.AddScoped<GenerateService>();
+        services.AddScoped<SaleInvoiceService>();
+        services.AddScoped<ReportService>();
+        services.AddScoped<CustomerService>();
+        services.AddScoped<TownshipService>();
+        services.AddScoped<StateService>();
+        services.AddScoped<TaxService>();
+        services.AddScoped<DashboardService>();
         services.AddScoped<SaleDraftService>();
-        return services;
-    }
-
-    private static IServiceCollection AddDataAccessServices(this IServiceCollection services)
-    {
-        services.AddScoped<DL_Shop>();
-        services.AddScoped<DL_Staff>();
-        services.AddScoped<DL_Product>();
-        services.AddScoped<DL_ProductCategory>();
-        services.AddScoped<DL_Login>();
-        services.AddScoped<DL_SaleInvoice>();
-        services.AddScoped<DL_Report>();
-        services.AddScoped<DL_Customer>();
-        services.AddScoped<DL_Township>();
-        services.AddScoped<DL_State>();
-        services.AddScoped<DL_Tax>();
-        services.AddScoped<DL_Dashboard>();
         return services;
     }
 

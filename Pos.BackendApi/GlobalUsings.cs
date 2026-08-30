@@ -37,3 +37,4 @@ global using Pos.BackendApi.Features.Township;
 global using Pos.BackendApi.Models.Setup.PageSetting;
 global using Pos.BackendApi.Models.Setup.State;
 global using Pos.BackendApi.Models.Setup.Township;
+global using Pos.BackendApi.Models.Setup.Tax;

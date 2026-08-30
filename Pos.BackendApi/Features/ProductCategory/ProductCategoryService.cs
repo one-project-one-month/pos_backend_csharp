@@ -1,99 +1,99 @@
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+namespace Pos.BackendApi.Features.ProductCategory;
 
-namespace Pos.BackendApi.Features.Product;
-
-public class DL_Product
+public class ProductCategoryService
 {
     private readonly AppDbContext _context;
 
-    public DL_Product(AppDbContext context) => _context = context;
+    public ProductCategoryService(AppDbContext context) => _context = context;
 
-    public async Task<ProductListResponseModel> GetProduct()
+    public async Task<ProductCategoryListResponseModel> GetProductCategory()
     {
-        var responseModel = new ProductListResponseModel();
+        var responseModel = new ProductCategoryListResponseModel();
         try
         {
-            var products = await _context
-                .TblProducts
+            var lst = await _context
+                .TblProductCategories
                 .AsNoTracking()
                 .ToListAsync();
-            responseModel.DataLst = products
+            responseModel.DataList = lst
                 .Select(x => x.Change())
                 .ToList();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
         catch (Exception ex)
         {
-            responseModel.DataLst = new List<ProductModel>();
+            responseModel.DataList = new List<ProductCategoryModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
         return responseModel;
     }
-    public async Task<ProductListResponseModel> GetProduct(int pageNo, int pageSize, string? search = null)
+
+    public async Task<ProductCategoryListResponseModel> GetProductCategory(int pageNo, int pageSize, string? search = null)
     {
-        var responseModel = new ProductListResponseModel();
+        var responseModel = new ProductCategoryListResponseModel();
         try
         {
             var query = _context
-                .TblProducts
-                .OrderByDescending(x => x.ProductId)
+                .TblProductCategories
                 .AsNoTracking();
 
-            // Apply search filter if provided
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(x =>
-                    x.ProductCode.Contains(search) ||
-                    x.ProductName.Contains(search));
+                    x.ProductCategoryCode.Contains(search) ||
+                    x.ProductCategoryName.Contains(search));
             }
-
-            var products = await query
-                .Pagination(pageNo, pageSize)
-                .ToListAsync();
 
             var totalCount = await query.CountAsync();
             var pageCount = totalCount / pageSize;
-
             if (totalCount % pageSize > 0)
                 pageCount++;
 
+            var lst = await query
+                .Pagination(pageNo, pageSize)
+                .ToListAsync();
 
-            responseModel.DataLst = products.Select(x => x.Change()).ToList();
+            responseModel.Data = new ProductCategoryDataModel
+            {
+                ProductCategory = lst.Select(x => x.Change()).ToList(),
+                PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount)
+            };
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
-            responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         }
         catch (Exception ex)
         {
-            responseModel.DataLst = new List<ProductModel>();
+            responseModel.DataList = new List<ProductCategoryModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
         return responseModel;
     }
 
-    public async Task<ProductResponseModel> GetProductByCode(string productCode)
+    public async Task<ProductCategoryResponseModel> GetProductCategoryByCode(string productCategoryCode)
     {
-        var responseModel = new ProductResponseModel();
+        if (productCategoryCode is null) throw new Exception("productCategoryCode is null");
+
+        var responseModel = new ProductCategoryResponseModel();
         try
         {
-            var product = await _context
-                .TblProducts
+            var item = await _context
+                .TblProductCategories
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ProductCode == productCode);
-            if (product is null)
+                .FirstOrDefaultAsync(x => x.ProductCategoryCode == productCategoryCode);
+            if (item is null)
             {
                 responseModel.MessageResponse = new MessageResponseModel
                     (false, EnumStatus.NotFound.ToString());
                 goto result;
             }
 
-            responseModel.Data = product.Change();
+            responseModel.Data = item.Change();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
         catch (Exception ex)
         {
-            responseModel.Data = new ProductModel();
+            responseModel.Data = new ProductCategoryModel();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
@@ -101,16 +101,18 @@ public class DL_Product
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> Create(ProductModel requestModel)
+    public async Task<MessageResponseModel> CreateProductCategory(ProductCategoryModel requestModel)
     {
+        CheckProductNullValue(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
-            var productCode = await _context.TblProducts
-            .AsNoTracking()
-            .MaxAsync(x => x.ProductCode);
-            requestModel.ProductCode = productCode.GenerateCode(EnumCodePrefix.P.ToString());
-            await _context.TblProducts.AddAsync(requestModel.Change());
+            var productCategoryCode = await _context.TblProductCategories
+                .AsNoTracking()
+                .MaxAsync(x => x.ProductCategoryCode);
+            requestModel.ProductCategoryCode = productCategoryCode.GenerateProductCategoryCode(EnumCodePrefix.PC_.ToString());
+            await _context.TblProductCategories.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
@@ -124,12 +126,15 @@ public class DL_Product
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> Update(int id, ProductModel requestModel)
+    public async Task<MessageResponseModel> UpdateProductCategory(int id, ProductCategoryModel requestModel)
     {
+        if (id <= 0) throw new Exception("productCategoryCode is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
-            var item = await _context.TblProducts.FirstOrDefaultAsync(x => x.ProductId == id);
+            var item = await _context.TblProductCategories.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ProductCategoryId == id);
 
             if (item is null)
             {
@@ -137,23 +142,13 @@ public class DL_Product
                 return responseModel;
             }
 
-            #region Patch Method Validation Conditions
-
-            if (!string.IsNullOrEmpty(requestModel.ProductCode))
-                item.ProductCode = requestModel.ProductCode;
-
-            if (!string.IsNullOrEmpty(requestModel.ProductName))
-                item.ProductName = requestModel.ProductName;
-
             if (!string.IsNullOrEmpty(requestModel.ProductCategoryCode))
                 item.ProductCategoryCode = requestModel.ProductCategoryCode;
 
-            if (requestModel.Price > 0)
-                item.Price = requestModel.Price;
+            if (!string.IsNullOrEmpty(requestModel.ProductCategoryName))
+                item.ProductCategoryName = requestModel.ProductCategoryName;
 
-            #endregion
-
-            _context.TblProducts.Update(item);
+            _context.TblProductCategories.Update(item);
             var result = await _context.SaveChangesAsync();
 
             responseModel = result > 0
@@ -168,22 +163,24 @@ public class DL_Product
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> Delete(int id)
+    public async Task<MessageResponseModel> DeleteProductCategory(int id)
     {
+        if (id <= 0) throw new Exception("productCategoryId is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
-            var product = await _context
-                .TblProducts
+            var item = await _context
+                .TblProductCategories
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ProductId == id);
-            if (product == null)
+                .FirstOrDefaultAsync(x => x.ProductCategoryId == id);
+            if (item is null)
             {
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
             }
 
-            _context.TblProducts.Remove(product);
+            _context.TblProductCategories.Remove(item);
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
@@ -196,5 +193,17 @@ public class DL_Product
 
     result:
         return responseModel;
+    }
+
+    private void CheckProductNullValue(ProductCategoryModel productCategory)
+    {
+        if (productCategory == null)
+            throw new Exception("productCategory is null.");
+
+        if (string.IsNullOrWhiteSpace(productCategory.ProductCategoryName))
+            throw new Exception("ProductCategoryName is null.");
+
+        if (string.IsNullOrEmpty(productCategory.ProductCategoryCode))
+            throw new Exception("ProductCateoryCode is null.");
     }
 }

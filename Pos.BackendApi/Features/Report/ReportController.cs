@@ -7,10 +7,10 @@ namespace Pos.BackendApi.Features.Report;
 [ApiController]
 public class ReportController : BaseController
 {
-    private readonly BL_Report _report;
+    private readonly ReportService _report;
     private readonly ResponseModel _response;
 
-    public ReportController(IServiceProvider serviceProvider, BL_Report report, ResponseModel response)
+    public ReportController(IServiceProvider serviceProvider, ReportService report, ResponseModel response)
         : base(serviceProvider)
     {
         _report = report;

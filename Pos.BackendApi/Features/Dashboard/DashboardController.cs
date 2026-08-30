@@ -8,9 +8,9 @@ namespace Pos.BackendApi.Features.Dashboard;
 public class DashboardController : BaseController
 {
     private readonly ResponseModel _response;
-    private readonly BL_Dashboard _dashboard;
+    private readonly DashboardService _dashboard;
 
-    public DashboardController(IServiceProvider serviceProvider, BL_Dashboard dashboard, ResponseModel response) : base(serviceProvider)
+    public DashboardController(IServiceProvider serviceProvider, DashboardService dashboard, ResponseModel response) : base(serviceProvider)
     {
         _dashboard = dashboard;
         _response = response;

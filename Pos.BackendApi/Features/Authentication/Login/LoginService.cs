@@ -1,13 +1,15 @@
 namespace Pos.BackendApi.Features.Authentication.Login;
 
-public class DL_Login
+public class LoginService
 {
     private readonly JwtTokenGenerate _tokenGenerator;
     private readonly AppDbContext _context;
     private readonly JwtModel _tokenModel;
 
-    public DL_Login(JwtTokenGenerate tokenGenerator,
-        AppDbContext context, IOptionsMonitor<JwtModel> tokenModel)
+    public LoginService(
+        JwtTokenGenerate tokenGenerator,
+        AppDbContext context,
+        IOptionsMonitor<JwtModel> tokenModel)
     {
         _tokenGenerator = tokenGenerator;
         _context = context;
@@ -16,6 +18,8 @@ public class DL_Login
 
     public async Task<LoginResponseModel> Login(LoginRequestModel reqModel)
     {
+        CheckLoginNullValue(reqModel);
+
         var item = await _context.TblStaffs.AsNoTracking()
             .FirstOrDefaultAsync(x => x.StaffName == reqModel.UserName);
 
@@ -32,6 +36,9 @@ public class DL_Login
 
     public async Task<LoginResponseModel> Refresh(string rawRefreshToken)
     {
+        if (string.IsNullOrWhiteSpace(rawRefreshToken))
+            throw new ArgumentException("Refresh token is required.", nameof(rawRefreshToken));
+
         var hash = JwtTokenGenerate.HashRefreshToken(rawRefreshToken);
         await using var transaction = await _context.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable);
         var current = await _context.TblRefreshTokens
@@ -68,6 +75,9 @@ public class DL_Login
 
     public async Task Revoke(string rawRefreshToken)
     {
+        if (string.IsNullOrWhiteSpace(rawRefreshToken))
+            throw new ArgumentException("Refresh token is required.", nameof(rawRefreshToken));
+
         var hash = JwtTokenGenerate.HashRefreshToken(rawRefreshToken);
         var current = await _context.TblRefreshTokens
             .FirstOrDefaultAsync(x => x.TokenHash.SequenceEqual(hash));
@@ -123,6 +133,15 @@ public class DL_Login
             .ToListAsync();
         foreach (var token in activeTokens)
             token.RevokedAtUtc = DateTime.UtcNow;
+    }
+
+    private static void CheckLoginNullValue(LoginRequestModel reqModel)
+    {
+        if (string.IsNullOrEmpty(reqModel.UserName))
+            throw new ArgumentException("Username is required.", nameof(reqModel));
+
+        if (string.IsNullOrEmpty(reqModel.Password))
+            throw new ArgumentException("Password is required.", nameof(reqModel));
     }
 
     private static LoginResponseModel Failure(string message) => new()

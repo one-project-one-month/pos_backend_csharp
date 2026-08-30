@@ -1,14 +1,10 @@
-using Pos.BackendApi.Models.Setup.Tax;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using System.Collections.Generic;
-
 namespace Pos.BackendApi.Features.Tax;
 
-public class DL_Tax
+public class TaxService
 {
     private readonly AppDbContext _context;
 
-    public DL_Tax(AppDbContext context)
+    public TaxService(AppDbContext context)
     {
         _context = context;
     }
@@ -44,7 +40,6 @@ public class DL_Tax
                 .OrderByDescending(x => x.TaxId)
                 .AsNoTracking();
 
-            // Apply search filter if provided
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(x =>
@@ -79,6 +74,9 @@ public class DL_Tax
 
     public async Task<TaxResponseModel> GetTaxById(int id)
     {
+        if (id == 0)
+            throw new Exception("Id cannot be empty.");
+
         TaxResponseModel responseModel = new();
         try
         {
@@ -106,6 +104,8 @@ public class DL_Tax
 
     public async Task<MessageResponseModel> CreateTax(TaxModel requestModel)
     {
+        CheckTaxModel(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -124,6 +124,27 @@ public class DL_Tax
 
     public async Task<MessageResponseModel> UpdateTax(int id, TaxModel requestModel)
     {
+        if (id <= 0)
+            throw new Exception("Id cannot be empty.");
+
+        if (requestModel.FromAmount <= 0)
+            throw new Exception("From Amount cannot be empty.");
+
+        if (requestModel.ToAmount <= 0)
+            throw new Exception("To Amount cannot be empty.");
+
+        if (requestModel.Percentage == 0 && requestModel.FixedAmount == 0)
+            throw new Exception();
+
+        if (string.IsNullOrEmpty(requestModel.TaxType))
+            throw new Exception("Tax Type cannot be empty.");
+
+        if (requestModel.Percentage > 0)
+        {
+            if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
+                throw new Exception("Percentage is invalid.");
+        }
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -135,8 +156,6 @@ public class DL_Tax
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 return responseModel;
             }
-
-            #region Patch
 
             if (requestModel.FromAmount != 0)
                 item.FromAmount = requestModel.FromAmount;
@@ -164,9 +183,6 @@ public class DL_Tax
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
                 : new MessageResponseModel(false, EnumStatus.Fail.ToString());
-
-            #endregion
-
         }
         catch (Exception ex)
         {
@@ -177,6 +193,9 @@ public class DL_Tax
 
     public async Task<MessageResponseModel> DeleteTax(int id)
     {
+        if (id <= 0)
+            throw new Exception("Id cannot be empty.");
+
         MessageResponseModel responseModel = new();
         try
         {
@@ -203,5 +222,26 @@ public class DL_Tax
             responseModel = new MessageResponseModel(false, ex.Message);
         }
         return responseModel;
+    }
+
+    private static void CheckTaxModel(TaxModel requestModel)
+    {
+        if (requestModel.FromAmount <= 0)
+            throw new Exception("From Amount cannot be empty.");
+
+        if (requestModel.ToAmount <= 0)
+            throw new Exception("To Amount cannot be empty.");
+
+        if (requestModel.Percentage == 0 && requestModel.FixedAmount == 0)
+            throw new Exception();
+
+        if (string.IsNullOrEmpty(requestModel.TaxType))
+            throw new Exception("Tax Type cannot be empty.");
+
+        if (requestModel.Percentage > 0)
+        {
+            if (requestModel.Percentage <= 0 || requestModel.Percentage >= 100)
+                throw new Exception("Percentage is invalid.");
+        }
     }
 }

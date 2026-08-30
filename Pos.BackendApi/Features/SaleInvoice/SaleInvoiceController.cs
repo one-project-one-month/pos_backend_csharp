@@ -4,10 +4,10 @@ namespace Pos.BackendApi.Features.SaleInvoice;
 [ApiController]
 public class SaleInvoiceController : BaseController
 {
-    private readonly BL_SaleInvoice _saleInvoice;
+    private readonly SaleInvoiceService _saleInvoice;
     private readonly ResponseModel _response;
 
-    public SaleInvoiceController(IServiceProvider serviceProvider, BL_SaleInvoice saleInvoice,
+    public SaleInvoiceController(IServiceProvider serviceProvider, SaleInvoiceService saleInvoice,
         ResponseModel response) : base(serviceProvider)
     {
         _saleInvoice = saleInvoice;
