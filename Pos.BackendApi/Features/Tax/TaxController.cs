@@ -8,12 +8,12 @@ namespace Pos.BackendApi.Features.Tax;
 public class TaxController : BaseController
 {
     private readonly ResponseModel _response;
-    private readonly BL_Tax _bL_Tax;
+    private readonly TaxService _tax;
 
-    public TaxController(ResponseModel response, BL_Tax bL_Tax, IServiceProvider serviceProvider) : base(serviceProvider)
+    public TaxController(ResponseModel response, TaxService tax, IServiceProvider serviceProvider) : base(serviceProvider)
     {
         _response = response;
-        _bL_Tax = bL_Tax;
+        _tax = tax;
     }
 
     [HttpGet]
@@ -21,7 +21,7 @@ public class TaxController : BaseController
     {
         try
         {
-            var lst = await _bL_Tax.GetTaxList();
+            var lst = await _tax.GetTaxList();
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -44,7 +44,7 @@ public class TaxController : BaseController
     {
         try
         {
-            var lst = await _bL_Tax.GetTaxList(pageNo, pageSize, search);
+            var lst = await _tax.GetTaxList(pageNo, pageSize, search);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -68,7 +68,7 @@ public class TaxController : BaseController
     {
         try
         {
-            var item = await _bL_Tax.GetTaxById(id);
+            var item = await _tax.GetTaxById(id);
             var responseModel = _response.Return
                 (new ReturnModel
                 {
@@ -91,7 +91,7 @@ public class TaxController : BaseController
     {
         try
         {
-            var tax = await _bL_Tax.CreateTax(requestModel);
+            var tax = await _tax.CreateTax(requestModel);
             var responseModel = _response.Return
                 (new ReturnModel
                 {
@@ -114,7 +114,7 @@ public class TaxController : BaseController
     {
         try
         {
-            var tax = await _bL_Tax.UpdateTax(id, requestModel);
+            var tax = await _tax.UpdateTax(id, requestModel);
             var responseModel = _response.Return
                 (new ReturnModel
                 {
@@ -137,7 +137,7 @@ public class TaxController : BaseController
     {
         try
         {
-            var tax = await _bL_Tax.DeleteTax(id);
+            var tax = await _tax.DeleteTax(id);
             var responseModel = _response.Return
                 (new ReturnModel
                 {

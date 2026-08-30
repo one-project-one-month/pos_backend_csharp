@@ -4,15 +4,15 @@ namespace Pos.BackendApi.Features.State;
 [ApiController]
 public class StateController : BaseController
 {
-    private readonly BL_State _bL_State;
+    private readonly StateService _state;
     private readonly ResponseModel _response;
 
     public StateController(
         IServiceProvider serviceProvider,
-        BL_State bL_State,
+        StateService state,
         ResponseModel response) : base(serviceProvider)
     {
-        _bL_State = bL_State;
+        _state = state;
         _response = response;
     }
 
@@ -21,7 +21,7 @@ public class StateController : BaseController
     {
         try
         {
-            var stateLst = await _bL_State.GetState();
+            var stateLst = await _state.GetState();
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -46,7 +46,7 @@ public class StateController : BaseController
     {
         try
         {
-            var stateLst = await _bL_State.GetState(pageNo, pageSize);
+            var stateLst = await _state.GetState(pageNo, pageSize);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -70,7 +70,7 @@ public class StateController : BaseController
     {
         try
         {
-            var state = await _bL_State.GetStateByCode(StateCode);
+            var state = await _state.GetStateByCode(StateCode);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -93,7 +93,7 @@ public class StateController : BaseController
     {
         try
         {
-            var state = await _bL_State.CreateState(requestModel);
+            var state = await _state.CreateState(requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -116,7 +116,7 @@ public class StateController : BaseController
     {
         try
         {
-            var state = await _bL_State.UpdateState(id, requestModel);
+            var state = await _state.UpdateState(id, requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -139,7 +139,7 @@ public class StateController : BaseController
     {
         try
         {
-            var state = await _bL_State.DeleteState(id);
+            var state = await _state.DeleteState(id);
             var responseModel = _response.Return
             (new ReturnModel
             {

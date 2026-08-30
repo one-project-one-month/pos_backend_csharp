@@ -1,10 +1,10 @@
 namespace Pos.BackendApi.Features.Township;
 
-public class DL_Township
+public class TownshipService
 {
     private readonly AppDbContext _context;
 
-    public DL_Township(AppDbContext context) => _context = context;
+    public TownshipService(AppDbContext context) => _context = context;
 
     public async Task<TownshipListResponseModel> GetTownship()
     {
@@ -64,15 +64,17 @@ public class DL_Township
         return responseModel;
     }
 
-    public async Task<TownshipResponseModel> GetTownshipByCode(string townshipCode)
+    public async Task<TownshipResponseModel> GetTownshipByCode(string TownshipCode)
     {
+        if (TownshipCode is null) throw new Exception("TownshipCode is null");
+
         var responseModel = new TownshipResponseModel();
         try
         {
             var township = await _context
                 .TblPlaceTownships
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.TownshipCode == townshipCode);
+                .FirstOrDefaultAsync(x => x.TownshipCode == TownshipCode);
             if (township is null)
             {
                 responseModel.MessageResponse = new MessageResponseModel
@@ -95,6 +97,8 @@ public class DL_Township
 
     public async Task<TownshipListResponseModel> GetTownshipByStateCode(string stateCode)
     {
+        if (stateCode is null) throw new Exception("StateCode is null");
+
         var responseModel = new TownshipListResponseModel();
         try
         {
@@ -120,6 +124,8 @@ public class DL_Township
 
     public async Task<MessageResponseModel> CreateTownship(TownshipModel requestModel)
     {
+        CheckTownshipNullValue(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -141,28 +147,10 @@ public class DL_Township
         return responseModel;
     }
 
-    private async Task<string> GenerateTownshipCode()
-    {
-        string customerCode = string.Empty;
-        if (!await _context.TblPlaceTownships.AnyAsync())
-        {
-            customerCode = "MMR001";
-            goto result;
-        }
-
-        var maxStaffCode = await _context.TblPlaceTownships
-            .AsNoTracking()
-            .MaxAsync(x => x.TownshipCode);
-
-        maxStaffCode = maxStaffCode.Substring(3);
-        int staffCode = Convert.ToInt32(maxStaffCode) + 1;
-        customerCode = $"MMR{staffCode.ToString().PadLeft(2, '0')}";
-    result:
-        return customerCode;
-    }
-
     public async Task<MessageResponseModel> UpdateTownship(int id, TownshipModel requestModel)
     {
+        if (id <= 0) throw new Exception("id is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -177,15 +165,11 @@ public class DL_Township
                 return responseModel;
             }
 
-            #region Patch Method Validation Conditions
-
             if (!string.IsNullOrEmpty(requestModel.TownshipName))
                 township.TownshipName = requestModel.TownshipName;
 
             if (!string.IsNullOrEmpty(requestModel.TownshipCode))
                 township.TownshipCode = requestModel.TownshipCode;
-
-            #endregion
 
             _context.TblPlaceTownships.Update(township);
             var result = await _context.SaveChangesAsync();
@@ -204,6 +188,8 @@ public class DL_Township
 
     public async Task<MessageResponseModel> DeleteTownship(int id)
     {
+        if (id <= 0) throw new Exception("id is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -230,5 +216,17 @@ public class DL_Township
 
     result:
         return responseModel;
+    }
+
+    private void CheckTownshipNullValue(TownshipModel Township)
+    {
+        if (Township is null)
+            throw new Exception("Township is null.");
+
+        if (string.IsNullOrWhiteSpace(Township.TownshipName))
+            throw new Exception("Township.TownshipName is null.");
+
+        if (string.IsNullOrWhiteSpace(Township.StateCode))
+            throw new Exception("Township.StateCode is null.");
     }
 }

@@ -4,13 +4,13 @@ namespace Pos.BackendApi.Features.Shop;
 [ApiController]
 public class ShopController : BaseController
 {
-    private readonly BL_Shop _bL_Shop;
+    private readonly ShopService _shop;
     private readonly ResponseModel _response;
 
-    public ShopController(IServiceProvider serviceProvider, BL_Shop bL_Shop,
+    public ShopController(IServiceProvider serviceProvider, ShopService shopService,
         ResponseModel response) : base(serviceProvider)
     {
-        _bL_Shop = bL_Shop;
+        _shop = shopService;
         _response = response;
     }
 
@@ -19,7 +19,7 @@ public class ShopController : BaseController
     {
         try
         {
-            var lst = await _bL_Shop.GetShops();
+            var lst = await _shop.GetShops();
             //var responseModel = _response.ReturnGet
             //    (shopLst.MessageResponse.Message,
             //    shopLst.DataLst.Count,
@@ -49,7 +49,7 @@ public class ShopController : BaseController
     {
         try
         {
-            var shop = await _bL_Shop.GetShop(id);
+            var shop = await _shop.GetShop(id);
             //var responseModel = _response.ReturnById
             //    (shop.MessageResponse.Message,
             //    EnumPos.Shop, 
@@ -77,7 +77,7 @@ public class ShopController : BaseController
     {
         try
         {
-            var model = await _bL_Shop.CreateShop(shop);
+            var model = await _shop.CreateShop(shop);
             //var responseModel = _response.ReturnCommand
             //    (model.IsSuccess, model.Message,EnumPos.Shop,shop);
             var responseModel = _response.Return
@@ -102,7 +102,7 @@ public class ShopController : BaseController
     {
         try
         {
-            var model = await _bL_Shop.UpdateShop(id, shop);
+            var model = await _shop.UpdateShop(id, shop);
             //var responseModel = _response.ReturnCommand
             //    (model.IsSuccess, model.Message, EnumPos.Shop, shop);
             var responseModel = _response.Return
@@ -127,7 +127,7 @@ public class ShopController : BaseController
     {
         try
         {
-            var model = await _bL_Shop.DeleteShop(id);
+            var model = await _shop.DeleteShop(id);
             //var responseModel = _response.ReturnCommand
             //    (model.IsSuccess, model.Message, EnumPos.Shop);
             var responseModel = _response.Return
@@ -151,7 +151,7 @@ public class ShopController : BaseController
     {
         try
         {
-            var lst = await _bL_Shop.GetShops(pageNo, pageSize, search);
+            var lst = await _shop.GetShops(pageNo, pageSize, search);
             var responseModel = _response.Return
             (new ReturnModel
             {

@@ -2,11 +2,11 @@ using Pos.BackendApi.Models.Setup.PageSetting;
 
 namespace Pos.BackendApi.Features.Customer;
 
-public class DL_Customer
+public class CustomerService
 {
     private readonly AppDbContext _context;
 
-    public DL_Customer(AppDbContext context) => _context = context;
+    public CustomerService(AppDbContext context) => _context = context;
 
     public async Task<CustomerListResponseModel> GetCustomer()
     {
@@ -33,6 +33,12 @@ public class DL_Customer
 
     public async Task<CustomerListResponseModel> GetCustomer(int pageNo, int pageSize, string? search = null)
     {
+        if (pageNo == 0)
+            throw new Exception("Page No cannot be empty.");
+
+        if (pageSize == 0)
+            throw new Exception("Page Size cannot be empty.");
+
         var responseModel = new CustomerListResponseModel();
         try
         {
@@ -40,7 +46,6 @@ public class DL_Customer
                 .TblCustomers
                 .AsNoTracking();
 
-            // Apply search filter if provided
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(x =>
@@ -75,6 +80,8 @@ public class DL_Customer
 
     public async Task<CustomerResponseModel> GetCustomerByCode(string customerCode)
     {
+        if (customerCode is null) throw new Exception("customerCode is null");
+
         var responseModel = new CustomerResponseModel();
         try
         {
@@ -104,6 +111,8 @@ public class DL_Customer
 
     public async Task<MessageResponseModel> CreateCustomer(CustomerModel requestModel)
     {
+        CheckCustomerNullValue(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -111,7 +120,6 @@ public class DL_Customer
                 .AsNoTracking()
                 .MaxAsync(x => x.CustomerCode);
             requestModel.CustomerCode = customerCode.GenerateCode(EnumCodePrefix.C.ToString());
-            //requestModel.CustomerCode = await GenerateUserCode();
             await _context.TblCustomers.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
@@ -126,28 +134,10 @@ public class DL_Customer
         return responseModel;
     }
 
-    private async Task<string> GenerateUserCode()
-    {
-        string customerCode = string.Empty;
-        if (!await _context.TblCustomers.AnyAsync())
-        {
-            customerCode = "C00001";
-            goto result;
-        }
-
-        var maxStaffCode = await _context.TblCustomers
-            .AsNoTracking()
-            .MaxAsync(x => x.CustomerCode);
-
-        maxStaffCode = maxStaffCode.Substring(1);
-        int staffCode = Convert.ToInt32(maxStaffCode) + 1;
-        customerCode = $"C{staffCode.ToString().PadLeft(5, '0')}";
-    result:
-        return customerCode;
-    }
-
     public async Task<MessageResponseModel> UpdateCustomer(int id, CustomerModel requestModel)
     {
+        if (id <= 0) throw new Exception("id is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -158,8 +148,6 @@ public class DL_Customer
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 return responseModel;
             }
-
-            #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.CustomerCode))
                 customer.CustomerCode = requestModel.CustomerCode;
@@ -182,8 +170,6 @@ public class DL_Customer
             if (!string.IsNullOrEmpty(requestModel.TownshipCode))
                 customer.TownshipCode = requestModel.TownshipCode;
 
-            #endregion
-
             _context.TblCustomers.Update(customer);
             var result = await _context.SaveChangesAsync();
 
@@ -201,6 +187,8 @@ public class DL_Customer
 
     public async Task<MessageResponseModel> DeleteCustomer(int id)
     {
+        if (id <= 0) throw new Exception("id is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -227,5 +215,45 @@ public class DL_Customer
 
     result:
         return responseModel;
+    }
+
+    private void CheckCustomerNullValue(CustomerModel customer)
+    {
+        if (customer is null)
+            throw new Exception("customer is null.");
+
+        if (string.IsNullOrEmpty(customer.CustomerName))
+            throw new Exception("CustomerName is null");
+
+        if (string.IsNullOrWhiteSpace(customer.Gender))
+            throw new Exception("customer Gender is null.");
+
+        if (string.IsNullOrWhiteSpace(customer.CustomerName))
+            throw new Exception("customer CustomerName is null.");
+
+        if (customer.DateOfBirth == default)
+            throw new Exception("customer DateOfBirth is null.");
+
+        var age = CalculateAge(customer.DateOfBirth);
+
+        if (age >= 40 || age <= 18)
+            throw new ArgumentOutOfRangeException(nameof(age), "Age must be between 18 and 40 (exclusive).");
+
+        if (string.IsNullOrWhiteSpace(customer.StateCode))
+            throw new Exception("customer StateCode is null.");
+
+        if (string.IsNullOrWhiteSpace(customer.TownshipCode))
+            throw new Exception("customer TownshipCode is null.");
+
+        if (string.IsNullOrWhiteSpace(customer.MobileNo))
+            throw new Exception("customer MobileNo is null.");
+    }
+
+    private int CalculateAge(DateTime birthdate)
+    {
+        DateTime now = DateTime.Today;
+        TimeSpan ageDifference = now - birthdate;
+        int age = (int)(ageDifference.TotalDays / 365);
+        return age;
     }
 }

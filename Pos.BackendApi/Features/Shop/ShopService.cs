@@ -1,10 +1,10 @@
 namespace Pos.BackendApi.Features.Shop;
 
-public class DL_Shop
+public class ShopService
 {
     private readonly AppDbContext _context;
 
-    public DL_Shop(AppDbContext context) => _context = context;
+    public ShopService(AppDbContext context) => _context = context;
 
     public async Task<ShopListResponseModel> GetShops()
     {
@@ -30,6 +30,8 @@ public class DL_Shop
 
     public async Task<ShopResponseModel> GetShop(int id)
     {
+        if (id <= 0) throw new Exception("id is 0.");
+
         var responseModel = new ShopResponseModel();
         try
         {
@@ -57,12 +59,14 @@ public class DL_Shop
 
     public async Task<MessageResponseModel> CreateShop(ShopModel requestModel)
     {
+        CheckShopNullValue(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
             var shopCode = await _context.TblShops
-            .AsNoTracking()
-            .MaxAsync(x => x.ShopCode);
+                .AsNoTracking()
+                .MaxAsync(x => x.ShopCode);
             requestModel.ShopCode = shopCode.GenerateCode(EnumCodePrefix.SP.ToString());
 
             await _context.TblShops.AddAsync(requestModel.Change());
@@ -81,6 +85,9 @@ public class DL_Shop
 
     public async Task<MessageResponseModel> UpdateShop(int id, ShopModel requestModel)
     {
+        if (id <= 0) throw new Exception("id is 0.");
+        CheckShopNullValue(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -91,8 +98,6 @@ public class DL_Shop
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 return responseModel;
             }
-
-            #region Patch Method Validation Conditions
 
             if (!string.IsNullOrEmpty(requestModel.ShopCode))
                 shop.ShopCode = requestModel.ShopCode;
@@ -105,8 +110,6 @@ public class DL_Shop
 
             if (!string.IsNullOrEmpty(requestModel.MobileNo))
                 shop.MobileNo = requestModel.MobileNo;
-
-            #endregion
 
             _context.Entry(shop).State = EntityState.Modified;
             var result = await _context.SaveChangesAsync();
@@ -125,6 +128,8 @@ public class DL_Shop
 
     public async Task<MessageResponseModel> DeleteShop(int id)
     {
+        if (id <= 0) throw new Exception("id is 0.");
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -163,7 +168,6 @@ public class DL_Shop
                 .OrderBy(x => x.ShopId)
                 .AsNoTracking();
 
-            // Apply search filter if provided
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(x =>
@@ -194,5 +198,23 @@ public class DL_Shop
         }
 
         return responseModel;
+    }
+
+    private void CheckShopNullValue(ShopModel shop)
+    {
+        if (shop == null)
+            throw new Exception("shop is null.");
+
+        if (string.IsNullOrWhiteSpace(shop.ShopCode))
+            throw new Exception("shop.ShopCode is null.");
+
+        if (string.IsNullOrWhiteSpace(shop.ShopName))
+            throw new Exception("shop.ShopName is null.");
+
+        if (string.IsNullOrWhiteSpace(shop.MobileNo))
+            throw new Exception("shop.ShopName is null.");
+
+        if (string.IsNullOrWhiteSpace(shop.Address))
+            throw new Exception("shop.ShopName is null.");
     }
 }

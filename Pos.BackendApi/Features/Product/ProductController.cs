@@ -6,14 +6,14 @@ namespace Pos.BackendApi.Features.Product;
 [ApiController]
 public class ProductController : BaseController
 {
-    private readonly BL_Product _bL_Product;
+    private readonly ProductService _product;
     private readonly ResponseModel _response;
     private readonly JwtTokenGenerate _token;
 
-    public ProductController(IServiceProvider serviceProvider, BL_Product bL_Product, ResponseModel response,
+    public ProductController(IServiceProvider serviceProvider, ProductService product, ResponseModel response,
         JwtTokenGenerate token) : base(serviceProvider)
     {
-        _bL_Product = bL_Product;
+        _product = product;
         _response = response;
         _token = token;
     }
@@ -23,7 +23,7 @@ public class ProductController : BaseController
     {
         try
         {
-            var productLst = await _bL_Product.GetProduct();
+            var productLst = await _product.GetProduct();
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -47,7 +47,7 @@ public class ProductController : BaseController
     {
         try
         {
-            var product = await _bL_Product.GetProductByCode(productCode);
+            var product = await _product.GetProductByCode(productCode);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -70,7 +70,7 @@ public class ProductController : BaseController
     {
         try
         {
-            var product = await _bL_Product.Create(requestModel);
+            var product = await _product.Create(requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -93,7 +93,7 @@ public class ProductController : BaseController
     {
         try
         {
-            var product = await _bL_Product.Update(id, requestModel);
+            var product = await _product.Update(id, requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -116,7 +116,7 @@ public class ProductController : BaseController
     {
         try
         {
-            var product = await _bL_Product.Delete(id);
+            var product = await _product.Delete(id);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -138,7 +138,7 @@ public class ProductController : BaseController
     {
         try
         {
-            var productLst = await _bL_Product.GetProduct(pageNo, pageSize, search);
+            var productLst = await _product.GetProduct(pageNo, pageSize, search);
             var responseModel = _response.Return
             (new ReturnModel
             {

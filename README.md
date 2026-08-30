@@ -35,8 +35,7 @@ Pos.App
 Pos.BackendApi
   - JWT authentication and authorization
   - Feature controllers under /api/v1/*
-  - BL_* business logic classes
-  - DL_* data access classes and SaleDraftService
+  - Concrete feature services that hold validation, business flow, and data access
   |
   v
 SQL Server
@@ -77,16 +76,16 @@ feature services. All mapped controllers require authorization by default via
 `app.MapControllers().RequireAuthorization()`. Authentication endpoints opt out
 with `[AllowAnonymous]`.
 
-Most features follow this shape:
+Each feature folder is independent and contains one controller plus one service:
 
 ```text
 Features/<Feature>/<Feature>Controller.cs
-Features/<Feature>/BL_<Feature>.cs
-Features/<Feature>/DL_<Feature>.cs
+Features/<Feature>/<Feature>Service.cs
 ```
 
-The controller handles HTTP concerns, the `BL_*` class handles validation and
-business flow, and the `DL_*` class handles EF Core or database access. Feature
+No `Api` subfolder is used inside a feature folder. The controller handles HTTP
+concerns and depends on the concrete feature service. The service handles
+validation, business flow, EF Core, and Dapper access for that feature. Feature
 routes are versioned under `api/v1`, for example:
 
 - `api/v1/auth/login`, `api/v1/auth/refresh`, `api/v1/auth/revoke`
@@ -238,7 +237,7 @@ When adding or changing a feature:
 2. Update EF Core models in `Pos.BackendApi.DbService` if table shape changes.
 3. Add or update request and response contracts in `Pos.BackendApi.Models`.
 4. Implement backend route, validation, and persistence in the feature folder:
-   controller, `BL_*`, and `DL_*`.
+   `Api/<Feature>Controller.cs` and `<Feature>Service.cs`.
 5. Register new services in `Pos.BackendApi/ModularService.cs`.
 6. Add or update web pages and forms in `Pos.App/Components/Pages`.
 7. Use `BackendApiClient` for API calls from the web app so token refresh stays

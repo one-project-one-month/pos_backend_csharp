@@ -1,12 +1,10 @@
-using Pos.BackendApi.Models.Setup.State;
-
 namespace Pos.BackendApi.Features.State;
 
-public class DL_State
+public class StateService
 {
     private readonly AppDbContext _context;
 
-    public DL_State(AppDbContext context) => _context = context;
+    public StateService(AppDbContext context) => _context = context;
 
     public async Task<StateListResponseModel> GetState()
     {
@@ -64,15 +62,18 @@ public class DL_State
 
         return responseModel;
     }
-    public async Task<StateResponseModel> GetStateByCode(string stateCode)
+
+    public async Task<StateResponseModel> GetStateByCode(string StateCode)
     {
+        if (StateCode is null) throw new Exception("StateCode is null");
+
         var responseModel = new StateResponseModel();
         try
         {
             var state = await _context
                 .TblPlaceStates
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.StateCode == stateCode);
+                .FirstOrDefaultAsync(x => x.StateCode == StateCode);
             if (state is null)
             {
                 responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
@@ -94,6 +95,8 @@ public class DL_State
 
     public async Task<MessageResponseModel> CreateState(StateModel requestModel)
     {
+        CheckStateNullValue(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -115,6 +118,8 @@ public class DL_State
 
     public async Task<MessageResponseModel> UpdateState(int id, StateModel requestModel)
     {
+        if (id <= 0) throw new Exception("id is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -129,12 +134,8 @@ public class DL_State
                 return responseModel;
             }
 
-            #region Patch Method Validation Conditions
-
             if (!string.IsNullOrEmpty(requestModel.StateName))
                 state.StateName = requestModel.StateName;
-
-            #endregion
 
             _context.TblPlaceStates.Update(state);
             var result = await _context.SaveChangesAsync();
@@ -153,6 +154,8 @@ public class DL_State
 
     public async Task<MessageResponseModel> DeleteState(int id)
     {
+        if (id <= 0) throw new Exception("id is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -179,5 +182,14 @@ public class DL_State
 
     result:
         return responseModel;
+    }
+
+    private void CheckStateNullValue(StateModel State)
+    {
+        if (State is null)
+            throw new Exception("State is null.");
+
+        if (string.IsNullOrWhiteSpace(State.StateName))
+            throw new Exception("StateName is null.");
     }
 }

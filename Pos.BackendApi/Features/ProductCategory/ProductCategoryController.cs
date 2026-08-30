@@ -4,10 +4,10 @@ namespace Pos.BackendApi.Features.ProductCategory;
 [ApiController]
 public class ProductCategoryController : BaseController
 {
-    private readonly BL_ProductCategory _productCategory;
+    private readonly ProductCategoryService _productCategory;
     private readonly ResponseModel _response;
 
-    public ProductCategoryController(IServiceProvider serviceProvider, BL_ProductCategory productCategory,
+    public ProductCategoryController(IServiceProvider serviceProvider, ProductCategoryService productCategory,
         ResponseModel response) : base(serviceProvider)
     {
         _productCategory = productCategory;

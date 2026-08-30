@@ -1,14 +1,13 @@
-using Pos.BackendApi.Shared;
 using Pos.BackendApi.Models.Setup.Report;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Pos.BackendApi.Features.Report;
 
-public class DL_Report
+public class ReportService
 {
     private readonly AppDbContext _context;
     private readonly DapperService _dapperService;
-    public DL_Report(AppDbContext context, DapperService dapperService)
+
+    public ReportService(AppDbContext context, DapperService dapperService)
     {
         _context = context;
         _dapperService = dapperService;
@@ -34,8 +33,8 @@ public class DL_Report
             pageCount = pageCount + 1;
         }
         var report = await query
-                .Pagination(pageNo, pageSize)
-                .ToListAsync();
+            .Pagination(pageNo, pageSize)
+            .ToListAsync();
 
         responseModel.Data = report;
         responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
@@ -44,46 +43,6 @@ public class DL_Report
             : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
         return responseModel;
     }
-
-    //public async Task<MonthlyReportResponseModel> DailyReportV1(SaleDailyReportRequestModel requestModel)
-    //{
-    //    MonthlyReportResponseModel responseModel = new MonthlyReportResponseModel();
-    //    var query = _context
-    //        .TblSaleInvoices
-    //        .AsNoTracking()
-    //        .Where(x =>
-    //            x.SaleInvoiceDateTime.Day >= requestModel.FromDate.Day &&
-    //            x.SaleInvoiceDateTime.Month >= requestModel.FromDate.Month &&
-    //            x.SaleInvoiceDateTime.Year == requestModel.FromDate.Year)
-    //        .GroupBy(x => x.SaleInvoiceDateTime.Date)
-    //        .Select(y => new ReportModel
-    //        {
-    //            SaleInvoiceDate = y.First().SaleInvoiceDateTime,
-    //            TotalAmount = y.Sum(c => c.TotalAmount)
-    //        }).OrderBy(x => x.SaleInvoiceDate);
-
-    //    int totalCount = query.Count();
-    //    int pageCount = totalCount / requestModel.PageSetting.PageSize;
-    //    if (totalCount % requestModel.PageSetting.PageSize != 0)
-    //    {
-    //        pageCount = pageCount + 1;
-    //    }
-    //    var report = await query
-    //            .Pagination(
-    //            requestModel.PageSetting.PageNo,
-    //            requestModel.PageSetting.PageSize)
-    //            .ToListAsync();
-
-    //    responseModel.Data = report;
-    //    responseModel.PageSetting = new PageSettingModel(
-    //            requestModel.PageSetting.PageNo,
-    //            requestModel.PageSetting.PageSize,
-    //            pageCount, totalCount);
-    //    responseModel.MessageResponse = responseModel.Data.Count > 0
-    //        ? new MessageResponseModel(true, EnumStatus.Success.ToString())
-    //        : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-    //    return responseModel;
-    //}
 
     public async Task<MonthlyReportResponseModel> MonthlyReport(int month, int year, int pageNo, int pageSize)
     {
@@ -106,14 +65,14 @@ public class DL_Report
         }
 
         var report = await query
-                .Pagination(pageNo, pageSize)
-                .ToListAsync();
+            .Pagination(pageNo, pageSize)
+            .ToListAsync();
 
         responseModel.Data = report;
         responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         responseModel.MessageResponse = responseModel.Data.Count > 0
-                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
-                : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+            ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+            : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
         return responseModel;
     }
 
@@ -138,8 +97,8 @@ public class DL_Report
             pageCount = pageCount + 1;
         }
         var report = await query
-                .Pagination(pageNo, pageSize)
-                .ToListAsync();
+            .Pagination(pageNo, pageSize)
+            .ToListAsync();
 
         responseModel.Data = report;
         responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
@@ -170,8 +129,8 @@ public class DL_Report
             pageCount = pageCount + 1;
         }
         var report = await query
-                .Pagination(pageNo, pageSize)
-                .ToListAsync();
+            .Pagination(pageNo, pageSize)
+            .ToListAsync();
 
         responseModel.Data = report;
         responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
@@ -184,30 +143,12 @@ public class DL_Report
     public async Task<ReportResponseModel> MonthlyReport(DateTime fromDate, DateTime toDate, int pageNo, int pageSize)
     {
         ReportResponseModel responseModel = new ReportResponseModel();
-        //var query = _context
-        //    .TblSaleInvoices
-        //    .AsNoTracking()
-        //    .Where(x => x.SaleInvoiceDateTime >= fromDate.AddHours(-12) && x.SaleInvoiceDateTime <= toDate.AddHours(12))
-        //    .GroupBy(x => new { x.SaleInvoiceDateTime.Year, x.SaleInvoiceDateTime.Month })
-        //    .Select(y => new ReportModel
-        //    {
-        //        SaleInvoiceDate = y.First().SaleInvoiceDateTime,
-        //        TotalAmount = y.Sum(c => c.TotalAmount)
-        //    }).OrderBy(x => x.SaleInvoiceDate);
-        //int totalCount = query.Count();
-        //int pageCount = totalCount / pageSize;
-        //if (totalCount % pageSize != 0)
-        //{
-        //    pageCount = pageCount + 1;
-        //}
-
-        //var report = await query
-        //        .Pagination(pageNo, pageSize)
-        //        .ToListAsync();
-
         var parameters = new
         {
-            PageNo = pageNo, PageSize = pageSize, FromDate = fromDate.ToString("yyyy-MM-dd"), ToDate = toDate.ToString("yyyy-MM-dd")
+            PageNo = pageNo,
+            PageSize = pageSize,
+            FromDate = fromDate.ToString("yyyy-MM-dd"),
+            ToDate = toDate.ToString("yyyy-MM-dd")
         };
 
         var result = await _dapperService.QueryMultipleAsync<ReportModel, PageSettingModel>("Sp_monthly_report", parameters);
@@ -215,8 +156,8 @@ public class DL_Report
         responseModel.Data = result.Item1.ToList();
         responseModel.PageSetting = result.Item2.FirstOrDefault()!;
         responseModel.MessageResponse = responseModel.Data.Count > 0
-                ? new MessageResponseModel(true, EnumStatus.Success.ToString())
-                : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
+            ? new MessageResponseModel(true, EnumStatus.Success.ToString())
+            : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
         return responseModel;
     }
 
@@ -242,8 +183,8 @@ public class DL_Report
             pageCount = pageCount + 1;
         }
         var report = await query
-                .Pagination(pageNo, pageSize)
-                .ToListAsync();
+            .Pagination(pageNo, pageSize)
+            .ToListAsync();
 
         responseModel.Data = report;
         responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
@@ -280,9 +221,9 @@ public class DL_Report
         }
 
         var report = await orderedQuery
-                .Skip((pageNo - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            .Skip((pageNo - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
 
         responseModel.Data = report;
         responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
@@ -319,9 +260,9 @@ public class DL_Report
         }
 
         var report = await orderedQuery
-                .Skip((pageNo - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            .Skip((pageNo - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
 
         responseModel.Data = report;
         responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
@@ -329,5 +270,14 @@ public class DL_Report
             ? new MessageResponseModel(true, EnumStatus.Success.ToString())
             : new MessageResponseModel(false, EnumStatus.NotFound.ToString());
         return responseModel;
+    }
+
+    private static void SaleDailyReportRequestModelCheck(SaleDailyReportRequestModel requestModel)
+    {
+        if (!requestModel.FromDate.HasValue)
+            throw new Exception("From Date is null.");
+
+        if (!requestModel.ToDate.HasValue)
+            throw new Exception("To Date is null.");
     }
 }

@@ -4,15 +4,15 @@ namespace Pos.BackendApi.Features.Customer;
 [ApiController]
 public class CustomerController : BaseController
 {
-    private readonly BL_Customer _bL_Customer;
+    private readonly CustomerService _customer;
     private readonly ResponseModel _response;
 
     public CustomerController(
         IServiceProvider serviceProvider,
-        BL_Customer bL_Customer,
+        CustomerService customer,
         ResponseModel response) : base(serviceProvider)
     {
-        _bL_Customer = bL_Customer;
+        _customer = customer;
         _response = response;
     }
 
@@ -21,7 +21,7 @@ public class CustomerController : BaseController
     {
         try
         {
-            var customerLst = await _bL_Customer.GetCustomer();
+            var customerLst = await _customer.GetCustomer();
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -45,7 +45,7 @@ public class CustomerController : BaseController
     {
         try
         {
-            var customerLst = await _bL_Customer.GetCustomer(pageNo, pageSize, search);
+            var customerLst = await _customer.GetCustomer(pageNo, pageSize, search);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -71,7 +71,7 @@ public class CustomerController : BaseController
     {
         try
         {
-            var customer = await _bL_Customer.GetCustomerByCode(customerCode);
+            var customer = await _customer.GetCustomerByCode(customerCode);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -94,7 +94,7 @@ public class CustomerController : BaseController
     {
         try
         {
-            var customer = await _bL_Customer.CreateCustomer(requestModel);
+            var customer = await _customer.CreateCustomer(requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -117,7 +117,7 @@ public class CustomerController : BaseController
     {
         try
         {
-            var customer = await _bL_Customer.UpdateCustomer(id, requestModel);
+            var customer = await _customer.UpdateCustomer(id, requestModel);
             var responseModel = _response.Return
             (new ReturnModel
             {
@@ -140,7 +140,7 @@ public class CustomerController : BaseController
     {
         try
         {
-            var customer = await _bL_Customer.DeleteCustomer(id);
+            var customer = await _customer.DeleteCustomer(id);
             var responseModel = _response.Return
             (new ReturnModel
             {

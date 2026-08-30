@@ -1,98 +1,98 @@
-namespace Pos.BackendApi.Features.ProductCategory;
+namespace Pos.BackendApi.Features.Product;
 
-public class DL_ProductCategory
+public class ProductService
 {
     private readonly AppDbContext _context;
 
-    public DL_ProductCategory(AppDbContext context) => _context = context;
+    public ProductService(AppDbContext context) => _context = context;
 
-    public async Task<ProductCategoryListResponseModel> GetProductCategory()
+    public async Task<ProductListResponseModel> GetProduct()
     {
-        var responseModel = new ProductCategoryListResponseModel();
+        var responseModel = new ProductListResponseModel();
         try
         {
-            var lst = await _context
-                .TblProductCategories
+            var products = await _context
+                .TblProducts
                 .AsNoTracking()
                 .ToListAsync();
-            responseModel.DataList = lst
+            responseModel.DataLst = products
                 .Select(x => x.Change())
                 .ToList();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
         catch (Exception ex)
         {
-            responseModel.DataList = new List<ProductCategoryModel>();
+            responseModel.DataLst = new List<ProductModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
         return responseModel;
     }
 
-    public async Task<ProductCategoryListResponseModel> GetProductCategory(int pageNo, int pageSize, string? search = null)
+    public async Task<ProductListResponseModel> GetProduct(int pageNo, int pageSize, string? search = null)
     {
-        var responseModel = new ProductCategoryListResponseModel();
+        var responseModel = new ProductListResponseModel();
         try
         {
             var query = _context
-                .TblProductCategories
+                .TblProducts
+                .OrderByDescending(x => x.ProductId)
                 .AsNoTracking();
 
-            // Apply search filter if provided
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(x =>
-                    x.ProductCategoryCode.Contains(search) ||
-                    x.ProductCategoryName.Contains(search));
+                    x.ProductCode.Contains(search) ||
+                    x.ProductName.Contains(search));
             }
 
-            var totalCount = await query.CountAsync();
-            var pageCount = totalCount / pageSize;
-            if (totalCount % pageSize > 0)
-                pageCount++;
-
-            var lst = await query
+            var products = await query
                 .Pagination(pageNo, pageSize)
                 .ToListAsync();
 
-            responseModel.Data = new ProductCategoryDataModel
-            {
-                ProductCategory = lst.Select(x => x.Change()).ToList(),
-                PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount)
-            };
+            var totalCount = await query.CountAsync();
+            var pageCount = totalCount / pageSize;
+
+            if (totalCount % pageSize > 0)
+                pageCount++;
+
+            responseModel.DataLst = products.Select(x => x.Change()).ToList();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
+            responseModel.PageSetting = new PageSettingModel(pageNo, pageSize, pageCount, totalCount);
         }
         catch (Exception ex)
         {
-            responseModel.DataList = new List<ProductCategoryModel>();
+            responseModel.DataLst = new List<ProductModel>();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
         return responseModel;
     }
 
-    public async Task<ProductCategoryResponseModel> GetProductCategoryByCode(string productCategoryCode)
+    public async Task<ProductResponseModel> GetProductByCode(string productCode)
     {
-        var responseModel = new ProductCategoryResponseModel();
+        if (productCode is null) throw new Exception("productCode is null");
+
+        var responseModel = new ProductResponseModel();
         try
         {
-            var item = await _context
-                .TblProductCategories
+            var product = await _context
+                .TblProducts
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ProductCategoryCode == productCategoryCode);
-            if (item is null)
+                .FirstOrDefaultAsync(x => x.ProductCode == productCode);
+            if (product is null)
             {
                 responseModel.MessageResponse = new MessageResponseModel
                     (false, EnumStatus.NotFound.ToString());
                 goto result;
             }
 
-            responseModel.Data = item.Change();
+            responseModel.Data = product.Change();
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
         }
         catch (Exception ex)
         {
-            responseModel.Data = new ProductCategoryModel();
+            responseModel.Data = new ProductModel();
             responseModel.MessageResponse = new MessageResponseModel(false, ex);
         }
 
@@ -100,16 +100,18 @@ public class DL_ProductCategory
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> CreateProductCategory(ProductCategoryModel requestModel)
+    public async Task<MessageResponseModel> Create(ProductModel requestModel)
     {
+        CheckProductNullValue(requestModel);
+
         var responseModel = new MessageResponseModel();
         try
         {
-            var productCategoryCode = await _context.TblProductCategories
-            .AsNoTracking()
-            .MaxAsync(x => x.ProductCategoryCode);
-            requestModel.ProductCategoryCode = productCategoryCode.GenerateProductCategoryCode(EnumCodePrefix.PC_.ToString());
-            await _context.TblProductCategories.AddAsync(requestModel.Change());
+            var productCode = await _context.TblProducts
+                .AsNoTracking()
+                .MaxAsync(x => x.ProductCode);
+            requestModel.ProductCode = productCode.GenerateCode(EnumCodePrefix.P.ToString());
+            await _context.TblProducts.AddAsync(requestModel.Change());
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
@@ -123,13 +125,14 @@ public class DL_ProductCategory
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> UpdateProductCategory(int id, ProductCategoryModel requestModel)
+    public async Task<MessageResponseModel> Update(int id, ProductModel requestModel)
     {
+        if (id <= 0) throw new Exception("productCode is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
-            var item = await _context.TblProductCategories.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ProductCategoryId == id);
+            var item = await _context.TblProducts.FirstOrDefaultAsync(x => x.ProductId == id);
 
             if (item is null)
             {
@@ -137,17 +140,19 @@ public class DL_ProductCategory
                 return responseModel;
             }
 
-            #region Patch Method Validation Conditions
+            if (!string.IsNullOrEmpty(requestModel.ProductCode))
+                item.ProductCode = requestModel.ProductCode;
+
+            if (!string.IsNullOrEmpty(requestModel.ProductName))
+                item.ProductName = requestModel.ProductName;
 
             if (!string.IsNullOrEmpty(requestModel.ProductCategoryCode))
                 item.ProductCategoryCode = requestModel.ProductCategoryCode;
 
-            if (!string.IsNullOrEmpty(requestModel.ProductCategoryName))
-                item.ProductCategoryName = requestModel.ProductCategoryName;
+            if (requestModel.Price > 0)
+                item.Price = requestModel.Price;
 
-            #endregion
-
-            _context.TblProductCategories.Update(item);
+            _context.TblProducts.Update(item);
             var result = await _context.SaveChangesAsync();
 
             responseModel = result > 0
@@ -162,22 +167,24 @@ public class DL_ProductCategory
         return responseModel;
     }
 
-    public async Task<MessageResponseModel> DeleteProductCategory(int id)
+    public async Task<MessageResponseModel> Delete(int id)
     {
+        if (id <= 0) throw new Exception("productCode is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
-            var item = await _context
-                .TblProductCategories
+            var product = await _context
+                .TblProducts
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ProductCategoryId == id);
-            if (item is null)
+                .FirstOrDefaultAsync(x => x.ProductId == id);
+            if (product == null)
             {
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 goto result;
             }
 
-            _context.TblProductCategories.Remove(item);
+            _context.TblProducts.Remove(product);
             var result = await _context.SaveChangesAsync();
             responseModel = result > 0
                 ? new MessageResponseModel(true, EnumStatus.Success.ToString())
@@ -190,5 +197,20 @@ public class DL_ProductCategory
 
     result:
         return responseModel;
+    }
+
+    private static void CheckProductNullValue(ProductModel product)
+    {
+        if (product == null)
+            throw new Exception("product is null.");
+
+        if (string.IsNullOrWhiteSpace(product.ProductName))
+            throw new Exception("product.ProductName is null.");
+
+        if (string.IsNullOrWhiteSpace(product.ProductCategoryCode))
+            throw new Exception("product.ProductCategoryCode is null.");
+
+        if (product.Price <= 0)
+            throw new Exception("product.Price must be greater than zero.");
     }
 }

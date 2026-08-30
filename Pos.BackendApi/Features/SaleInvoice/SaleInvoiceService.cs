@@ -1,52 +1,15 @@
 namespace Pos.BackendApi.Features.SaleInvoice;
 
-public class DL_SaleInvoice
+public class SaleInvoiceService
 {
     private readonly AppDbContext _context;
     private readonly DapperService _dapperService;
 
-    public DL_SaleInvoice(AppDbContext context, DapperService dapperService)
+    public SaleInvoiceService(AppDbContext context, DapperService dapperService)
     {
         _context = context;
         _dapperService = dapperService;
     }
-
-    //public async Task<SaleInvoiceListResponseModel> GetSaleInvoice()
-    //{
-    //    var responseModel = new SaleInvoiceListResponseModel();
-    //    try
-    //    {
-    //        var lst = await _context
-    //            .TblSaleInvoices
-    //            .AsNoTracking()
-    //            .ToListAsync();
-    //        if (lst == null)
-    //        {
-    //            responseModel.MessageResponse = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
-    //            goto result;
-    //        }
-    //        foreach (var item in lst)
-    //        {
-    //            SaleInvoiceModel saleInvoiceModel = new SaleInvoiceModel();
-    //            saleInvoiceModel = item.Change();
-    //            var detailList = await _context
-    //                .TblSaleInvoiceDetails
-    //                .AsNoTracking()
-    //                .Where(x => x.VoucherNo == item.VoucherNo)
-    //                .ToListAsync();
-    //            saleInvoiceModel.SaleInvoiceDetails = detailList.Select(x => x.Change()).ToList();
-    //            responseModel.DataList.Add(saleInvoiceModel);
-    //        }
-    //        responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        responseModel.DataList = new List<SaleInvoiceModel>();
-    //        responseModel.MessageResponse = new MessageResponseModel(false, ex);
-    //    }
-    //    result:
-    //    return responseModel;
-    //}
 
     public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(int pageNo, int pageSize, string? search = null)
     {
@@ -58,7 +21,6 @@ public class DL_SaleInvoice
                 .OrderByDescending(x => x.SaleInvoiceId)
                 .AsNoTracking();
 
-            // Apply search filter if provided
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(x =>
@@ -104,13 +66,14 @@ public class DL_SaleInvoice
         return responseModel;
     }
 
-    public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(DateTime startDate, DateTime endDate)
+    public async Task<SaleInvoiceListResponseModel> GetSaleInvoice(
+        DateTime startDate,
+        DateTime endDate
+    )
     {
         var responseModel = new SaleInvoiceListResponseModel();
         try
         {
-            #region Get all sale invoice records
-
             var lstSaleInvoice = await _context
                 .TblSaleInvoices
                 .AsNoTracking()
@@ -122,10 +85,6 @@ public class DL_SaleInvoice
                 goto result;
             }
 
-            #endregion
-
-            #region Get all sale invoice detail records
-
             var lstVoucherNo = lstSaleInvoice.Select(x => x.VoucherNo).ToArray();
             var lstSaleInvoiceDetail = await _context.TblSaleInvoiceDetails.AsNoTracking()
                 .Where(x => lstVoucherNo.Contains(x.VoucherNo)).ToListAsync();
@@ -135,15 +94,9 @@ public class DL_SaleInvoice
                 goto result;
             }
 
-            #endregion
-
-            #region Prepare response model
-
             List<SaleInvoiceModel> saleInvoiceModels = lstSaleInvoice.Change(lstSaleInvoiceDetail);
             responseModel.DataList = saleInvoiceModels;
             responseModel.MessageResponse = new MessageResponseModel(true, EnumStatus.Success.ToString());
-
-            #endregion
         }
         catch (Exception ex)
         {
@@ -179,7 +132,6 @@ public class DL_SaleInvoice
                 .ToListAsync();
             responseModel.Data.SaleInvoiceDetails = detailList.Select(x => x.Change()).ToList();
 
-            // Bind Product Info
             foreach (var detail in responseModel.Data.SaleInvoiceDetails)
             {
                 var pItem = await _context.TblProducts
@@ -201,37 +153,19 @@ public class DL_SaleInvoice
         return responseModel;
     }
 
-    #region info
-
-    // 1, 00001
-    // 2, 00002
-    // 3, 00003
-
-    // 5
-    // 00005
-    // 00006
-
-    // Id, Code, Letter, TotalNumber, Sequence
-    // 1, SaleInvoice, VC_, 8, 4
-    // VC_00000002
-
-    #endregion
-
     public async Task<SaleInvoiceResponseModel> CreateSaleInvoice(SaleInvoiceModel model)
     {
+        CheckSaleInvoiceModel(model);
+
         SaleInvoiceResponseModel responseModel = new SaleInvoiceResponseModel();
         try
         {
-            // Generate Voucher Code
-            //string voucherNo = $"VC_{DateTime.Now.ToString("yyyymmddhhmmssfff")}";
             string voucherNo = _dapperService.QueryStoredProcedure<string>("Sp_GenerateSaleInvoiceNo");
             model.VoucherNo = voucherNo;
 
-            // Tax Calculation
             decimal taxAmount = await TaxCalculation(model.TotalAmount);
             model.Tax = taxAmount;
 
-            // Bind Product Info
             foreach (var item in model.SaleInvoiceDetails)
             {
                 var pItem = await _context.TblProducts
@@ -262,6 +196,9 @@ public class DL_SaleInvoice
 
     public async Task<MessageResponseModel> UpdateSaleInvoice(int id, SaleInvoiceModel requestModel)
     {
+        if (id <= 0)
+            throw new Exception("SaleInvoiceId is null");
+
         var responseModel = new MessageResponseModel();
         try
         {
@@ -272,8 +209,6 @@ public class DL_SaleInvoice
                 responseModel = new MessageResponseModel(false, EnumStatus.NotFound.ToString());
                 return responseModel;
             }
-
-            #region Patch Method Validation Codition
 
             if (!string.IsNullOrEmpty(requestModel.CustomerCode))
                 item.CustomerCode = requestModel.CustomerCode;
@@ -311,8 +246,6 @@ public class DL_SaleInvoice
             if (requestModel.Discount > 0)
                 item.Discount = requestModel.Discount;
 
-            #endregion
-
             _context.TblSaleInvoices.Update(item);
             var result = await _context.SaveChangesAsync();
 
@@ -330,6 +263,9 @@ public class DL_SaleInvoice
 
     public async Task<MessageResponseModel> DeleteSaleInvoice(int id)
     {
+        if (id <= 0)
+            throw new Exception("SaleInvoiceId is null");
+
         MessageResponseModel responseModel = new MessageResponseModel();
         try
         {
@@ -397,5 +333,41 @@ public class DL_SaleInvoice
             }
         }
         return result;
+    }
+
+    private static void CheckSaleInvoiceModel(SaleInvoiceModel saleInvoice)
+    {
+        if (saleInvoice == null)
+            throw new Exception("SaleInvoice is null.");
+
+        if (saleInvoice.TotalAmount is 0)
+            throw new Exception("TotalAmount is not null");
+
+        if (saleInvoice.Discount < 0)
+            throw new Exception("Discount is invalid");
+
+        if (string.IsNullOrEmpty(saleInvoice.StaffCode))
+            throw new Exception("StaffCode is null");
+
+        if (saleInvoice.Tax < 0)
+            throw new Exception("Tax is invalid");
+
+        if (string.IsNullOrEmpty(saleInvoice.PaymentType))
+            throw new Exception("PaymentType is null");
+
+        if (string.IsNullOrEmpty(saleInvoice.CustomerAccountNo))
+            throw new Exception("CustomerAccountNo is Null");
+
+        if (saleInvoice.PaymentAmount is 0)
+            throw new Exception("PaymentAmount is 0");
+
+        if (saleInvoice.ReceiveAmount is 0)
+            throw new Exception("ReceiveAmount is 0");
+
+        if (saleInvoice.Change < 0)
+            throw new Exception("Change amount is invalid");
+
+        if (string.IsNullOrEmpty(saleInvoice.CustomerCode))
+            throw new Exception("Customer code is null");
     }
 }
