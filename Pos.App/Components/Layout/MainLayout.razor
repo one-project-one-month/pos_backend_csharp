@@ -11,7 +11,10 @@
                 </span>
             </a>
             <details class="dropdown dropdown-end lg:hidden">
-                <summary class="btn btn-sm border-white/20 bg-white/10 text-white">Menu</summary>
+                <summary class="btn btn-sm gap-2 border-white/20 bg-white/10 text-white">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                    <span>Menu</span>
+                </summary>
                 <nav class="menu dropdown-content z-20 mt-2 w-64 rounded-box bg-[#102a43] p-3 shadow-xl">
                     @NavigationLinks
                 </nav>
@@ -47,22 +50,22 @@
 </div>
 
 @code {
-    private RenderFragment NavigationLinks => @<>
-        <li><NavLink href="/" Match="NavLinkMatch.All">Dashboard</NavLink></li>
+    private RenderFragment NavigationLinks => @<text>
+        <li><NavLink href="/" Match="NavLinkMatch.All"><i class="fa-solid fa-gauge-high fa-fw text-white/60" aria-hidden="true"></i><span>Dashboard</span></NavLink></li>
         <li class="menu-title mt-3 text-white/45">Sell</li>
-        <li><NavLink href="/sale-drafts">Sale drafts</NavLink></li>
-        <li><NavLink href="/sale-invoice-list">Invoices</NavLink></li>
+        <li><NavLink href="/sale-drafts"><i class="fa-solid fa-cart-shopping fa-fw text-white/60" aria-hidden="true"></i><span>Sale drafts</span></NavLink></li>
+        <li><NavLink href="/sale-invoice-list"><i class="fa-solid fa-receipt fa-fw text-white/60" aria-hidden="true"></i><span>Invoices</span></NavLink></li>
         <li class="menu-title mt-3 text-white/45">Catalog</li>
-        <li><NavLink href="/product">Products</NavLink></li>
-        <li><NavLink href="/product-category">Categories</NavLink></li>
-        <li><NavLink href="/customer">Customers</NavLink></li>
+        <li><NavLink href="/product"><i class="fa-solid fa-boxes-stacked fa-fw text-white/60" aria-hidden="true"></i><span>Products</span></NavLink></li>
+        <li><NavLink href="/product-category"><i class="fa-solid fa-tags fa-fw text-white/60" aria-hidden="true"></i><span>Categories</span></NavLink></li>
+        <li><NavLink href="/customer"><i class="fa-solid fa-user-group fa-fw text-white/60" aria-hidden="true"></i><span>Customers</span></NavLink></li>
         <li class="menu-title mt-3 text-white/45">Administration</li>
-        <li><NavLink href="/staff">Staff</NavLink></li>
-        <li><NavLink href="/shop">Shops</NavLink></li>
-        <li><NavLink href="/tax">Tax rules</NavLink></li>
-        <li><NavLink href="/state">States</NavLink></li>
-        <li><NavLink href="/township">Townships</NavLink></li>
+        <li><NavLink href="/staff"><i class="fa-solid fa-id-card fa-fw text-white/60" aria-hidden="true"></i><span>Staff</span></NavLink></li>
+        <li><NavLink href="/shop"><i class="fa-solid fa-store fa-fw text-white/60" aria-hidden="true"></i><span>Shops</span></NavLink></li>
+        <li><NavLink href="/tax"><i class="fa-solid fa-percent fa-fw text-white/60" aria-hidden="true"></i><span>Tax rules</span></NavLink></li>
+        <li><NavLink href="/state"><i class="fa-solid fa-map fa-fw text-white/60" aria-hidden="true"></i><span>States</span></NavLink></li>
+        <li><NavLink href="/township"><i class="fa-solid fa-location-dot fa-fw text-white/60" aria-hidden="true"></i><span>Townships</span></NavLink></li>
         <li class="menu-title mt-3 text-white/45">Insights</li>
-        <li><NavLink href="/report">Reports</NavLink></li>
-    </>;
+        <li><NavLink href="/report"><i class="fa-solid fa-chart-line fa-fw text-white/60" aria-hidden="true"></i><span>Reports</span></NavLink></li>
+    </text>;
 }

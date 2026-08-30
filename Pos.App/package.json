@@ -2,9 +2,11 @@
   "name": "pos-app-styles",
   "private": true,
   "scripts": {
-    "build:css": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/site.generated.css --minify"
+    "build:css": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/site.generated.css --minify",
+    "postbuild:css": "node ./Scripts/copy-fontawesome.mjs"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.1",
     "@tailwindcss/cli": "4.3.3",
     "daisyui": "5.7.22",
     "tailwindcss": "4.3.3"
